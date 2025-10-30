@@ -56,6 +56,9 @@ export const IconButtons: Story = {
       <Button variant="icon" size="md" aria-label="Profile">
         <ProfileCircle className="w-5 h-5" />
       </Button>
+      <Button variant="iconSquare" size="md" aria-label="Profile">
+        <ProfileCircle className="w-5 h-5" />
+      </Button>
       <Button variant="iconGhost" size="md" aria-label="Profile">
         <ProfileCircle className="w-5 h-5" />
       </Button>

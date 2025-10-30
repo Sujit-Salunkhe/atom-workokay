@@ -24,8 +24,10 @@ const buttonVariants = cva(
           "rounded-full p-0 text-[var(--atom-button-ghost-fg)] bg-transparent hover:bg-[var(--atom-button-ghost-hover-bg)]",
         iconGhost:
           "rounded-full p-0 text-[var(--atom-button-ghost-fg)] bg-transparent hover:bg-[var(--atom-button-ghost-hover-bg)]",
-
-        // 🆕 Secondary (bordered)
+        iconSquare:
+          "rounded-md p-0 text-[var(--atom-button-ghost-fg)] bg-transparent hover:bg-[var(--atom-button-ghost-hover-bg)]",
+        iconSquareGhost:
+          "rounded-md p-0 text-[var(--atom-button-ghost-fg)] bg-transparent hover:bg-[var(--atom-button-ghost-hover-bg)]",
         secondary:
           "border border-[var(--atom-border)] text-[var(--atom-primary)] bg-transparent " +
           "hover:border-[color-mix(in srgb, var(--atom-primary) 80%, black)] " +
@@ -33,6 +35,7 @@ const buttonVariants = cva(
           "hover:bg-[color-mix(in srgb, var(--atom-primary) 8%, white)]",
       },
       size: {
+        // Normal buttons keep padding + icon size mapping
         sm: "h-8 px-3 text-sm [&>svg]:size-4",
         md: "h-10 px-4 text-sm [&>svg]:size-5",
         lg: "h-12 px-5 text-base [&>svg]:size-6",
@@ -40,20 +43,34 @@ const buttonVariants = cva(
       fullWidth: { true: "w-full" },
     },
     compoundVariants: [
-      // Square icon buttons (no padding)
-      { variant: "icon", size: "sm", class: "w-8 h-8 !px-0 aspect-square [&>svg]:size-4" },
-      { variant: "icon", size: "md", class: "w-10 h-10 !px-0 aspect-square [&>svg]:size-5" },
-      { variant: "icon", size: "lg", class: "w-12 h-12 !px-0 aspect-square [&>svg]:size-6" },
-      { variant: "iconGhost", size: "sm", class: "w-8 h-8 !px-0 aspect-square [&>svg]:size-4" },
-      { variant: "iconGhost", size: "md", class: "w-10 h-10 !px-0 aspect-square [&>svg]:size-5" },
-      { variant: "iconGhost", size: "lg", class: "w-12 h-12 !px-0 aspect-square [&>svg]:size-6" },
+      // Round icon buttons — square aspect, no horizontal padding
+      { variant: "icon", size: "sm", class: "w-8 h-8 !px-0 aspect-square" },
+      { variant: "icon", size: "md", class: "w-10 h-10 !px-0 aspect-square" },
+      { variant: "icon", size: "lg", class: "w-12 h-12 !px-0 aspect-square" },
 
+      { variant: "iconGhost", size: "sm", class: "w-8 h-8 !px-0 aspect-square" },
+      { variant: "iconGhost", size: "md", class: "w-10 h-10 !px-0 aspect-square" },
+      { variant: "iconGhost", size: "lg", class: "w-12 h-12 !px-0 aspect-square" },
+
+      // NEW: Square icon buttons — same geometry as round ones, just not full-round
+      { variant: "iconSquare", size: "sm", class: "w-8 h-8 !px-0 aspect-square" },
+      { variant: "iconSquare", size: "md", class: "w-10 h-10 !px-0 aspect-square" },
+      { variant: "iconSquare", size: "lg", class: "w-12 h-12 !px-0 aspect-square" },
+
+      { variant: "iconSquareGhost", size: "sm", class: "w-8 h-8 !px-0 aspect-square" },
+      { variant: "iconSquareGhost", size: "md", class: "w-10 h-10 !px-0 aspect-square" },
+      { variant: "iconSquareGhost", size: "lg", class: "w-12 h-12 !px-0 aspect-square" },
+
+      // Subtle micro-interaction for all icon-style buttons
       { variant: "icon", class: "hover:scale-105 active:scale-95 hover:opacity-90" },
       { variant: "iconGhost", class: "hover:scale-105 active:scale-95 hover:opacity-90" },
+      { variant: "iconSquare", class: "hover:scale-105 active:scale-95 hover:opacity-90" },
+      { variant: "iconSquareGhost", class: "hover:scale-105 active:scale-95 hover:opacity-90" },
     ],
     defaultVariants: { variant: "primary", size: "md" },
   }
 );
+
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
