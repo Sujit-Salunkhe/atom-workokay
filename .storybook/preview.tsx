@@ -1,44 +1,30 @@
 // .storybook/preview.tsx
-import type { Preview } from '@storybook/react'
-import '../src/styles/tailwind.css' // tokens + base
+import type { Preview } from "@storybook/react";
+import "../src/styles/tailwind.css"; // 👈 MUST exist & be valid
+import "../src/styles/tokens.css"; // 👈 MUST exist & be valid
+import "../src/styles/ripple.css"; // 👈 MUST exist & be valid
 
-// Theme toolbar control
 export const globalTypes = {
   theme: {
-    name: 'Theme',
-    description: 'Light/Dark theme',
-    defaultValue: 'light',
-    toolbar: {
-      icon: 'circlehollow',
-      items: ['light', 'dark'],
-      dynamicTitle: true,
-    },
+    name: "Theme",
+    description: "Light/Dark theme",
+    defaultValue: "light",
+    toolbar: { icon: "circlehollow", items: ["light", "dark"] },
   },
-}
+};
 
-// Wrap every story in the themed container
-const withTheme = (Story, context) => {
-  const theme = context.globals.theme || 'light'
+const withTheme = (Story, ctx) => {
+  const theme = ctx.globals.theme ?? "light";
   return (
-    <div
-      className="atom-theme"
-      data-theme={theme}
-      style={{ padding: 16, minHeight: '100vh' }}
-    >
+    <div className="atom-theme" data-theme={theme} style={{ minHeight: "100vh", padding: 16 }}>
       <Story />
     </div>
-  )
-}
+  );
+};
 
 const preview: Preview = {
   decorators: [withTheme],
-  parameters: {
-    controls: {
-      expanded: true,
-      matchers: { color: /(background|color)$/i, date: /Date$/i },
-    },
-    a11y: { element: '#storybook-root', test: 'todo' },
-  },
-}
+  parameters: { layout: "padded", controls: { expanded: true } },
+};
 
-export default preview
+export default preview;

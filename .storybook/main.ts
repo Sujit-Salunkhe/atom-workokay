@@ -1,18 +1,32 @@
-import type { StorybookConfig } from '@storybook/react-vite';
+// .storybook/main.ts
+import type { StorybookConfig } from "@storybook/react-vite";
+import path from "path";
 
 const config: StorybookConfig = {
-  stories: [
-    '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
-  ],
+  framework: "@storybook/react-vite",
+  stories: ["../src/**/*.stories.@(tsx|mdx)"],
   addons: [
-    '@storybook/addon-a11y',           // Accessibility checker
-    '@storybook/addon-vitest',         // Integrates with Vitest test runner
-    '@chromatic-com/storybook',        // Optional: for Chromatic visual testing
-    '@storybook/addon-onboarding',     // Optional: keep if you liked the onboarding flow
+    "@storybook/addon-a11y",
   ],
-  framework: {
-    name: '@storybook/react-vite',
-    options: {},
+  viteFinal: async (viteConfig) => {
+    return {
+      ...viteConfig,
+      plugins: [
+        ...(viteConfig.plugins || []),
+      ],
+      css: {
+        ...viteConfig.css,
+        // 👇 make Storybook use the SAME PostCSS config as your app
+        postcss: path.resolve(__dirname, "../postcss.config.cjs"),
+      },
+      resolve: {
+        ...viteConfig.resolve,
+        alias: {
+          ...(viteConfig.resolve?.alias ?? {}),
+          "@": path.resolve(__dirname, "../src"),
+        },
+      },
+    };
   },
 };
 

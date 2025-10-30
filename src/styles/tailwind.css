@@ -1,20 +1,7 @@
-/* src/styles/tailwind.css */
-@import './tokens.css';
+@import "tailwindcss";
+@import "./tokens.css";   /* your CSS variables */
+@import "./style.css";    /* optional defaults for components */
 
-
-@layer base {
-  @apply base; /* apply Tailwind's base styles */
-}
-
-@layer components {
-  @apply components; /* apply Tailwind's component styles */
-}
-
-@layer utilities {
-  @apply utilities; /* apply Tailwind's utility styles */
-}
-
-/* Scope minimal base to the theme wrapper using @layer base */
 @layer base {
   :where(.atom-theme) {
     color: var(--atom-text);

@@ -1,0 +1,17 @@
+/* src/style.css */
+
+.atom-theme {
+  /* Button variables */
+  /* --atom-button-bg: #1e90ff; */
+  --atom-button-bg: var(--atom-primary);
+  --atom-button-bg-hover: #1c86ee;
+  --atom-button-fg: #ffffff;
+
+  --atom-button-ghost-bg: transparent;
+  --atom-button-ghost-hover-bg: #f1f5f9; /* slate-100 */
+  --atom-button-ghost-fg: #1e293b;       /* slate-800 */
+
+  /* Shared tokens */
+  --atom-radius-2: 6px;
+  --atom-focus-ring: 0 0 0 2px rgba(30, 144, 255, 0.5);
+}

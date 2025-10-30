@@ -1,0 +1,20 @@
+/* Minimal ripple animation */
+:where(.atom-theme) .atom-ripple {
+  position: absolute;
+  border-radius: 9999px;
+  transform: scale(0);
+  pointer-events: none;
+  opacity: var(--atom-ripple-opacity, .22);
+  animation: atom-ripple 460ms ease-out forwards;
+  /* Avoid creating a new stacking context that would cover focus ring offset */
+  mix-blend-mode: normal; /* keep predictable */
+}
+
+@keyframes atom-ripple {
+  to { transform: scale(1); opacity: 0; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  :where(.atom-theme) .atom-ripple { animation-duration: 1ms; }
+}

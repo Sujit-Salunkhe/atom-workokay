@@ -6,7 +6,7 @@ export default {
   content: [
     './index.html',
     './src/**/*.{ts,tsx,mdx}',
-    '.storybook/**/*.{ts,tsx}',
+    './.storybook/**/*.{ts,tsx,mdx}', // 👈 important
   ],
   darkMode: ['class', '[data-theme="dark"]'], // aligns with .atom-theme[data-theme]
   theme: {

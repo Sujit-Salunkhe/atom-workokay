@@ -1,0 +1,88 @@
+/* src/styles/tokens.css */
+/* Scope everything so we never leak styles into host apps */
+:where(.atom-theme) {
+  /* Fonts */
+  --atom-font-sans: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  --atom-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+  /* Radii */
+  --atom-radius-1: 4px;
+  --atom-radius-2: 8px;
+  --atom-radius-round: 999px;
+
+  /* Spacing (4px base) */
+  --atom-space-1: 4px;
+  --atom-space-2: 8px;
+  --atom-space-3: 12px;
+  --atom-space-4: 16px;
+  --atom-space-5: 20px;
+  --atom-space-6: 24px;
+
+  /* Typography sizes */
+  --atom-text-xs: 12px;
+  --atom-text-sm: 13px;
+  --atom-text-md: 14px;
+  --atom-text-lg: 16px;
+  --atom-text-xl: 18px;
+
+  /* Motion + shadow */
+  --atom-duration-fast: 120ms;
+  --atom-duration: 180ms;
+  --atom-shadow-1: 0 1px 2px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.06);
+  --atom-shadow-2: 0 2px 8px rgba(0,0,0,.15);
+
+  /* Semantic colors (what components actually use) */
+  --atom-bg: #0b0c0f;
+  --atom-surface: #11151b;
+  --atom-text: #e8edf2;
+  --atom-muted: #9aa7b6;
+  --atom-border: #28303a;
+  --atom-primary: #4f7cff;
+  --atom-primary-contrast: #ffffff;
+  --atom-danger: #ff4d4f;
+  --atom-success: #22c55e;
+  --atom-warning: #f59e0b;
+}
+
+/* Light theme */
+:where(.atom-theme)[data-theme="light"] {
+  --atom-bg: #ffffff;
+  --atom-surface: #f6f7f9;
+  --atom-text: #0b0c0f;
+  --atom-muted: #4b5563;
+  --atom-border: #e5e7eb;
+  --atom-primary: #335dff;
+  --atom-primary-contrast: #ffffff;
+}
+
+/* Dark theme */
+:where(.atom-theme)[data-theme="dark"] {
+  --atom-bg: #0b0c0f;
+  --atom-surface: #11151b;
+  --atom-text: #e8edf2;
+  --atom-muted: #9aa7b6;
+  --atom-border: #28303a;
+  --atom-primary: #4f7cff;
+  --atom-primary-contrast: #ffffff;
+
+  --atom-button-bg: #60a5fa;
+  --atom-button-bg-hover: #3b82f6;
+  --atom-button-fg: #ffffff;
+
+  --atom-button-ghost-bg: transparent;
+  --atom-button-ghost-hover-bg: rgba(255, 255, 255, 0.1);
+  --atom-button-ghost-fg: #f1f5f9;
+}
+
+/* If host doesn't set data-theme, follow OS preference */
+@media (prefers-color-scheme: dark) {
+  :where(.atom-theme):not([data-theme]) {
+    --atom-bg: #0b0c0f;
+    --atom-surface: #11151b;
+    --atom-text: #e8edf2;
+    --atom-muted: #9aa7b6;
+    --atom-border: #28303a;
+    --atom-primary: #4f7cff;
+    --atom-primary-contrast: #ffffff;
+  }
+}
