@@ -1,0 +1,47 @@
+atom/
+├─ package.json
+├─ tsconfig.json
+├─ vite.config.ts              # Vite lib build + Storybook-friendly config
+├─ .storybook/                 # Storybook config lives here
+│  ├─ main.ts
+│  ├─ preview.tsx
+│  └─ manager.ts               # optional theming for Storybook UI
+├─ src/
+│  ├─ index.ts                 # public API: re-exports all components & styles
+│  ├─ components/
+│  │  ├─ button/
+│  │  │  ├─ Button.tsx
+│  │  │  ├─ Button.types.ts    # optional: shared prop types if they grow
+│  │  │  ├─ Button.stories.tsx # Storybook (for dev only, not published)
+│  │  │  ├─ Button.test.tsx    # Vitest/RTL test
+│  │  │  └─ index.ts           # `export * from "./Button"`
+│  │  ├─ input/
+│  │  │  ├─ Input.tsx
+│  │  │  ├─ Input.stories.tsx
+│  │  │  ├─ Input.test.tsx
+│  │  │  └─ index.ts
+│  │  └─ ...other components...
+│  │
+│  ├─ hooks/
+│  │  ├─ useTheme.ts           # example: theme switch hook
+│  │  └─ index.ts              # re-export hooks
+│  │
+│  ├─ styles/
+│  │  ├─ tokens.css            # design tokens + themes (what you already have)
+│  │  ├─ base.css              # resets, typography, generic globals
+│  │  └─ index.css             # main entry: imports tokens + base + ripple, etc.
+│  │
+│  ├─ icons/                   # optional: shared SVG icon components
+│  │  ├─ ProfileCircle.tsx
+│  │  └─ index.ts
+│  │
+│  ├─ utils/
+│  │  ├─ cn.ts                 # clsx + tailwind-merge helper
+│  │  ├─ ripple.ts             # if logic extracted from Button, etc.
+│  │  └─ index.ts
+│  │
+│  └─ types/                   # optional: shared library-level types
+│     └─ theme.ts
+│
+└─ tests/                      # optional: extra integration tests (or keep collocated)
+   └─ setupTests.ts            # RTL/Vitest setup (jsdom, etc.)
