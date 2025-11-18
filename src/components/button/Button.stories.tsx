@@ -36,6 +36,23 @@ export const Primary: Story = { args: { variant: "primary" } };
 export const Secondary: Story = { args: { variant: "secondary" } };
 export const Ghost: Story = { args: { variant: "ghost" } };
 
+// ✅ New semantic stories
+export const Success: Story = {
+  args: { variant: "success", children: "Success" },
+};
+
+export const Danger: Story = {
+  args: { variant: "danger", children: "Delete" },
+};
+
+export const Warning: Story = {
+  args: { variant: "warning", children: "Warning" },
+};
+
+export const Info: Story = {
+  args: { variant: "info", children: "Info" },
+};
+
 export const Sizes: Story = {
   render: () => (
     <div className="flex items-center gap-3">

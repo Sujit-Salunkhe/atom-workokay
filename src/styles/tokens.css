@@ -121,6 +121,23 @@
   --atom-button-ghost-hover-bg: color-mix(in srgb, var(--atom-primary) 10%, white); /* subtle tint on light */
   --atom-button-ghost-fg: var(--atom-primary);
 
+  /* ✅ New semantic button variants (light) */
+  --atom-button-success-bg: var(--atom-success);
+  --atom-button-success-bg-hover: color-mix(in srgb, var(--atom-success) 92%, black);
+  --atom-button-success-fg: var(--atom-primary-contrast);
+
+  --atom-button-warning-bg: var(--atom-warning);
+  --atom-button-warning-bg-hover: color-mix(in srgb, var(--atom-warning) 92%, black);
+  --atom-button-warning-fg: var(--atom-primary-contrast);
+
+  --atom-button-danger-bg: var(--atom-error);
+  --atom-button-danger-bg-hover: color-mix(in srgb, var(--atom-error) 92%, black);
+  --atom-button-danger-fg: var(--atom-primary-contrast);
+
+  --atom-button-info-bg: var(--atom-info);
+  --atom-button-info-bg-hover: color-mix(in srgb, var(--atom-info) 92%, black);
+  --atom-button-info-fg: var(--atom-primary-contrast);
+
   --atom-card-bg: var(--atom-surface);
   --atom-card-fg: var(--atom-text);
   --atom-card-border: var(--atom-border);

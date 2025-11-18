@@ -7,14 +7,10 @@ const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap select-none " +
     "disabled:opacity-50 disabled:pointer-events-none " +
     "rounded-md font-medium leading-none focus:outline-none " +
-    // Radix-style focus ring tokens (your theme controls these)
     "focus-visible:ring-2 focus-visible:ring-offset-2 " +
     "focus-visible:ring-[var(--atom-ring-color)] focus-visible:ring-offset-[var(--atom-ring-offset)] " +
-    // Motion
     "transition-colors transition-transform duration-150 ease-in-out " +
-    // Ripple clipping
     "relative overflow-hidden isolate " +
-    // Make child SVGs inherit color
     "[&>svg]:fill-current [&>svg]:stroke-current " +
     "motion-reduce:transform-none motion-reduce:transition-none",
   {
@@ -24,6 +20,16 @@ const buttonVariants = cva(
           "text-[var(--atom-button-fg)] bg-[var(--atom-button-bg)] hover:bg-[var(--atom-button-bg-hover)]",
         ghost:
           "text-[var(--atom-button-ghost-fg)] bg-[var(--atom-button-ghost-bg)] hover:bg-[var(--atom-button-ghost-hover-bg)]",
+
+        // ✅ New semantic variants (solid)
+        success:
+          "text-[var(--atom-button-success-fg)] bg-[var(--atom-button-success-bg)] hover:bg-[var(--atom-button-success-bg-hover)]",
+        danger:
+          "text-[var(--atom-button-danger-fg)] bg-[var(--atom-button-danger-bg)] hover:bg-[var(--atom-button-danger-bg-hover)]",
+        warning:
+          "text-[var(--atom-button-warning-fg)] bg-[var(--atom-button-warning-bg)] hover:bg-[var(--atom-button-warning-bg-hover)]",
+        info:
+          "text-[var(--atom-button-info-fg)] bg-[var(--atom-button-info-bg)] hover:bg-[var(--atom-button-info-bg-hover)]",
 
         // Round icon buttons (transparent by default)
         icon:
@@ -45,15 +51,14 @@ const buttonVariants = cva(
           "hover:bg-[var(--atom-button-ghost-hover-bg)] hover:text-[var(--atom-primary)]",
       },
       size: {
-        // Normal buttons keep padding + icon size mapping
         sm: "h-8 px-3 text-sm [&>svg]:size-4",
         md: "h-10 px-4 text-sm [&>svg]:size-5",
         lg: "h-12 px-5 text-base [&>svg]:size-6",
       },
       fullWidth: { true: "w-full" },
     },
+    // ⬇ keep your existing compoundVariants + defaultVariants as-is
     compoundVariants: [
-      // Round icon buttons — square aspect, no horizontal padding
       { variant: "icon", size: "sm", class: "w-8 h-8 !px-0 aspect-square" },
       { variant: "icon", size: "md", class: "w-10 h-10 !px-0 aspect-square" },
       { variant: "icon", size: "lg", class: "w-12 h-12 !px-0 aspect-square" },
@@ -62,7 +67,6 @@ const buttonVariants = cva(
       { variant: "iconGhost", size: "md", class: "w-10 h-10 !px-0 aspect-square" },
       { variant: "iconGhost", size: "lg", class: "w-12 h-12 !px-0 aspect-square" },
 
-      // Square icon buttons — same geometry, different radius
       { variant: "iconSquare", size: "sm", class: "w-8 h-8 !px-0 aspect-square" },
       { variant: "iconSquare", size: "md", class: "w-10 h-10 !px-0 aspect-square" },
       { variant: "iconSquare", size: "lg", class: "w-12 h-12 !px-0 aspect-square" },
@@ -71,7 +75,6 @@ const buttonVariants = cva(
       { variant: "iconSquareGhost", size: "md", class: "w-10 h-10 !px-0 aspect-square" },
       { variant: "iconSquareGhost", size: "lg", class: "w-12 h-12 !px-0 aspect-square" },
 
-      // Subtle micro-interaction for icon buttons
       { variant: "icon", class: "hover:scale-105 active:scale-95 hover:opacity-90" },
       { variant: "iconGhost", class: "hover:scale-105 active:scale-95 hover:opacity-90" },
       { variant: "iconSquare", class: "hover:scale-105 active:scale-95 hover:opacity-90" },
