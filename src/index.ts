@@ -5,3 +5,6 @@ import './styles/style.css'
 
 export * from './components/button'
 export * from './components/form'
+
+// Optionally re-export icons and hooks too
+export * from "./hooks";

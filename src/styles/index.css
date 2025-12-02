@@ -1,2 +1,4 @@
-@import './tokens.css';
-@import './base.css';
+@import "./tokens.css";
+@import "./ripple.css";
+/* If you have base/global styles, import them too */
+@import "./base.css";
