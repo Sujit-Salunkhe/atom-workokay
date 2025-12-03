@@ -1,13 +1,7 @@
 import * as React from "react";
-import { type VariantProps } from "class-variance-authority";
-declare const buttonVariants: (props?: ({
-    variant?: "primary" | "ghost" | "success" | "danger" | "warning" | "info" | "icon" | "iconGhost" | "iconSquare" | "iconSquareGhost" | "secondary" | null | undefined;
-    size?: "sm" | "md" | "lg" | null | undefined;
-    fullWidth?: boolean | null | undefined;
-} & import("class-variance-authority/types").ClassProp) | undefined) => string;
 export type ButtonVariant = "primary" | "ghost" | "success" | "danger" | "warning" | "info" | "icon" | "iconGhost" | "iconSquare" | "iconSquareGhost" | "secondary";
 export type ButtonSize = "sm" | "md" | "lg";
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     /** Render as child element via Radix Slot (e.g. <a>, <Link>) */
     asChild?: boolean;
     /** Enable/disable ripple ink (true by default) */
@@ -19,4 +13,3 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
     fullWidth?: boolean;
 }
 export declare const Button: React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLButtonElement>>;
-export {};
