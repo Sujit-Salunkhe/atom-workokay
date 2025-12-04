@@ -1,0 +1,12 @@
+/* Atom UI - Complete CSS Bundle for Consumers */
+/* This file bundles all necessary CSS: tokens, ripple animations, and base styles */
+
+/* Import tokens (includes all CSS variables and theme definitions) */
+@import "./tokens.css";
+
+/* Import ripple animations */
+@import "./ripple.css";
+
+/* Import base styles */
+@import "./base.css";
+
