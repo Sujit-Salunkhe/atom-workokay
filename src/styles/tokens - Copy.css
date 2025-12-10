@@ -47,8 +47,11 @@
 /* Light theme */
 :where(.atom-theme)[data-theme="light"] {
   --atom-bg: #ffffff;
+  --atom-stat-card-bg:#F2F8F9;
   --atom-surface: #f6f7f9;
   --atom-text: #0b0c0f;
+  --atom-stat-card-primary-text:#253233;
+  --atom-stat-card-secondary-text:#2E9995;
   --atom-muted: #4b5563;
   --atom-border: #e5e7eb;
   --atom-primary: #335dff;
@@ -58,6 +61,7 @@
 /* Dark theme */
 :where(.atom-theme)[data-theme="dark"] {
   --atom-bg: #0b0c0f;
+  --atom-stat-card-bg:#1C2C2C;
   --atom-surface: #11151b;
   --atom-text: #e8edf2;
   --atom-muted: #9aa7b6;
