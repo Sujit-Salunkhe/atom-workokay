@@ -3,7 +3,6 @@
 @plugin "tailwindcss-animate";
 @import "./tokens.css";   /* your CSS variables */
 @import "./style.css";  
-@import "./tokens\ -\ Copy.css";
 
 @custom-variant dark (&:is(.dark *));    /* optional defaults for components */
 

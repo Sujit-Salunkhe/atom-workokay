@@ -9,6 +9,17 @@
 
   --atom-info-card-jobstatus-label-font-size: 0.75rem;
   --atom-info-card-jobstatus-label-line-height: calc(1 / 0.75);
+
+  
+  --atom-badge-high-text:oklch(.577 .245 27.325);
+  --atom-badge-medium-text:oklch(.666 .179 58.318);
+  --atom-badge-quarantined-text:oklch(66.6% 0.179 58.318);
+  --atom-badge-quarantined-bg:oklch(76.9% 0.188 70.08);
+  --atom-badge-failed-text:#e57d76;
+  --atom-badge-archived-text:#546e73;
+  --atom-badge-archived-bg:#e6f3f4;
+  --atom-badge-archived-border:#cfe7e8;
+  
 }
 
 :where(.atom-theme)[data-theme='light'] {
@@ -17,6 +28,15 @@
   --atom-info-card-jobstatus-success-text: #66bfa5;
 
   --atom-info-card-jobstatus-label-text:#546e73;
+  
+  --atom-badge-high-text:oklch(.577 .245 27.325);
+  --atom-badge-medium-text:oklch(.666 .179 58.318);
+  --atom-badge-low-text:oklch(.627 .194 149.214);
+  --atom-badge-quarantined-text:oklch(66.6% 0.179 58.318);
+  --atom-badge-failed-text:#e57d76;
+  --atom-badge-archived-text:#546e73;
+  --atom-badge-archived-bg:#e6f3f4;
+  --atom-badge-archived-border:#cfe7e8;
 }
 
 :where(.atom-theme)[data-theme='dark'] {
@@ -24,5 +44,16 @@
   --atom-info-card-jobstatus-secondary-text: #2e9995;
   --atom-info-card-jobstatus-success-text: #4d9980;
   --atom-info-card-jobstatus-label-text: #a8bcbe;
+  
+  
+  --atom-badge-high-text:oklch(70.4% 0.191 22.216);
+  --atom-badge-medium-text:oklch(.828 .189 84.429);
+  --atom-badge-low-text:oklch(.792 .209 151.711);
+  --atom-badge-quarantined-text:oklch(.828 .189 84.429);
+  --atom-badge-failed-text:#e57d76;
+  --atom-badge-archived-text:#a8bcbe;
+  --atom-badge-archived-bg:#1f3435;
+  --atom-badge-archived-border:#2a4142;
+
  
 }
