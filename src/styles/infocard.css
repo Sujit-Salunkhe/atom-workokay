@@ -1,0 +1,28 @@
+:where(.atom-theme) {
+  --atom-info-card-jobstatus-primary-text: #253233;
+  --atom-info-card-jobstatus-secondary-text: #2e9995;
+  --atom-info-card-jobstatus-success-text: #66bfa5;
+
+  --atom-info-card-jobstatus-label-text: #546e73;
+  --atom-info-card-jobstatus-font-size: 1.5rem;
+  --atom-info-card-jobstatus-line-height: calc(2 / 1.5);
+
+  --atom-info-card-jobstatus-label-font-size: 0.75rem;
+  --atom-info-card-jobstatus-label-line-height: calc(1 / 0.75);
+}
+
+:where(.atom-theme)[data-theme='light'] {
+  --atom-info-card-jobstatus-primary-text: #253233;
+  --atom-info-card-jobstatus-secondary-text: #2e9995;
+  --atom-info-card-jobstatus-success-text: #66bfa5;
+
+  --atom-info-card-jobstatus-label-text:#546e73;
+}
+
+:where(.atom-theme)[data-theme='dark'] {
+  --atom-info-card-jobstatus-primary-text: #e8f0f0;
+  --atom-info-card-jobstatus-secondary-text: #2e9995;
+  --atom-info-card-jobstatus-success-text: #4d9980;
+  --atom-info-card-jobstatus-label-text: #a8bcbe;
+ 
+}

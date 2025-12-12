@@ -2,12 +2,17 @@
 /* Scope everything so we never leak styles into host apps */
 :where(.atom-theme) {
   /* Fonts */
-  --atom-font-sans: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-  --atom-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --atom-font-sans:
+    system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji';
+  --atom-font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    monospace;
 
   /* Radii */
   --atom-radius-1: 4px;
   --atom-radius-2: 8px;
+  --atom-radius-3: 12px;
   --atom-radius-round: 999px;
 
   /* Spacing (4px base) */
@@ -24,12 +29,19 @@
   --atom-text-md: 14px;
   --atom-text-lg: 16px;
   --atom-text-xl: 18px;
+  --atom-text-2xl: 24px;
+    
+  /*border sizes */
+  --atom-border-xs:1px; 
+
+  /* border style */
+  --atom-border-style:solid;
 
   /* Motion + shadow */
   --atom-duration-fast: 120ms;
   --atom-duration: 180ms;
-  --atom-shadow-1: 0 1px 2px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.06);
-  --atom-shadow-2: 0 2px 8px rgba(0,0,0,.15);
+  --atom-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.06);
+  --atom-shadow-2: 0 2px 8px rgba(0, 0, 0, 0.15);
 
   /* Semantic colors (what components actually use) */
   --atom-bg: #0b0c0f;
@@ -42,26 +54,35 @@
   --atom-danger: #ff4d4f;
   --atom-success: #22c55e;
   --atom-warning: #f59e0b;
+  
+  
+  --atom-info-card-jobstatus-primary-text: #253233;
+  --atom-info-card-jobstatus-success-text: #66bfa5;
+
+  --atom-info-card-jobstatus-font-size: 1.5rem;
+  --atom-info-card-jobstatus-line-height: calc(2 / 1.5);
+
+  --atom-info-card-jobstatus-label-font-size: 0.75rem;
+  --atom-info-card-jobstatus-label-line-height: calc(1 / 0.75);
 }
 
 /* Light theme */
-:where(.atom-theme)[data-theme="light"] {
+:where(.atom-theme)[data-theme='light'] {
   --atom-bg: #ffffff;
-  --atom-stat-card-bg:#F2F8F9;
   --atom-surface: #f6f7f9;
   --atom-text: #0b0c0f;
-  --atom-stat-card-primary-text:#253233;
-  --atom-stat-card-secondary-text:#2E9995;
   --atom-muted: #4b5563;
   --atom-border: #e5e7eb;
   --atom-primary: #335dff;
   --atom-primary-contrast: #ffffff;
+
+
+  
 }
 
 /* Dark theme */
-:where(.atom-theme)[data-theme="dark"] {
+:where(.atom-theme)[data-theme='dark'] {
   --atom-bg: #0b0c0f;
-  --atom-stat-card-bg:#1C2C2C;
   --atom-surface: #11151b;
   --atom-text: #e8edf2;
   --atom-muted: #9aa7b6;
@@ -76,6 +97,8 @@
   --atom-button-ghost-bg: transparent;
   --atom-button-ghost-hover-bg: rgba(255, 255, 255, 0.1);
   --atom-button-ghost-fg: #f1f5f9;
+
+
 }
 
 /* If host doesn't set data-theme, follow OS preference */

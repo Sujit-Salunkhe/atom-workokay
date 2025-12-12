@@ -2,8 +2,9 @@ import './index.css'
 import './App.css'
 import { Button } from './components/button'
 import '@workokay/atom/dist/atom.css'
+import { color } from 'storybook/internal/theming'
+import InfoCard from './components/statcard/InfoCard'
 function App() {
-
   return (
     <>
       {/* <div>
@@ -33,11 +34,10 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p> */}
-     
-        <Button variant="secondary">
-          Render
-        </Button>
-      
+
+      <Button variant="secondary" className="text-var(--atom-bg)">
+        Render
+      </Button>
     </>
   )
 }

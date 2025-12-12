@@ -2,3 +2,4 @@
 @import "./ripple.css";
 /* If you have base/global styles, import them too */
 @import "./base.css";
+@import "./infocard.css";

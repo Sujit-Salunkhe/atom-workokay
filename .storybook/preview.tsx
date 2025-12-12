@@ -3,6 +3,7 @@ import type { Preview } from "@storybook/react";
 import "../src/styles/tailwind.css"; // 👈 MUST exist & be valid
 import "../src/styles/tokens.css"; // 👈 MUST exist & be valid
 import "../src/styles/ripple.css"; // 👈 MUST exist & be valid
+import "../src/styles/infocard.css";//  MUST exist & be valid
 
 export const globalTypes = {
   theme: {
