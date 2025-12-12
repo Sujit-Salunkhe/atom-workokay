@@ -96,7 +96,7 @@ export const Quarantined: Story = {
 
 export const Failed: Story = {
   args: {
-    children: "Failed",
+    children: "stfsd",
     status: "failed",
   },
 }

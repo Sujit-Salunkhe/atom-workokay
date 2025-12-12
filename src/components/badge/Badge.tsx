@@ -76,6 +76,7 @@ export interface BadgeProps
     React.HTMLAttributes<HTMLSpanElement>,
     VariantProps<typeof badgeVariants> {
   asChild?: boolean
+  label?: string
 }
 
 /**
@@ -91,6 +92,8 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       fullWidth,
       withIcon,
       asChild,
+      label,
+      children,
       ...props
     },
     ref,
@@ -112,7 +115,10 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
           className,
         )}
         {...props}
-      />
+      >
+        {' '}
+        {children ?? label}
+      </Comp>
     )
   },
 )
