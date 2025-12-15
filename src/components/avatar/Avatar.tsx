@@ -24,7 +24,7 @@ export const avatarVariants = cva(
       /** Visual variant / semantic color */
       variant: {
         primary:
-          'bg-[var(--atom-primary)] text[var(--atom-primary)] border-[var(--atom-primary)]',
+         'text-[var(--atom-info-card-jobstatus-secondary-text)] bg-[color-mix(in_oklab,var(--atom-info-card-jobstatus-secondary-text)_10%,transparent)] border-[color-mix(in_oklab,var(--atom-info-card-jobstatus-secondary-text)_20%,transparent)]',
         neutral:
           'bg-[var(--atom-badge-neutral-bg-low)] ' +
           'text-[var(--atom-badge-neutral-fg-low)] ' +
