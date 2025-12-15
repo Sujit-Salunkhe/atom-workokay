@@ -54,10 +54,10 @@ export const avatarVariants = cva(
       /** Appearance / fill level */
       appearance: {
         subtle: '', // default uses *-low tokens above
-        solid: 'text-[var(--atom-primary-contrast)] border-transparent',
+        solid: ' border-transparent',
         outline: 'bg-transparent',
         ghost: 'bg-transparent border-transparent hover:bg-[var(--atom-badge-neutral-bg-low)]',
-        ghostSoft:'border-none'
+        soft:'border-none'
         
       },
 
@@ -178,7 +178,7 @@ export type AvatarStatus =
   | 'info'
   | 'accent'
 
-export type AvatarAppearance = 'subtle' | 'solid' | 'outline' | 'ghost' | 'ghostSoft'
+export type AvatarAppearance = 'subtle' | 'solid' | 'outline' | 'ghost' | 'soft'
 
 export type AvatarSize = 'sm' | 'md' | 'lg'
 

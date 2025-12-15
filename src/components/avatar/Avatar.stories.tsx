@@ -1,6 +1,6 @@
 // src/components/avatar/Avatar.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react'
-import { Avatar, type AvatarProps } from './avatar'
+import { Avatar, type AvatarProps } from './Avatar'
 
 const meta: Meta<AvatarProps> = {
   title: 'Components/Avatar',
@@ -30,7 +30,7 @@ const meta: Meta<AvatarProps> = {
     },
     appearance: {
       control: 'select',
-      options: ['subtle', 'solid', 'outline', 'ghost','ghostSoft'],
+      options: ['subtle', 'solid', 'outline', 'ghost','soft'],
     },
     size: {
       control: 'select',
