@@ -46,7 +46,7 @@ export const Default: Story = {
     variant: 'primary',
     order: 'col',
     size: 'sm',
-  },
+  },  
 };
 
 

@@ -1,5 +1,3 @@
-
-
 :where(.atom-theme) {
   /* keep your existing base tokens… */
   --atom-button-bg: var(--atom-primary);
@@ -30,22 +28,39 @@
 
   --atom-primary: var(--atom-primary-700);
   --atom-primary-contrast: #FFFFFF;
+
+  /* Existing accent (teal) */
   --atom-accent: var(--atom-primary-400);
   --atom-accent-contrast: #0B0F0E;
+
+  /* NEW: Neutral + optional overrides for Accent/Info */
+  --atom-neutral: rgb(84, 110, 115);
+
+  /* Optional: purple accent you mentioned (keep commented unless you want accent = purple) */
+  --atom-accent-custom: oklch(0.558 0.288 302.321);
+  /* --atom-accent: var(--atom-accent-custom); */
+
+  /* Optional: info override (keep commented unless you want info = this OKLCH) */
+  --atom-info-custom: oklch(0.546 0.245 262.881);
+  /* --atom-info: var(--atom-info-custom); */
+
+  /* Optional: extra “green-ish” status colors (do not replace success globally) */
+  --atom-status-validated: rgb(102, 191, 165);
+  --atom-status-verified: rgb(46, 153, 149);
 
   /* ========== Text (NO CHANGE to your spec) ========== */
   /* --atom-text: #212121; */
   --atom-text: #626468;
-  --atom-text-muted: #616161;      /* “secondary text” */
+  --atom-text-muted: #616161; /* “secondary text” */
   --atom-text-inverse: #FFFFFF;
 
   /* ========== Backgrounds (NO CHANGE) ========== */
-  --atom-bg: #F9FAFB;              /* required */
+  --atom-bg: #F9FAFB; /* required */
   --atom-surface: #FFFFFF;
   --atom-surface-alt: #F5F5F5;
 
   /* ========== Borders (NO CHANGE) ========== */
-  --atom-border: #E0E0E0;          /* divider */
+  --atom-border: #E0E0E0; /* divider */
   --atom-border-strong: #BDBDBD;
 
   /* ========== Status (NO CHANGE) ========== */
@@ -55,15 +70,16 @@
   --atom-info: #1E88E5;
 
   /* ========== Typography (kept + normalized) ========== */
-  --atom-font-sans: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-  --atom-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --atom-font-sans: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  --atom-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
 
   --atom-text-xs: 12px;
   --atom-text-sm: 13px;
   --atom-text-md: 14px;
   --atom-text-lg: 16px;
   --atom-text-xl: 18px;
-  --atom-text-2xl: 24px;
 
   --atom-line-height: 1.5;
   --atom-font-weight-normal: 400;
@@ -89,15 +105,15 @@
 
   /* ========== Effects ========== */
   --atom-focus-ring: var(--atom-primary-400);
-  --atom-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-  --atom-shadow-md: 0 4px 6px rgba(0,0,0,0.10);
-  --atom-shadow-lg: 0 10px 15px rgba(0,0,0,0.15);
+  --atom-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --atom-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --atom-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
 
   /* ========== Extras for financial UI ========== */
   --atom-link: #1E88E5;
   --atom-link-hover: #1565C0;
-  --atom-selection: rgba(0,121,107,0.18); /* teal-tinted */
-  --atom-muted: rgba(33,33,33,0.04);
+  --atom-selection: rgba(0, 121, 107, 0.18); /* teal-tinted */
+  --atom-muted: rgba(33, 33, 33, 0.04);
 
   /* Charts (categorical) */
   --atom-chart-1: #00796B;
@@ -113,13 +129,11 @@
 
   /* ========== Component Semantic Aliases ========== */
   --atom-button-bg: var(--atom-primary);
-  /* --atom-button-bg-hover: color-mix(in srgb, var(--atom-primary) 90%, black); */
-  /* --atom-button-bg-hover: #0069FC; */
   --atom-button-bg-hover: var(--atom-primary-800);
   --atom-button-fg: var(--atom-primary-contrast);
 
   --atom-button-ghost-bg: transparent;
-  --atom-button-ghost-hover-bg: color-mix(in srgb, var(--atom-primary) 10%, white); /* subtle tint on light */
+  --atom-button-ghost-hover-bg: color-mix(in srgb, var(--atom-primary) 10%, white);
   --atom-button-ghost-fg: var(--atom-primary);
 
   /* ✅ New semantic button variants (light) */
@@ -149,13 +163,13 @@
   --atom-input-focus: var(--atom-focus-ring);
 
   --atom-ring-color: var(--atom-primary-400);
-  --atom-ring-offset: var(--atom-bg);     /* keeps halo clean on any surface */
+  --atom-ring-offset: var(--atom-bg);
   --tw-ring-color: var(--atom-ring-color);
   --tw-ring-offset-color: var(--atom-ring-offset);
 
-  --atom-ripple-color-solid: var(--atom-button-fg);     /* usually #fff */
-  --atom-ripple-color-ghost: var(--atom-primary);       /* teal */
-  --atom-ripple-opacity: .22;                           /* subtle */
+  --atom-ripple-color-solid: var(--atom-button-fg);
+  --atom-ripple-color-ghost: var(--atom-primary);
+  --atom-ripple-opacity: 0.22;
 }
 
 /* Deep Teal — DARK */
@@ -166,7 +180,7 @@
   --atom-primary-100: #B2DFDB;
   --atom-primary-200: #80CBC4;
   --atom-primary-300: #4DB6AC;
-  --atom-primary-400: #26A69A; /* use lighter tints on dark */
+  --atom-primary-400: #26A69A;
   --atom-primary-500: #009688;
   --atom-primary-600: #00897B;
   --atom-primary-700: #00796B;
@@ -175,15 +189,29 @@
 
   --atom-primary: var(--atom-primary-400);
   --atom-primary-contrast: #0B0F0E;
+
+  /* Existing accent (teal) */
   --atom-accent: var(--atom-primary-300);
   --atom-accent-contrast: #0B0F0E;
 
-  /* Text (NO CHANGE) */
+  /* NEW: Neutral + optional overrides for Accent/Info */
+  --atom-neutral: rgb(84, 110, 115);
+
+  --atom-accent-custom: oklch(0.558 0.288 302.321);
+  /* --atom-accent: var(--atom-accent-custom); */
+
+  --atom-info-custom: oklch(0.546 0.245 262.881);
+  /* --atom-info: var(--atom-info-custom); */
+
+  --atom-status-validated: rgb(102, 191, 165);
+  --atom-status-verified: rgb(46, 153, 149);
+
+  /* Text */
   --atom-text: #E0E0E0;
   --atom-text-muted: #BDBDBD;
   --atom-text-inverse: #0F0F0F;
 
-  /* Backgrounds (NO CHANGE) */
+  /* Backgrounds */
   --atom-bg: #121212;
   --atom-surface: #1A1A1A;
   --atom-surface-alt: #222222;
@@ -192,15 +220,17 @@
   --atom-border: #2C2C2C;
   --atom-border-strong: #3A3A3A;
 
-  /* Status (NO CHANGE) */
+  /* Status */
   --atom-success: #43A047;
   --atom-warning: #FB8C00;
   --atom-error: #E53935;
   --atom-info: #1E88E5;
 
   /* Typography */
-  --atom-font-sans: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-  --atom-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --atom-font-sans: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  --atom-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
 
   --atom-text-xs: 12px;
   --atom-text-sm: 13px;
@@ -232,15 +262,15 @@
 
   /* Effects */
   --atom-focus-ring: var(--atom-primary-400);
-  --atom-shadow-sm: 0 1px 2px rgba(0,0,0,0.30);
-  --atom-shadow-md: 0 4px 12px rgba(0,0,0,0.45);
-  --atom-shadow-lg: 0 12px 24px rgba(0,0,0,0.55);
+  --atom-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --atom-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --atom-shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.55);
 
   /* Extras */
   --atom-link: #90CAF9;
   --atom-link-hover: #64B5F6;
-  --atom-selection: rgba(38,166,154,0.26);
-  --atom-muted: rgba(255,255,255,0.06);
+  --atom-selection: rgba(38, 166, 154, 0.26);
+  --atom-muted: rgba(255, 255, 255, 0.06);
 
   /* Charts (dark-optimized) */
   --atom-chart-1: #26A69A;
@@ -273,11 +303,11 @@
   --atom-input-focus: var(--atom-focus-ring);
 
   --atom-ring-color: var(--atom-primary-400);
-  --atom-ring-offset: var(--atom-bg);     /* keeps halo clean on any surface */
+  --atom-ring-offset: var(--atom-bg);
 
-  --atom-ripple-color-solid: var(--atom-button-fg);     /* near-black or #0B0F0E */
-  --atom-ripple-color-ghost: var(--atom-primary);       /* lighter teal on dark */
-  --atom-ripple-opacity: .24;
+  --atom-ripple-color-solid: var(--atom-button-fg);
+  --atom-ripple-color-ghost: var(--atom-primary);
+  --atom-ripple-opacity: 0.24;
 }
 
 /* Sapphire Cyan — LIGHT */
@@ -296,32 +326,47 @@
 
   --atom-primary: var(--atom-primary-600);
   --atom-primary-contrast: #061316;
+
   --atom-accent: var(--atom-primary-400);
   --atom-accent-contrast: #061316;
 
-  /* Text (NO CHANGE) */
+  /* NEW: Neutral + optional overrides */
+  --atom-neutral: rgb(84, 110, 115);
+
+  --atom-accent-custom: oklch(0.558 0.288 302.321);
+  /* --atom-accent: var(--atom-accent-custom); */
+
+  --atom-info-custom: oklch(0.546 0.245 262.881);
+  /* --atom-info: var(--atom-info-custom); */
+
+  --atom-status-validated: rgb(102, 191, 165);
+  --atom-status-verified: rgb(46, 153, 149);
+
+  /* Text */
   --atom-text: #212121;
   --atom-text-muted: #616161;
   --atom-text-inverse: #FFFFFF;
 
-  /* Backgrounds (NO CHANGE) */
+  /* Backgrounds */
   --atom-bg: #F9FAFB;
   --atom-surface: #FFFFFF;
   --atom-surface-alt: #F5F5F5;
 
-  /* Borders (NO CHANGE) */
+  /* Borders */
   --atom-border: #E0E0E0;
   --atom-border-strong: #BDBDBD;
 
-  /* Status (NO CHANGE) */
+  /* Status */
   --atom-success: #43A047;
   --atom-warning: #FB8C00;
   --atom-error: #E53935;
   --atom-info: #1E88E5;
 
   /* Typography */
-  --atom-font-sans: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-  --atom-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --atom-font-sans: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  --atom-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
 
   --atom-text-xs: 12px;
   --atom-text-sm: 13px;
@@ -353,15 +398,15 @@
 
   /* Effects */
   --atom-focus-ring: var(--atom-primary-400);
-  --atom-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-  --atom-shadow-md: 0 4px 6px rgba(0,0,0,0.10);
-  --atom-shadow-lg: 0 10px 15px rgba(0,0,0,0.15);
+  --atom-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --atom-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --atom-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
 
   /* Extras */
   --atom-link: #1E88E5;
   --atom-link-hover: #1565C0;
-  --atom-selection: rgba(0,168,204,0.18);
-  --atom-muted: rgba(33,33,33,0.04);
+  --atom-selection: rgba(0, 168, 204, 0.18);
+  --atom-muted: rgba(33, 33, 33, 0.04);
 
   /* Charts */
   --atom-chart-1: #00A8CC;
@@ -381,7 +426,7 @@
   --atom-button-fg: var(--atom-primary-contrast);
 
   --atom-button-ghost-bg: transparent;
-  --atom-button-ghost-hover-bg: color-mix(in srgb, var(--atom-primary) 10%, white); /* subtle tint on light */
+  --atom-button-ghost-hover-bg: color-mix(in srgb, var(--atom-primary) 10%, white);
   --atom-button-ghost-fg: var(--atom-primary);
 
   --atom-card-bg: var(--atom-surface);
@@ -394,7 +439,7 @@
   --atom-input-focus: var(--atom-focus-ring);
 
   --atom-ring-color: var(--atom-primary-400);
-  --atom-ring-offset: var(--atom-bg);     /* keeps halo clean on any surface */
+  --atom-ring-offset: var(--atom-bg);
 }
 
 /* Sapphire Cyan — DARK */
@@ -404,7 +449,7 @@
   --atom-primary-100: #B2EBF2;
   --atom-primary-200: #80DEEA;
   --atom-primary-300: #4DD0E1;
-  --atom-primary-400: #26C6DA; /* lighter tints on dark */
+  --atom-primary-400: #26C6DA;
   --atom-primary-500: #00BCD4;
   --atom-primary-600: #00A8CC;
   --atom-primary-700: #0097A7;
@@ -413,15 +458,28 @@
 
   --atom-primary: var(--atom-primary-400);
   --atom-primary-contrast: #061316;
+
   --atom-accent: var(--atom-primary-300);
   --atom-accent-contrast: #061316;
 
-  /* Text (NO CHANGE) */
+  /* NEW: Neutral + optional overrides */
+  --atom-neutral: rgb(84, 110, 115);
+
+  --atom-accent-custom: oklch(0.558 0.288 302.321);
+  /* --atom-accent: var(--atom-accent-custom); */
+
+  --atom-info-custom: oklch(0.546 0.245 262.881);
+  /* --atom-info: var(--atom-info-custom); */
+
+  --atom-status-validated: rgb(102, 191, 165);
+  --atom-status-verified: rgb(46, 153, 149);
+
+  /* Text */
   --atom-text: #E0E0E0;
   --atom-text-muted: #BDBDBD;
   --atom-text-inverse: #0F0F0F;
 
-  /* Backgrounds (NO CHANGE) */
+  /* Backgrounds */
   --atom-bg: #121212;
   --atom-surface: #1A1A1A;
   --atom-surface-alt: #222222;
@@ -430,15 +488,17 @@
   --atom-border: #2C2C2C;
   --atom-border-strong: #3A3A3A;
 
-  /* Status (NO CHANGE) */
+  /* Status */
   --atom-success: #43A047;
   --atom-warning: #FB8C00;
   --atom-error: #E53935;
   --atom-info: #1E88E5;
 
   /* Typography */
-  --atom-font-sans: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-  --atom-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --atom-font-sans: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  --atom-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
 
   --atom-text-xs: 12px;
   --atom-text-sm: 13px;
@@ -470,15 +530,15 @@
 
   /* Effects */
   --atom-focus-ring: var(--atom-primary-400);
-  --atom-shadow-sm: 0 1px 2px rgba(0,0,0,0.30);
-  --atom-shadow-md: 0 4px 12px rgba(0,0,0,0.45);
-  --atom-shadow-lg: 0 12px 24px rgba(0,0,0,0.55);
+  --atom-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --atom-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --atom-shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.55);
 
   /* Extras */
   --atom-link: #90CAF9;
   --atom-link-hover: #64B5F6;
-  --atom-selection: rgba(38,198,218,0.26);
-  --atom-muted: rgba(255,255,255,0.06);
+  --atom-selection: rgba(38, 198, 218, 0.26);
+  --atom-muted: rgba(255, 255, 255, 0.06);
 
   /* Charts (dark-optimized) */
   --atom-chart-1: #26C6DA;
@@ -511,5 +571,318 @@
   --atom-input-focus: var(--atom-focus-ring);
 
   --atom-ring-color: var(--atom-primary-400);
-  --atom-ring-offset: var(--atom-bg);     /* keeps halo clean on any surface */
+  --atom-ring-offset: var(--atom-bg);
 }
+
+/* ====================================================================== */
+/* Badge tokens (variant + tone)                                           */
+/* Usage: <Badge variant="success" tone="low" />                           */
+/* ====================================================================== */
+
+:where(.atom-theme) {
+  /* Tone intensity (tweak once, affects all themes) */
+  --atom-badge-low-bg-mix: 10%;
+  --atom-badge-low-border-mix: 22%;
+
+  --atom-badge-med-bg-mix: 18%;
+  --atom-badge-med-border-mix: 32%;
+
+  --atom-badge-high-border-mix: 88%;
+
+  /* Surfaces for mixing */
+  --atom-badge-surface: var(--atom-surface, #fff);
+
+  /* Primary */
+  --atom-badge-primary-fg-low: var(--atom-primary);
+  --atom-badge-primary-bg-low: color-mix(in srgb, var(--atom-primary) var(--atom-badge-low-bg-mix), var(--atom-badge-surface));
+  --atom-badge-primary-border-low: color-mix(in srgb, var(--atom-primary) var(--atom-badge-low-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-primary-fg-medium: var(--atom-primary);
+  --atom-badge-primary-bg-medium: color-mix(in srgb, var(--atom-primary) var(--atom-badge-med-bg-mix), var(--atom-badge-surface));
+  --atom-badge-primary-border-medium: color-mix(in srgb, var(--atom-primary) var(--atom-badge-med-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-primary-fg-high: var(--atom-primary-contrast);
+  --atom-badge-primary-bg-high: var(--atom-primary);
+  --atom-badge-primary-border-high: color-mix(in srgb, var(--atom-primary) var(--atom-badge-high-border-mix), black);
+
+  /* Secondary */
+  --atom-badge-secondary-fg-low: var(--atom-text);
+  --atom-badge-secondary-bg-low: var(--atom-surface-alt);
+  --atom-badge-secondary-border-low: var(--atom-border);
+
+  --atom-badge-secondary-fg-medium: var(--atom-text);
+  --atom-badge-secondary-bg-medium: color-mix(in srgb, var(--atom-border) 35%, var(--atom-badge-surface));
+  --atom-badge-secondary-border-medium: var(--atom-border-strong);
+
+  --atom-badge-secondary-fg-high: var(--atom-text);
+  --atom-badge-secondary-bg-high: color-mix(in srgb, var(--atom-border-strong) 55%, var(--atom-badge-surface));
+  --atom-badge-secondary-border-high: var(--atom-border-strong);
+
+  /* Success */
+  --atom-badge-success-fg-low: var(--atom-success);
+  --atom-badge-success-bg-low: color-mix(in srgb, var(--atom-success) var(--atom-badge-low-bg-mix), var(--atom-badge-surface));
+  --atom-badge-success-border-low: color-mix(in srgb, var(--atom-success) var(--atom-badge-low-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-success-fg-medium: var(--atom-success);
+  --atom-badge-success-bg-medium: color-mix(in srgb, var(--atom-success) var(--atom-badge-med-bg-mix), var(--atom-badge-surface));
+  --atom-badge-success-border-medium: color-mix(in srgb, var(--atom-success) var(--atom-badge-med-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-success-fg-high: var(--atom-primary-contrast);
+  --atom-badge-success-bg-high: var(--atom-success);
+  --atom-badge-success-border-high: color-mix(in srgb, var(--atom-success) var(--atom-badge-high-border-mix), black);
+
+  /* Warning */
+  --atom-badge-warning-fg-low: var(--atom-warning);
+  --atom-badge-warning-bg-low: color-mix(in srgb, var(--atom-warning) var(--atom-badge-low-bg-mix), var(--atom-badge-surface));
+  --atom-badge-warning-border-low: color-mix(in srgb, var(--atom-warning) var(--atom-badge-low-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-warning-fg-medium: var(--atom-warning);
+  --atom-badge-warning-bg-medium: color-mix(in srgb, var(--atom-warning) var(--atom-badge-med-bg-mix), var(--atom-badge-surface));
+  --atom-badge-warning-border-medium: color-mix(in srgb, var(--atom-warning) var(--atom-badge-med-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-warning-fg-high: var(--atom-primary-contrast);
+  --atom-badge-warning-bg-high: var(--atom-warning);
+  --atom-badge-warning-border-high: color-mix(in srgb, var(--atom-warning) var(--atom-badge-high-border-mix), black);
+
+  /* Danger */
+  --atom-badge-danger-fg-low: var(--atom-error);
+  --atom-badge-danger-bg-low: color-mix(in srgb, var(--atom-error) var(--atom-badge-low-bg-mix), var(--atom-badge-surface));
+  --atom-badge-danger-border-low: color-mix(in srgb, var(--atom-error) var(--atom-badge-low-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-danger-fg-medium: var(--atom-error);
+  --atom-badge-danger-bg-medium: color-mix(in srgb, var(--atom-error) var(--atom-badge-med-bg-mix), var(--atom-badge-surface));
+  --atom-badge-danger-border-medium: color-mix(in srgb, var(--atom-error) var(--atom-badge-med-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-danger-fg-high: var(--atom-primary-contrast);
+  --atom-badge-danger-bg-high: var(--atom-error);
+  --atom-badge-danger-border-high: color-mix(in srgb, var(--atom-error) var(--atom-badge-high-border-mix), black);
+
+  /* Info */
+  --atom-badge-info-fg-low: var(--atom-info);
+  --atom-badge-info-bg-low: color-mix(in srgb, var(--atom-info) var(--atom-badge-low-bg-mix), var(--atom-badge-surface));
+  --atom-badge-info-border-low: color-mix(in srgb, var(--atom-info) var(--atom-badge-low-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-info-fg-medium: var(--atom-info);
+  --atom-badge-info-bg-medium: color-mix(in srgb, var(--atom-info) var(--atom-badge-med-bg-mix), var(--atom-badge-surface));
+  --atom-badge-info-border-medium: color-mix(in srgb, var(--atom-info) var(--atom-badge-med-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-info-fg-high: var(--atom-primary-contrast);
+  --atom-badge-info-bg-high: var(--atom-info);
+  --atom-badge-info-border-high: color-mix(in srgb, var(--atom-info) var(--atom-badge-high-border-mix), black);
+
+  /* Neutral */
+  --atom-badge-neutral-fg-low: var(--atom-neutral);
+  --atom-badge-neutral-bg-low: color-mix(in srgb, var(--atom-neutral) var(--atom-badge-low-bg-mix), var(--atom-badge-surface));
+  --atom-badge-neutral-border-low: color-mix(in srgb, var(--atom-neutral) var(--atom-badge-low-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-neutral-fg-medium: var(--atom-neutral);
+  --atom-badge-neutral-bg-medium: color-mix(in srgb, var(--atom-neutral) var(--atom-badge-med-bg-mix), var(--atom-badge-surface));
+  --atom-badge-neutral-border-medium: color-mix(in srgb, var(--atom-neutral) var(--atom-badge-med-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-neutral-fg-high: white;
+  --atom-badge-neutral-bg-high: var(--atom-neutral);
+  --atom-badge-neutral-border-high: color-mix(in srgb, var(--atom-neutral) var(--atom-badge-high-border-mix), black);
+
+  /* Accent */
+  --atom-badge-accent-fg-low: var(--atom-accent);
+  --atom-badge-accent-bg-low: color-mix(in srgb, var(--atom-accent) var(--atom-badge-low-bg-mix), var(--atom-badge-surface));
+  --atom-badge-accent-border-low: color-mix(in srgb, var(--atom-accent) var(--atom-badge-low-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-accent-fg-medium: var(--atom-accent);
+  --atom-badge-accent-bg-medium: color-mix(in srgb, var(--atom-accent) var(--atom-badge-med-bg-mix), var(--atom-badge-surface));
+  --atom-badge-accent-border-medium: color-mix(in srgb, var(--atom-accent) var(--atom-badge-med-border-mix), var(--atom-badge-surface));
+
+  --atom-badge-accent-fg-high: var(--atom-accent-contrast, #0b0f0e);
+  --atom-badge-accent-bg-high: var(--atom-accent);
+  --atom-badge-accent-border-high: color-mix(in srgb, var(--atom-accent) var(--atom-badge-high-border-mix), black);
+}
+
+/* ====================================================================== */
+/* Atom fallback utilities for token-based Tailwind arbitrary classes      */
+/* ====================================================================== */
+
+/* Primary button */
+:where(.atom-theme) .bg-\[var\(--atom-button-bg\)\] {
+  background-color: var(--atom-button-bg);
+}
+:where(.atom-theme) .text-\[var\(--atom-button-fg\)\] {
+  color: var(--atom-button-fg);
+}
+:where(.atom-theme) .hover\:bg-\[var\(--atom-button-bg-hover\)\]:hover {
+  background-color: var(--atom-button-bg-hover);
+}
+
+/* Ghost button */
+:where(.atom-theme) .bg-\[var\(--atom-button-ghost-bg\)\] {
+  background-color: var(--atom-button-ghost-bg);
+}
+:where(.atom-theme) .text-\[var\(--atom-button-ghost-fg\)\] {
+  color: var(--atom-button-ghost-fg);
+}
+:where(.atom-theme) .hover\:bg-\[var\(--atom-button-ghost-hover-bg\)\]:hover {
+  background-color: var(--atom-button-ghost-hover-bg);
+}
+
+/* Success button */
+:where(.atom-theme) .bg-\[var\(--atom-button-success-bg\)\] {
+  background-color: var(--atom-button-success-bg);
+}
+:where(.atom-theme) .text-\[var\(--atom-button-success-fg\)\] {
+  color: var(--atom-button-success-fg);
+}
+:where(.atom-theme) .hover\:bg-\[var\(--atom-button-success-bg-hover\)\]:hover {
+  background-color: var(--atom-button-success-bg-hover);
+}
+
+/* Warning button */
+:where(.atom-theme) .bg-\[var\(--atom-button-warning-bg\)\] {
+  background-color: var(--atom-button-warning-bg);
+}
+:where(.atom-theme) .text-\[var\(--atom-button-warning-fg\)\] {
+  color: var(--atom-button-warning-fg);
+}
+:where(.atom-theme) .hover\:bg-\[var\(--atom-button-warning-bg-hover\)\]:hover {
+  background-color: var(--atom-button-warning-bg-hover);
+}
+
+/* Danger button */
+:where(.atom-theme) .bg-\[var\(--atom-button-danger-bg\)\] {
+  background-color: var(--atom-button-danger-bg);
+}
+:where(.atom-theme) .text-\[var\(--atom-button-danger-fg\)\] {
+  color: var(--atom-button-danger-fg);
+}
+:where(.atom-theme) .hover\:bg-\[var\(--atom-button-danger-bg-hover\)\]:hover {
+  background-color: var(--atom-button-danger-bg-hover);
+}
+
+/* Info button */
+:where(.atom-theme) .bg-\[var\(--atom-button-info-bg\)\] {
+  background-color: var(--atom-button-info-bg);
+}
+:where(.atom-theme) .text-\[var\(--atom-button-info-fg\)\] {
+  color: var(--atom-button-info-fg);
+}
+:where(.atom-theme) .hover\:bg-\[var\(--atom-button-info-bg-hover\)\]:hover {
+  background-color: var(--atom-button-info-bg-hover);
+}
+
+/* Secondary outline – minimal fallback for border + primary text */
+:where(.atom-theme) .border-\[var\(--atom-border\)\] {
+  border-color: var(--atom-border);
+}
+:where(.atom-theme) .text-\[var\(--atom-primary\)\] {
+  color: var(--atom-primary);
+}
+
+/* ====================================================================== */
+/* Badge fallback utilities (for bg/text/border token utilities)           */
+/* If you use classes like:                                                */
+/* bg-[var(--atom-badge-success-bg-low)]                                   */
+/* text-[var(--atom-badge-success-fg-low)]                                 */
+/* border-[var(--atom-badge-success-border-low)]                           */
+/* ====================================================================== */
+
+/* Primary badge */
+:where(.atom-theme) .bg-\[var\(--atom-badge-primary-bg-low\)\] { background-color: var(--atom-badge-primary-bg-low); }
+:where(.atom-theme) .text-\[var\(--atom-badge-primary-fg-low\)\] { color: var(--atom-badge-primary-fg-low); }
+:where(.atom-theme) .border-\[var\(--atom-badge-primary-border-low\)\] { border-color: var(--atom-badge-primary-border-low); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-primary-bg-medium\)\] { background-color: var(--atom-badge-primary-bg-medium); }
+:where(.atom-theme) .text-\[var\(--atom-badge-primary-fg-medium\)\] { color: var(--atom-badge-primary-fg-medium); }
+:where(.atom-theme) .border-\[var\(--atom-badge-primary-border-medium\)\] { border-color: var(--atom-badge-primary-border-medium); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-primary-bg-high\)\] { background-color: var(--atom-badge-primary-bg-high); }
+:where(.atom-theme) .text-\[var\(--atom-badge-primary-fg-high\)\] { color: var(--atom-badge-primary-fg-high); }
+:where(.atom-theme) .border-\[var\(--atom-badge-primary-border-high\)\] { border-color: var(--atom-badge-primary-border-high); }
+
+/* Secondary badge */
+:where(.atom-theme) .bg-\[var\(--atom-badge-secondary-bg-low\)\] { background-color: var(--atom-badge-secondary-bg-low); }
+:where(.atom-theme) .text-\[var\(--atom-badge-secondary-fg-low\)\] { color: var(--atom-badge-secondary-fg-low); }
+:where(.atom-theme) .border-\[var\(--atom-badge-secondary-border-low\)\] { border-color: var(--atom-badge-secondary-border-low); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-secondary-bg-medium\)\] { background-color: var(--atom-badge-secondary-bg-medium); }
+:where(.atom-theme) .text-\[var\(--atom-badge-secondary-fg-medium\)\] { color: var(--atom-badge-secondary-fg-medium); }
+:where(.atom-theme) .border-\[var\(--atom-badge-secondary-border-medium\)\] { border-color: var(--atom-badge-secondary-border-medium); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-secondary-bg-high\)\] { background-color: var(--atom-badge-secondary-bg-high); }
+:where(.atom-theme) .text-\[var\(--atom-badge-secondary-fg-high\)\] { color: var(--atom-badge-secondary-fg-high); }
+:where(.atom-theme) .border-\[var\(--atom-badge-secondary-border-high\)\] { border-color: var(--atom-badge-secondary-border-high); }
+
+/* Success badge */
+:where(.atom-theme) .bg-\[var\(--atom-badge-success-bg-low\)\] { background-color: var(--atom-badge-success-bg-low); }
+:where(.atom-theme) .text-\[var\(--atom-badge-success-fg-low\)\] { color: var(--atom-badge-success-fg-low); }
+:where(.atom-theme) .border-\[var\(--atom-badge-success-border-low\)\] { border-color: var(--atom-badge-success-border-low); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-success-bg-medium\)\] { background-color: var(--atom-badge-success-bg-medium); }
+:where(.atom-theme) .text-\[var\(--atom-badge-success-fg-medium\)\] { color: var(--atom-badge-success-fg-medium); }
+:where(.atom-theme) .border-\[var\(--atom-badge-success-border-medium\)\] { border-color: var(--atom-badge-success-border-medium); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-success-bg-high\)\] { background-color: var(--atom-badge-success-bg-high); }
+:where(.atom-theme) .text-\[var\(--atom-badge-success-fg-high\)\] { color: var(--atom-badge-success-fg-high); }
+:where(.atom-theme) .border-\[var\(--atom-badge-success-border-high\)\] { border-color: var(--atom-badge-success-border-high); }
+
+/* Warning badge */
+:where(.atom-theme) .bg-\[var\(--atom-badge-warning-bg-low\)\] { background-color: var(--atom-badge-warning-bg-low); }
+:where(.atom-theme) .text-\[var\(--atom-badge-warning-fg-low\)\] { color: var(--atom-badge-warning-fg-low); }
+:where(.atom-theme) .border-\[var\(--atom-badge-warning-border-low\)\] { border-color: var(--atom-badge-warning-border-low); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-warning-bg-medium\)\] { background-color: var(--atom-badge-warning-bg-medium); }
+:where(.atom-theme) .text-\[var\(--atom-badge-warning-fg-medium\)\] { color: var(--atom-badge-warning-fg-medium); }
+:where(.atom-theme) .border-\[var\(--atom-badge-warning-border-medium\)\] { border-color: var(--atom-badge-warning-border-medium); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-warning-bg-high\)\] { background-color: var(--atom-badge-warning-bg-high); }
+:where(.atom-theme) .text-\[var\(--atom-badge-warning-fg-high\)\] { color: var(--atom-badge-warning-fg-high); }
+:where(.atom-theme) .border-\[var\(--atom-badge-warning-border-high\)\] { border-color: var(--atom-badge-warning-border-high); }
+
+/* Danger badge */
+:where(.atom-theme) .bg-\[var\(--atom-badge-danger-bg-low\)\] { background-color: var(--atom-badge-danger-bg-low); }
+:where(.atom-theme) .text-\[var\(--atom-badge-danger-fg-low\)\] { color: var(--atom-badge-danger-fg-low); }
+:where(.atom-theme) .border-\[var\(--atom-badge-danger-border-low\)\] { border-color: var(--atom-badge-danger-border-low); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-danger-bg-medium\)\] { background-color: var(--atom-badge-danger-bg-medium); }
+:where(.atom-theme) .text-\[var\(--atom-badge-danger-fg-medium\)\] { color: var(--atom-badge-danger-fg-medium); }
+:where(.atom-theme) .border-\[var\(--atom-badge-danger-border-medium\)\] { border-color: var(--atom-badge-danger-border-medium); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-danger-bg-high\)\] { background-color: var(--atom-badge-danger-bg-high); }
+:where(.atom-theme) .text-\[var\(--atom-badge-danger-fg-high\)\] { color: var(--atom-badge-danger-fg-high); }
+:where(.atom-theme) .border-\[var\(--atom-badge-danger-border-high\)\] { border-color: var(--atom-badge-danger-border-high); }
+
+/* Info badge */
+:where(.atom-theme) .bg-\[var\(--atom-badge-info-bg-low\)\] { background-color: var(--atom-badge-info-bg-low); }
+:where(.atom-theme) .text-\[var\(--atom-badge-info-fg-low\)\] { color: var(--atom-badge-info-fg-low); }
+:where(.atom-theme) .border-\[var\(--atom-badge-info-border-low\)\] { border-color: var(--atom-badge-info-border-low); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-info-bg-medium\)\] { background-color: var(--atom-badge-info-bg-medium); }
+:where(.atom-theme) .text-\[var\(--atom-badge-info-fg-medium\)\] { color: var(--atom-badge-info-fg-medium); }
+:where(.atom-theme) .border-\[var\(--atom-badge-info-border-medium\)\] { border-color: var(--atom-badge-info-border-medium); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-info-bg-high\)\] { background-color: var(--atom-badge-info-bg-high); }
+:where(.atom-theme) .text-\[var\(--atom-badge-info-fg-high\)\] { color: var(--atom-badge-info-fg-high); }
+:where(.atom-theme) .border-\[var\(--atom-badge-info-border-high\)\] { border-color: var(--atom-badge-info-border-high); }
+
+/* Neutral badge */
+:where(.atom-theme) .bg-\[var\(--atom-badge-neutral-bg-low\)\] { background-color: var(--atom-badge-neutral-bg-low); }
+:where(.atom-theme) .text-\[var\(--atom-badge-neutral-fg-low\)\] { color: var(--atom-badge-neutral-fg-low); }
+:where(.atom-theme) .border-\[var\(--atom-badge-neutral-border-low\)\] { border-color: var(--atom-badge-neutral-border-low); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-neutral-bg-medium\)\] { background-color: var(--atom-badge-neutral-bg-medium); }
+:where(.atom-theme) .text-\[var\(--atom-badge-neutral-fg-medium\)\] { color: var(--atom-badge-neutral-fg-medium); }
+:where(.atom-theme) .border-\[var\(--atom-badge-neutral-border-medium\)\] { border-color: var(--atom-badge-neutral-border-medium); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-neutral-bg-high\)\] { background-color: var(--atom-badge-neutral-bg-high); }
+:where(.atom-theme) .text-\[var\(--atom-badge-neutral-fg-high\)\] { color: var(--atom-badge-neutral-fg-high); }
+:where(.atom-theme) .border-\[var\(--atom-badge-neutral-border-high\)\] { border-color: var(--atom-badge-neutral-border-high); }
+
+/* Accent badge */
+:where(.atom-theme) .bg-\[var\(--atom-badge-accent-bg-low\)\] { background-color: var(--atom-badge-accent-bg-low); }
+:where(.atom-theme) .text-\[var\(--atom-badge-accent-fg-low\)\] { color: var(--atom-badge-accent-fg-low); }
+:where(.atom-theme) .border-\[var\(--atom-badge-accent-border-low\)\] { border-color: var(--atom-badge-accent-border-low); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-accent-bg-medium\)\] { background-color: var(--atom-badge-accent-bg-medium); }
+:where(.atom-theme) .text-\[var\(--atom-badge-accent-fg-medium\)\] { color: var(--atom-badge-accent-fg-medium); }
+:where(.atom-theme) .border-\[var\(--atom-badge-accent-border-medium\)\] { border-color: var(--atom-badge-accent-border-medium); }
+
+:where(.atom-theme) .bg-\[var\(--atom-badge-accent-bg-high\)\] { background-color: var(--atom-badge-accent-bg-high); }
+:where(.atom-theme) .text-\[var\(--atom-badge-accent-fg-high\)\] { color: var(--atom-badge-accent-fg-high); }
+:where(.atom-theme) .border-\[var\(--atom-badge-accent-border-high\)\] { border-color: var(--atom-badge-accent-border-high); }

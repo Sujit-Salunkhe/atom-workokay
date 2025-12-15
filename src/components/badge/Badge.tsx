@@ -70,7 +70,7 @@ export const badgeVariants = cva(
 
 /** EXPORTED UNIONS FOR PUBLIC API (Very important for library devs) */
 export type BadgePriority = 'high' | 'medium' | 'low'
-export type BadgeStatus = 'validated' | 'incoming' | 'quarantined' | 'failed'
+export type BadgeStatus = 'validated' | 'incoming' | 'quarantined' | 'failed' | 'archieved' | 'info'
 
 export type BadgeSize = 'sm' | 'md' | 'lg'
 

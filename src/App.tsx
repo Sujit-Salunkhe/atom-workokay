@@ -1,9 +1,7 @@
 import './index.css'
 import './App.css'
-import { Button } from './components/button'
 import '@workokay/atom/dist/atom.css'
-import { color } from 'storybook/internal/theming'
-import InfoCard from './components/statcard/InfoCard'
+import { Badge } from './components/badge/Badge'
 function App() {
   return (
     <>
@@ -35,9 +33,11 @@ function App() {
         Click on the Vite and React logos to learn more
       </p> */}
 
-      <Button variant="secondary" className="text-var(--atom-bg)">
+      {/* <Button variant="secondary" className="text-var(--atom-bg)">
         Render
-      </Button>
+      </Button> */}
+       {/* <p className='text-green-700'>text</p> */}
+      <Badge priority="high" status="validated">Value</Badge>
     </>
   )
 }
