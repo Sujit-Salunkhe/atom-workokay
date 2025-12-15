@@ -56,7 +56,8 @@ export const avatarVariants = cva(
         subtle: '', // default uses *-low tokens above
         solid: 'text-[var(--atom-primary-contrast)] border-transparent',
         outline: 'bg-transparent',
-        ghost: 'bg-transparent border-none hover:bg-[var(--atom-badge-neutral-bg-low)]  ',
+        ghost: 'bg-transparent border-transparent hover:bg-[var(--atom-badge-neutral-bg-low)]',
+        ghostSoft:'border-none'
         
       },
 
@@ -137,7 +138,6 @@ export const avatarVariants = cva(
           'text-[var(--atom-badge-accent-fg-high)] ' +
           'border-[var(--atom-badge-accent-border-high)]',
       },
-
       // Outline appearance = transparent bg, keep border+text
       {
         appearance: 'outline',
@@ -178,7 +178,7 @@ export type AvatarStatus =
   | 'info'
   | 'accent'
 
-export type AvatarAppearance = 'subtle' | 'solid' | 'outline' | 'ghost'
+export type AvatarAppearance = 'subtle' | 'solid' | 'outline' | 'ghost' | 'ghostSoft'
 
 export type AvatarSize = 'sm' | 'md' | 'lg'
 
@@ -224,7 +224,7 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
         // If you want image support, style this with object-cover etc.
         <img
           src={src}
-          alt={props['aria-label'] || initials || 'AZ'} //
+          alt={props['aria-label'] || initials || 'AZ'} // 
           className="w-full h-full object-cover"
         />
       ) : (

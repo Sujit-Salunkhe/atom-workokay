@@ -3,11 +3,11 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Avatar, type AvatarProps } from './avatar'
 
 const meta: Meta<AvatarProps> = {
-  title: 'Atom/Avatar',
+  title: 'Components/Avatar',
   component: Avatar,
   tags: ['autodocs'],
   args: {
-    initials: 'JD',
+    initials: 'JD', 
     variant: 'neutral',
     appearance: 'subtle',
     size: 'md',
@@ -30,7 +30,7 @@ const meta: Meta<AvatarProps> = {
     },
     appearance: {
       control: 'select',
-      options: ['subtle', 'solid', 'outline', 'ghost'],
+      options: ['subtle', 'solid', 'outline', 'ghost','ghostSoft'],
     },
     size: {
       control: 'select',
@@ -85,11 +85,11 @@ export const Danger: Story = {
   },
 }
 
-export const SolidInfo: Story = {
+export const Info: Story = {
   args: {
     initials: 'JD',
     variant: 'info',
-    appearance: 'solid',
+    appearance: 'subtle',
   },
 }
 
