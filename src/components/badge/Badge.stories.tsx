@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import { Badge } from "./badge"
+import { Badge } from "./Badge"
     import { CheckCircle, AlertTriangle, XCircle, Inbox, Archive } from "lucide-react"
 
 const meta: Meta<typeof Badge> = {
@@ -13,7 +13,7 @@ const meta: Meta<typeof Badge> = {
     },
     status: {
       control: "select",
-      options: ["validated", "incoming", "quarantined", "failed", undefined],
+      options: ["validated", "incoming", "quarantined", "failed","info", undefined],
     },
     size: {
       control: "select",
@@ -96,7 +96,7 @@ export const Quarantined: Story = {
 
 export const Failed: Story = {
   args: {
-    children: "stfsd",
+    children: "Failed",
     status: "failed",
   },
 }
@@ -105,6 +105,12 @@ export const Archieved:Story ={
     args:{
         children:"Archieved",
         status:"archieved",
+    }
+}
+export const Processor:Story ={
+    args:{
+        children:"Processor",
+        status:"info",
     }
 }
 

@@ -35,6 +35,9 @@ export const badgeVariants = cva(
           'bg-[color-mix(in_oklab,var(--atom-badge-failed-text)_10%,transparent)] text-[var(--atom-badge-failed-text)]  border-[color-mix(in_oklab,var(--atom-badge-failed-text)_20%,transparent)]',
         archieved:
           'bg-[var(--atom-badge-archived-bg)] text-[var(--atom-badge-archived-text)] border-[var(--atom-badge-archived-border)]',
+        info:
+           "bg-[color-mix(in_oklab,var(--atom-info)_10%,transparent)] text-[var(--atom-info)] border-[color-mix(in_oklab,var(--atom-info)_20%,transparent)]",
+
       },
 
       /** ICON PLACEMENT */
@@ -76,7 +79,6 @@ export interface BadgeProps
     React.HTMLAttributes<HTMLSpanElement>,
     VariantProps<typeof badgeVariants> {
   asChild?: boolean
-  label?: string
 }
 
 /**
@@ -92,7 +94,6 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       fullWidth,
       withIcon,
       asChild,
-      label,
       children,
       ...props
     },
@@ -117,7 +118,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {...props}
       >
         {' '}
-        {children ?? label}
+        {children}
       </Comp>
     )
   },
