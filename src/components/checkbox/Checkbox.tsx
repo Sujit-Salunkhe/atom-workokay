@@ -3,35 +3,32 @@ import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "../../lib/cn"
  
-const checkboxBoxVariants = cva(
+ 
+export const checkboxVariants = cva(
   [
-    // base box
-    "flex items-center justify-center",
-    "rounded-[var(--atom-radius-1)]",
-    "border border-[var(--atom-input-border)]",
+    // base
+    "shrink-0 rounded-[var(--atom-radius-1)]",
+    "border-[var(--atom-card-border)]",
     "bg-[var(--atom-input-bg)]",
-    "text-[var(--atom-primary-contrast)]",
     "transition-[background-color,border-color,box-shadow,color]",
+    "disabled:cursor-not-allowed disabled:opacity-50",
  
-    // focus
-    "peer-focus-visible:ring-2",
-    "peer-focus-visible:ring-[var(--atom-ring-color)]",
-    "peer-focus-visible:ring-offset-0",
+    // interaction
+    "hover:border-[color-mix(in_srgb,var(--atom-card-border)_70%,var(--atom-text))]",
+    "hover:cursor-pointer",
+    "focus-visible:outline-none focus-visible:ring-2",
+    "focus-visible:ring-[color-mix(in_srgb,var(--atom-primary)_35%,transparent)]",
+    "focus-visible:ring-offset-0",
  
-    // checked
-    "peer-checked:bg-[var(--atom-primary)]",
-    "peer-checked:border-[var(--atom-primary)]",
- 
-    // disabled
-    "peer-disabled:opacity-50",
-    "peer-disabled:cursor-not-allowed",
+    // checked styling (native)
+    "accent-(--atom-primary)",
   ].join(" "),
   {
     variants: {
       size: {
-        sm: "h-3.5 w-3.5 text-[10px]",
-        md: "h-4 w-4 text-xs",
-        lg: "h-5 w-5 text-sm",
+        sm: "h-3.5 w-3.5",
+        md: "h-4 w-4",
+        lg: "h-5 w-5",
       },
     },
     defaultVariants: {
@@ -40,9 +37,12 @@ const checkboxBoxVariants = cva(
   }
 )
  
+ 
+export type CheckboxSize = NonNullable<VariantProps<typeof checkboxVariants>["size"]>
+ 
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size">,
-    VariantProps<typeof checkboxBoxVariants> {
+    VariantProps<typeof checkboxVariants> {
   label?: React.ReactNode
 }
  
@@ -52,44 +52,24 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
     const inputId = id ?? autoId
  
     return (
-<label
-        htmlFor={inputId}
-        className="inline-flex items-center gap-2 cursor-pointer select-none"
->
-        {/* Native input (accessible, hidden visually) */}
-<input
+      <div className="inline-flex items-center gap-2">
+        <input
           ref={ref}
           id={inputId}
           type="checkbox"
-          className="peer sr-only"
+          data-slot="checkbox"
+          className={cn(checkboxVariants({ size }), className)}
           {...props}
         />
- 
-        {/* Custom checkbox UI */}
-<span
-          data-slot="checkbox"
-          data-size={size}
-          className={cn(checkboxBoxVariants({ size }), className)}
-          aria-hidden="true"
->
-          {/* Check icon */}
-<svg
-            viewBox="0 0 16 16"
-            className="h-3 w-3 scale-75 opacity-0 peer-checked:opacity-100 transition-opacity"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
->
-<path d="M3 8l3 3 7-7" />
-</svg>
-</span>
- 
-        {label && (
-<span className="text-sm text-[var(--atom-text)] font-[var(--atom-font-weight-medium)]">
+        {label != null && (
+          <label
+            htmlFor={inputId}
+            className="select-none text-sm text-[var(--atom-info-card-jobstatus-primary-text)] font-[var(--atom-font-weight-medium)] hover:cursor-pointer"
+          >
             {label}
-</span>
+          </label>
         )}
-</label>
+      </div>
     )
   }
 )

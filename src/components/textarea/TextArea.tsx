@@ -14,7 +14,6 @@ const textareaVariants = cva(
     'outline-none disabled:cursor-not-allowed disabled:opacity-50',
 
     // base colors (your tokens)
-    '`',
     'border-[var(--atom-badge-archived-border)]',
     'placeholder:text-muted-foreground',
 
