@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { Checkbox, type CheckboxProps } from "./Checkbox"
 
 const meta: Meta<typeof Checkbox> = {
-  title: "UI/Checkbox",
+  title: "Input/Checkbox",
   component: Checkbox,
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg"] },

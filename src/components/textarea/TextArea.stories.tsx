@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { Textarea, type TextareaProps } from "./TextArea"
 
 const meta: Meta<typeof Textarea> = {
-  title: "Components/Textarea",
+  title: "Input/Textarea",
   component: Textarea,
   args: {
     placeholder: "Type something…",
