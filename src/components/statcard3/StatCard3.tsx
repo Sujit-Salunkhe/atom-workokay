@@ -11,18 +11,18 @@ import { cn } from '../../lib/cn'
 export const statCardPriorityVariants = cva(
   'flex items-center justify-between rounded-xl border bg-[var(--atom-card-bg)] ' +
     'border-[var(--atom-card-border)] px-4 py-3 w-full ' +
-    'transition-colors duration-150 ease-in-out shadow-sm',
+    'transition-colors duration-150 ease-in-out shadow-sm border-[var(--atom-badge-archived-border)]',
   {
     variants: {
       /** Semantic tone: primary + priority levels */
       variant: {
         primary:
-          'text-[var(--atom-primary)] border-[color-mix(in_srgb,var(--atom-primary)_18%,var(--atom-card-border))]',
-        high: 'text-[var(--atom-error)] border-[color-mix(in_srgb,var(--atom-error)_18%,var(--atom-card-border))]',
+          'text-[var(--atom-primary)]',  //border-[color-mix(in_srgb,var(--atom-primary)_18%,var(--atom-card-border))]',
+        high: 'text-[var(--atom-error)]', //border-[color-mix(in_srgb,var(--atom-error)_18%,var(--atom-card-border))]',
         medium:
-          'text-[var(--atom-warning)] border-[color-mix(in_srgb,var(--atom-warning)_18%,var(--atom-card-border))]',
-        low: 'text-[var(--atom-success)] border-[color-mix(in_srgb,var(--atom-success)_18%,var(--atom-card-border))]',
-        neutral: 'text-[var(--atom-text)] border-[var(--atom-card-border)]',
+          'text-[var(--atom-warning)]', //border-[color-mix(in_srgb,var(--atom-warning)_18%,var(--atom-card-border))]',
+        low: 'text-[var(--atom-success)]', //border-[color-mix(in_srgb,var(--atom-success)_18%,var(--atom-card-border))]',
+        neutral: 'text-[var(--atom-text)]', //border-[var(--atom-card-border)]',
       },
 
       /** Size of the row and pill */
@@ -124,7 +124,7 @@ export const StatCardPriority = React.forwardRef<
         {/* Right: colored pill with value */}
         <span
           className={cn(
-            'inline-flex items-center justify-center rounded-full px-2.5 py-1 ' +
+            'inline-flex items-center justify-center rounded-md px-2.5 py-1 ' +
               'text-xs font-medium',
             // match priority variant colors for the pill
             variant === 'high' &&
