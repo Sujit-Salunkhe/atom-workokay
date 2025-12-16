@@ -35,13 +35,6 @@ export const Subtle: Story = {
   },
 }
 
-export const Danger: Story = {
-  args: {
-    variant: "danger",
-    "aria-invalid": true,
-    placeholder: "Danger / error textarea",
-  } as TextareaProps,
-}
 
 /* Sizes in one story */
 
