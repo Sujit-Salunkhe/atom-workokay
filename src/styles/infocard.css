@@ -37,6 +37,7 @@
   --atom-badge-archived-text:#546e73;
   --atom-badge-archived-bg:#e6f3f4;
   --atom-badge-archived-border:#cfe7e8;
+  --atom-skeleton-bg-color:#EAEAEA;
 }
 
 :where(.atom-theme)[data-theme='dark'] {
@@ -54,6 +55,7 @@
   --atom-badge-archived-text:#a8bcbe;
   --atom-badge-archived-bg:#1f3435;
   --atom-badge-archived-border:#2a4142;
+  --atom-skeleton-bg-color:#3A3A3A;
 
  
 }
