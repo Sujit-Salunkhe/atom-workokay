@@ -19,6 +19,9 @@
   --atom-badge-archived-text:#546e73;
   --atom-badge-archived-bg:#e6f3f4;
   --atom-badge-archived-border:#cfe7e8;
+
+  /* input background color  */
+  --atom-input-bg :#fcfefe;
   
 }
 
@@ -35,9 +38,12 @@
   --atom-badge-quarantined-text:oklch(66.6% 0.179 58.318);
   --atom-badge-failed-text:#e57d76;
   --atom-badge-archived-text:#546e73;
-  --atom-badge-archived-bg:#e6f3f4;
+  --atom-badge-archived-bg:#e6f3f4; 
   --atom-badge-archived-border:#cfe7e8;
   --atom-skeleton-bg-color:#EAEAEA;
+
+  
+  --atom-input-bg :#fcfefe;
 }
 
 :where(.atom-theme)[data-theme='dark'] {
@@ -56,6 +62,8 @@
   --atom-badge-archived-bg:#1f3435;
   --atom-badge-archived-border:#2a4142;
   --atom-skeleton-bg-color:#3A3A3A;
+
+  --atom-input-bg : var(--atom-badge-archived-bg);
 
  
 }

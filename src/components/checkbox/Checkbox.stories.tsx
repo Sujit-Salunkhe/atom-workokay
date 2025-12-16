@@ -1,132 +1,61 @@
-// src/components/checkbox-card/CheckboxCard.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
-import { CheckboxCard } from './Checkbox'
+// src/components/ui/checkbox.stories.tsx
+import type { Meta, StoryObj } from "@storybook/react"
+import { Checkbox, type CheckboxProps } from "./Checkbox"
 
-const meta: Meta<typeof CheckboxCard> = {
-  title: 'Components/CheckboxCard',
-  component: CheckboxCard,
-  tags: ['autodocs'],
+const meta: Meta<typeof Checkbox> = {
+  title: "UI/Checkbox",
+  component: Checkbox,
   argTypes: {
-    variant: {
-      control: 'select',
-      options: [
-        'neutral',
-        'primary',
-        'success',
-        'warning',
-        'danger',
-        'info',
-        'accent',
-      ],
-    },
-    size: {
-      control: 'inline-radio',
-      options: ['sm', 'md', 'lg'],
-    },
-    appearance: {
-      control: 'select',
-      options: ['elevated', 'outlined', 'ghost', 'soft'],
-    },
-    fullWidth: {
-      control: 'boolean',
-    },
-    disabled: {
-      control: 'boolean',
-    },
-    checked: {
-      control: 'boolean',
-    },
-    label: {
-      control: 'text',
-    },
-    description: {
-      control: 'text',
-    },
+    size: { control: "select", options: ["sm", "md", "lg"] },
+    checked: { control: "boolean" },
+    disabled: { control: "boolean" },
+    label: { control: "text" },
+    onChange: { action: "onChange" }, // Actions tab
   },
-}
-
-export default meta
-type Story = StoryObj<typeof CheckboxCard>
-
-/**
- * Basic checkbox row like in your screenshot.
- */
-export const Default: Story = {
   args: {
-    label: 'Incoming',
-    checked: true,
-    variant: 'primary',
-    size: 'md',
-    appearance: 'elevated',
-    fullWidth: false,
-    disabled: false,
-  },
-}
-
-/**
- * Variants that match your statuses – use Controls panel to tweak props.
- */
-export const AllStates: Story = {
-  render: (args) => (
-    <div className="flex flex-col gap-2 max-w-xs">
-      <CheckboxCard
-        {...args}
-        label="Incoming"
-        checked
-        variant="primary"
-      />
-      <CheckboxCard
-        {...args}
-        label="Validated"
-        variant="success"
-      />
-      <CheckboxCard
-        {...args}
-        label="Quarantined"
-        variant="warning"
-      />
-      <CheckboxCard
-        {...args}
-        label="Failed"
-        variant="danger"
-      />
-      <CheckboxCard
-        {...args}
-        label="Archived"
-        variant="neutral"
-      />
-    </div>
-  ),
-  args: {
-    size: 'md',
-    appearance: 'elevated',
-    fullWidth: true,
-  },
-}
-
-/**
- * Compact version for dense lists.
- */
-export const SmallSoft: Story = {
-  args: {
-    label: 'Incoming',
+    size: "md",
     checked: false,
-    size: 'sm',
-    appearance: 'soft',
-    variant: 'neutral',
-    fullWidth: true,
+    disabled: false,
+    label: "Accept terms",
+  },
+}
+export default meta
+
+type Story = StoryObj<typeof Checkbox>
+
+/**
+ * Controlled story: clicking updates Storybook Controls (checked).
+ */
+export const Playground: Story = {
+  render: function Render(args) {
+    // const [, setArgs] = useArgs<CheckboxProps>()
+
+    return (
+      <Checkbox
+        {...args}
+        onChange={(e) => {
+          args.onChange?.(e) // keep Actions working
+          // setArgs({ checked: e.currentTarget.checked })
+        }}
+      />
+    )
   },
 }
 
-/**
- * Disabled state.
- */
 export const Disabled: Story = {
   args: {
-    label: 'Incoming',
-    checked: true,
     disabled: true,
-    variant: 'primary',
-    appearance: 'elevated',
+    checked: true,
+    label: "Disabled checked",
   },
+}
+
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: "grid", gap: 12 }}>
+      <Checkbox size="sm" label="Small" />
+      <Checkbox size="md" label="Medium" />
+      <Checkbox size="lg" label="Large" />
+    </div>
+  ),
 }
