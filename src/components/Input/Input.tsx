@@ -103,7 +103,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       tone === 'invalid'
         ? [  
             'border-[color-mix(in_srgb,var(--atom-error)_35%,transparent)]',
-            'hover:bg-[color-mix(in_srgb,var(--atom-error)_2%,transparent)]',
+            'hover:bg-[color-mix(in_srgb,var(--atom-error)_1%,transparent)]',
             'hover:border-[color-mix(in_srgb,var(--atom-input-border)_70%,var(--atom-error)_30%)]',
             'focus-visible:border-[color-mix(in_srgb,var(--atom-error)_40%,transparent)]',
             'focus-visible:ring-[color-mix(in_srgb,var(--atom-error)_15%,transparent)]',
