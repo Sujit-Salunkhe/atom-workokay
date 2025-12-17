@@ -17,6 +17,7 @@ const headingVariants = cva(
         error: 'text-[var(--atom-error)]',
         info:'text-[var(--atom-info)]',
         warning:'text-[var(--atom-warning)]',
+        disabled:'text-[var(--atom-badge-archived-text)]'
       },
       size: {
         none:'',

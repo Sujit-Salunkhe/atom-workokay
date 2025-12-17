@@ -26,6 +26,7 @@ const meta: Meta<typeof Text> = {
         "error",
         "info",
         "warning",
+        "disabled"
       ],
     },
     size: { control: "select", options: ["none", "xs", "sm", "md", "lg", "xl"] },
@@ -57,6 +58,7 @@ export const Variants: Story = {
       <Text {...args} variant="warning">Warning</Text>
       <Text {...args} variant="info">Info</Text>
       <Text {...args} variant="error">Error</Text>
+      <Text {...args} variant="disabled">Disabled</Text>
     </div>
   ),
 }
