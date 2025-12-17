@@ -224,7 +224,7 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
         // If you want image support, style this with object-cover etc.
         <img
           src={src}
-          alt={props['aria-label'] || initials || 'AZ'} // 
+          alt={props['aria-label'] || initials || 'AZ'} // if  initals doenst' get AZ will be written
           className="w-full h-full object-cover"
         />
       ) : (
