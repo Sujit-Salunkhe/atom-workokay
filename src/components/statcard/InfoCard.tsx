@@ -1,42 +1,23 @@
+// src/components/ui/info-card.tsx
 import * as React from "react"
-import { cva } from "class-variance-authority"
-import { cn } from "../../lib/cn"
+import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "@radix-ui/react-slot"
+import { cn } from "../../lib/cn"
 
 /* ------------------------------------------------------
- * CVA VARIANTS (unchanged)
+ * CVA
+ * (CSS strings unchanged; only reorganized for clarity)
  * ------------------------------------------------------ */
-const InfoCardVariants = cva("flex ", {
+
+// Wrapper/layout styles
+const infoCardVariants = cva("flex ", {
   variants: {
-    infoStatus: {
-      primary:
-        "text-[var(--atom-info-card-jobstatus-primary-text)] text-[calc(var(--atom-text-2xl))] font-[600] leading-[var(--atom-info-card-jobstatus-line-height)]",
-
-      secondary:
-        "text-[var(--atom-info-card-jobstatus-secondary-text)] font-[600] text-[calc(var(--atom-text-2xl))] leading-[var(--atom-info-card-jobstatus-line-height)]",
-
-      success:
-        "text-[var(--atom-info-card-jobstatus-success-text)] font-[600] text-[calc(var(--atom-text-2xl))] leading-[var(--atom-info-card-jobstatus-line-height)]",
-    },
-
-    labelStatus: {
-      primary:
-        "text-[var(--atom-info-card-jobstatus-label-text)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]",
-
-      secondary:
-        "text-[var(--atom-info-card-jobstatus-label-text)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]",
-
-      success:
-        "text-[var(--atom-info-card-jobstatus-label-text)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]",
-    },
-
     order: {
       col: "flex-col items-center justify-center bg-[color-mix(in_oklab,var(--atom-muted)_50%,transparent)] border-none shadow-none",
       colR: "flex-col-reverse items-center justify-center bg-[color-mix(in_oklab,var(--atom-muted)_50%,transparent)] border-none shadow-none",
       row: "flex-row items-center justify-between bg-[color-mix(in_oklab,var(--atom-muted)_50%,transparent)] border-none shadow-none",
       rowR: "flex-row-reverse items-center justify-between bg-[color-mix(in_oklab,var(--atom-muted)_50%,transparent)] border-none shadow-none",
     },
-
     size: {
       xs: "text-center py-[calc(var(--spacing)*2)] px-[calc(var(--spacing)*3)] rounded-[var(--atom-radius-2)] h-[64px] w-[112px]",
       sm: "text-center py-[calc(var(--spacing)*2)] px-[calc(var(--spacing)*4)] rounded-[var(--atom-radius-2)] h-[80px] w-[128px]",
@@ -44,49 +25,81 @@ const InfoCardVariants = cva("flex ", {
       lg: "text-center p-[calc(var(--atom-space-1)*5)] rounded-[var(--atom-radius-2)] h-[112px] w-[192px]",
     },
   },
+  defaultVariants: {
+    order: "col",
+    size: "sm",
+  },
 })
 
-/* ------------------------------------------------------
- * TYPES
- * ------------------------------------------------------ */
-export type Infovariants = "primary" | "secondary" | "success"
+// Top “info” text styles
+const infoValueVariants = cva("", {
+  variants: {
+    variant: {
+      primary:
+        "text-[var(--atom-info-card-jobstatus-primary-text)] text-[calc(var(--atom-text-2xl))] font-[600] leading-[var(--atom-info-card-jobstatus-line-height)]",
+      secondary:
+        "text-[var(--atom-info-card-jobstatus-secondary-text)] font-[600] text-[calc(var(--atom-text-2xl))] leading-[var(--atom-info-card-jobstatus-line-height)]",
+      success:
+        "text-[var(--atom-info-card-jobstatus-success-text)] font-[600] text-[calc(var(--atom-text-2xl))] leading-[var(--atom-info-card-jobstatus-line-height)]",
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+  },
+})
+
+// Bottom “label” text styles
+const infoLabelVariants = cva("", {
+  variants: {
+    variant: {
+      primary:
+        "text-[var(--atom-info-card-jobstatus-label-text)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]",
+      secondary:
+        "text-[var(--atom-info-card-jobstatus-label-text)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]",
+      success:
+        "text-[var(--atom-info-card-jobstatus-label-text)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]",
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+  },
+})
+
+export type InfoCardVariant = VariantProps<typeof infoValueVariants>["variant"]
+export type InfoCardOrder = VariantProps<typeof infoCardVariants>["order"]
+export type InfoCardSize = VariantProps<typeof infoCardVariants>["size"]
 
 export interface InfoCardProps
-  extends React.HTMLAttributes<HTMLDivElement> {
-  /** Semantic color variant */
-  variant?: Infovariants
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof infoCardVariants> {
+  /** Semantic color variant used for both info and label */
+  variant?: NonNullable<InfoCardVariant>
 
   /** Label text */
-  label?: string
+  label?: React.ReactNode
 
-  /** Info or number displayed */
-  info?: number | React.ReactNode
+  /** Main info/number */
+  info?: React.ReactNode
 
-  /** Size variant */
-  size?: "xs" | "sm" | "md" | "lg"
-
-  /** Priority indicator (currently unused but future-proof) */
+  /** Future-proof (kept), currently unused */
   status?: "high" | "medium" | "low"
 
-  /** Layout direction */
-  order?: "row" | "col" | "rowR" | "colR"
-
-  /** Render as child using Radix Slot (same as Button) */
+  /** Render as child using Radix Slot */
   asChild?: boolean
 }
 
 /* ------------------------------------------------------
  * COMPONENT
  * ------------------------------------------------------ */
-const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(
+export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(
   (
     {
       variant = "primary",
       order = "col",
+      size = "sm",
       label,
       info,
-      size = "sm",
-      asChild,
+      asChild = false,
       className,
       ...props
     },
@@ -97,21 +110,14 @@ const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(
     return (
       <Comp
         ref={ref}
-        className={cn(InfoCardVariants({ order, size }), className)}
+        className={cn(infoCardVariants({ order, size }), className)}
         {...props}
       >
-        <div className={cn(InfoCardVariants({ infoStatus: variant }))}>
-          {info}
-        </div>
-
-        <div className={cn(InfoCardVariants({ labelStatus: variant }))}>
-          {label}
-        </div>
+        <div className={infoValueVariants({ variant })}>{info}</div>
+        <div className={infoLabelVariants({ variant })}>{label}</div>
       </Comp>
     )
   }
 )
 
 InfoCard.displayName = "InfoCard"
-
-export default InfoCard
