@@ -81,6 +81,13 @@
   --atom-text-lg: 16px;
   --atom-text-xl: 18px;
 
+  --atom-text-h1:32px;
+  --atom-text-h2:32px;
+  --atom-text-h3:32px;
+  --atom-text-h4:32px;
+  --atom-text-h5:32px;
+  --atom-text-h6:32px;
+
   --atom-line-height: 1.5;
   --atom-font-weight-normal: 400;
   --atom-font-weight-medium: 500;
