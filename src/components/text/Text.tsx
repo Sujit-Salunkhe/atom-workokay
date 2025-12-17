@@ -11,7 +11,7 @@ const headingVariants = cva(
       variant:{
         primary:'text-[var(--atom-primary)]',
         secondary:'text-[var(--atom-info-card-jobstatus-secondary-text)]',
-        third:
+        tertiary:'text-[var(--atom-info-card-jobstatus-success-text)]',
         neutral: 'text-[var(--atom-text)]',
         success: 'text-[var(--atom-success)]',
         error: 'text-[var(--atom-error)]',
@@ -27,6 +27,7 @@ const headingVariants = cva(
         xl: 'text-[calc(var(--atom-text-xl))]',
       },
       weight:{
+       none:'',
        normal:'font-[var(--atom-font-weight-normal)]',
        medium:'font-[var(--atom-font-weight-medium)]',
        bold:  'font-[var(--atom-font-weight-bold)]',
@@ -34,6 +35,7 @@ const headingVariants = cva(
     },
     defaultVariants: {
       size: 'md',
+      variant:'primary'
     },
   },
 )
@@ -43,10 +45,10 @@ export interface HeadingProps
     React.HTMLAttributes<HTMLHeadingElement>,
     VariantProps<typeof headingVariants> {
   asChild?: boolean
-  size?: 'xs' | 'sm' | 'md' | 'xl' | 'lg'
+  size?: 'xs' | 'sm' | 'md' | 'xl' | 'lg' | 'none'
 }
   
-export const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
+export const Text = React.forwardRef<HTMLHeadingElement, HeadingProps>(
   ({ className, asChild = false,size,weight, ...props }, ref) => {
     const Comp = asChild ? Slot : 'span'
 
@@ -61,4 +63,4 @@ export const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
   },
 )
 
-Heading.displayName = 'Heading'
+Text.displayName = 'Text'
