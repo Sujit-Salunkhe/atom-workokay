@@ -15,7 +15,7 @@ export const statCardVariants = cva(
       /** Semantic tone (matches your overview items) */
       variant: {
         primary:
-        'text-[var(--atom-primary)] border-[color-mix(in_srgb,var(--atom-primary)_18%,var(--atom-card-border))]' ,
+        'text-[var(--atom-primary)] ' ,
         neutral:
           'text-[var(--atom-text)] ' // 'border-[var(--atom-card-border)]'
           ,

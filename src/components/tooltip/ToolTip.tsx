@@ -14,7 +14,7 @@ import { cn } from '../../lib/cn'
  * - showArrow: toggle arrow (styling hook)
  */
 const tooltipContentVariants = cva(
-  'z-50 rounded-md border bg-[var(--atom-card-bg)] px-3 py-1.5 ' +
+  'z-50 rounded-lg border bg-[var(--atom-card-bg)] px-3 py-1.5 ' +
     'text-xs text-[var(--atom-text)] shadow-md ' +
     'data-[state=delayed-open]:animate-in data-[state=closed]:animate-out ' +
     'data-[state=delayed-open]:fade-in data-[state=closed]:fade-out ' +
@@ -25,19 +25,20 @@ const tooltipContentVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'bg-[var(--atom-card-bg)] text-[var(--atom-text)] border-[var(--atom-border)]',
         soft:
           'bg-[color-mix(in_srgb,var(--atom-muted)_40%,var(--atom-card-bg))] ' +
           'text-[var(--atom-text)] border-[var(--atom-border)]',
+
         solid:
           'bg-[var(--atom-primary)] text-[var(--atom-primary-contrast)] border-transparent',
+
         outline:
-          'bg-transparent text-[var(--atom-text)] ' +
-          'border-[var(--atom-border)]',
+          'bg-transparent text-[var(--atom-text)] border-[var(--atom-border)]',
+
         primary:
-           'bg-[var(--atom-card-bg)] text-[var(--atom-primary)] bg-transparent'
+          'bg-[var(--atom-info-card-jobstatus-secondary-text)] text-[var(--atom-info-card-jobstatus-primary-text)]',
       },
+
       size: {
         sm: 'px-2 py-1 text-[11px]',
         md: 'px-3 py-1.5 text-xs',
@@ -49,8 +50,16 @@ const tooltipContentVariants = cva(
         false: '',
       },
     },
+
+    // NEW: make "primary" the default variant
+    defaultVariants: {
+      variant: 'primary',
+      size: 'md',
+      showArrow: false,
+    },
   },
 )
+
 
 export type TooltipVariant = NonNullable<
   VariantProps<typeof tooltipContentVariants>['variant']
