@@ -16,7 +16,7 @@ const headingVariants = cva(
         success: 'text-[var(--atom-success)]',
         error: 'text-[var(--atom-error)]',
         info:'text-[var(--atom-info)]',
-        warning:'text-[var(--atom-warning)]'
+        warning:'text-[var(--atom-warning)]',
       },
       size: {
         none:'',
@@ -46,17 +46,18 @@ export interface HeadingProps
     VariantProps<typeof headingVariants> {
   asChild?: boolean
   size?: 'xs' | 'sm' | 'md' | 'xl' | 'lg' | 'none'
+
 }
   
 export const Text = React.forwardRef<HTMLHeadingElement, HeadingProps>(
-  ({ className, asChild = false,size,weight, ...props }, ref) => {
+  ({ className, asChild = false,size,weight,variant, ...props }, ref) => {
     const Comp = asChild ? Slot : 'span'
 
     return (
       <Comp
         ref={ref}
         data-slot="heading"
-        className={cn(headingVariants({size,weight }), className)}
+        className={cn(headingVariants({size,weight,variant }), className)}
         {...props}
       />
     )
