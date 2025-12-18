@@ -1,9 +1,12 @@
-'use client'
-
 import * as React from 'react'
-import { format } from 'date-fns'
-import { DayPicker } from 'react-day-picker'
-import 'react-day-picker/style.css' // optional; you can remove if you fully style via Tailwind
+
+import { Calendar } from './../ui/calendar'
+import { buttonVariants } from './../ui/button'
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronDownIcon,
+} from 'lucide-react'
 
 type Props = {
   value?: Date
@@ -23,11 +26,9 @@ export function DobDatePicker({
   icon,
 }: Props) {
   const [open, setOpen] = React.useState(false)
-  const [month, setMonth] = React.useState<Date>(value ?? new Date())
 
   return (
-    <div className="w-[280px]">
-      {/* Trigger (looks like input) */}
+    <div className="w-[208px]">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -36,7 +37,6 @@ export function DobDatePicker({
           'bg-[var(--atom-input-bg)] px-3 py-2 text-left text-sm',
           'text-[var(--atom-badge-archived-text)] font-[var(--atom-font-weight-medium)] shadow-sm',
           'focus:outline-none leading-[calc(1.25 / .875)] whitespace-nowrap',
-          // hover classes
           'hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_75%,transparent)] hover:text-[var(--atom-info-card-jobstatus-primary-text)]',
         )}
         aria-haspopup="dialog"
@@ -60,6 +60,7 @@ export function DobDatePicker({
             <path d="M3 10h18" />
           </svg>
         )}
+
         <span
           className={cn(
             value && `text-[var(--atom-info-card-jobstatus-primary-text)]`,
@@ -75,81 +76,98 @@ export function DobDatePicker({
             : placeholder}
         </span>
       </button>
-      {/* Popover */}
 
       {open && (
-        <div className="relative">
-          {/* click outside area */}
-          <button
-            aria-label="Close"
-            className="fixed inset-0 cursor-default"
-            onClick={() => setOpen(false)}
-            tabIndex={-1}
+        <div className="absolute z-50 mt-2">
+          <Calendar
+            mode="single"
+            selected={value}
+            onSelect={(date) => {
+              onChange?.(date)
+              setOpen(false)
+            }}
+            showOutsideDays
+            className="p-3 bg-[var(--atom-card-bg)] text-[var(--atom-info-card-jobstatus-primary-text)] rounded-[calc(var(--atom-radius-2)-2px)] border shadow-md"
+            classNames={{
+              months: 'flex flex-col',
+              month: 'space-y-4',
+
+              // Header container (holds caption + nav)
+              
+              month_caption: 'flex items-center justify-center pt-1',
+              // caption_label: 'text-sm font-medium no-wrap text-center',
+              nav: 'flex items-center justify-between px-1 h-8',
+              
+              button_previous: cn(
+                buttonVariants({ variant: 'outline' }),
+                'h-5 w-5 bg-transparent p-0 opacity-60 hover:opacity-100 cursor-pointer',
+              ),
+              button_next: cn(
+                buttonVariants({ variant: 'outline' }),
+                'h-5 w-5 bg-transparent p-0 opacity-60 hover:opacity-100 cursor-pointer',
+              ),
+
+              // keep rest...
+
+              // Table: 7-column grid
+              table: 'w-full border-collapse space-y-1',
+
+              // Weekday header row
+              weekdays: 'flex',
+              weekday:
+                'text-muted-foreground rounded-md w-9 font-normal text-[0.8rem] text-center',
+
+              // Week row (7 days)
+              week: 'flex w-full mt-1',
+
+              // Day cell wrapper (contains the clickable button)
+              day: cn(
+                'h-9 w-9 text-center text-sm p-0 relative',
+                '[&:has([aria-selected].day-range-end)]:rounded-r-md',
+                '[&:has([aria-selected].day-outside)]:bg-accent/50',
+                '[&:has([aria-selected])]:bg-accent  ',
+                'first:[&:has([aria-selected])]:rounded-l-md',
+                'last:[&:has([aria-selected])]:rounded-r-md',
+                'focus-within:relative focus-within:z-20 font-[var(--atom-font-weight-normal)] ',
+              ),
+
+              day_range_end: 'day-range-end',
+              day_selected:
+                'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground ',
+              day_today: 'bg-red-600 text-accent-foreground',
+              day_outside:
+                'day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30',
+              day_disabled: 'text-muted-foreground opacity-50',
+              day_range_middle:
+                'aria-selected:bg-accent aria-selected:text-accent-foreground',
+              day_hidden: 'invisible',
+            }}
+            components={{
+              Chevron: ({ className, orientation, ...props }) => {
+                if (orientation === 'left') {
+                  return (
+                    <>
+                      <ChevronLeftIcon
+                        className={cn('', className)}
+                        {...props}
+                      />
+                    </>
+                  )
+                }
+                if (orientation === 'right') {
+                  return (
+                    <ChevronRightIcon
+                      className={cn('', className)}
+                      {...props}
+                    />
+                  )
+                }
+                return (
+                  <ChevronDownIcon className={cn('', className)} {...props} />
+                )
+              },
+            }}
           />
-
-          <div
-            role="dialog"
-            aria-label="Choose date"
-            className={cn(
-              'absolute z-50 mt-2 w-[320px] rounded-xl border p-3 shadow-lg',
-              'bg-[#FFFFFF]',
-            )}
-          >
-            <div className="mt-2 flex items-center justify-center text-sm font-medium text-[#626468] opacity-80">
-              {format(month, 'MMM yyyy')}
-            </div>
-
-            <DayPicker
-              mode="single"
-              selected={value}
-              onSelect={(d) => {
-                if (d) onChange?.(d)
-                setOpen(false)
-              }}
-              month={month}
-              onMonthChange={setMonth}
-              showOutsideDays
-              captionLayout="dropdown"
-              className="p-0 text-[var(--atom-info-card-jobstatus-primary-text)]"
-              classNames={{
-                months: 'flex flex-col',
-                month: 'space-y-3',
-                caption: 'flex items-center justify-between px-1',
-                // With captionLayout, DayPicker renders dropdowns/buttons; don't hide the label.
-                caption_label: 'text-sm font-medium text-[#626468]',
-
-                nav: 'flex items-center gap-2',
-                nav_button:
-                  'h-8 w-8 rounded-md border bg-white text-[#626468] hover:bg-[#b8e4e9]',
-                nav_button_previous: '',
-                nav_button_next: '',
-
-                // Dropdowns (month/year)
-                dropdowns: 'flex items-center gap-2',
-                dropdown:
-                  'h-8 rounded-md border bg-white px-2 text-sm text-[#626468]',
-                dropdown_month: '',
-                dropdown_year: '',
-                caption_dropdowns: 'flex items-center gap-2',
-
-                table: 'w-full border-collapse',
-                head_row: 'flex',
-                head_cell:
-                  'w-10 text-center text-xs font-medium text-[#626468] opacity-80',
-                row: 'mt-1 flex w-full',
-                cell: 'relative h-10 w-10 p-0 text-center',
-
-                day: 'h-10 w-10 rounded-md text-sm text-[#626468] hover:bg-[#b8e4e9] hover:text-[#626468] focus:outline-none focus:ring-2 focus:ring-[#b8e4e9]',
-                day_selected:
-                  'bg-[#626468] text-white hover:bg-[#626468] hover:text-white',
-                day_today: 'border border-[#b8e4e9]',
-                day_outside: 'opacity-40',
-                day_disabled: 'opacity-30 cursor-not-allowed',
-              }}
-            />
-
-            {/* Caption replacement (simple, shadcn-like) */}
-          </div>
         </div>
       )}
     </div>
