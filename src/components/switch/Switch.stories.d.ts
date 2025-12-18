@@ -1,0 +1,14 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { type SwitchProps } from './Switch';
+declare const meta: Meta<SwitchProps>;
+export default meta;
+type Story = StoryObj<SwitchProps>;
+export declare const Playground: Story;
+export declare const Primary: Story;
+export declare const Success: Story;
+export declare const Warning: Story;
+export declare const Danger: Story;
+export declare const Info: Story;
+export declare const Neutral: Story;
+export declare const Sizes: Story;
+export declare const WithLabelRow: Story;

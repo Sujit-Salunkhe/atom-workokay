@@ -1,0 +1,10 @@
+import type { Meta, StoryObj } from "@storybook/react";
+import { Text } from "./Text";
+declare const meta: Meta<typeof Text>;
+export default meta;
+type Story = StoryObj<typeof Text>;
+export declare const Playground: Story;
+export declare const Variants: Story;
+export declare const Sizes: Story;
+export declare const Weights: Story;
+export declare const AsChildLink: Story;

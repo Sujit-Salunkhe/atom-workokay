@@ -1,0 +1,14 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { type AvatarProps } from './Avatar';
+declare const meta: Meta<AvatarProps>;
+export default meta;
+type Story = StoryObj<AvatarProps>;
+export declare const Playground: Story;
+export declare const Primary: Story;
+export declare const Neutral: Story;
+export declare const Success: Story;
+export declare const Danger: Story;
+export declare const Info: Story;
+export declare const Sizes: Story;
+export declare const Shapes: Story;
+export declare const WithRing: Story;

@@ -30,11 +30,7 @@ type Story = StoryObj<typeof Tooltip>
 
 /* ----- Variant stories ----- */
 
-export const Default: Story = {
-  args: {
-    variant: 'default',
-  },
-}
+
 
 export const Soft: Story = {
   args: {

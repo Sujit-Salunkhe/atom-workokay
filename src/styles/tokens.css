@@ -201,6 +201,8 @@
   /* input background color  */
   --atom-input-bg :#fcfefe;
   --atom-progressbar-bg: #2e9995;
+
+  --atom-calendar-hover-bg:#b8e4e9;
 }
 
 /* Deep Teal — DARK */

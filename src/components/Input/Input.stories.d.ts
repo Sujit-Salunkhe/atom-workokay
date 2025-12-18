@@ -1,0 +1,12 @@
+import type { Meta, StoryObj } from "@storybook/react";
+import { Input } from "./Input";
+declare const meta: Meta<typeof Input>;
+export default meta;
+type Story = StoryObj<typeof Input>;
+export declare const WithHint: Story;
+export declare const InvalidWithError: Story;
+export declare const Success: Story;
+export declare const Loading: Story;
+export declare const WithIcons: Story;
+export declare const Disabled: Story;
+export declare const ReadOnly: Story;

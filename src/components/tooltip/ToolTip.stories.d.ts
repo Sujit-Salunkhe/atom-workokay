@@ -1,0 +1,10 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { Tooltip } from './ToolTip';
+declare const meta: Meta<typeof Tooltip>;
+export default meta;
+type Story = StoryObj<typeof Tooltip>;
+export declare const Soft: Story;
+export declare const Solid: Story;
+export declare const Outline: Story;
+export declare const PrimaryWhite: Story;
+export declare const AllSizes: Story;

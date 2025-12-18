@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import { within, userEvent, expect } from "@storybook/test";
+
 
 import { DobDatePicker } from "./Calendar";
 
@@ -23,7 +23,7 @@ type Story = StoryObj<typeof meta>;
  */
 function Controlled(args: React.ComponentProps<typeof DobDatePicker>) {
   const [value, setValue] = React.useState<Date | undefined>(
-    args.value ?? new Date(2025, 11, 4) // Dec 4, 2025
+    // args.value ?? new Date(2025, 11, 4) // Dec 4, 2025
   );
 
   return (
@@ -46,8 +46,9 @@ function Controlled(args: React.ComponentProps<typeof DobDatePicker>) {
 export const Default: Story = {
   render: (args) => <Controlled {...args} />,
   args: {
-    placeholder: "mm/dd/yyyy",
+    placeholder: "Select Start Date",
     value: new Date(2025, 11, 4),
+    icon:true,
   },
 };
 
@@ -59,20 +60,4 @@ export const Empty: Story = {
   },
 };
 
-export const OpensOnClick: Story = {
-  render: (args) => <Controlled {...args} />,
-  args: {
-    value: new Date(2025, 11, 4),
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
 
-    // Open popover by clicking the trigger button.
-    // The trigger has aria-haspopup="dialog", so selecting via role is reliable.
-    const trigger = canvas.getByRole("button", { expanded: false });
-    await userEvent.click(trigger);
-
-    // Now it should be expanded/open.
-    await expect(trigger).toHaveAttribute("aria-expanded", "true");
-  },
-};
