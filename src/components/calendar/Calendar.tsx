@@ -94,7 +94,7 @@ export function DobDatePicker({
 
               // Header container (holds caption + nav)
               
-              month_caption: 'flex items-center justify-center pt-1',
+              // month_caption: 'flex',
               // caption_label: 'text-sm font-medium no-wrap text-center',
               nav: 'flex items-center justify-between px-1 h-8',
               

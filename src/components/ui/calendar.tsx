@@ -25,7 +25,7 @@ function Calendar({
 
   return (
     <DayPicker
-      // navLayout="after"
+      navLayout="around"
       showOutsideDays={showOutsideDays}
       className={cn(
         'bg-background rounded-lg group/calendar [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
@@ -46,8 +46,8 @@ function Calendar({
           defaultClassNames.months,
         ),
         month: cn('flex w-full flex-col gap-4', defaultClassNames.month),
-        month_caption: 'flex items-center justify-center pt-1',
-        nav: 'absolute inset-x-0 top-0 flex items-center justify-between px-1 h-8',
+        // month_caption: 'flex items-center justify-center pt-1',
+        // nav: 'flex items-center justify-between px-1 h-8',
 
         dropdowns: cn(
           'flex  w-full items-center justify-center gap-1.5 text-sm font-medium',
