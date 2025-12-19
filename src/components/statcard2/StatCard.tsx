@@ -134,7 +134,7 @@ export const StatCard = React.forwardRef<HTMLDivElement, StatCardProps>(
         {...props}
       >
         <div className="flex items-start justify-between gap-2">
-          <span className="text-xs font-medium text-[var(--atom-text-muted)]">
+          <span className="text-xs font-medium text-(--atom-text-muted)">
             {label}
           </span>
           {icon && (

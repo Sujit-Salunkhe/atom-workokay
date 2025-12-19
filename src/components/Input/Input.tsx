@@ -133,7 +133,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               <span
                 className={cn(
                   svgSize,
-                  'text-[var(--atom-muted)] [&>svg]:fill-current [&>svg]:stroke-current',
+                  'text-(--atom-muted) [&>svg]:fill-current [&>svg]:stroke-current',
                 )}
               >
                 {leftIcon}
@@ -151,7 +151,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               <span
                 className={cn(
                   svgSize,
-                  'text-[var(--atom-muted)] [&>svg]:fill-current [&>svg]:stroke-current',
+                  'text-(--atom-muted) [&>svg]:fill-current [&>svg]:stroke-current',
                 )}
               >
                 {loading ? (
@@ -202,12 +202,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {(hint || errorText) && (
           <div className="mt-1 text-xs leading-snug">
             {errorText && (
-              <p id={errId} className="text-[var(--atom-error)]">
+              <p id={errId} className="text-(--atom-error)">
                 {errorText}
               </p>
             )}
             {hint && (
-              <p id={hintId} className="text-[var(--atom-text-muted)]">
+              <p id={hintId} className="text-(--atom-text-muted)">
                 {hint}
               </p>
             )}

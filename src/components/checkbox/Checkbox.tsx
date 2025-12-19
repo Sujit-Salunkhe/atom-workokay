@@ -64,7 +64,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         {label != null && (
           <label
             htmlFor={inputId}
-            className="select-none text-sm text-[var(--atom-info-card-jobstatus-primary-text)] font-[var(--atom-font-weight-medium)] hover:cursor-pointer"
+            className="select-none text-sm text-(--atom-info-card-jobstatus-primary-text) font-(--atom-font-weight-medium) hover:cursor-pointer"
           >
             {label}
           </label>

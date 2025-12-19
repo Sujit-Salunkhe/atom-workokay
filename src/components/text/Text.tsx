@@ -5,7 +5,7 @@ import { Slot } from '@radix-ui/react-slot'
 import { cn } from '../../lib/cn'
 
 const headingVariants = cva(
-  'text-[var(--atom-text)] leading-tight tracking-tight',
+  'text-(--atom-text) leading-tight tracking-tight',
   {
     variants: {
       variant:{
@@ -29,9 +29,9 @@ const headingVariants = cva(
       },
       weight:{
        none:'',
-       normal:'font-[var(--atom-font-weight-normal)]',
-       medium:'font-[var(--atom-font-weight-medium)]',
-       bold:  'font-[var(--atom-font-weight-bold)]',
+       normal:'font-(--atom-font-weight-normal)',
+       medium:'font-(--atom-font-weight-medium)',
+       bold:  'font-(--atom-font-weight-bold)',
       }
     },
     defaultVariants: {

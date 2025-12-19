@@ -120,7 +120,7 @@ export function Tooltip({
             {showArrow && (
               <TooltipPrimitive.Arrow
                 data-slot="tooltip-arrow"
-                className="hidden fill-[var(--atom-card-bg)] stroke-[var(--atom-border)]"
+                className="hidden fill-(--atom-card-bg) stroke-(--atom-border)"
               />
             )}
           </TooltipPrimitive.Content>

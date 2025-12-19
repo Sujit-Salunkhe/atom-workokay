@@ -119,7 +119,7 @@ export const StatCardPriority = React.forwardRef<
         {...props}
       >
         {/* Left: label */}
-        <span className="text-[var(--atom-text)]">{label}</span>
+        <span className="text-(--atom-text)">{label}</span>
 
         {/* Right: colored pill with value */}
         <span
@@ -128,15 +128,15 @@ export const StatCardPriority = React.forwardRef<
               'text-xs font-medium',
             // match priority variant colors for the pill
             variant === 'high' &&
-              'bg-[color-mix(in_srgb,var(--atom-error)_10%,transparent)] text-[var(--atom-error)]',
+              'bg-[color-mix(in_srgb,var(--atom-error)_10%,transparent)] text-(--atom-error)',
             variant === 'medium' &&
-              'bg-[color-mix(in_srgb,var(--atom-warning)_10%,transparent)] text-[var(--atom-warning)]',
+              'bg-[color-mix(in_srgb,var(--atom-warning)_10%,transparent)] text-(--atom-warning)',
             variant === 'low' &&
-              'bg-[color-mix(in_srgb,var(--atom-success)_10%,transparent)] text-[var(--atom-success)]',
+              'bg-[color-mix(in_srgb,var(--atom-success)_10%,transparent)] text-(--atom-success)',
             variant === 'primary' &&
-              'bg-[color-mix(in_srgb,var(--atom-primary)_10%,transparent)] text-[var(--atom-primary)]',
+              'bg-[color-mix(in_srgb,var(--atom-primary)_10%,transparent)] textvar(--atom-primary)',
             variant === 'neutral' &&
-              'bg-[color-mix(in_srgb,var(--atom-border)_12%,transparent)] text-[var(--atom-text-muted)]',
+              'bg-[color-mix(in_srgb,var(--atom-border)_12%,transparent)] text-(--atom-text-muted)',
           )}
         >
           {pillIcon && (
