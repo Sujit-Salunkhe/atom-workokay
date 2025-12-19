@@ -27,7 +27,7 @@ function CalendarTest({
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        'bg-background group/calendar p-3 w-50',
+        'bg-background  group/calendar p-3 w-60 border border-[color-mix(in_srgb,var(--atom-primary)_15%,transparent)] rounded-md',
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
         className,
@@ -46,29 +46,29 @@ function CalendarTest({
         ),
         month: cn('flex w-full flex-col gap-4', defaultClassNames.month),
         nav: cn(
-          'absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1',
+          'absolute inset-x-0 top-0 flex w-full items-center justify-between',
           defaultClassNames.nav,
         ),
         button_previous: cn(
           buttonVariants({ variant: buttonVariant }),
-          'h-5 w-5 bg-transparent p-0 opacity-60 hover:opacity-100 cursor-pointer',
+          'h-7 w-7 bg-(--atom-card-bg) p-0 opacity-60 hover:opacity-100 cursor-pointer border-1 border-[color-mix(in_srgb,var(--atom-primary)_15%,transparent)] border-1',
           defaultClassNames.button_previous,
         ),
         button_next: cn(
           buttonVariants({ variant: buttonVariant }),
-          'h-5 w-5 bg-transparent p-0 opacity-60 hover:opacity-100 cursor-pointer',
+          'h-7 w-7 bg-(--atom-card-bg) p-0 opacity-50 hover:opacity-100 cursor-pointer  border-[color-mix(in_srgb,var(--atom-primary)_15%,transparent)] border-1',
           defaultClassNames.button_next,
         ),
         month_caption: cn(
-          'flex  w-full items-center justify-center',
+          'flex  w-full items-center justify-center self-center',
           defaultClassNames.month_caption,
         ),
         dropdowns: cn(
           'flex w-full items-center justify-center gap-1.5 text-sm font-medium',
-          defaultClassNames.dropdowns,
+          defaultClassNames.dropdowns,``
         ),
         dropdown_root: cn(
-          'has-focus:border-ring border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] relative rounded-md border',
+          ' border-input shadow-xs  relative rounded-md border',
           defaultClassNames.dropdown_root,
         ),
         dropdown: cn(

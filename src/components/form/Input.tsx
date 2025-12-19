@@ -104,7 +104,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               <span
                 className={cn(
                   svgSize,
-                  "text-[var(--atom-muted)] [&>svg]:fill-current [&>svg]:stroke-current"
+                  "text-(--atom-muted) [&>svg]:fill-current [&>svg]:stroke-current"
                 )}
               >
                 {leftIcon}
@@ -123,7 +123,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               <span
                 className={cn(
                   svgSize,
-                  "text-[var(--atom-muted)] [&>svg]:fill-current [&>svg]:stroke-current"
+                  "text-(--atom-muted) [&>svg]:fill-current [&>svg]:stroke-current"
                 )}
               >
                 {loading ? (

@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { CalendarTest } from './CalendarTest'
+import { motion, AnimatePresence } from 'framer-motion'
+
 
 type Props = {
   value?: Date
@@ -30,7 +32,7 @@ export function DobDatePicker({
           'bg-(--atom-input-bg) px-3 py-2 text-left text-sm',
           'text-(--atom-badge-archived-text) font-(--atom-font-weight-medium) shadow-sm',
           'focus:outline-none leading-[calc(1.25 / .875)] whitespace-nowrap',
-          'hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_75%,transparent)] hover:text-(--atom-info-card-jobstatus-primary-text)',
+          'hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_75%,transparent)] hover:text-(--atom-info-card-jobstatus-primary-text) cursor-pointer',
         )}
         aria-haspopup="dialog"
         aria-expanded={open}
@@ -56,7 +58,7 @@ export function DobDatePicker({
 
         <span
           className={cn(
-            value && `text-(--atom-info-card-jobstatus-primary-text)`,
+            value && 'text-(--atom-info-card-jobstatus-primary-text)',
             'opacity-70 px-3 py-2',
           )}
         >
@@ -70,20 +72,34 @@ export function DobDatePicker({
         </span>
       </button>
 
-      {open && (
-        <div className="absolute z-50 mt-2 left-0 w-52">
-          <CalendarTest
-            mode="single"
-            selected={value}
-            onSelect={(date) => {
-              onChange?.(date)
-              setOpen(false)
-            }}
-            captionLayout='label'
-            className='w-55'
-          />
-        </div>
-      )}
+    <AnimatePresence>
+  {open && (
+    <motion.div
+      key="dob-popover"
+      initial={{ opacity: 0, scale: 0.96, y: 4 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.97, y: 2 }}
+      transition={{
+        type: 'spring',
+        stiffness: 180,
+        damping: 22,  // higher = smoother, less bounce
+        mass: 0.9,
+      }}
+      className="absolute z-50 mt-2 left-0 w-55 origin-top-left "
+    >
+      <CalendarTest
+        mode="single"
+        selected={value}
+        onSelect={(date) => {
+          onChange?.(date)
+          setOpen(false)
+        }}
+        captionLayout="label"
+        
+      />
+    </motion.div>
+  )}
+</AnimatePresence>
     </div>
   )
 }
