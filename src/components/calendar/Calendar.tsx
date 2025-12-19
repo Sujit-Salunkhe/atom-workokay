@@ -2,7 +2,6 @@ import * as React from 'react'
 import { CalendarTest } from './CalendarTest'
 import { motion, AnimatePresence } from 'framer-motion'
 
-
 type Props = {
   value?: Date
   onChange?: (date: Date | undefined) => void
@@ -21,9 +20,27 @@ export function DobDatePicker({
   icon,
 }: Props) {
   const [open, setOpen] = React.useState(false)
+  const wrapperRef = React.useRef<HTMLDivElement | null>(null)
+
+  React.useEffect(() => {
+    if (!open) return
+
+    function handleClickOutside(event: MouseEvent) {
+      if (!wrapperRef.current) return
+      const target = event.target as Node
+      if (!wrapperRef.current.contains(target)) {
+        setOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [open])
 
   return (
-    <div className="relative w-52">
+    <div ref={wrapperRef} className="relative w-52">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -72,34 +89,33 @@ export function DobDatePicker({
         </span>
       </button>
 
-    <AnimatePresence>
-  {open && (
-    <motion.div
-      key="dob-popover"
-      initial={{ opacity: 0, scale: 0.96, y: 4 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.97, y: 2 }}
-      transition={{
-        type: 'spring',
-        stiffness: 180,
-        damping: 22,  // higher = smoother, less bounce
-        mass: 0.9,
-      }}
-      className="absolute z-50 mt-2 left-0 w-55 origin-top-left "
-    >
-      <CalendarTest
-        mode="single"
-        selected={value}
-        onSelect={(date) => {
-          onChange?.(date)
-          setOpen(false)
-        }}
-        captionLayout="label"
-        
-      />
-    </motion.div>
-  )}
-</AnimatePresence>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="dob-popover"
+            initial={{ opacity: 0, scale: 0.96, y: 4 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97, y: 2 }}
+            transition={{
+              type: 'spring',
+              stiffness: 180,
+              damping: 22,
+              mass: 0.9,
+            }}
+            className="absolute z-50 mt-2 left-0 w-55 origin-top-left"
+          >
+            <CalendarTest
+              mode="single"
+              selected={value}
+              onSelect={(date) => {
+                onChange?.(date)
+                setOpen(false)
+              }}
+              captionLayout="label"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

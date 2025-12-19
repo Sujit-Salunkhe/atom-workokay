@@ -36,9 +36,9 @@ function Controlled(args: React.ComponentProps<typeof DobDatePicker>) {
           args.onChange?.(d);
         }}
       />
-      <div style={{ marginTop: 10, fontSize: 12, color: "#626468" }}>
+      {/* <div style={{ marginTop: 10, fontSize: 12, color: "#626468" }}>
         Selected: {value ? value.toDateString() : "none"}
-      </div>
+      </div> */}
     </div>
   );
 }
