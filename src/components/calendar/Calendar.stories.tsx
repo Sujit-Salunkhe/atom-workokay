@@ -1,63 +1,178 @@
+// Calendar.stories.tsx
 import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
-
-
-import { DobDatePicker } from "./Calendar";
+import * as React from "react";
+import { within, userEvent, expect } from "storybook/test";
+import { Calendar } from "./Calendar";
 
 const meta = {
-  title: "Components/DobDatePicker",
-  component: DobDatePicker,
+  title: "Components/Calendar",
+  component: Calendar,
   parameters: {
     layout: "centered",
   },
+  tags: ["autodocs"],
   argTypes: {
-    onChange: { action: "onChange" },
+    captionLayout: {
+      control: "select",
+      options: ["label", "dropdown", "dropdown-months", "dropdown-years"],
+    },
+    buttonVariant: {
+      control: "select",
+      options: ["ghost", "outline", "default"],
+    },
+    showOutsideDays: {
+      control: "boolean",
+    },
   },
-} satisfies Meta<typeof DobDatePicker>;
+} satisfies Meta<typeof Calendar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/**
- * Controlled wrapper so Storybook shows selection changes when user clicks a date.
- */
-function Controlled(args: React.ComponentProps<typeof DobDatePicker>) {
-  const [value, setValue] = React.useState<Date | undefined>(
-    // args.value ?? new Date(2025, 11, 4) // Dec 4, 2025
+// Wrapper to handle state in stories
+function ControlledCalendar(
+  args: React.ComponentProps<typeof Calendar>
+) {
+  const [date, setDate] = React.useState<Date | undefined>(
+    new Date(2025, 11, 19)
   );
 
   return (
-    <div style={{ width: 320 }}>
-      <DobDatePicker
+    <div>
+      <Calendar
         {...args}
-        value={value}
-        onChange={(d) => {
-          setValue(d);
-          args.onChange?.(d);
-        }}
+        mode="single"
+        selected={date}
+        onSelect={setDate}
       />
-      {/* <div style={{ marginTop: 10, fontSize: 12, color: "#626468" }}>
-        Selected: {value ? value.toDateString() : "none"}
-      </div> */}
+      <div className="mt-4 text-sm text-muted-foreground">
+        Selected: {date ? date.toLocaleDateString() : "none"}
+      </div>
     </div>
   );
 }
 
+// Default single date picker with dropdown
 export const Default: Story = {
-  render: (args) => <Controlled {...args} />,
+  render: (args) => <ControlledCalendar {...args} />,
   args: {
-    placeholder: "Select Start Date",
-    value: new Date(2025, 11, 4),
-    icon:true,
+    captionLayout: "dropdown",
+    buttonVariant: "ghost",
+    showOutsideDays: true,
   },
 };
 
-export const Empty: Story = {
-  render: (args) => <Controlled {...args} />,
+// With label caption layout (month/year navigation arrows only)
+export const LabelLayout: Story = {
+  render: (args) => <ControlledCalendar {...args} />,
   args: {
-    placeholder: "mm/dd/yyyy",
-    value: undefined,
+    captionLayout: "label",
+    buttonVariant: "ghost",
+    showOutsideDays: true,
   },
 };
 
+// With outline button variant
+export const OutlineButtons: Story = {
+  render: (args) => <ControlledCalendar {...args} />,
+  args: {
+    captionLayout: "dropdown",
+    buttonVariant: "outline",
+    showOutsideDays: true,
+  },
+};
 
+// Date range picker
+export const DateRange: Story = {
+  render: (args) => {
+    const [range, setRange] = React.useState< {
+      from?: Date 
+      to?: Date 
+    }>({
+      from: new Date(2025, 11, 15),
+      to: new Date(2025, 11, 22),
+    });
+
+    return (
+      <div>
+        <Calendar
+          {...args}
+          mode="range"
+          selected={range}
+          onSelect={setRange}
+        />
+        <div className="mt-4 text-sm text-muted-foreground">
+          From: {range?.from?.toLocaleDateString() || "none"} <br />
+          To: {range?.to?.toLocaleDateString() || "none"}
+        </div>
+      </div>
+    );
+  },
+  args: {
+    captionLayout: "dropdown",
+    buttonVariant: "ghost",
+    showOutsideDays: true,
+  },
+};
+
+// With custom styling (your CSS variables)
+export const CustomStyling: Story = {
+  render: (args) => <ControlledCalendar {...args} />,
+  args: {
+    captionLayout: "label",
+    buttonVariant: "ghost",
+    showOutsideDays: true,
+    className:
+      "p-3 bg-[var(--atom-card-bg)] text-[var(--atom-info-card-jobstatus-primary-text)] rounded-[calc(var(--atom-radius-2)-2px)] border shadow-md w-[208px]",
+  },
+};
+
+// Without outside days
+export const NoOutsideDays: Story = {
+  render: (args) => <ControlledCalendar {...args} />,
+  args: {
+    captionLayout: "dropdown",
+    buttonVariant: "ghost",
+    showOutsideDays: false,
+  },
+};
+
+// Interaction test: click to select a date
+export const InteractiveSelection: Story = {
+  render: (args) => <ControlledCalendar {...args} />,
+  args: {
+    captionLayout: "dropdown",
+    buttonVariant: "ghost",
+    showOutsideDays: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Wait for calendar to render
+    const calendar = await canvas.findByRole("application");
+    expect(calendar).toBeInTheDocument();
+
+    // Find a specific date button (day 25)
+    const buttons = canvas.getAllByRole("button");
+    const dayButton = buttons.find((btn) =>
+      btn.textContent?.includes("25")
+    );
+
+    if (dayButton) {
+      await userEvent.click(dayButton);
+      // After click, the button should have data-selected-single attribute
+      expect(dayButton).toHaveAttribute("data-selected-single");
+    }
+  },
+};
+
+// Multiple months
+export const MultipleMonths: Story = {
+  render: (args) => <ControlledCalendar {...args} />,
+  args: {
+    captionLayout: "dropdown",
+    buttonVariant: "ghost",
+    showOutsideDays: true,
+    numberOfMonths: 2,
+  },
+};
