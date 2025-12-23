@@ -13,7 +13,6 @@ describe("StatCardPriority", () => {
   };
 
   const getStatCardPriority = () => screen.getByTestId("stat-card-priority") as HTMLDivElement;
-  const getLabel = () => screen.getByTestId("priority-label");
   const getPill = () => screen.getByTestId("priority-pill");
 
   it("renders basic StatCardPriority with required props", () => {
