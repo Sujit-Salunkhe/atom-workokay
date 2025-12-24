@@ -156,21 +156,37 @@ function FilterDropdown({
   const [expandedColumn, setExpandedColumn] = React.useState<string | null>(null)
   const dropdownRef = React.useRef<HTMLDivElement>(null)
 
+  // Get unique values for each column [web:45][web:48]
+  // const getUniqueValues = React.useCallback(
+  //   (column: Column) => {
+  //     const uniqueSet = new Set<string>()
+  //     data.forEach((row) => {
+  //       const value = column.selector ? column.selector(row) : row[column.key]
+  //       if (value !== null && value !== undefined && value !== '') {
+  //         uniqueSet.add(String(value))
+  //       }
+  //     })
+  //     return Array.from(uniqueSet).sort()
+  //   },
+  //   [data],
+  // )
+
   // Memoize all unique values at once - calculate only when data/columns change
-  const uniqueValuesByColumn = React.useMemo(() => {
-    const result: Record<string, string[]> = {}
-    columns.forEach((column) => {
-      const uniqueSet = new Set<string>()
-      data.forEach((row) => {
-        const value = column.selector ? column.selector(row) : row[column.key]
-        if (value !== null && value !== undefined && value !== '') {
-          uniqueSet.add(String(value))
-        }
-      })
-      result[column.key] = Array.from(uniqueSet).sort()
+const uniqueValuesByColumn = React.useMemo(() => {
+  const result: Record<string, string[]> = {}
+  columns.forEach((column) => {
+    const uniqueSet = new Set<string>()
+    data.forEach((row) => {
+      const value = column.selector ? column.selector(row) : row[column.key]
+      if (value !== null && value !== undefined && value !== '') {
+        uniqueSet.add(String(value))
+      }
     })
-    return result
-  }, [data, columns])
+    result[column.key] = Array.from(uniqueSet).sort()
+  })
+  return result
+}, [data, columns])
+
 
   // Close dropdown when clicking outside
   React.useEffect(() => {
@@ -214,8 +230,8 @@ function FilterDropdown({
   return (
     <div
       ref={dropdownRef}
-      role="dialog"
-      aria-label="Filter options"
+      role='dialog'
+      aria-label='Filter options'
       className="absolute right-0 top-full mt-2 w-72 max-h-96 overflow-y-auto bg-white rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] shadow-lg z-50"
     >
       <div className="p-3 border-b border-[var(--atom-border-subtle,#e2e8f0)] flex items-center justify-between">
@@ -230,7 +246,7 @@ function FilterDropdown({
 
       <div className="p-2">
         {columns.map((column) => {
-          const uniqueValues = uniqueValuesByColumn[column.key] || []
+          const uniqueValues = uniqueValuesByColumn(column.key) || []
           const isExpanded = expandedColumn === column.key
           const columnFilters = filters[column.key] || []
           const allSelected = columnFilters.length === uniqueValues.length
@@ -264,7 +280,7 @@ function FilterDropdown({
                         handleSelectAll(column.key, uniqueValues)
                       }
                       className="rounded border-gray-300"
-                      aria-label={`Select all ${column.name}`}
+                      aria-lable={`select all${column.name}`}
                     />
                     <span className="font-medium text-blue-600">
                       Select All
@@ -272,7 +288,7 @@ function FilterDropdown({
                   </label>
 
                   <div className="max-h-48 overflow-y-auto">
-                    {uniqueValues.map((value) => (
+                    {uniqueValues.map((value:any) => (
                       <label
                         key={value}
                         className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-gray-50 rounded cursor-pointer"
@@ -284,7 +300,7 @@ function FilterDropdown({
                             handleCheckboxChange(column.key, value)
                           }
                           className="rounded border-gray-300"
-                          aria-label={`Filter by ${value}`}
+                          aria-label={`Filter by${value}`}
                         />
                         <span className="truncate">{value}</span>
                       </label>
@@ -352,14 +368,12 @@ function Toolbar(props: {
               value={searchValue}
               onChange={(e) => onSearchChange(e.target.value)}
               className="h-full w-full bg-transparent text-sm outline-none"
-              aria-label="Search table"
+              aria-label='Search table'
             />
           </div>
         )}
       </div>
 
-       {/* filter drop down Button */}
-       
       <div className="flex items-center gap-2 relative">
         {filter && (
           <div className="relative">
@@ -375,6 +389,7 @@ function Toolbar(props: {
               aria-label="Filter table data"
               aria-expanded={showFilterDropdown}
               aria-haspopup="true"
+
             >
               <FilterIcon />
               {activeFilterCount > 0 && (
@@ -440,17 +455,13 @@ function PaginationControls(props: {
 
   return (
     <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-[var(--atom-border-subtle,#e2e8f0)] sm:px-6">
-      <div 
-        className="text-sm text-[var(--atom-text-muted,#64748b)]"
-        role="status"
-        aria-live="polite"
-      >
+      <div className="text-sm text-[var(--atom-text-muted,#64748b)] " role='status' aria-live='polite'>
         Showing {(currentPage - 1) * rowsPerPage + 1} to{' '}
         {Math.min(currentPage * rowsPerPage, dataLength)} of {dataLength}{' '}
         entries
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 ">
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
@@ -500,7 +511,7 @@ function PaginationControls(props: {
   )
 }
 
-/* ------------------ Main DataTable Component ------------------ */
+// All The Components Are Inside DataTable
 export function DataTable({
   columns,
   data,
@@ -534,7 +545,7 @@ export function DataTable({
 
   const normalizedSearch = normalizeText(searchValue.trim())
 
-  // Apply search filter
+  // Apply search filter [web:39]
   const searchFilteredData =
     !search || !normalizedSearch
       ? data
@@ -548,7 +559,7 @@ export function DataTable({
           }),
         )
 
-  // Apply column filters
+  // Apply column filters [web:44][web:47]
   const filteredData = React.useMemo(() => {
     let result = searchFilteredData
 
@@ -624,11 +635,7 @@ export function DataTable({
           maxHeight: tableBodyMaxHeight,
         }}
       >
-        <table 
-          className="w-full border-collapse text-left text-sm"
-          role="table"
-          aria-label="Data table"
-        >
+        <table className="w-full border-collapse text-left text-sm" aria-label='Data table'>
           <thead className="bg-[var(--atom-table-header-bg,#f8fafc)] text-xs uppercase tracking-wide text-[var(--atom-text-muted,#64748b)] sticky top-0 z-10">
             <tr>
               {columns.map((column) => (
