@@ -1,10 +1,9 @@
 // src/components/ui/data-table.stories.tsx
 import type { Meta, StoryObj } from "@storybook/react"
 import { DataTable, type Column, type DataRow, type DataTableOptions } from "./TestTableData"
-import { Badge, type BadgeStatus } from "../badge/Badge"  // Your real Badge component
 
 const meta: Meta<typeof DataTable> = {
-  title: "UI/TestDataTable",
+  title: "UI/TestDataTable (No Sorting)",
   component: DataTable,
   parameters: {
     layout: "fullscreen",
@@ -23,7 +22,7 @@ export default meta
 
 type Story = StoryObj<typeof DataTable>
 
-// Sample data with all your Badge status values
+// Sample data
 const baseData: DataRow[] = [
   { 
     id: 1, 
@@ -31,7 +30,7 @@ const baseData: DataRow[] = [
     age: 30, 
     email: "john.doe@example.com", 
     department: "Engineering", 
-    status: "validated" as BadgeStatus 
+    status: "Active" 
   },
   { 
     id: 2, 
@@ -39,7 +38,7 @@ const baseData: DataRow[] = [
     age: 25, 
     email: "jane.smith@example.com", 
     department: "Design", 
-    status: "incoming" as BadgeStatus 
+    status: "Inactive" 
   },
   { 
     id: 3, 
@@ -47,7 +46,7 @@ const baseData: DataRow[] = [
     age: 35, 
     email: "bob.johnson@example.com", 
     department: "Engineering", 
-    status: "quarantined" as BadgeStatus 
+    status: "Pending" 
   },
   { 
     id: 4, 
@@ -55,7 +54,7 @@ const baseData: DataRow[] = [
     age: 28, 
     email: "alice.brown@example.com", 
     department: "Marketing", 
-    status: "failed" as BadgeStatus 
+    status: "Active" 
   },
   { 
     id: 5, 
@@ -63,44 +62,40 @@ const baseData: DataRow[] = [
     age: 42, 
     email: "charlie.wilson@example.com", 
     department: "Sales", 
-    status: "archieved" as BadgeStatus 
-  },
-  { 
-    id: 6, 
-    name: "Diana Davis", 
-    age: 33, 
-    email: "diana.davis@example.com", 
-    department: "HR", 
-    status: "info" as BadgeStatus 
+    status: "Inactive" 
   },
 ]
 
-// Base columns
 const baseColumns: Column[] = [
-  { name: "Name", key: "name", sortable: true },
-  { name: "Age", key: "age", sortable: true },
-  { name: "Email", key: "email", sortable: true },
-  { name: "Department", key: "department", sortable: true },
+  { name: "Name", key: "name" },
+  { name: "Age", key: "age" },
+  { name: "Email", key: "email" },
+  { name: "Department", key: "department" },
+  { name: "Status", key: "status" },
 ]
 
-// NEW: Columns with your REAL Badge variants
-const columnsWithBadges: Column[] = [
-  { name: "Name", key: "name", sortable: true },
-  { name: "Age", key: "age", sortable: true },
+const columnsWithCells: Column[] = [
+  { name: "Name", key: "name" },
+  { name: "Age", key: "age" },
   { 
     name: "Status", 
     key: "status",
-    sortable: false,  // Status badges usually not sortable
-    conditionalCell: (value: BadgeStatus, row: DataRow) => (
-      <Badge status={value} size="sm">
-        <h4>{value.charAt(0).toUpperCase() + value.slice(1)}</h4>
-      </Badge>
+    conditionalCell: (value: string) => (
+      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+        value === "Active" 
+          ? "bg-green-100 text-green-800" 
+          : value === "Pending" 
+          ? "bg-yellow-100 text-yellow-800"
+          : "bg-red-100 text-red-800"
+      }`}>
+        {value}
+      </span>
     )
   },
   { 
     name: "Actions", 
     key: "id",
-    cell: (row: DataRow) => (
+    cell: (row: DataRow, rowIndex: number) => (
       <div className="flex gap-1">
         <button className="h-6 px-2 text-xs rounded border bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100">
           Edit
@@ -121,7 +116,7 @@ const defaultOptions: DataTableOptions = {
   filterType: "dropdown",
 }
 
-/* ------------------ Core Stories ------------------ */
+/* ------------------ Basic Stories ------------------ */
 
 export const Default: Story = {
   args: {
@@ -140,11 +135,26 @@ export const WithPagination: Story = {
   },
 }
 
-/* ------------------ BADGE INTEGRATION STORIES ------------------ */
-
-export const WithStatusBadges: Story = {
+export const SearchOnly: Story = {
   args: {
-    columns: columnsWithBadges,
+    columns: baseColumns,
+    data: baseData,
+    options: { search: true },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Try searching 'john' or 'engineering'",
+      },
+    },
+  },
+}
+
+/* ------------------ Cell Rendering Stories ------------------ */
+
+export const WithBadges: Story = {
+  args: {
+    columns: columnsWithCells,
     data: baseData,
     pagination: true,
     options: { 
@@ -152,66 +162,49 @@ export const WithStatusBadges: Story = {
       search: true 
     },
   },
-  parameters: {
-    docs: {
-      description: {
-        story: "All your Badge status variants: validated, incoming, quarantined, failed, archieved, info",
-      },
-    },
-  },
 }
 
-export const BadgeSearch: Story = {
+export const Selectors: Story = {
   args: {
     columns: [
-      { name: "Name", key: "name", sortable: true },
+      { name: "Name", key: "name" },
       { 
-        name: "Status", 
-        key: "status",
-        conditionalCell: (value: BadgeStatus) => (
-          <Badge status={value} size="sm">
-            {value}
-          </Badge>
-        )
+        name: "Full Info", 
+        key: "id", 
+        selector: (row: DataRow) => `${row.department} • ${row.email}`,
       },
+      { name: "Age", key: "age" },
     ],
-    data: baseData.concat(baseData), // Duplicate for more search results
+    data: baseData,
+    pagination: true,
     options: { search: true },
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Search 'validated' or 'john' - works with Badge content!",
-      },
-    },
   },
 }
 
 export const MixedContent: Story = {
   args: {
     columns: [
-      { name: "Name", key: "name", sortable: true },
-      { name: "Age", key: "age", sortable: true },
+      { name: "Name", key: "name" },
+      { name: "Age", key: "age" },
       { 
-        name: "Status", 
+        name: "Status Badge", 
         key: "status",
-        conditionalCell: (value: BadgeStatus) => (
-          <Badge status={value} size="sm" />
+        conditionalCell: (value: string) => (
+          <span className={`px-2 py-1 rounded-full text-xs ${
+            value === "Active" ? "bg-green-500 text-white" : "bg-gray-500 text-white"
+          }`}>
+            {value}
+          </span>
         )
-      },
-      { 
-        name: "Full Info", 
-        key: "id",
-        selector: (row: DataRow) => `${row.department} • ${row.email}`,
-        sortable: true
       },
       { 
         name: "Actions", 
         key: "actions",
         cell: (row: DataRow, index: number) => (
-          <Badge priority="low" size="sm">
-            Row {index + 1}
-          </Badge>
+          <div className="flex gap-2">
+            <span className="text-xs text-blue-600 font-medium">Edit #{index + 1}</span>
+            <span className="text-xs text-red-600 font-medium">Delete</span>
+          </div>
         )
       },
     ],
@@ -221,64 +214,81 @@ export const MixedContent: Story = {
   },
 }
 
-/* ------------------ Advanced Stories ------------------ */
+/* ------------------ Layout Stories ------------------ */
+
+export const FixedHeight: Story = {
+  args: {
+    columns: baseColumns,
+    data: Array.from({ length: 20 }, (_, i) => ({
+      id: i + 1,
+      name: `User ${i + 1}`,
+      age: 20 + (i % 30),
+      email: `user${i + 1}@example.com`,
+      department: ["Engineering", "Design", "Marketing", "Sales", "HR"][i % 5],
+      status: i % 3 === 0 ? "Active" : "Inactive",
+    })),
+    pagination: true,
+    options: {
+      ...defaultOptions,
+      tableBodyHeight: "400px",
+      tableBodyMaxHeight: "500px",
+    },
+  },
+}
+
+export const NoToolbar: Story = {
+  args: {
+    columns: baseColumns,
+    data: baseData.slice(0, 5),
+    pagination: true,
+  },
+}
+
+/* ------------------ Edge Cases ------------------ */
+
+export const Empty: Story = {
+  args: {
+    columns: baseColumns,
+    data: [],
+    options: defaultOptions,
+  },
+}
+
+export const SingleRow: Story = {
+  args: {
+    columns: baseColumns,
+    data: [baseData[0]],
+  },
+}
 
 export const LargeDataset: Story = {
   args: {
-    columns: columnsWithBadges,
-    data: Array.from({ length: 50 }, (_, i) => ({
+    columns: columnsWithCells,
+    data: Array.from({ length: 100 }, (_, i) => ({
       id: i + 1,
-      name: `User ${i + 1}`,
+      name: `John Doe ${i + 1}`,
       age: 25 + (i % 35),
-      email: `user${i + 1}@example.com`,
-      department: ["Engineering", "Design", "Marketing"][i % 3],
-      status: ["validated", "incoming", "quarantined", "failed", "archieved", "info"][i % 6] as BadgeStatus,
+      email: `john.doe${i + 1}@company.com`,
+      department: "Engineering",
+      status: i % 2 === 0 ? "Active" : "Inactive",
     })),
     pagination: true,
     options: defaultOptions,
   },
 }
 
-export const PriorityBadges: Story = {
-  args: {
-    columns: [
-      { name: "Task", key: "name", sortable: true },
-      { 
-        name: "Priority", 
-        key: "priority",
-        conditionalCell: (value: "high" | "medium" | "low") => (
-          <Badge priority={value} size="sm">
-            {value.toUpperCase()}
-          </Badge>
-        )
-      },
-      { name: "Status", key: "status", sortable: true },
-    ],
-    data: [
-      { name: "Fix login bug", priority: "high" as const, status: "failed" },
-      { name: "Update docs", priority: "medium" as const, status: "incoming" },
-      { name: "Review PR", priority: "low" as const, status: "validated" },
-    ],
-    options: { search: true },
-  },
-}
+/* ------------------ Compact Stories ------------------ */
 
 export const CompactView: Story = {
   args: {
     columns: [
-      { name: "Name", key: "name", sortable: true },
-      { 
-        name: "Status", 
-        key: "status",
-        conditionalCell: (value: BadgeStatus) => (
-          <Badge status={value} size="sm" />
-        )
-      },
+      { name: "Name", key: "name" },
+      { name: "Status", key: "status" },
     ],
     data: baseData,
     options: {
-      ...defaultOptions,
       tableBodyHeight: "300px",
+      search: true,
     },
   },
 }

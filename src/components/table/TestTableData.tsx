@@ -7,7 +7,6 @@ export interface Column {
   name: string
   key: string
   selector?: (row: DataRow) => any
-  sortable?: boolean
   cell?: (row: DataRow, rowIndex: number) => ReactNode
   conditionalCell?: (value: any, row: DataRow) => ReactNode
 }
@@ -275,7 +274,7 @@ function PaginationControls(props: {
   )
 }
 
-/* ------------------ DataTable ------------------ */
+/* ------------------ DataTable (NO SORTING) ------------------ */
 export function DataTable({
   columns,
   data,
@@ -285,13 +284,6 @@ export function DataTable({
 }: DataTableProps) {
   const [currentPage, setCurrentPage] = React.useState(1)
   const [searchValue, setSearchValue] = React.useState("")
-  const [sortConfig, setSortConfig] = React.useState<{
-    key: string | null
-    direction: "asc" | "desc"
-  }>({
-    key: null,
-    direction: "asc",
-  })
 
   const rowsPerPage = 10
 
@@ -314,6 +306,9 @@ export function DataTable({
 
   const normalizedSearch = normalizeText(searchValue.trim())
 
+  // ❌ REMOVED: All sorting logic (sortConfig, sortedData, handleSort)
+
+  // Search filtering only
   const filteredData = !search || !normalizedSearch
     ? data
     : data.filter((row) =>
@@ -324,58 +319,18 @@ export function DataTable({
         }),
       )
 
-  const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return filteredData
-
-    const sorted = [...filteredData].sort((a, b) => {
-      const column = columns.find(c => c.key === sortConfig.key)
-      const aVal = column?.selector ? column.selector(a) : a[sortConfig.key!]
-      const bVal = column?.selector ? column.selector(b) : b[sortConfig.key!]
-
-      const aNum = Number(String(aVal).replace(/[^0-9.-]/g, ""))
-      const bNum = Number(String(bVal).replace(/[^0-9.-]/g, ""))
-
-      if (!Number.isNaN(aNum) && !Number.isNaN(bNum)) {
-        return sortConfig.direction === "asc" ? aNum - bNum : bNum - aNum
-      }
-
-      const aStr = normalizeText(aVal)
-      const bStr = normalizeText(bVal)
-
-      if (aStr < bStr) return sortConfig.direction === "asc" ? -1 : 1
-      if (aStr > bStr) return sortConfig.direction === "asc" ? 1 : -1
-      return 0
-    })
-
-    return sorted
-  }, [filteredData, sortConfig, columns])
-
-  const totalPages = Math.ceil(sortedData.length / rowsPerPage)
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage)
 
   const paginatedData = pagination
-    ? sortedData.slice(
+    ? filteredData.slice(
         (currentPage - 1) * rowsPerPage,
         currentPage * rowsPerPage,
       )
-    : sortedData
+    : filteredData
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return
     setCurrentPage(page)
-  }
-
-  const handleSort = (key: string) => {
-    const column = columns.find(col => col.key === key)
-    if (!column?.sortable) return
-
-    setSortConfig((prev) => {
-      if (prev.key === key) {
-        const nextDirection = prev.direction === "asc" ? "desc" : "asc"
-        return { key, direction: nextDirection }
-      }
-      return { key, direction: "asc" }
-    })
-    setCurrentPage(1)
   }
 
   React.useEffect(() => {
@@ -409,64 +364,33 @@ export function DataTable({
         <table className="w-full border-collapse text-left text-sm">
           <thead className="bg-[var(--atom-table-header-bg,#f8fafc)] text-xs uppercase tracking-wide text-[var(--atom-text-muted,#64748b)] sticky top-0 z-10">
             <tr>
-              {columns.map((column) => {
-                const isActive = sortConfig.key === column.key
-                const direction = sortConfig.direction
-                const isSortable = column.sortable !== false
-
-                return (
-                  <th
-                    key={column.key}
-                    scope="col"
-                    onClick={() => handleSort(column.key)}
-                    className={cn(
-                      "px-4 py-2 font-medium text-[var(--atom-text-muted,#64748b)]",
-                      isSortable
-                        ? "cursor-pointer select-none group hover:bg-gray-50"
-                        : "cursor-default",
-                    )}
-                  >
-                    <div className="flex items-center gap-1">
-                      <span>{column.name}</span>
-                      {isSortable && (
-                        <span
-                          className={cn(
-                            "ml-1 inline-flex h-4 w-4 items-center justify-center text-[10px] opacity-0 transition-opacity",
-                            "group-hover:opacity-60",
-                            isActive && "opacity-100 text-[var(--atom-text-primary,#0f172a)]",
-                          )}
-                        >
-                          {!isActive && "↕"}
-                          {isActive && direction === "asc" && "↑"}
-                          {isActive && direction === "desc" && "↓"}
-                        </span>
-                      )}
-                    </div>
-                  </th>
-                )
-              })}
+              {columns.map((column) => (
+                <th
+                  key={column.key}
+                  scope="col"
+                  className="px-4 py-2 font-medium text-[var(--atom-text-muted,#64748b)]"
+                >
+                  {column.name}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-[var(--atom-border-subtle,#e2e8f0)] bg-white">
             {paginatedData.map((row, rowIndex) => (
-              <tr key={rowIndex}>
+              <tr key={row?.id ? row?.id : rowIndex}>
                 {columns.map((column) => {
                   let cellValue: ReactNode = row[column.key]
                   
-                  // Priority 1: Custom cell renderer
                   if (column.cell) {
                     cellValue = column.cell(row, rowIndex)
                   }
-                  // Priority 2: Conditional cell renderer
                   else if (column.conditionalCell) {
                     const rawValue = column.selector ? column.selector(row) : row[column.key]
                     cellValue = column.conditionalCell(rawValue, row)
                   }
-                  // Priority 3: Selector function
                   else if (column.selector) {
                     cellValue = column.selector(row)
                   }
-                  // Priority 4: Raw data value
                   else {
                     cellValue = row[column.key]
                   }
@@ -485,7 +409,7 @@ export function DataTable({
 
       <PaginationControls
         pagination={pagination}
-        dataLength={sortedData.length}
+        dataLength={filteredData.length}
         rowsPerPage={rowsPerPage}
         currentPage={currentPage}
         totalPages={totalPages}
