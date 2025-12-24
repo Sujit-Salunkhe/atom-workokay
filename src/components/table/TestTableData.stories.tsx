@@ -1,14 +1,9 @@
 // src/components/ui/data-table.stories.tsx
 import type { Meta, StoryObj } from "@storybook/react"
-import {
-  DataTable,
-  type Column,
-  type DataRow,
-  type DataTableOptions,
-} from "./TestTableData"
+import { DataTable, type Column, type DataRow, type DataTableOptions } from "./TestTableData"
 
 const meta: Meta<typeof DataTable> = {
-  title: "UI/TestDataTable",
+  title: "UI/TableTableData",
   component: DataTable,
   parameters: {
     layout: "fullscreen",
@@ -18,79 +13,69 @@ const meta: Meta<typeof DataTable> = {
     columns: { control: "object" },
     data: { control: "object" },
     pagination: { control: "boolean" },
-    className: { control: "text" },
     options: { control: "object" },
+    className: { control: "text" },
   },
 }
 
 export default meta
-type Story = StoryObj<typeof meta>
 
-/* ---------- Sample data ---------- */
+type Story = StoryObj<typeof DataTable>
 
-const baseColumns: Column[] = [
-  { name: "Name", key: "name" },
-  { name: "Email", key: "email" },
-  { name: "Status", key: "status" },
-  { name: "Amount", key: "amount" },
+// Sample data
+const baseData: DataRow[] = [
+  { id: 1, name: "John Doe", age: 30, email: "john.doe@example.com", department: "Engineering", status: "Active" },
+  { id: 2, name: "Jane Smith", age: 25, email: "jane.smith@example.com", department: "Design", status: "Active" },
+  { id: 3, name: "Bob Johnson", age: 35, email: "bob.johnson@example.com", department: "Engineering", status: "Inactive" },
+  { id: 4, name: "Alice Brown", age: 28, email: "alice.brown@example.com", department: "Marketing", status: "Pending" },
+  { id: 5, name: "Charlie Wilson", age: 42, email: "charlie.wilson@example.com", department: "Sales", status: "Active" },
+  { id: 6, name: "Diana Davis", age: 33, email: "diana.davis@example.com", department: "HR", status: "Active" },
 ]
 
-const baseData: DataRow[] = [
-  { name: "John Doe",   email: "john@example.com",   status: "Active",   amount: "$2,500" },
-  { name: "Jane Smith", email: "jane@example.com",   status: "Pending",  amount: "$1,200" },
-  { name: "Bob Johnson",email: "bob@example.com",    status: "Inactive", amount: "$3,800" },
-  { name: "Alice Brown",email: "alice@example.com",  status: "Active",   amount: "$1,900" },
-  { name: "Charlie W.", email: "charlie@example.com",status: "Pending",  amount: "$4,200" },
-  { name: "Diana Davis",email: "diana@example.com",  status: "Active",   amount: "$2,100" },
-  { name: "Eve Miller", email: "eve@example.com",    status: "Inactive", amount: "$3,300" },
-  { name: "Frank G.",   email: "frank@example.com",  status: "Active",   amount: "$2,700" },
-  { name: "Grace Lee",  email: "grace@example.com",  status: "Pending",  amount: "$1,500" },
-  { name: "Henry T.",   email: "henry@example.com",  status: "Active",   amount: "$5,000" },
-  { name: "Ivy A.",     email: "ivy@example.com",    status: "Inactive", amount: "$2,800" },
-  { name: "Jack Thomas",email: "jack@example.com",   status: "Active",   amount: "$3,100" },
+const baseColumns: Column[] = [
+  { name: "Name", key: "name", sortable: true },
+  { name: "Age", key: "age", sortable: true },
+  { name: "Email", key: "email", sortable: true },
+  { name: "Department", key: "department", sortable: true },
+  { name: "Status", key: "status", sortable: false }, // Non-sortable
+]
+
+const columnsWithSelector: Column[] = [
+  { name: "Name", key: "name", sortable: true },
+  { 
+    name: "Full Name", 
+    key: "id", 
+    selector: (row: DataRow) => `${row.name} (${row.department})`,
+    sortable: true 
+  },
+  { name: "Age", key: "age", sortable: true },
+  { name: "Email", key: "email" }, // No sortable = disabled
 ]
 
 const defaultOptions: DataTableOptions = {
   search: true,
-  download: true,
-  viewColumns: true,
   filter: true,
+  viewColumns: true,
+  download: true,
   filterType: "dropdown",
-  tableBodyHeight: "400px",
-  tableBodyMaxHeight: "500px",
 }
 
-/* ---------- Stories ---------- */
+/* ------------------ Basic Stories ------------------ */
 
 export const Default: Story = {
   args: {
     columns: baseColumns,
-    data: baseData,
-    pagination: true,
-    options: defaultOptions,
-  },
-}
-
-export const NoPagination: Story = {
-  args: {
-    columns: baseColumns,
-    data: baseData,
+    data: baseData.slice(0, 3),
     pagination: false,
-    options: defaultOptions,
   },
 }
 
-export const NoToolbar: Story = {
+export const WithPagination: Story = {
   args: {
     columns: baseColumns,
-    data: baseData.slice(0, 8),
+    data: baseData,
     pagination: true,
-    options: {
-      search: false,
-      download: false,
-      viewColumns: false,
-      filter: false,
-    },
+    options: defaultOptions,
   },
 }
 
@@ -98,62 +83,118 @@ export const SearchOnly: Story = {
   args: {
     columns: baseColumns,
     data: baseData,
-    pagination: true,
-    options: {
-      search: true,
-      download: false,
-      viewColumns: false,
-      filter: false,
-      tableBodyHeight: "320px",
-      tableBodyMaxHeight: "400px",
-    },
+    options: { search: true },
   },
 }
 
-export const DenseTable: Story = {
+export const Selectors: Story = {
   args: {
-    columns: baseColumns,
+    columns: columnsWithSelector,
     data: baseData,
     pagination: true,
-    className: "text-xs",
-    options: {
-      ...defaultOptions,
-      tableBodyHeight: "260px",
-      tableBodyMaxHeight: "320px",
+    options: { 
+      ...defaultOptions, 
+      search: true 
     },
   },
 }
 
-export const WideTable: Story = {
+export const MixedSortable: Story = {
   args: {
     columns: [
-      { name: "ID",        key: "id" },
-      { name: "First",     key: "firstName" },
-      { name: "Last",      key: "lastName" },
-      { name: "Email",     key: "email" },
-      { name: "Phone",     key: "phone" },
-      { name: "Company",   key: "company" },
-      { name: "Role",      key: "role" },
-      { name: "Department",key: "department" },
+      { name: "Name", key: "name", sortable: true },
+      { name: "Age", key: "age" }, // Not sortable
+      { name: "Email", key: "email", sortable: true },
+      { 
+        name: "Computed", 
+        key: "id", 
+        selector: (row: DataRow) => `ID: ${row.id}`,
+        sortable: false 
+      },
     ],
-    data: Array.from({ length: 25 }, (_, i) => ({
-      id: `#${String(i + 1).padStart(3, "0")}`,
-      firstName: `User${i + 1}`,
-      lastName: `Last${i + 1}`,
+    data: baseData,
+    pagination: true,
+    options: defaultOptions,
+  },
+}
+
+export const NoToolbar: Story = {
+  args: {
+    columns: baseColumns,
+    data: baseData.slice(0, 5),
+    pagination: true,
+  },
+}
+
+export const FixedHeight: Story = {
+  args: {
+    columns: baseColumns,
+    data: Array.from({ length: 20 }, (_, i) => ({
+      id: i + 1,
+      name: `User ${i + 1}`,
+      age: 20 + (i % 30),
       email: `user${i + 1}@example.com`,
-      phone: `+91-99999${String(100 + i)}`,
-      company: `Company ${i + 1}`,
-      role: ["Developer", "Designer", "Manager", "Admin"][i % 4],
-      department: ["Engineering", "Product", "Marketing", "Ops"][i % 4],
+      department: ["Engineering", "Design", "Marketing", "Sales", "HR"][i % 5],
+      status: i % 3 === 0 ? "Active" : "Inactive",
     })),
     pagination: true,
     options: {
       ...defaultOptions,
-      tableBodyHeight: "450px",
-      tableBodyMaxHeight: "520px",
+      tableBodyHeight: "400px",
+      tableBodyMaxHeight: "500px",
     },
   },
+}
+
+export const Empty: Story = {
+  args: {
+    columns: baseColumns,
+    data: [],
+    options: defaultOptions,
+  },
+}
+
+export const SingleRow: Story = {
+  args: {
+    columns: baseColumns,
+    data: [baseData[0]],
+  },
+}
+
+/* ------------------ Interactive Stories ------------------ */
+
+export const LargeDataset: Story = {
+  args: {
+    columns: baseColumns,
+    data: Array.from({ length: 100 }, (_, i) => ({
+      id: i + 1,
+      name: `John Doe ${i + 1}`,
+      age: 25 + (i % 35),
+      email: `john.doe${i + 1}@company.com`,
+      department: "Engineering",
+      status: "Active",
+    })),
+    pagination: true,
+    options: defaultOptions,
+  },
+}
+
+export const SearchAndSort: Story = {
+  args: {
+    columns: [
+      { name: "Name", key: "name", sortable: true },
+      { name: "Age", key: "age", sortable: true },
+      { name: "Department", key: "department", sortable: true },
+    ],
+    data: baseData.concat(baseData).concat(baseData), // 18 rows
+    pagination: true,
+    options: { search: true },
+  },
   parameters: {
-    layout: "fullscreen",
+    docs: {
+      description: {
+        story: "Try searching 'john' or 'engineering', then click headers to sort",
+      },
+    },
   },
 }

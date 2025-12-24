@@ -5,11 +5,15 @@ import { cn } from "../../lib/cn"
 export interface Column {
   name: string
   key: string
+  selector?: (row: DataRow) => any  // Optional selector function
+  sortable?: boolean  // NEW: Enable/disable sorting per column
 }
 
 export interface DataRow {
   [key: string]: any
 }
+
+// ... (DataTableOptions and DataTableProps stay the same)
 
 export interface DataTableOptions {
   search?: boolean
@@ -29,8 +33,9 @@ interface DataTableProps {
   options?: DataTableOptions
 }
 
-/* ------------------ Icons ------------------ */
+// ... (All icons stay exactly the same - LeftArrowIcon, RightArrowIcon, etc.)
 
+/* ------------------ Icons ------------------ */
 const LeftArrowIcon = () => (
   <span className="inline-flex h-5 w-5 items-center justify-center">
     <svg
@@ -121,7 +126,7 @@ const DownloadIcon = () => (
   </svg>
 )
 
-/* ------------------ Toolbar ------------------ */
+// ... (Toolbar component stays exactly the same)
 
 function Toolbar(props: {
   search: boolean
@@ -195,7 +200,7 @@ function Toolbar(props: {
   )
 }
 
-/* -------------- PaginationControls -------------- */
+// ... (PaginationControls stays exactly the same)
 
 function PaginationControls(props: {
   pagination: boolean
@@ -273,7 +278,7 @@ function PaginationControls(props: {
   )
 }
 
-/* ------------------ DataTable ------------------ */
+/* ------------------ DataTable (UPDATED) ------------------ */
 
 export function DataTable({
   columns,
@@ -284,6 +289,14 @@ export function DataTable({
 }: DataTableProps) {
   const [currentPage, setCurrentPage] = React.useState(1)
   const [searchValue, setSearchValue] = React.useState("")
+  const [sortConfig, setSortConfig] = React.useState<{
+    key: string | null
+    direction: "asc" | "desc"
+  }>({
+    key: null,
+    direction: "asc",
+  })
+
   const rowsPerPage = 10
 
   const {
@@ -296,38 +309,89 @@ export function DataTable({
     tableBodyMaxHeight,
   } = options || {}
 
-    const normalizeText = (value: unknown) => {
+  const normalizeText = (value: unknown) => {
     if (value === null || value === undefined) return ""
     return String(value)
       .toLowerCase()
       .replace(/[^a-z0-9\s]/g, "")
   }
 
-const normalizedSearch = normalizeText(searchValue.trim())
+  const normalizedSearch = normalizeText(searchValue.trim())
+
+// In your DataTable component, replace ONLY this section:
 
 const filteredData = !search || !normalizedSearch
-  ? data``
+  ? data
   : data.filter((row) =>
       columns.some((column) => {
-        const value = row[column.key]
+        const value = column.selector ? column.selector(row) : row[column.key]
         const normalizedValue = normalizeText(value)
-        return normalizedValue.includes(normalizedSearch)
+        return normalizedValue.includes(normalizedSearch)  // ✅ FIXED
       }),
     )
 
 
-  const totalPages = Math.ceil(filteredData.length / rowsPerPage)
+
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return filteredData
+
+    const sorted = [...filteredData].sort((a, b) => {
+      // Get values using selector OR key
+      const aVal = columns.find(c => c.key === sortConfig.key)?.selector 
+        ? columns.find(c => c.key === sortConfig.key)?.selector!(a)
+        : a[sortConfig.key!]
+      
+      const bVal = columns.find(c => c.key === sortConfig.key)?.selector 
+        ? columns.find(c => c.key === sortConfig.key)?.selector!(b)
+        : b[sortConfig.key!]
+
+      // numeric compare
+      const aNum = Number(String(aVal).replace(/[^0-9.-]/g, ""))
+      const bNum = Number(String(bVal).replace(/[^0-9.-]/g, ""))
+
+      if (!Number.isNaN(aNum) && !Number.isNaN(bNum)) {
+        return sortConfig.direction === "asc" ? aNum - bNum : bNum - aNum
+      }
+
+      // string compare
+      const aStr = normalizeText(aVal)
+      const bStr = normalizeText(bVal)
+
+      if (aStr < bStr) return sortConfig.direction === "asc" ? -1 : 1
+      if (aStr > bStr) return sortConfig.direction === "asc" ? 1 : -1
+      return 0
+    })
+
+    return sorted
+  }, [filteredData, sortConfig, columns])
+
+  const totalPages = Math.ceil(sortedData.length / rowsPerPage)
 
   const paginatedData = pagination
-    ? filteredData.slice(
+    ? sortedData.slice(
         (currentPage - 1) * rowsPerPage,
         currentPage * rowsPerPage,
       )
-    : filteredData
+    : sortedData
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return
     setCurrentPage(page)
+  }
+
+  const handleSort = (key: string) => {
+    // NEW: Only sort if column has sortable: true
+    const column = columns.find(col => col.key === key)
+    if (!column?.sortable) return
+
+    setSortConfig((prev) => {
+      if (prev.key === key) {
+        const nextDirection = prev.direction === "asc" ? "desc" : "asc"
+        return { key, direction: nextDirection }
+      }
+      return { key, direction: "asc" }
+    })
+    setCurrentPage(1)
   }
 
   React.useEffect(() => {
@@ -361,27 +425,60 @@ const filteredData = !search || !normalizedSearch
         <table className="w-full border-collapse text-left text-sm">
           <thead className="bg-[var(--atom-table-header-bg,#f8fafc)] text-xs uppercase tracking-wide text-[var(--atom-text-muted,#64748b)] sticky top-0 z-10">
             <tr>
-              {columns.map((column) => (
-                <th
-                  key={column.key}
-                  className="px-4 py-2 font-medium text-[var(--atom-text-muted,#64748b)]"
-                >
-                  {column.name}
-                </th>
-              ))}
+              {columns.map((column) => {
+                const isActive = sortConfig.key === column.key
+                const direction = sortConfig.direction
+                const isSortable = column.sortable !== false // default true if not specified
+
+                return (
+                  <th
+                    key={column.key}
+                    scope="col"
+                    onClick={() => handleSort(column.key)}
+                    className={cn(
+                      "px-4 py-2 font-medium text-[var(--atom-text-muted,#64748b)]",
+                      isSortable
+                        ? "cursor-pointer select-none group hover:bg-gray-50"
+                        : "cursor-default",
+                    )}
+                  >
+                    <div className="flex items-center gap-1">
+                      <span>{column.name}</span>
+                      {isSortable && (
+                        <span
+                          className={cn(
+                            "ml-1 inline-flex h-4 w-4 items-center justify-center text-[10px] opacity-0 transition-opacity",
+                            "group-hover:opacity-60",
+                            isActive && "opacity-100 text-[var(--atom-text-primary,#0f172a)]",
+                          )}
+                        >
+                          {!isActive && "↕"}
+                          {isActive && direction === "asc" && "↑"}
+                          {isActive && direction === "desc" && "↓"}
+                        </span>
+                      )}
+                    </div>
+                  </th>
+                )
+              })}
             </tr>
           </thead>
           <tbody className="divide-y divide-[var(--atom-border-subtle,#e2e8f0)] bg-white">
             {paginatedData.map((row, rowIndex) => (
               <tr key={rowIndex}>
-                {columns.map((column) => (
-                  <td
-                    key={column.key}
-                    className="px-4 py-2 text-[var(--atom-text-primary,#0f172a)]"
-                  >
-                    {row[column.key]}
-                  </td>
-                ))}
+                {columns.map((column) => {
+                  // NEW: Use selector OR key for cell rendering
+                  const cellValue = column.selector ? column.selector(row) : row[column.key]
+                  
+                  return (
+                    <td
+                      key={column.key}
+                      className="px-4 py-2 text-[var(--atom-text-primary,#0f172a)]"
+                    >
+                      {cellValue}
+                    </td>
+                  )
+                })}
               </tr>
             ))}
           </tbody>
@@ -390,7 +487,7 @@ const filteredData = !search || !normalizedSearch
 
       <PaginationControls
         pagination={pagination}
-        dataLength={filteredData.length}
+        dataLength={sortedData.length}
         rowsPerPage={rowsPerPage}
         currentPage={currentPage}
         totalPages={totalPages}
