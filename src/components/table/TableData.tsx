@@ -1,200 +1,498 @@
-// src/components/ui/data-table.stories.tsx
-import type { Meta, StoryObj } from "@storybook/react"
-import { DataTable, type Column, type DataRow, type DataTableOptions } from "./TestTableData"
+// src/components/ui/data-table.tsx
+import * as React from "react"
+import { cn } from "../../lib/cn"
 
-const meta: Meta<typeof DataTable> = {
-  title: "UI/TableTableData",
-  component: DataTable,
-  parameters: {
-    layout: "fullscreen",
-  },
-  tags: ["autodocs"],
-  argTypes: {
-    columns: { control: "object" },
-    data: { control: "object" },
-    pagination: { control: "boolean" },
-    options: { control: "object" },
-    className: { control: "text" },
-  },
+export interface Column {
+  name: string
+  key: string
+  selector?: (row: DataRow) => any  // Optional selector function
+  sortable?: boolean  // NEW: Enable/disable sorting per column
 }
 
-export default meta
-
-type Story = StoryObj<typeof DataTable>
-
-// Sample data
-const baseData: DataRow[] = [
-  { id: 1, name: "John Doe", age: 30, email: "john.doe@example.com", department: "Engineering", status: "Active" },
-  { id: 2, name: "Jane Smith", age: 25, email: "jane.smith@example.com", department: "Design", status: "Active" },
-  { id: 3, name: "Bob Johnson", age: 35, email: "bob.johnson@example.com", department: "Engineering", status: "Inactive" },
-  { id: 4, name: "Alice Brown", age: 28, email: "alice.brown@example.com", department: "Marketing", status: "Pending" },
-  { id: 5, name: "Charlie Wilson", age: 42, email: "charlie.wilson@example.com", department: "Sales", status: "Active" },
-  { id: 6, name: "Diana Davis", age: 33, email: "diana.davis@example.com", department: "HR", status: "Active" },
-]
-
-const baseColumns: Column[] = [
-  { name: "Name", key: "name", sortable: true },
-  { name: "Age", key: "age", sortable: true },
-  { name: "Email", key: "email", sortable: true },
-  { name: "Department", key: "department", sortable: true },
-  { name: "Status", key: "status", sortable: false }, // Non-sortable
-]
-
-const columnsWithSelector: Column[] = [
-  { name: "Name", key: "name", sortable: true },
-  { 
-    name: "Full Name", 
-    key: "id", 
-    selector: (row: DataRow) => `${row.name} (${row.department})`,
-    sortable: true 
-  },
-  { name: "Age", key: "age", sortable: true },
-  { name: "Email", key: "email" }, // No sortable = disabled
-]
-
-const defaultOptions: DataTableOptions = {
-  search: true,
-  filter: true,
-  viewColumns: true,
-  download: true,
-  filterType: "dropdown",
+export interface DataRow {
+  [key: string]: any
 }
 
-/* ------------------ Basic Stories ------------------ */
+// ... (DataTableOptions and DataTableProps stay the same)
 
-export const Default: Story = {
-  args: {
-    columns: baseColumns,
-    data: baseData.slice(0, 3),
-    pagination: false,
-  },
+export interface DataTableOptions {
+  search?: boolean
+  download?: boolean
+  viewColumns?: boolean
+  filter?: boolean
+  filterType?: "dropdown" | "checkbox" | "text"
+  tableBodyHeight?: string
+  tableBodyMaxHeight?: string
 }
 
-export const WithPagination: Story = {
-  args: {
-    columns: baseColumns,
-    data: baseData,
-    pagination: true,
-    options: defaultOptions,
-  },
+interface DataTableProps {
+  columns: Column[]
+  data: DataRow[]
+  pagination?: boolean
+  className?: string
+  options?: DataTableOptions
 }
 
-export const SearchOnly: Story = {
-  args: {
-    columns: baseColumns,
-    data: baseData,
-    options: { search: true },
-  },
+// ... (All icons stay exactly the same - LeftArrowIcon, RightArrowIcon, etc.)
+
+/* ------------------ Icons ------------------ */
+const LeftArrowIcon = () => (
+  <span className="inline-flex h-5 w-5 items-center justify-center">
+    <svg
+      viewBox="0 0 24 24"
+      className="h-4 w-4 text-[var(--atom-text-primary,#4b5563)]"
+      aria-hidden="true"
+    >
+      <path
+        d="M15 6l-6 6 6 6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  </span>
+)
+
+const RightArrowIcon = () => (
+  <span className="inline-flex h-5 w-5 items-center justify-center">
+    <svg
+      viewBox="0 0 24 24"
+      className="h-4 w-4 text-[var(--atom-text-primary,#4b5563)]"
+      aria-hidden="true"
+    >
+      <path
+        d="M9 6l6 6-6 6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  </span>
+)
+
+const SearchIcon = () => (
+  <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+    <path
+      d="M11 5a6 6 0 014.472 9.985l3.271 3.272-1.414 1.414-3.272-3.271A6 6 0 1111 5z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+const FilterIcon = () => (
+  <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+    <path
+      d="M4 5h16l-6 7v5l-4 2v-7L4 5z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+const ColumnsIcon = () => (
+  <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+    <path
+      d="M5 4h4v16H5zM10 4h4v16h-4zM15 4h4v16h-4z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+const DownloadIcon = () => (
+  <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+    <path
+      d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+// ... (Toolbar component stays exactly the same)
+
+function Toolbar(props: {
+  search: boolean
+  download: boolean
+  viewColumns: boolean
+  filter: boolean
+  filterType: "dropdown" | "checkbox" | "text"
+  searchValue: string
+  onSearchChange: (value: string) => void
+}) {
+  const {
+    search,
+    download,
+    viewColumns,
+    filter,
+    filterType,
+    searchValue,
+    onSearchChange,
+  } = props
+
+  const showToolbar = search || download || viewColumns || filter
+  if (!showToolbar) return null
+
+  return (
+    <div className="flex items-center justify-between gap-3 px-4 py-2 border-b border-[var(--atom-border-subtle,#e2e8f0)] bg-white">
+      <div className="flex items-center gap-2">
+        {search && (
+          <div className="flex h-8 w-48 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-2">
+            <SearchIcon />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchValue}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className="h-full w-full bg-transparent text-sm outline-none"
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="flex items-center gap-2">
+        {filter && (
+          <button
+            type="button"
+            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium"
+            aria-label="Filter"
+          >
+            <FilterIcon />
+          </button>
+        )}
+        {viewColumns && (
+          <button
+            type="button"
+            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium"
+            aria-label="View columns"
+          >
+            <ColumnsIcon />
+          </button>
+        )}
+        {download && (
+          <button
+            type="button"
+            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium"
+            aria-label="Download"
+          >
+            <DownloadIcon />
+          </button>
+        )}
+      </div>
+    </div>
+  )
 }
 
-export const Selectors: Story = {
-  args: {
-    columns: columnsWithSelector,
-    data: baseData,
-    pagination: true,
-    options: { 
-      ...defaultOptions, 
-      search: true 
-    },
-  },
+// ... (PaginationControls stays exactly the same)
+
+function PaginationControls(props: {
+  pagination: boolean
+  dataLength: number
+  rowsPerPage: number
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+}) {
+  const {
+    pagination,
+    dataLength,
+    rowsPerPage,
+    currentPage,
+    totalPages,
+    onPageChange,
+  } = props
+
+  if (!pagination || dataLength <= rowsPerPage || totalPages <= 1) return null
+
+  return (
+    <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-[var(--atom-border-subtle,#e2e8f0)] sm:px-6">
+      <div className="text-sm text-[var(--atom-text-muted,#64748b)]">
+        Showing {(currentPage - 1) * rowsPerPage + 1} to{" "}
+        {Math.min(currentPage * rowsPerPage, dataLength)} of {dataLength} entries
+      </div>
+
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={cn(
+            "flex h-9 w-9 items-center justify-center rounded-full border transition-colors",
+            currentPage === 1
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200"
+              : "bg-white hover:bg-gray-50 text-[var(--atom-text-primary,#0f172a)] border-[var(--atom-border-subtle,#e2e8f0)] hover:border-gray-300",
+          )}
+          aria-label="Previous page"
+        >
+          <LeftArrowIcon />
+        </button>
+
+        <div className="flex items-center gap-1">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => onPageChange(page)}
+              className={cn(
+                "min-w-[2.25rem] h-9 rounded-md text-sm font-medium flex items-center justify-center border transition-colors px-2",
+                currentPage === page
+                  ? "bg-[var(--atom-primary,#3b82f6)] text-white border-[var(--atom-primary,#3b82f6)]"
+                  : "bg-white hover:bg-gray-50 text-[var(--atom-text-primary,#0f172a)] border-[var(--atom-border-subtle,#e2e8f0)] hover:border-gray-300",
+              )}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
+
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={cn(
+            "flex h-9 w-9 items-center justify-center rounded-full border transition-colors",
+            currentPage === totalPages
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200"
+              : "bg-white hover:bg-gray-50 text-[var(--atom-text-primary,#0f172a)] border-[var(--atom-border-subtle,#e2e8f0)] hover:border-gray-300",
+          )}
+          aria-label="Next page"
+        >
+          <RightArrowIcon />
+        </button>
+      </div>
+    </div>
+  )
 }
 
-export const MixedSortable: Story = {
-  args: {
-    columns: [
-      { name: "Name", key: "name", sortable: true },
-      { name: "Age", key: "age" }, // Not sortable
-      { name: "Email", key: "email", sortable: true },
-      { 
-        name: "Computed", 
-        key: "id", 
-        selector: (row: DataRow) => `ID: ${row.id}`,
-        sortable: false 
-      },
-    ],
-    data: baseData,
-    pagination: true,
-    options: defaultOptions,
-  },
-}
+/* ------------------ DataTable (UPDATED) ------------------ */
 
-export const NoToolbar: Story = {
-  args: {
-    columns: baseColumns,
-    data: baseData.slice(0, 5),
-    pagination: true,
-  },
-}
+export function DataTable({
+  columns,
+  data,
+  pagination = false,
+  className,
+  options,
+}: DataTableProps) {
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const [searchValue, setSearchValue] = React.useState("")
+  const [sortConfig, setSortConfig] = React.useState<{
+    key: string | null
+    direction: "asc" | "desc"
+  }>({
+    key: null,
+    direction: "asc",
+  })
 
-export const FixedHeight: Story = {
-  args: {
-    columns: baseColumns,
-    data: Array.from({ length: 20 }, (_, i) => ({
-      id: i + 1,
-      name: `User ${i + 1}`,
-      age: 20 + (i % 30),
-      email: `user${i + 1}@example.com`,
-      department: ["Engineering", "Design", "Marketing", "Sales", "HR"][i % 5],
-      status: i % 3 === 0 ? "Active" : "Inactive",
-    })),
-    pagination: true,
-    options: {
-      ...defaultOptions,
-      tableBodyHeight: "400px",
-      tableBodyMaxHeight: "500px",
-    },
-  },
-}
+  const rowsPerPage = 10
 
-export const Empty: Story = {
-  args: {
-    columns: baseColumns,
-    data: [],
-    options: defaultOptions,
-  },
-}
+  const {
+    search = false,
+    download = false,
+    viewColumns = false,
+    filter = false,
+    filterType = "dropdown",
+    tableBodyHeight,
+    tableBodyMaxHeight,
+  } = options || {}
 
-export const SingleRow: Story = {
-  args: {
-    columns: baseColumns,
-    data: [baseData[0]],
-  },
-}
+  const normalizeText = (value: unknown) => {
+    if (value === null || value === undefined) return ""
+    return String(value)
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, "")
+  }
 
-/* ------------------ Interactive Stories ------------------ */
+  const normalizedSearch = normalizeText(searchValue.trim())
 
-export const LargeDataset: Story = {
-  args: {
-    columns: baseColumns,
-    data: Array.from({ length: 100 }, (_, i) => ({
-      id: i + 1,
-      name: `John Doe ${i + 1}`,
-      age: 25 + (i % 35),
-      email: `john.doe${i + 1}@company.com`,
-      department: "Engineering",
-      status: "Active",
-    })),
-    pagination: true,
-    options: defaultOptions,
-  },
-}
+// In your DataTable component, replace ONLY this section:
 
-export const SearchAndSort: Story = {
-  args: {
-    columns: [
-      { name: "Name", key: "name", sortable: true },
-      { name: "Age", key: "age", sortable: true },
-      { name: "Department", key: "department", sortable: true },
-    ],
-    data: baseData.concat(baseData).concat(baseData), // 18 rows
-    pagination: true,
-    options: { search: true },
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Try searching 'john' or 'engineering', then click headers to sort",
-      },
-    },
-  },
+const filteredData = !search || !normalizedSearch
+  ? data
+  : data.filter((row) =>
+      columns.some((column) => {
+        const value = column.selector ? column.selector(row) : row[column.key]
+        const normalizedValue = normalizeText(value)
+        return normalizedValue.includes(normalizedSearch)  // ✅ FIXED
+      }),
+    )
+
+
+
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return filteredData
+
+    const sorted = [...filteredData].sort((a, b) => {
+      // Get values using selector OR key
+      const aVal = columns.find(c => c.key === sortConfig.key)?.selector 
+        ? columns.find(c => c.key === sortConfig.key)?.selector!(a)
+        : a[sortConfig.key!]
+      
+      const bVal = columns.find(c => c.key === sortConfig.key)?.selector 
+        ? columns.find(c => c.key === sortConfig.key)?.selector!(b)
+        : b[sortConfig.key!]
+
+      // numeric compare
+      const aNum = Number(String(aVal).replace(/[^0-9.-]/g, ""))
+      const bNum = Number(String(bVal).replace(/[^0-9.-]/g, ""))
+
+      if (!Number.isNaN(aNum) && !Number.isNaN(bNum)) {
+        return sortConfig.direction === "asc" ? aNum - bNum : bNum - aNum
+      }
+
+      // string compare
+      const aStr = normalizeText(aVal)
+      const bStr = normalizeText(bVal)
+
+      if (aStr < bStr) return sortConfig.direction === "asc" ? -1 : 1
+      if (aStr > bStr) return sortConfig.direction === "asc" ? 1 : -1
+      return 0
+    })
+
+    return sorted
+  }, [filteredData, sortConfig, columns])
+
+  const totalPages = Math.ceil(sortedData.length / rowsPerPage)
+
+  const paginatedData = pagination
+    ? sortedData.slice(
+        (currentPage - 1) * rowsPerPage,
+        currentPage * rowsPerPage,
+      )
+    : sortedData
+
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages) return
+    setCurrentPage(page)
+  }
+
+  const handleSort = (key: string) => {
+    // NEW: Only sort if column has sortable: true
+    const column = columns.find(col => col.key === key)
+    if (!column?.sortable) return
+
+    setSortConfig((prev) => {
+      if (prev.key === key) {
+        const nextDirection = prev.direction === "asc" ? "desc" : "asc"
+        return { key, direction: nextDirection }
+      }
+      return { key, direction: "asc" }
+    })
+    setCurrentPage(1)
+  }
+
+  React.useEffect(() => {
+    setCurrentPage(1)
+  }, [searchValue])
+
+  return (
+    <div
+      className={cn(
+        "w-full overflow-hidden rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] bg-white",
+        className,
+      )}
+    >
+      <Toolbar
+        search={search}
+        download={download}
+        viewColumns={viewColumns}
+        filter={filter}
+        filterType={filterType}
+        searchValue={searchValue}
+        onSearchChange={setSearchValue}
+      />
+
+      <div
+        className="overflow-x-auto"
+        style={{
+          height: tableBodyHeight,
+          maxHeight: tableBodyMaxHeight,
+        }}
+      >
+        <table className="w-full border-collapse text-left text-sm">
+          <thead className="bg-[var(--atom-table-header-bg,#f8fafc)] text-xs uppercase tracking-wide text-[var(--atom-text-muted,#64748b)] sticky top-0 z-10">
+            <tr>
+              {columns.map((column) => {
+                const isActive = sortConfig.key === column.key
+                const direction = sortConfig.direction
+                const isSortable = column.sortable !== false // default true if not specified
+
+                return (
+                  <th
+                    key={column.key}
+                    scope="col"
+                    onClick={() => handleSort(column.key)}
+                    className={cn(
+                      "px-4 py-2 font-medium text-[var(--atom-text-muted,#64748b)]",
+                      isSortable
+                        ? "cursor-pointer select-none group hover:bg-gray-50"
+                        : "cursor-default",
+                    )}
+                  >
+                    <div className="flex items-center gap-1">
+                      <span>{column.name}</span>
+                      {isSortable && (
+                        <span
+                          className={cn(
+                            "ml-1 inline-flex h-4 w-4 items-center justify-center text-[10px] opacity-0 transition-opacity",
+                            "group-hover:opacity-60",
+                            isActive && "opacity-100 text-[var(--atom-text-primary,#0f172a)]",
+                          )}
+                        >
+                          {!isActive && "↕"}
+                          {isActive && direction === "asc" && "↑"}
+                          {isActive && direction === "desc" && "↓"}
+                        </span>
+                      )}
+                    </div>
+                  </th>
+                )
+              })}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[var(--atom-border-subtle,#e2e8f0)] bg-white">
+            {paginatedData.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {columns.map((column) => {
+                  // NEW: Use selector OR key for cell rendering
+                  const cellValue = column.selector ? column.selector(row) : row[column.key]
+                  
+                  return (
+                    <td
+                      key={column.key}
+                      className="px-4 py-2 text-[var(--atom-text-primary,#0f172a)]"
+                    >
+                      {cellValue}
+                    </td>
+                  )
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <PaginationControls
+        pagination={pagination}
+        dataLength={sortedData.length}
+        rowsPerPage={rowsPerPage}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
+    </div>
+  )
 }

@@ -1,19 +1,20 @@
 // src/components/ui/data-table.tsx
 import * as React from "react"
+import type { ReactNode } from "react"
 import { cn } from "../../lib/cn"
 
 export interface Column {
   name: string
   key: string
-  selector?: (row: DataRow) => any  // Optional selector function
-  sortable?: boolean  // NEW: Enable/disable sorting per column
+  selector?: (row: DataRow) => any
+  sortable?: boolean
+  cell?: (row: DataRow, rowIndex: number) => ReactNode
+  conditionalCell?: (value: any, row: DataRow) => ReactNode
 }
 
 export interface DataRow {
   [key: string]: any
 }
-
-// ... (DataTableOptions and DataTableProps stay the same)
 
 export interface DataTableOptions {
   search?: boolean
@@ -32,8 +33,6 @@ interface DataTableProps {
   className?: string
   options?: DataTableOptions
 }
-
-// ... (All icons stay exactly the same - LeftArrowIcon, RightArrowIcon, etc.)
 
 /* ------------------ Icons ------------------ */
 const LeftArrowIcon = () => (
@@ -126,8 +125,7 @@ const DownloadIcon = () => (
   </svg>
 )
 
-// ... (Toolbar component stays exactly the same)
-
+/* ------------------ Toolbar ------------------ */
 function Toolbar(props: {
   search: boolean
   download: boolean
@@ -200,8 +198,7 @@ function Toolbar(props: {
   )
 }
 
-// ... (PaginationControls stays exactly the same)
-
+/* -------------- PaginationControls -------------- */
 function PaginationControls(props: {
   pagination: boolean
   dataLength: number
@@ -278,8 +275,7 @@ function PaginationControls(props: {
   )
 }
 
-/* ------------------ DataTable (UPDATED) ------------------ */
-
+/* ------------------ DataTable ------------------ */
 export function DataTable({
   columns,
   data,
@@ -318,34 +314,24 @@ export function DataTable({
 
   const normalizedSearch = normalizeText(searchValue.trim())
 
-// In your DataTable component, replace ONLY this section:
-
-const filteredData = !search || !normalizedSearch
-  ? data
-  : data.filter((row) =>
-      columns.some((column) => {
-        const value = column.selector ? column.selector(row) : row[column.key]
-        const normalizedValue = normalizeText(value)
-        return normalizedValue.includes(normalizedSearch)  // ✅ FIXED
-      }),
-    )
-
-
+  const filteredData = !search || !normalizedSearch
+    ? data
+    : data.filter((row) =>
+        columns.some((column) => {
+          const value = column.selector ? column.selector(row) : row[column.key]
+          const normalizedValue = normalizeText(value)
+          return normalizedValue.includes(normalizedSearch)
+        }),
+      )
 
   const sortedData = React.useMemo(() => {
     if (!sortConfig.key) return filteredData
 
     const sorted = [...filteredData].sort((a, b) => {
-      // Get values using selector OR key
-      const aVal = columns.find(c => c.key === sortConfig.key)?.selector 
-        ? columns.find(c => c.key === sortConfig.key)?.selector!(a)
-        : a[sortConfig.key!]
-      
-      const bVal = columns.find(c => c.key === sortConfig.key)?.selector 
-        ? columns.find(c => c.key === sortConfig.key)?.selector!(b)
-        : b[sortConfig.key!]
+      const column = columns.find(c => c.key === sortConfig.key)
+      const aVal = column?.selector ? column.selector(a) : a[sortConfig.key!]
+      const bVal = column?.selector ? column.selector(b) : b[sortConfig.key!]
 
-      // numeric compare
       const aNum = Number(String(aVal).replace(/[^0-9.-]/g, ""))
       const bNum = Number(String(bVal).replace(/[^0-9.-]/g, ""))
 
@@ -353,7 +339,6 @@ const filteredData = !search || !normalizedSearch
         return sortConfig.direction === "asc" ? aNum - bNum : bNum - aNum
       }
 
-      // string compare
       const aStr = normalizeText(aVal)
       const bStr = normalizeText(bVal)
 
@@ -380,7 +365,6 @@ const filteredData = !search || !normalizedSearch
   }
 
   const handleSort = (key: string) => {
-    // NEW: Only sort if column has sortable: true
     const column = columns.find(col => col.key === key)
     if (!column?.sortable) return
 
@@ -428,7 +412,7 @@ const filteredData = !search || !normalizedSearch
               {columns.map((column) => {
                 const isActive = sortConfig.key === column.key
                 const direction = sortConfig.direction
-                const isSortable = column.sortable !== false // default true if not specified
+                const isSortable = column.sortable !== false
 
                 return (
                   <th
@@ -467,14 +451,28 @@ const filteredData = !search || !normalizedSearch
             {paginatedData.map((row, rowIndex) => (
               <tr key={rowIndex}>
                 {columns.map((column) => {
-                  // NEW: Use selector OR key for cell rendering
-                  const cellValue = column.selector ? column.selector(row) : row[column.key]
+                  let cellValue: ReactNode = row[column.key]
+                  
+                  // Priority 1: Custom cell renderer
+                  if (column.cell) {
+                    cellValue = column.cell(row, rowIndex)
+                  }
+                  // Priority 2: Conditional cell renderer
+                  else if (column.conditionalCell) {
+                    const rawValue = column.selector ? column.selector(row) : row[column.key]
+                    cellValue = column.conditionalCell(rawValue, row)
+                  }
+                  // Priority 3: Selector function
+                  else if (column.selector) {
+                    cellValue = column.selector(row)
+                  }
+                  // Priority 4: Raw data value
+                  else {
+                    cellValue = row[column.key]
+                  }
                   
                   return (
-                    <td
-                      key={column.key}
-                      className="px-4 py-2 text-[var(--atom-text-primary,#0f172a)]"
-                    >
+                    <td key={column.key} className="px-4 py-2">
                       {cellValue}
                     </td>
                   )
