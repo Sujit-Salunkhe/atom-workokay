@@ -156,7 +156,7 @@ function FilterDropdown({
   const [expandedColumn, setExpandedColumn] = React.useState<string | null>(
     null,
   )
- 
+
   const uniqueValuesByColumn = React.useMemo(() => {
     const result: Record<string, Set<string>> = {}
 
@@ -185,7 +185,6 @@ function FilterDropdown({
     const newFilters = currentFilters.includes(value)
       ? currentFilters.filter((v) => v !== value)
       : [...currentFilters, value]
-
     onFilterChange(columnKey, newFilters)
   }
 
@@ -290,6 +289,65 @@ function FilterDropdown({
   )
 }
 
+/* ------------------ Active Filters Display ------------------ */
+interface ActiveFiltersProps {
+  filters: Record<string, string[]>
+  columns: Column[]
+  onFilterChange: (columnKey: string, values: string[]) => void
+  activeFilterCount: number
+}
+
+function ActiveFilters({
+  filters,
+  columns,
+  onFilterChange,
+  activeFilterCount,
+}: ActiveFiltersProps) {
+  const handleRemoveFilter = (columnKey: string, valueToRemove: string) => {
+    const currentFilters = filters[columnKey] || []
+    const updatedValues = currentFilters.filter((v) => v !== valueToRemove)
+    onFilterChange(columnKey, updatedValues)
+  }
+
+  if (activeFilterCount === 0) return null
+
+  return (
+    <div className="px-4 py-2  border-b border-[var(--atom-border-subtle,#e2e8f0)] overflow-hidden">
+      <div className="flex flex-wrap gap-2">
+        {Object.entries(filters).map(([columnKey, values]) => {
+          const column = columns.find((col) => col.key === columnKey)
+          const columnName = column?.name || columnKey
+          return values.map((value) => (
+            <div
+              key={`${columnKey}-${value}`}
+              className="inline-flex items-center gap-2 bg-blue-600 text-white text-xs rounded-full px-3 py-1"
+            >
+              <span>
+                <strong className="font-semibold">{columnName}:</strong> {value}
+              </span>
+              <button
+                onClick={() => handleRemoveFilter(columnKey, value)}
+                className="hover:bg-blue-700 rounded-full w-4 h-4 flex items-center justify-center transition-colors"
+                aria-label={`Remove ${columnName} filter: ${value}`}
+              >
+                <svg viewBox="0 0 24 24" className="w-3 h-3" aria-hidden="true">
+                  <path
+                    d="M18 6L6 18M6 6l12 12"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          ))
+        })}
+      </div>
+    </div>
+  )
+}
+
 /* ------------------ Toolbar ------------------ */
 function Toolbar(props: {
   search: boolean
@@ -362,44 +420,51 @@ function Toolbar(props: {
           </div>
         )}
       </div>
-
       {/* filter drop down Button */}
-
+      {filter && <> </>} {/* working here */}
       <div className="flex items-center gap-2 relative">
         {filter && (
-          <div className="relative" ref={dropdownRef}>
-            <button
-              type="button"
-              onClick={() => onToggleFilter(true)}
-              className={cn(
-                'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors',
-                showFilterDropdown
-                  ? 'border-blue-500 bg-blue-50 text-blue-700'
-                  : 'border-[var(--atom-border-subtle,#e2e8f0)] hover:bg-gray-50',
-              )}
-              aria-label="Filter table data"
-              aria-expanded={showFilterDropdown}
-              aria-haspopup="true"
-            >
-              <FilterIcon />
-              {activeFilterCount > 0 && (
-                <span className="bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
-                  {activeFilterCount}
-                </span>
-              )}
-            </button>
+          <>
+            <ActiveFilters
+              filters={filters}
+              columns={columns}
+              onFilterChange={onFilterChange}
+              activeFilterCount={activeFilterCount}
+            />
+            <div className="relative" ref={dropdownRef}>
+              <button
+                type="button"
+                onClick={() => onToggleFilter(true)}
+                className={cn(
+                  'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors',
+                  showFilterDropdown
+                    ? 'border-blue-500 bg-blue-50 text-blue-700'
+                    : 'border-[var(--atom-border-subtle,#e2e8f0)] hover:bg-gray-50',
+                )}
+                aria-label="Filter table data"
+                aria-expanded={showFilterDropdown}
+                aria-haspopup="true"
+              >
+                <FilterIcon />
+                {activeFilterCount > 0 && (
+                  <span className="bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                    {activeFilterCount}
+                  </span>
+                )}
+              </button>
 
-            {showFilterDropdown && (
-              <FilterDropdown
-                columns={columns}
-                data={data}
-                filters={filters}
-                onFilterChange={onFilterChange}
-                onToggleFilter={onToggleFilter}
-                showFilterDropdown={showFilterDropdown}
-              />
-            )}
-          </div>
+              {showFilterDropdown && (
+                <FilterDropdown
+                  columns={columns}
+                  data={data}
+                  filters={filters}
+                  onFilterChange={onFilterChange}
+                  onToggleFilter={onToggleFilter}
+                  showFilterDropdown={showFilterDropdown}
+                />
+              )}
+            </div>
+          </>
         )}
         {viewColumns && (
           <button
@@ -603,7 +668,7 @@ export function DataTable({
   return (
     <div
       className={cn(
-        'w-full overflow-hidden rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] bg-white',
+        'w-full overflow-hidden rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] bg-white min-h-[80vh]',
         className,
       )}
     >
