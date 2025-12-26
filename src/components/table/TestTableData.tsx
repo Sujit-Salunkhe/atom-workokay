@@ -312,25 +312,29 @@ function ActiveFilters({
   if (activeFilterCount === 0) return null
 
   return (
-    <div className="px-4 py-2  border-b border-[var(--atom-border-subtle,#e2e8f0)] overflow-hidden">
-      <div className="flex flex-wrap gap-2">
+    <div className="px-4 py-2 border-b border-[var(--atom-border-subtle,#e2e8f0)] bg-gray-50 h-12 flex items-center">
+      <div className="flex gap-2 items-center overflow-x-auto overflow-y-hidden max-w-xl scrollbar-thin">
         {Object.entries(filters).map(([columnKey, values]) => {
           const column = columns.find((col) => col.key === columnKey)
           const columnName = column?.name || columnKey
           return values.map((value) => (
             <div
               key={`${columnKey}-${value}`}
-              className="inline-flex items-center gap-2 bg-blue-600 text-white text-xs rounded-full px-3 py-1"
+              className="inline-flex items-center gap-2 bg-blue-600 text-white text-xs rounded-full px-3 py-1 whitespace-nowrap flex-shrink-0 hover:scrollbar-thumb-gray-600 "
             >
               <span>
                 <strong className="font-semibold">{columnName}:</strong> {value}
               </span>
               <button
                 onClick={() => handleRemoveFilter(columnKey, value)}
-                className="hover:bg-blue-700 rounded-full w-4 h-4 flex items-center justify-center transition-colors"
+                className="hover:bg-blue-700 rounded-full w-4 h-4 flex items-center justify-center transition-colors cursor-pointer"
                 aria-label={`Remove ${columnName} filter: ${value}`}
               >
-                <svg viewBox="0 0 24 24" className="w-3 h-3" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                >
                   <path
                     d="M18 6L6 18M6 6l12 12"
                     fill="none"
@@ -347,6 +351,8 @@ function ActiveFilters({
     </div>
   )
 }
+
+
 
 /* ------------------ Toolbar ------------------ */
 function Toolbar(props: {
