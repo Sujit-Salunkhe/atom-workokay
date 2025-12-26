@@ -143,7 +143,8 @@ interface FilterDropdownProps {
   data: DataRow[]
   filters: Record<string, string[]>
   onFilterChange: (columnKey: string, values: string[]) => void
-  onClose: () => void
+  onToggleFilter: (value: boolean) => void
+  showFilterDropdown: boolean
 }
 
 function FilterDropdown({
@@ -151,41 +152,33 @@ function FilterDropdown({
   data,
   filters,
   onFilterChange,
-  onClose,
 }: FilterDropdownProps) {
-  const [expandedColumn, setExpandedColumn] = React.useState<string | null>(null)
-  const dropdownRef = React.useRef<HTMLDivElement>(null)
-
-  // Memoize all unique values at once - calculate only when data/columns change
+  const [expandedColumn, setExpandedColumn] = React.useState<string | null>(
+    null,
+  )
+ 
   const uniqueValuesByColumn = React.useMemo(() => {
-    const result: Record<string, string[]> = {}
-    columns.forEach((column) => {
-      const uniqueSet = new Set<string>()
-      data.forEach((row) => {
+    const result: Record<string, Set<string>> = {}
+
+    data.forEach((row) => {
+      columns.forEach((column) => {
+        if (!result[column.key]) {
+          result[column.key] = new Set()
+        }
         const value = column.selector ? column.selector(row) : row[column.key]
         if (value !== null && value !== undefined && value !== '') {
-          uniqueSet.add(String(value))
+          result[column.key].add(String(value))
         }
       })
-      result[column.key] = Array.from(uniqueSet).sort()
     })
-    return result
+
+    const finalResult: Record<string, string[]> = {}
+    Object.keys(result).forEach((key) => {
+      finalResult[key] = Array.from(result[key]).sort()
+    })
+
+    return finalResult
   }, [data, columns])
-
-  // Close dropdown when clicking outside
-  React.useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        onClose()
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [onClose])
 
   const handleCheckboxChange = (columnKey: string, value: string) => {
     const currentFilters = filters[columnKey] || []
@@ -213,7 +206,6 @@ function FilterDropdown({
 
   return (
     <div
-      ref={dropdownRef}
       role="dialog"
       aria-label="Filter options"
       className="absolute right-0 top-full mt-2 w-72 max-h-96 overflow-y-auto bg-white rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] shadow-lg z-50"
@@ -260,9 +252,7 @@ function FilterDropdown({
                     <input
                       type="checkbox"
                       checked={allSelected}
-                      onChange={() =>
-                        handleSelectAll(column.key, uniqueValues)
-                      }
+                      onChange={() => handleSelectAll(column.key, uniqueValues)}
                       className="rounded border-gray-300"
                       aria-label={`Select all ${column.name}`}
                     />
@@ -310,7 +300,7 @@ function Toolbar(props: {
   searchValue: string
   onSearchChange: (value: string) => void
   showFilterDropdown: boolean
-  onToggleFilter: () => void
+  onToggleFilter: (value: boolean) => void
   columns: Column[]
   data: DataRow[]
   filters: Record<string, string[]>
@@ -339,7 +329,22 @@ function Toolbar(props: {
     (acc, vals) => acc + vals.length,
     0,
   )
+  //handle outside click
+  const dropdownRef = React.useRef<HTMLDivElement>(null)
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!showFilterDropdown) return null
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        onToggleFilter(false)
+      }
+    }
 
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [onToggleFilter])
   return (
     <div className="flex items-center justify-between gap-3 px-4 py-2 border-b border-[var(--atom-border-subtle,#e2e8f0)] bg-white">
       <div className="flex items-center gap-2">
@@ -358,14 +363,14 @@ function Toolbar(props: {
         )}
       </div>
 
-       {/* filter drop down Button */}
-       
+      {/* filter drop down Button */}
+
       <div className="flex items-center gap-2 relative">
         {filter && (
-          <div className="relative">
+          <div className="relative" ref={dropdownRef}>
             <button
               type="button"
-              onClick={onToggleFilter}
+              onClick={() => onToggleFilter(true)}
               className={cn(
                 'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors',
                 showFilterDropdown
@@ -390,7 +395,8 @@ function Toolbar(props: {
                 data={data}
                 filters={filters}
                 onFilterChange={onFilterChange}
-                onClose={onToggleFilter}
+                onToggleFilter={onToggleFilter}
+                showFilterDropdown={showFilterDropdown}
               />
             )}
           </div>
@@ -440,7 +446,7 @@ function PaginationControls(props: {
 
   return (
     <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-[var(--atom-border-subtle,#e2e8f0)] sm:px-6">
-      <div 
+      <div
         className="text-sm text-[var(--atom-text-muted,#64748b)]"
         role="status"
         aria-live="polite"
@@ -624,7 +630,7 @@ export function DataTable({
           maxHeight: tableBodyMaxHeight,
         }}
       >
-        <table 
+        <table
           className="w-full border-collapse text-left text-sm"
           role="table"
           aria-label="Data table"
