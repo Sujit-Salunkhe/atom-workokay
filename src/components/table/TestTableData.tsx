@@ -23,6 +23,7 @@ export interface DataTableOptions {
   filterType?: 'dropdown' | 'checkbox' | 'text'
   tableBodyHeight?: string
   tableBodyMaxHeight?: string
+  exportFormat?:'csv' | 'excel'
 }
 
 interface DataTableProps {
@@ -369,6 +370,7 @@ function Toolbar(props: {
   data: DataRow[]
   filters: Record<string, string[]>
   onFilterChange: (columnKey: string, values: string[]) => void
+  handleDownload:() => void
 }) {
   const {
     search,
@@ -384,6 +386,7 @@ function Toolbar(props: {
     data,
     filters,
     onFilterChange,
+    handleDownload
   } = props
 
   const showToolbar = search || download || viewColumns || filter
@@ -484,10 +487,12 @@ function Toolbar(props: {
         {download && (
           <button
             type="button"
-            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium"
+            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium cursor-pointer"
+            onClick={handleDownload}
             aria-label="Download"
           >
             <DownloadIcon />
+            <span>Export</span>
           </button>
         )}
       </div>
@@ -589,9 +594,40 @@ export function DataTable({
   const [searchValue, setSearchValue] = React.useState('')
   const [showFilterDropdown, setShowFilterDropdown] = React.useState(false)
   const [filters, setFilters] = React.useState<Record<string, string[]>>({})
+  const [exportData, setExportData] = React.useState<DataRow[]>([])
 
   const rowsPerPage = 10
 
+
+ // downlod functions
+  const handleDownload = () => {
+  if (!download) return
+  
+  // Export FILTERED data (respects search + filters)
+  const csvContent = convertToCSV(filteredData)
+  const blob = new Blob([csvContent], { type: 'text/csv' })
+  const url = window.URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `table-export-${new Date().toISOString().slice(0,10)}.csv`
+  link.click()
+  window.URL.revokeObjectURL(url)
+}
+
+const convertToCSV = (data: DataRow[]): string => {
+  if (data.length === 0) return ''
+  
+  // Headers from visible columns
+  const headers = columns.map(col => col.name).join(',')
+  const rows = data.map(row => 
+    columns.map(col => {
+      const value = col.selector ? col.selector(row) : row[col.key]
+      return `"${String(value || '').replace(/"/g, '""')}"`
+    }).join(',')
+  )
+  
+  return [headers, ...rows].join('\n')
+}
   const {
     search = false,
     download = false,
@@ -692,6 +728,7 @@ export function DataTable({
         data={data}
         filters={filters}
         onFilterChange={handleFilterChange}
+        handleDownload = {handleDownload}
       />
 
       <div
