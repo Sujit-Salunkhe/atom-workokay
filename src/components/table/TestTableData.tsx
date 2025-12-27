@@ -9,6 +9,7 @@ export interface Column {
   selector?: (row: DataRow) => any
   cell?: (row: DataRow, rowIndex: number) => ReactNode
   conditionalCell?: (value: any, row: DataRow) => ReactNode
+  sortable?: boolean // NEW: Controls if column is sortable (default: true)
 }
 
 export interface DataRow {
@@ -23,7 +24,7 @@ export interface DataTableOptions {
   filterType?: 'dropdown' | 'checkbox' | 'text'
   tableBodyHeight?: string
   tableBodyMaxHeight?: string
-  exportFormat?:'csv' | 'excel'
+  exportFormat?: 'csv' | 'excel'
 }
 
 interface DataTableProps {
@@ -137,6 +138,117 @@ const ChevronDownIcon = () => (
     />
   </svg>
 )
+
+/* ------------------ Sort Dropdown (NEW) ------------------ */
+interface SortDropdownProps {
+  columnKey: string
+  sortConfig: { key: string | null; direction: 'asc' | 'desc' }
+  onSortChange: (key: string, direction: 'asc' | 'desc') => void
+}
+
+function SortDropdown({
+  columnKey,
+  sortConfig,
+  onSortChange,
+}: SortDropdownProps) {
+  const [isOpen, setIsOpen] = React.useState(false)
+  const dropdownRef = React.useRef<HTMLDivElement>(null)
+
+  const isCurrentSort = sortConfig.key === columnKey
+  const currentDirection = isCurrentSort ? sortConfig.direction : 'asc'
+
+  // Close dropdown on outside click
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleSort = (direction: 'asc' | 'desc') => {
+    onSortChange(columnKey, direction)
+    setIsOpen(false)
+  }
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={cn(
+          'flex items-center gap-1 p-1 -m-1 rounded hover:bg-gray-100 transition-all duration-200 group',
+          isCurrentSort && 'text-blue-600 bg-blue-50',
+        )}
+        aria-label={`Sort column ${columnKey}`}
+        aria-expanded={isOpen}
+      >
+        <svg
+          className={cn(
+            'h-3.5 w-3.5 transition-transform duration-200 flex-shrink-0',
+            {
+              'rotate-180': isCurrentSort && currentDirection === 'desc',
+              'text-blue-600': isCurrentSort,
+            },
+          )}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 top-full  bg-white rounded-lg border border-gray-200 shadow-xl overflow-auto z-50 ">
+          <button
+            onClick={() => handleSort('asc')}
+            className={cn(
+              'w-full text-left px-3 py-2 text-sm hover:bg-blue-50 flex items-center gap-2 transition-colors',
+              currentDirection === 'asc' &&
+                'bg-blue-50 border-r-2 border-blue-500 text-blue-700  font-medium',
+            )}
+          >
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+            Asc
+          </button>
+          <button
+            onClick={() => handleSort('desc')}
+            className={cn(
+              'w-full text-left px-3 py-2 text-sm hover:bg-blue-50 flex items-center gap-2 rounded-b-lg transition-colors',
+              currentDirection === 'desc' &&
+                'bg-blue-50 border-r-2 border-blue-500 text-blue-700 font-medium',
+            )}
+          >
+            <svg
+              className="h-4 w-4 rotate-180"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+            Desc
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
 
 /* ------------------ Filter Dropdown ------------------ */
 interface FilterDropdownProps {
@@ -321,21 +433,17 @@ function ActiveFilters({
           return values.map((value) => (
             <div
               key={`${columnKey}-${value}`}
-              className="inline-flex items-center gap-2 bg-blue-600 text-white text-xs rounded-full px-3 py-1 whitespace-nowrap flex-shrink-0 hover:scrollbar-thumb-gray-600 "
+              className="inline-flex items-center gap-2 bg-blue-600 text-white text-xs rounded-full px-3 py-1 whitespace-nowrap flex-shrink-0 hover:bg-blue-700"
             >
               <span>
                 <strong className="font-semibold">{columnName}:</strong> {value}
               </span>
               <button
                 onClick={() => handleRemoveFilter(columnKey, value)}
-                className="hover:bg-blue-700 rounded-full w-4 h-4 flex items-center justify-center transition-colors cursor-pointer"
+                className="hover:bg-blue-700 rounded-full w-4 h-4 flex items-center justify-center transition-colors cursor-pointer ml-1"
                 aria-label={`Remove ${columnName} filter: ${value}`}
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="w-3 h-3"
-                  aria-hidden="true"
-                >
+                <svg viewBox="0 0 24 24" className="w-3 h-3" aria-hidden="true">
                   <path
                     d="M18 6L6 18M6 6l12 12"
                     fill="none"
@@ -353,10 +461,8 @@ function ActiveFilters({
   )
 }
 
-
-
 /* ------------------ Toolbar ------------------ */
-function Toolbar(props: {
+interface ToolbarProps {
   search: boolean
   download: boolean
   viewColumns: boolean
@@ -370,8 +476,10 @@ function Toolbar(props: {
   data: DataRow[]
   filters: Record<string, string[]>
   onFilterChange: (columnKey: string, values: string[]) => void
-  handleDownload:() => void
-}) {
+  handleDownload: () => void
+}
+
+function Toolbar(props: ToolbarProps) {
   const {
     search,
     download,
@@ -386,7 +494,7 @@ function Toolbar(props: {
     data,
     filters,
     onFilterChange,
-    handleDownload
+    handleDownload,
   } = props
 
   const showToolbar = search || download || viewColumns || filter
@@ -396,11 +504,11 @@ function Toolbar(props: {
     (acc, vals) => acc + vals.length,
     0,
   )
-  //handle outside click
+
   const dropdownRef = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (!showFilterDropdown) return null
+      if (!showFilterDropdown) return
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
@@ -411,7 +519,8 @@ function Toolbar(props: {
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [onToggleFilter])
+  }, [showFilterDropdown, onToggleFilter])
+
   return (
     <div className="flex items-center justify-between gap-3 px-4 py-2 border-b border-[var(--atom-border-subtle,#e2e8f0)] bg-white">
       <div className="flex items-center gap-2">
@@ -429,8 +538,7 @@ function Toolbar(props: {
           </div>
         )}
       </div>
-      {/* filter drop down Button */}
-      {filter && <> </>} {/* working here */}
+
       <div className="flex items-center gap-2 relative">
         {filter && (
           <>
@@ -478,7 +586,7 @@ function Toolbar(props: {
         {viewColumns && (
           <button
             type="button"
-            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium"
+            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium hover:bg-gray-50"
             aria-label="View columns"
           >
             <ColumnsIcon />
@@ -487,7 +595,7 @@ function Toolbar(props: {
         {download && (
           <button
             type="button"
-            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium cursor-pointer"
+            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium hover:bg-gray-50 cursor-pointer"
             onClick={handleDownload}
             aria-label="Download"
           >
@@ -501,14 +609,16 @@ function Toolbar(props: {
 }
 
 /* -------------- PaginationControls -------------- */
-function PaginationControls(props: {
+interface PaginationControlsProps {
   pagination: boolean
   dataLength: number
   rowsPerPage: number
   currentPage: number
   totalPages: number
   onPageChange: (page: number) => void
-}) {
+}
+
+function PaginationControls(props: PaginationControlsProps) {
   const {
     pagination,
     dataLength,
@@ -583,6 +693,7 @@ function PaginationControls(props: {
 }
 
 /* ------------------ Main DataTable Component ------------------ */
+/* ------------------ Main DataTable Component (FIXED) ------------------ */
 export function DataTable({
   columns,
   data,
@@ -590,44 +701,18 @@ export function DataTable({
   className,
   options,
 }: DataTableProps) {
+  // Core state
   const [currentPage, setCurrentPage] = React.useState(1)
   const [searchValue, setSearchValue] = React.useState('')
   const [showFilterDropdown, setShowFilterDropdown] = React.useState(false)
   const [filters, setFilters] = React.useState<Record<string, string[]>>({})
-  const [exportData, setExportData] = React.useState<DataRow[]>([])
+  const [sortConfig, setSortConfig] = React.useState<{
+    key: string | null
+    direction: 'asc' | 'desc'
+  }>({ key: null, direction: 'asc' })
 
   const rowsPerPage = 10
 
-
- // downlod functions
-  const handleDownload = () => {
-  if (!download) return
-  
-  // Export FILTERED data (respects search + filters)
-  const csvContent = convertToCSV(filteredData)
-  const blob = new Blob([csvContent], { type: 'text/csv' })
-  const url = window.URL.createObjectURL(blob)
-  const link = document.createElement('a')
-  link.href = url
-  link.download = `table-export-${new Date().toISOString().slice(0,10)}.csv`
-  link.click()
-  window.URL.revokeObjectURL(url)
-}
-
-const convertToCSV = (data: DataRow[]): string => {
-  if (data.length === 0) return ''
-  
-  // Headers from visible columns
-  const headers = columns.map(col => col.name).join(',')
-  const rows = data.map(row => 
-    columns.map(col => {
-      const value = col.selector ? col.selector(row) : row[col.key]
-      return `"${String(value || '').replace(/"/g, '""')}"`
-    }).join(',')
-  )
-  
-  return [headers, ...rows].join('\n')
-}
   const {
     search = false,
     download = false,
@@ -647,8 +732,8 @@ const convertToCSV = (data: DataRow[]): string => {
 
   const normalizedSearch = normalizeText(searchValue.trim())
 
-  // Apply search filter
-  const searchFilteredData =
+  // 1. SEARCH FILTER (FIRST)
+  const searchFilteredData = React.useMemo(() => 
     !search || !normalizedSearch
       ? data
       : data.filter((row) =>
@@ -659,61 +744,131 @@ const convertToCSV = (data: DataRow[]): string => {
             const normalizedValue = normalizeText(value)
             return normalizedValue.includes(normalizedSearch)
           }),
-        )
+        ),
+    [data, columns, search, normalizedSearch]
+  )
 
-  // Apply column filters
-  const filteredData = React.useMemo(() => {
+  // 2. SORTING FUNCTION
+  const sortData = React.useCallback((items: DataRow[]): DataRow[] => {
+    if (!sortConfig.key) return items
+    
+    return [...items].sort((a, b) => {
+      const column = columns.find(col => col.key === sortConfig.key)
+      if (!column) return 0
+      
+      const aValue = column.selector ? column.selector(a) : a[column.key]
+      const bValue = column.selector ? column.selector(b) : b[column.key]
+      
+      // Handle null/undefined
+      if (aValue == null && bValue == null) return 0
+      if (aValue == null) return sortConfig.direction === 'asc' ? 1 : -1
+      if (bValue == null) return sortConfig.direction === 'asc' ? -1 : 1
+      
+      // Numeric first
+      const aNum = parseFloat(String(aValue))
+      const bNum = parseFloat(String(bValue))
+      if (!isNaN(aNum) && !isNaN(bNum)) {
+        return sortConfig.direction === 'asc' 
+          ? aNum - bNum 
+          : bNum - aNum
+      }
+      
+      // String fallback
+      const aStr = String(aValue).toLowerCase().trim()
+      const bStr = String(bValue).toLowerCase().trim()
+      
+      if (aStr < bStr) return sortConfig.direction === 'asc' ? -1 : 1
+      if (aStr > bStr) return sortConfig.direction === 'asc' ? 1 : -1
+      return 0
+    })
+  }, [sortConfig.key, sortConfig.direction, columns])
+
+  // 3. FILTER + SORT PIPELINE
+  const sortedFilteredData = React.useMemo(() => {
     let result = searchFilteredData
 
+    // Apply filters
     Object.entries(filters).forEach(([columnKey, selectedValues]) => {
       if (selectedValues.length > 0) {
         result = result.filter((row) => {
           const column = columns.find((col) => col.key === columnKey)
           if (!column) return true
-
-          const cellValue = column.selector
-            ? column.selector(row)
-            : row[columnKey]
+          const cellValue = column.selector ? column.selector(row) : row[columnKey]
           return selectedValues.includes(String(cellValue))
         })
       }
     })
 
-    return result
-  }, [searchFilteredData, filters, columns])
+    // Apply sorting
+    return sortData(result)
+  }, [searchFilteredData, filters, columns, sortData])
 
-  const totalPages = Math.ceil(filteredData.length / rowsPerPage)
+  // ✅ FIXED: Download functions NOW AFTER sortedFilteredData
+  const convertToCSV = React.useCallback((dataToExport: DataRow[]): string => {
+    if (dataToExport.length === 0) return ''
+    
+    const headers = columns.map(col => `"${col.name.replace(/"/g, '""')}"`).join(',')
+    const rows = dataToExport.map(row => 
+      columns.map(col => {
+        const value = col.selector ? col.selector(row) : row[col.key]
+        return `"${String(value || '').replace(/"/g, '""')}"`
+      }).join(',')
+    )
+    
+    return [headers, ...rows].join('\n')
+  }, [columns])
 
+  const handleDownload = React.useCallback(() => {
+    if (!download) return
+    
+    const csvContent = convertToCSV(sortedFilteredData)
+    const blob = new Blob([`\uFEFF${csvContent}`], { type: 'text/csv;charset=utf-8' }) // BOM for Excel
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `table-export-${new Date().toISOString().slice(0, 10)}.csv`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+  }, [download, sortedFilteredData, convertToCSV])
+
+  // Derived state
+  const totalPages = Math.ceil(sortedFilteredData.length / rowsPerPage)
   const paginatedData = pagination
-    ? filteredData.slice(
+    ? sortedFilteredData.slice(
         (currentPage - 1) * rowsPerPage,
         currentPage * rowsPerPage,
       )
-    : filteredData
+    : sortedFilteredData
 
-  const handlePageChange = (page: number) => {
+  // Event handlers
+  const handleSortChange = React.useCallback((key: string, direction: 'asc' | 'desc') => {
+    setSortConfig({ key, direction })
+    setCurrentPage(1)
+  }, [])
+
+  const handleFilterChange = React.useCallback((columnKey: string, values: string[]) => {
+    setFilters((prev) => ({ ...prev, [columnKey]: values }))
+    setCurrentPage(1)
+  }, [])
+
+  const handlePageChange = React.useCallback((page: number) => {
     if (page < 1 || page > totalPages) return
     setCurrentPage(page)
-  }
+  }, [totalPages])
 
-  const handleFilterChange = (columnKey: string, values: string[]) => {
-    setFilters((prev) => ({
-      ...prev,
-      [columnKey]: values,
-    }))
-  }
-
+  // Reset pagination on search/filter/sort
   React.useEffect(() => {
     setCurrentPage(1)
-  }, [searchValue, filters])
+  }, [searchValue, filters, sortConfig])
 
+  // ✅ ALL COMPONENTS BELOW (unchanged from previous)
   return (
-    <div
-      className={cn(
-        'w-full overflow-hidden rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] bg-white min-h-[80vh]',
-        className,
-      )}
-    >
+    <div className={cn(
+      'w-full overflow-hidden rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] bg-white min-h-[80vh]',
+      className,
+    )}>
       <Toolbar
         search={search}
         download={download}
@@ -728,68 +883,79 @@ const convertToCSV = (data: DataRow[]): string => {
         data={data}
         filters={filters}
         onFilterChange={handleFilterChange}
-        handleDownload = {handleDownload}
+        handleDownload={handleDownload}
       />
 
       <div
         className="overflow-x-auto"
-        style={{
-          height: tableBodyHeight,
-          maxHeight: tableBodyMaxHeight,
-        }}
+        style={{ height: tableBodyHeight, maxHeight: tableBodyMaxHeight }}
       >
-        <table
-          className="w-full border-collapse text-left text-sm"
-          role="table"
-          aria-label="Data table"
-        >
+        <table className="w-full border-collapse text-left text-sm" role="table" aria-label="Data table">
           <thead className="bg-[var(--atom-table-header-bg,#f8fafc)] text-xs uppercase tracking-wide text-[var(--atom-text-muted,#64748b)] sticky top-0 z-10">
             <tr>
-              {columns.map((column) => (
-                <th
-                  key={column.key}
-                  scope="col"
-                  className="px-4 py-2 font-medium text-[var(--atom-text-muted,#64748b)]"
-                >
-                  {column.name}
-                </th>
-              ))}
+              {columns.map((column) => {
+                const isSortable = column.sortable !== false
+                const isSorted = sortConfig.key === column.key
+                return (
+                  <th
+                    key={column.key}
+                    scope="col"
+                    className="px-4 py-3 font-medium text-[var(--atom-text-muted,#64748b)] group relative"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="truncate">{column.name}</span>
+                      {isSortable && (
+                        <SortDropdown
+                          columnKey={column.key}
+                          sortConfig={sortConfig}
+                          onSortChange={handleSortChange}
+                        />
+                      )}
+                    </div>
+                  </th>
+                )
+              })}
             </tr>
           </thead>
+          
           <tbody className="divide-y divide-[var(--atom-border-subtle,#e2e8f0)] bg-white">
-            {paginatedData.map((row, rowIndex) => (
-              <tr key={row?.id ? row?.id : rowIndex}>
-                {columns.map((column) => {
-                  let cellValue: ReactNode = row[column.key]
-
-                  if (column.cell) {
-                    cellValue = column.cell(row, rowIndex)
-                  } else if (column.conditionalCell) {
-                    const rawValue = column.selector
-                      ? column.selector(row)
-                      : row[column.key]
-                    cellValue = column.conditionalCell(rawValue, row)
-                  } else if (column.selector) {
-                    cellValue = column.selector(row)
-                  } else {
-                    cellValue = row[column.key]
-                  }
-
-                  return (
-                    <td key={column.key} className="px-4 py-2">
-                      {cellValue}
-                    </td>
-                  )
-                })}
+            {paginatedData.length === 0 ? (
+              <tr>
+                <td colSpan={columns.length} className="h-24 text-center text-sm text-gray-500 py-8">
+                  No results found
+                </td>
               </tr>
-            ))}
+            ) : (
+              paginatedData.map((row, rowIndex) => (
+                <tr key={row?.id || `row-${rowIndex}`} className="hover:bg-gray-50/50 transition-colors">
+                  {columns.map((column) => {
+                    let cellValue: ReactNode = row[column.key]
+
+                    if (column.cell) {
+                      cellValue = column.cell(row, rowIndex)
+                    } else if (column.conditionalCell) {
+                      const rawValue = column.selector ? column.selector(row) : row[column.key]
+                      cellValue = column.conditionalCell(rawValue, row)
+                    } else if (column.selector) {
+                      cellValue = column.selector(row)
+                    }
+
+                    return (
+                      <td key={column.key} className="px-4 py-3 align-top">
+                        {cellValue}
+                      </td>
+                    )
+                  })}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
 
       <PaginationControls
         pagination={pagination}
-        dataLength={filteredData.length}
+        dataLength={sortedFilteredData.length}
         rowsPerPage={rowsPerPage}
         currentPage={currentPage}
         totalPages={totalPages}
@@ -798,3 +964,4 @@ const convertToCSV = (data: DataRow[]): string => {
     </div>
   )
 }
+

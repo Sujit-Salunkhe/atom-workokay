@@ -15,15 +15,6 @@ export interface DataRow {
   [key: string]: any
 }
 
-export interface ActionProps {
-  label?: string
-  onClick: (row: DataRow, rowIndex: number) => void
-  icon?: ReactNode
-  variant?: 'primary' | 'secondary' | 'danger' | 'ghost'
-  disabled?: boolean | ((row: DataRow) => boolean)
-  show?: (row: DataRow) => boolean
-}
-
 export interface DataTableOptions {
   search?: boolean
   download?: boolean
@@ -32,57 +23,18 @@ export interface DataTableOptions {
   filterType?: 'dropdown' | 'checkbox' | 'text'
   tableBodyHeight?: string
   tableBodyMaxHeight?: string
+  exportFormat?:'csv' | 'excel'
 }
 
-export interface DataTableProps {
+interface DataTableProps {
   columns: Column[]
   data: DataRow[]
   pagination?: boolean
   className?: string
   options?: DataTableOptions
-  actions?: ActionProps[]
 }
 
 /* ------------------ Icons ------------------ */
-// ... (keep all your existing icons - LeftArrowIcon, RightArrowIcon, SearchIcon, etc.)
-
-// Add these action icons
-const EditIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    className="h-4 w-4"
-    fill="none"
-    stroke="currentColor"
-  >
-    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-  </svg>
-)
-
-const DeleteIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    className="h-4 w-4"
-    fill="none"
-    stroke="currentColor"
-  >
-    <path d="M21 4H8l-1-1H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h3l1 1h11a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z" />
-    <path d="M22 11v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6" />
-  </svg>
-)
-
-const ViewIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    className="h-4 w-4"
-    fill="none"
-    stroke="currentColor"
-  >
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-    <circle cx="12" cy="12" r="3" />
-  </svg>
-)
-
 const LeftArrowIcon = () => (
   <span className="inline-flex h-5 w-5 items-center justify-center">
     <svg
@@ -379,7 +331,11 @@ function ActiveFilters({
                 className="hover:bg-blue-700 rounded-full w-4 h-4 flex items-center justify-center transition-colors cursor-pointer"
                 aria-label={`Remove ${columnName} filter: ${value}`}
               >
-                <svg viewBox="0 0 24 24" className="w-3 h-3" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                >
                   <path
                     d="M18 6L6 18M6 6l12 12"
                     fill="none"
@@ -397,6 +353,8 @@ function ActiveFilters({
   )
 }
 
+
+
 /* ------------------ Toolbar ------------------ */
 function Toolbar(props: {
   search: boolean
@@ -412,6 +370,7 @@ function Toolbar(props: {
   data: DataRow[]
   filters: Record<string, string[]>
   onFilterChange: (columnKey: string, values: string[]) => void
+  handleDownload:() => void
 }) {
   const {
     search,
@@ -427,6 +386,7 @@ function Toolbar(props: {
     data,
     filters,
     onFilterChange,
+    handleDownload
   } = props
 
   const showToolbar = search || download || viewColumns || filter
@@ -469,8 +429,8 @@ function Toolbar(props: {
           </div>
         )}
       </div>
-
       {/* filter drop down Button */}
+      {filter && <> </>} {/* working here */}
       <div className="flex items-center gap-2 relative">
         {filter && (
           <>
@@ -527,10 +487,12 @@ function Toolbar(props: {
         {download && (
           <button
             type="button"
-            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium"
+            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium cursor-pointer"
+            onClick={handleDownload}
             aria-label="Download"
           >
             <DownloadIcon />
+            <span>Export</span>
           </button>
         )}
       </div>
@@ -620,21 +582,52 @@ function PaginationControls(props: {
   )
 }
 
+/* ------------------ Main DataTable Component ------------------ */
 export function DataTable({
   columns,
   data,
   pagination = false,
   className,
   options,
-  actions,
 }: DataTableProps) {
   const [currentPage, setCurrentPage] = React.useState(1)
   const [searchValue, setSearchValue] = React.useState('')
   const [showFilterDropdown, setShowFilterDropdown] = React.useState(false)
   const [filters, setFilters] = React.useState<Record<string, string[]>>({})
-  const hasActions = actions && actions.length > 0
+  const [exportData, setExportData] = React.useState<DataRow[]>([])
+
   const rowsPerPage = 10
 
+
+ // downlod functions
+  const handleDownload = () => {
+  if (!download) return
+  
+  // Export FILTERED data (respects search + filters)
+  const csvContent = convertToCSV(filteredData)
+  const blob = new Blob([csvContent], { type: 'text/csv' })
+  const url = window.URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `table-export-${new Date().toISOString().slice(0,10)}.csv`
+  link.click()
+  window.URL.revokeObjectURL(url)
+}
+
+const convertToCSV = (data: DataRow[]): string => {
+  if (data.length === 0) return ''
+  
+  // Headers from visible columns
+  const headers = columns.map(col => col.name).join(',')
+  const rows = data.map(row => 
+    columns.map(col => {
+      const value = col.selector ? col.selector(row) : row[col.key]
+      return `"${String(value || '').replace(/"/g, '""')}"`
+    }).join(',')
+  )
+  
+  return [headers, ...rows].join('\n')
+}
   const {
     search = false,
     download = false,
@@ -645,7 +638,6 @@ export function DataTable({
     tableBodyMaxHeight,
   } = options || {}
 
-  // ... (keep all your existing filter/search/pagination logic exactly the same)
   const normalizeText = (value: unknown) => {
     if (value === null || value === undefined) return ''
     return String(value)
@@ -655,6 +647,7 @@ export function DataTable({
 
   const normalizedSearch = normalizeText(searchValue.trim())
 
+  // Apply search filter
   const searchFilteredData =
     !search || !normalizedSearch
       ? data
@@ -668,6 +661,7 @@ export function DataTable({
           }),
         )
 
+  // Apply column filters
   const filteredData = React.useMemo(() => {
     let result = searchFilteredData
 
@@ -713,56 +707,6 @@ export function DataTable({
     setCurrentPage(1)
   }, [searchValue, filters])
 
-  // Action rendering function
-  const renderActionsCell = (row: DataRow, rowIndex: number) => {
-    if (!hasActions) return null
-
-    return (
-      <div className="flex gap-1 justify-end">
-        {actions!.map((action, actionIndex) => {
-          // Conditional show
-          if (action.show && !action.show(row)) return null
-
-          // Dynamic disabled
-          const isDisabled =
-            typeof action.disabled === 'function'
-              ? action.disabled(row)
-              : action.disabled || false
-
-          return (
-            <button
-              key={actionIndex}
-              onClick={() => action.onClick(row, rowIndex)}
-              disabled={isDisabled}
-              className={cn(
-                'h-8 px-2 text-xs rounded flex items-center gap-1 transition-all duration-200 font-medium flex-shrink-0',
-                'hover:shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-1',
-                isDisabled && 'opacity-50 cursor-not-allowed',
-                action.variant === 'danger' &&
-                  'text-red-600 hover:bg-red-50 hover:text-red-700 focus:ring-red-500',
-                action.variant === 'primary' &&
-                  'text-blue-600 hover:bg-blue-50 hover:text-blue-700 focus:ring-blue-500',
-                action.variant === 'secondary' &&
-                  'text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:ring-gray-500',
-                action.variant === 'ghost' &&
-                  'text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:ring-gray-500',
-              )}
-              title={`${action.label}${isDisabled ? ' (Disabled)' : ''}`}
-              aria-label={action.label}
-            >
-              {action.icon && (
-                <span className="h-3 w-3 flex-shrink-0">{action?.icon}</span>
-              )}
-              {action.label && (
-                <span className="whitespace-nowrap">{action?.label}</span>
-              )}
-            </button>
-          )
-        })}
-      </div>
-    )
-  }
-
   return (
     <div
       className={cn(
@@ -770,7 +714,6 @@ export function DataTable({
         className,
       )}
     >
-      {/* Toolbar - unchanged */}
       <Toolbar
         search={search}
         download={download}
@@ -785,6 +728,7 @@ export function DataTable({
         data={data}
         filters={filters}
         onFilterChange={handleFilterChange}
+        handleDownload = {handleDownload}
       />
 
       <div
@@ -801,43 +745,22 @@ export function DataTable({
         >
           <thead className="bg-[var(--atom-table-header-bg,#f8fafc)] text-xs uppercase tracking-wide text-[var(--atom-text-muted,#64748b)] sticky top-0 z-10">
             <tr>
-              {columns.map((column) => {
-                const isActionsColumn = column.key === '__actions'
-                if (isActionsColumn && !hasActions) return null
-
-                return (
-                  <th
-                    key={column.key}
-                    scope="col"
-                    className={cn(
-                      'px-4 py-2 font-medium text-[var(--atom-text-muted,#64748b)]',
-                      isActionsColumn && 'w-40 text-right',
-                    )}
-                  >
-                    {column.name}
-                  </th>
-                )
-              })}
+              {columns.map((column) => (
+                <th
+                  key={column.key}
+                  scope="col"
+                  className="px-4 py-2 font-medium text-[var(--atom-text-muted,#64748b)]"
+                >
+                  {column.name}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-[var(--atom-border-subtle,#e2e8f0)] bg-white">
             {paginatedData.map((row, rowIndex) => (
-              <tr
-                key={row?.id ? row?.id : rowIndex}
-                className="hover:bg-gray-50"
-              >
+              <tr key={row?.id ? row?.id : rowIndex}>
                 {columns.map((column) => {
-                  const isActionsColumn = column.key === '__actions'
-
-                  if (isActionsColumn) {
-                    return (
-                      <td key={column.key} className="px-4 py-3 text-right">
-                        {renderActionsCell(row, rowIndex)}
-                      </td>
-                    )
-                  }
-
-                  let cellValue: ReactNode
+                  let cellValue: ReactNode = row[column.key]
 
                   if (column.cell) {
                     cellValue = column.cell(row, rowIndex)
@@ -853,28 +776,17 @@ export function DataTable({
                   }
 
                   return (
-                    <td key={column.key} className="px-4 py-3">
+                    <td key={column.key} className="px-4 py-2">
                       {cellValue}
                     </td>
                   )
                 })}
               </tr>
             ))}
-            {paginatedData.length === 0 && (
-              <tr>
-                <td
-                  colSpan={columns.length}
-                  className="px-4 py-8 text-center text-gray-500"
-                >
-                  No data available
-                </td>
-              </tr>
-            )}
           </tbody>
         </table>
       </div>
 
-      {/* Pagination - unchanged */}
       <PaginationControls
         pagination={pagination}
         dataLength={filteredData.length}

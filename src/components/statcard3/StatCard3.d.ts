@@ -7,7 +7,7 @@ import { type VariantProps } from 'class-variance-authority';
 export declare const statCardPriorityVariants: (props?: ({
     variant?: "high" | "medium" | "low" | "primary" | "neutral" | null | undefined;
     size?: "sm" | "md" | "lg" | null | undefined;
-    appearance?: "ghost" | "soft" | "elevated" | "outlined" | null | undefined;
+    appearance?: "ghost" | "soft" | "outlined" | "elevated" | null | undefined;
 } & import("class-variance-authority/types").ClassProp) | undefined) => string;
 export type StatCardPriorityVariant = 'primary' | 'high' | 'medium' | 'low' | 'neutral';
 export type StatCardPrioritySize = 'sm' | 'md' | 'lg';

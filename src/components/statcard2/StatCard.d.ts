@@ -3,7 +3,7 @@ import { type VariantProps } from 'class-variance-authority';
 export declare const statCardVariants: (props?: ({
     variant?: "info" | "primary" | "success" | "danger" | "warning" | "neutral" | "accent" | null | undefined;
     size?: "sm" | "md" | "lg" | null | undefined;
-    appearance?: "ghost" | "soft" | "elevated" | "outlined" | null | undefined;
+    appearance?: "ghost" | "soft" | "outlined" | "elevated" | null | undefined;
     fullWidth?: boolean | null | undefined;
 } & import("class-variance-authority/types").ClassProp) | undefined) => string;
 export type StatCardVariant = 'neutral' | 'success' | 'warning' | 'danger' | 'info' | 'accent';
