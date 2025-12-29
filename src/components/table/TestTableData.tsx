@@ -181,8 +181,8 @@ function SortDropdown({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'flex items-center gap-1 p-1 -m-1 rounded hover:bg-gray-100 transition-all duration-200 group',
-          isCurrentSort && 'text-blue-600 bg-blue-50',
+          'flex items-center gap-1 p-1 -m-1 rounded hover:bg-gray-100 transition-all duration-200 group cursor-pointer',
+          isCurrentSort && 'text-blue-600 bg-blue-50 ',
         )}
         aria-label={`Sort column ${columnKey}`}
         aria-expanded={isOpen}
@@ -803,7 +803,7 @@ export function DataTable({
     return sortData(result)
   }, [searchFilteredData, filters, columns, sortData])
 
-  // ✅ FIXED: Download functions NOW AFTER sortedFilteredData
+  //  FIXED: Download functions NOW AFTER sortedFilteredData
   const convertToCSV = React.useCallback((dataToExport: DataRow[]): string => {
     if (dataToExport.length === 0) return ''
     
@@ -895,7 +895,7 @@ export function DataTable({
             <tr>
               {columns.map((column) => {
                 const isSortable = column.sortable !== false
-                const isSorted = sortConfig.key === column.key
+                // const isSorted = sortConfig.key === column.key
                 return (
                   <th
                     key={column.key}
