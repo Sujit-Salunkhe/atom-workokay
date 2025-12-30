@@ -1,6 +1,4 @@
-
-// src/components/ui/data-table.tsx
-import * as React from 'react'
+import {useState,useMemo,useCallback,useEffect,useRef}  from 'react'
 import type { ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 
@@ -287,11 +285,11 @@ function FilterDropdown({
   filters,
   onFilterChange,
 }: FilterDropdownProps) {
-  const [expandedColumn, setExpandedColumn] = React.useState<string | null>(
+  const [expandedColumn, setExpandedColumn] = useState<string | null>(
     null,
   )
 
-  const uniqueValuesByColumn = React.useMemo(() => {
+  const uniqueValuesByColumn = useMemo(() => {
     const result: Record<string, Set<string>> = {}
 
     data.forEach((row) => {
@@ -533,10 +531,10 @@ function Toolbar(props: ToolbarProps) {
     0,
   )
 
-  const filterDropdownRef = React.useRef<HTMLDivElement>(null)
-  const columnsDropdownRef = React.useRef<HTMLDivElement>(null)
+  const filterDropdownRef = useRef<HTMLDivElement>(null)
+  const columnsDropdownRef = useRef<HTMLDivElement>(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         showFilterDropdown &&
@@ -758,16 +756,16 @@ export function DataTable({
   className,
   options,
 }: DataTableProps) {
-  const [currentPage, setCurrentPage] = React.useState(1)
-  const [searchValue, setSearchValue] = React.useState('')
-  const [showFilterDropdown, setShowFilterDropdown] = React.useState(false)
-  const [showColumnsDropdown, setShowColumnsDropdown] = React.useState(false)
-  const [filters, setFilters] = React.useState<Record<string, string[]>>({})
-  const [sortConfig, setSortConfig] = React.useState<{
+  const [currentPage, setCurrentPage] = useState(1)
+  const [searchValue, setSearchValue] = useState('')
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false)
+  const [showColumnsDropdown, setShowColumnsDropdown] = useState(false)
+  const [filters, setFilters] = useState<Record<string, string[]>>({})
+  const [sortConfig, setSortConfig] = useState<{
     key: string | null
     direction: 'asc' | 'desc'
   }>({ key: null, direction: 'asc' })
-  const [columnVisibility, setColumnVisibility] = React.useState<
+  const [columnVisibility, setColumnVisibility] = useState<
     Record<string, boolean>
   >(() => columns.reduce((acc, col) => ({ ...acc, [col.key]: true }), {}))
 
@@ -783,7 +781,7 @@ export function DataTable({
     tableBodyMaxHeight,
   } = options || {}
 
-  const visibleColumns = React.useMemo(
+  const visibleColumns = useMemo(
     () => columns.filter((col) => columnVisibility[col.key]),
     [columns, columnVisibility],
   )
@@ -797,7 +795,7 @@ export function DataTable({
 
   const normalizedSearch = normalizeText(searchValue.trim())
 
-  const searchFilteredData = React.useMemo(
+  const searchFilteredData = useMemo(
     () =>
       !search || !normalizedSearch
         ? data
@@ -813,7 +811,7 @@ export function DataTable({
     [data, columns, search, normalizedSearch],
   )
 
-  const sortData = React.useCallback(
+  const sortData = useCallback(
     (items: DataRow[]): DataRow[] => {
       if (!sortConfig.key) return items
 
@@ -845,7 +843,7 @@ export function DataTable({
     [sortConfig.key, sortConfig.direction, columns],
   )
 
-  const sortedFilteredData = React.useMemo(() => {
+  const sortedFilteredData = useMemo(() => {
     let result = searchFilteredData
 
     Object.entries(filters).forEach(([columnKey, selectedValues]) => {
@@ -864,7 +862,7 @@ export function DataTable({
     return sortData(result)
   }, [searchFilteredData, filters, columns, sortData])
 
-  const convertToCSV = React.useCallback(
+  const convertToCSV = useCallback(
     (dataToExport: DataRow[]): string => {
       if (dataToExport.length === 0) return ''
 
@@ -885,7 +883,7 @@ export function DataTable({
     [visibleColumns],
   )
 
-  const handleDownload = React.useCallback(() => {
+  const handleDownload = useCallback(() => {
     if (!download) return
 
     const csvContent = convertToCSV(sortedFilteredData)
@@ -910,7 +908,7 @@ export function DataTable({
       )
     : sortedFilteredData
 
-  const handleSortChange = React.useCallback(
+  const handleSortChange = useCallback(
     (key: string, direction: 'asc' | 'desc') => {
       setSortConfig({ key, direction })
       setCurrentPage(1)
@@ -918,7 +916,7 @@ export function DataTable({
     [],
   )
 
-  const handleFilterChange = React.useCallback(
+  const handleFilterChange = useCallback(
     (columnKey: string, values: string[]) => {
       setFilters((prev) => ({ ...prev, [columnKey]: values }))
       setCurrentPage(1)
@@ -926,14 +924,14 @@ export function DataTable({
     [],
   )
 
-  const handleColumnVisibilityChange = React.useCallback(
+  const handleColumnVisibilityChange = useCallback(
     (columnKey: string, visible: boolean) => {
       setColumnVisibility((prev) => ({ ...prev, [columnKey]: visible }))
     },
     [],
   )
 
-  const handlePageChange = React.useCallback(
+  const handlePageChange = useCallback(
     (page: number) => {
       if (page < 1 || page > totalPages) return
       setCurrentPage(page)
@@ -941,20 +939,17 @@ export function DataTable({
     [totalPages],
   )
 
-  React.useEffect(() => {
+  useEffect(() => {
     setCurrentPage(1)
   }, [searchValue, filters, sortConfig])
 
-  React.useEffect(() => {
+  useEffect(() => {
     setColumnVisibility(
       columns.reduce((acc, col) => ({ ...acc, [col.key]: true }), {}),
     )
   }, [columns])
 
-  const activeFilterCount = React.useMemo(
-    () => Object.values(filters).reduce((acc, vals) => acc + vals.length, 0),
-    [filters],
-  )
+  
 
   return (
     <div
@@ -990,78 +985,112 @@ export function DataTable({
         className="overflow-x-auto"
         style={{ height: tableBodyHeight, maxHeight: tableBodyMaxHeight }}
       >
-        <table
-          className="w-full border-collapse text-left text-sm"
-          role="table"
-          aria-label="Data table"
+       
+<table
+  className="w-full border-collapse text-left text-sm"
+  role="table"
+  aria-label="Data table"
+  aria-rowcount={sortedFilteredData.length}
+  aria-colcount={visibleColumns.length}
+>
+  <thead className="bg-[var(--atom-table-header-bg,#f8fafc)] text-xs uppercase tracking-wide text-[var(--atom-text-muted,#64748b)] sticky top-0 z-10">
+    <tr role="row">
+      {visibleColumns.map((column, colIndex) => {
+        const isSortable = column.sortable !== false
+        const isCurrentSort = sortConfig.key === column.key
+        const sortDirection = isCurrentSort ? sortConfig.direction : undefined
+
+        return (
+          <th
+            key={column.key}
+            scope="col"
+            role="columnheader"
+            aria-colindex={colIndex + 1}
+            aria-sort={
+              isCurrentSort
+                ? sortDirection === 'asc'
+                  ? 'ascending'
+                  : 'descending'
+                : isSortable
+                ? 'none'
+                : undefined
+            }
+            className="px-4 py-3 font-medium text-[var(--atom-text-muted,#64748b)] group relative"
+          >
+            <div className="flex items-center justify-between">
+              <span className="truncate">{column.name}</span>
+              {isSortable && (
+                <SortArrows
+                  columnKey={column.key}
+                  sortConfig={sortConfig}
+                  onSortChange={handleSortChange}
+                />
+              )}
+            </div>
+          </th>
+        )
+      })}
+    </tr>
+  </thead>
+
+  <tbody 
+    className="divide-y divide-[var(--atom-border-subtle,#e2e8f0)] bg-white"
+    role="rowgroup"
+  >
+    {paginatedData.length === 0 ? (
+      <tr role="row">
+        <td
+          colSpan={visibleColumns.length}
+          role="cell"
+          aria-colspan={visibleColumns.length}
+          className="h-24 text-center text-sm text-gray-500 py-8"
         >
-          <thead className="bg-[var(--atom-table-header-bg,#f8fafc)] text-xs uppercase tracking-wide text-[var(--atom-text-muted,#64748b)] sticky top-0 z-10">
-            <tr>
-              {visibleColumns.map((column) => {
-                const isSortable = column.sortable !== false
-                return (
-                  <th
-                    key={column.key}
-                    scope="col"
-                    className="px-4 py-3 font-medium text-[var(--atom-text-muted,#64748b)] group relative"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="truncate">{column.name}</span>
-                      {isSortable && (
-                        <SortArrows
-                          columnKey={column.key}
-                          sortConfig={sortConfig}
-                          onSortChange={handleSortChange}
-                        />
-                      )}
-                    </div>
-                  </th>
-                )
-              })}
-            </tr>
-          </thead>
+          No results found
+        </td>
+      </tr>
+    ) : (
+      paginatedData.map((row, rowIndex) => {
+        const actualRowIndex = (currentPage - 1) * rowsPerPage + rowIndex + 1
+        
+        return (
+          <tr
+            key={row?.id || `row-${rowIndex}`}
+            role="row"
+            aria-rowindex={actualRowIndex}
+            className="hover:bg-gray-50/50 transition-colors"
+          >
+            {visibleColumns.map((column, colIndex) => {
+              let cellValue: ReactNode = row[column.key]
 
-          <tbody className="divide-y divide-[var(--atom-border-subtle,#e2e8f0)] bg-white">
-            {paginatedData.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={visibleColumns.length}
-                  className="h-24 text-center text-sm text-gray-500 py-8"
+              if (column.cell) {
+                cellValue = column.cell(row, rowIndex)
+              } else if (column.conditionalCell) {
+                const rawValue = column.selector
+                  ? column.selector(row)
+                  : row[column.key]
+                cellValue = column.conditionalCell(rawValue, row)
+              } else if (column.selector) {
+                cellValue = column.selector(row)
+              }
+
+              return (
+                <td 
+                  key={column.key} 
+                  role="cell"
+                  aria-colindex={colIndex + 1}
+                  className="px-4 py-3 align-top"
                 >
-                  No results found
+                  {cellValue}
                 </td>
-              </tr>
-            ) : (
-              paginatedData.map((row, rowIndex) => (
-                <tr
-                  key={row?.id || `row-${rowIndex}`}
-                  className="hover:bg-gray-50/50 transition-colors"
-                >
-                  {visibleColumns.map((column) => {
-                    let cellValue: ReactNode = row[column.key]
+              )
+            })}
+          </tr>
+        )
+      })
+    )}
+  </tbody>
+</table>
 
-                    if (column.cell) {
-                      cellValue = column.cell(row, rowIndex)
-                    } else if (column.conditionalCell) {
-                      const rawValue = column.selector
-                        ? column.selector(row)
-                        : row[column.key]
-                      cellValue = column.conditionalCell(rawValue, row)
-                    } else if (column.selector) {
-                      cellValue = column.selector(row)
-                    }
-
-                    return (
-                      <td key={column.key} className="px-4 py-3 align-top">
-                        {cellValue}
-                      </td>
-                    )
-                  })}
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
       </div>
 
       <PaginationControls

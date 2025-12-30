@@ -1,3 +1,4 @@
+
 // src/components/ui/data-table.tsx
 import * as React from 'react'
 import type { ReactNode } from 'react'
@@ -9,6 +10,7 @@ export interface Column {
   selector?: (row: DataRow) => any
   cell?: (row: DataRow, rowIndex: number) => ReactNode
   conditionalCell?: (value: any, row: DataRow) => ReactNode
+  sortable?: boolean
 }
 
 export interface DataRow {
@@ -23,7 +25,7 @@ export interface DataTableOptions {
   filterType?: 'dropdown' | 'checkbox' | 'text'
   tableBodyHeight?: string
   tableBodyMaxHeight?: string
-  exportFormat?:'csv' | 'excel'
+  exportFormat?: 'csv' | 'excel'
 }
 
 interface DataTableProps {
@@ -138,14 +140,145 @@ const ChevronDownIcon = () => (
   </svg>
 )
 
+/* ------------------ Sort Arrows ------------------ */
+interface SortArrowsProps {
+  columnKey: string
+  sortConfig: { key: string | null; direction: 'asc' | 'desc' }
+  onSortChange: (key: string, direction: 'asc' | 'desc') => void
+}
+
+function SortArrows({ columnKey, sortConfig, onSortChange }: SortArrowsProps) {
+  const isCurrentSort = sortConfig.key === columnKey
+  const currentDirection = isCurrentSort ? sortConfig.direction : 'asc'
+
+  const handleSortAsc = () => onSortChange(columnKey, 'asc')
+  const handleSortDesc = () => onSortChange(columnKey, 'desc')
+
+  return (
+    <div className="flex flex-col gap-0.5 -space-y-0.5 group-hover:opacity-100 opacity-50 transition-all duration-200">
+      <button
+        onClick={handleSortAsc}
+        className={cn(
+          'w-4 h-3 p-0 flex items-center justify-center rounded-sm transition-colors duration-200 hover:bg-blue-50 hover:opacity-100 opacity-60',
+          isCurrentSort &&
+            currentDirection === 'asc' &&
+            'opacity-100 bg-blue-50 border border-blue-300 text-blue-600 scale-110',
+        )}
+        aria-label="Sort ascending"
+      >
+        <svg
+          className="w-5 h-3 stroke-[2.5]"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M6 14l6-6 6 6" />
+        </svg>
+      </button>
+
+      <button
+        onClick={handleSortDesc}
+        className={cn(
+          'w-4 h-3 p-0 flex items-center justify-center rounded-sm transition-colors duration-200 hover:bg-blue-50 hover:opacity-100 opacity-60 -mt-0.5',
+          isCurrentSort &&
+            currentDirection === 'desc' &&
+            'opacity-100 bg-blue-50 border border-blue-300 text-blue-600 scale-110',
+        )}
+        aria-label="Sort descending"
+      >
+        <svg
+          className="w-5 h-3 stroke-[2.5]"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M6 10l6 6 6-6" />
+        </svg>
+      </button>
+    </div>
+  )
+}
+
+/* ------------------ View Columns Dropdown ------------------ */
+interface ViewColumnsDropdownProps {
+  columns: Column[]
+  columnVisibility: Record<string, boolean>
+  onColumnVisibilityChange: (columnKey: string, visible: boolean) => void
+}
+
+function ViewColumnsDropdown({
+  columns,
+  columnVisibility,
+  onColumnVisibilityChange,
+}: ViewColumnsDropdownProps) {
+  const visibleCount = Object.values(columnVisibility).filter(Boolean).length
+
+  const handleToggleAll = () => {
+    const allVisible = visibleCount === columns.length
+    columns.forEach((col) => {
+      onColumnVisibilityChange(col.key, !allVisible)
+    })
+  }
+
+  return (
+    <div
+      role="dialog"
+      aria-label="Column visibility options"
+      className="absolute right-0 top-full mt-2 w-64 max-h-96 overflow-y-auto bg-white rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] shadow-lg z-50"
+    >
+      <div className="p-3 border-b border-[var(--atom-border-subtle,#e2e8f0)] flex items-center justify-between">
+        <span className="text-sm font-semibold">Show Columns</span>
+        <button
+          onClick={handleToggleAll}
+          className="text-xs text-blue-600 hover:text-blue-700 font-medium"
+        >
+          {visibleCount === columns.length ? 'Hide All' : 'Show All'}
+        </button>
+      </div>
+
+      <div className="p-2">
+        {columns.map((column) => {
+          const isVisible = columnVisibility[column.key]
+          const isDisabled = isVisible && visibleCount === 1
+
+          return (
+            <label
+              key={column.key}
+              className={cn(
+                'flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-gray-50 rounded cursor-pointer transition-colors',
+                isDisabled && 'opacity-50 cursor-not-allowed',
+              )}
+              title={isDisabled ? 'At least one column must be visible' : ''}
+            >
+              <input
+                type="checkbox"
+                checked={isVisible}
+                onChange={() =>
+                  !isDisabled && onColumnVisibilityChange(column.key, !isVisible)
+                }
+                disabled={isDisabled}
+                className="rounded border-gray-300 cursor-pointer disabled:cursor-not-allowed"
+                aria-label={`Toggle ${column.name} column visibility`}
+              />
+              <span className="truncate">{column.name}</span>
+            </label>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 /* ------------------ Filter Dropdown ------------------ */
 interface FilterDropdownProps {
   columns: Column[]
   data: DataRow[]
   filters: Record<string, string[]>
   onFilterChange: (columnKey: string, values: string[]) => void
-  onToggleFilter: (value: boolean) => void
-  showFilterDropdown: boolean
 }
 
 function FilterDropdown({
@@ -214,7 +347,7 @@ function FilterDropdown({
         <span className="text-sm font-semibold">Filter Columns</span>
         <button
           onClick={handleClearAll}
-          className="text-xs text-blue-600 hover:text-blue-700"
+          className="text-xs text-blue-600 hover:text-blue-700 font-medium"
         >
           Clear All
         </button>
@@ -321,21 +454,17 @@ function ActiveFilters({
           return values.map((value) => (
             <div
               key={`${columnKey}-${value}`}
-              className="inline-flex items-center gap-2 bg-blue-600 text-white text-xs rounded-full px-3 py-1 whitespace-nowrap flex-shrink-0 hover:scrollbar-thumb-gray-600 "
+              className="inline-flex items-center gap-2 bg-blue-600 text-white text-xs rounded-full px-3 py-1 whitespace-nowrap flex-shrink-0 hover:bg-blue-700"
             >
               <span>
                 <strong className="font-semibold">{columnName}:</strong> {value}
               </span>
               <button
                 onClick={() => handleRemoveFilter(columnKey, value)}
-                className="hover:bg-blue-700 rounded-full w-4 h-4 flex items-center justify-center transition-colors cursor-pointer"
+                className="hover:bg-blue-700 rounded-full w-4 h-4 flex items-center justify-center transition-colors cursor-pointer ml-1"
                 aria-label={`Remove ${columnName} filter: ${value}`}
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="w-3 h-3"
-                  aria-hidden="true"
-                >
+                <svg viewBox="0 0 24 24" className="w-3 h-3" aria-hidden="true">
                   <path
                     d="M18 6L6 18M6 6l12 12"
                     fill="none"
@@ -353,10 +482,8 @@ function ActiveFilters({
   )
 }
 
-
-
 /* ------------------ Toolbar ------------------ */
-function Toolbar(props: {
+interface ToolbarProps {
   search: boolean
   download: boolean
   viewColumns: boolean
@@ -366,27 +493,36 @@ function Toolbar(props: {
   onSearchChange: (value: string) => void
   showFilterDropdown: boolean
   onToggleFilter: (value: boolean) => void
+  showColumnsDropdown: boolean
+  onToggleColumnsDropdown: (value: boolean) => void
   columns: Column[]
   data: DataRow[]
   filters: Record<string, string[]>
   onFilterChange: (columnKey: string, values: string[]) => void
-  handleDownload:() => void
-}) {
+  columnVisibility: Record<string, boolean>
+  onColumnVisibilityChange: (columnKey: string, visible: boolean) => void
+  handleDownload: () => void
+}
+
+function Toolbar(props: ToolbarProps) {
   const {
     search,
     download,
     viewColumns,
     filter,
-    filterType,
     searchValue,
     onSearchChange,
     showFilterDropdown,
     onToggleFilter,
+    showColumnsDropdown,
+    onToggleColumnsDropdown,
     columns,
     data,
     filters,
     onFilterChange,
-    handleDownload
+    columnVisibility,
+    onColumnVisibilityChange,
+    handleDownload,
   } = props
 
   const showToolbar = search || download || viewColumns || filter
@@ -396,22 +532,32 @@ function Toolbar(props: {
     (acc, vals) => acc + vals.length,
     0,
   )
-  //handle outside click
-  const dropdownRef = React.useRef<HTMLDivElement>(null)
+
+  const filterDropdownRef = React.useRef<HTMLDivElement>(null)
+  const columnsDropdownRef = React.useRef<HTMLDivElement>(null)
+
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (!showFilterDropdown) return null
       if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
+        showFilterDropdown &&
+        filterDropdownRef.current &&
+        !filterDropdownRef.current.contains(event.target as Node)
       ) {
         onToggleFilter(false)
+      }
+      if (
+        showColumnsDropdown &&
+        columnsDropdownRef.current &&
+        !columnsDropdownRef.current.contains(event.target as Node)
+      ) {
+        onToggleColumnsDropdown(false)
       }
     }
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [onToggleFilter])
+  }, [showFilterDropdown, showColumnsDropdown, onToggleFilter, onToggleColumnsDropdown])
+
   return (
     <div className="flex items-center justify-between gap-3 px-4 py-2 border-b border-[var(--atom-border-subtle,#e2e8f0)] bg-white">
       <div className="flex items-center gap-2">
@@ -429,67 +575,85 @@ function Toolbar(props: {
           </div>
         )}
       </div>
-      {/* filter drop down Button */}
-      {filter && <> </>} {/* working here */}
-      <div className="flex items-center gap-2 relative">
-        {filter && (
-          <>
-            <ActiveFilters
-              filters={filters}
-              columns={columns}
-              onFilterChange={onFilterChange}
-              activeFilterCount={activeFilterCount}
-            />
-            <div className="relative" ref={dropdownRef}>
-              <button
-                type="button"
-                onClick={() => onToggleFilter(true)}
-                className={cn(
-                  'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors',
-                  showFilterDropdown
-                    ? 'border-blue-500 bg-blue-50 text-blue-700'
-                    : 'border-[var(--atom-border-subtle,#e2e8f0)] hover:bg-gray-50',
-                )}
-                aria-label="Filter table data"
-                aria-expanded={showFilterDropdown}
-                aria-haspopup="true"
-              >
-                <FilterIcon />
-                {activeFilterCount > 0 && (
-                  <span className="bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
-                    {activeFilterCount}
-                  </span>
-                )}
-              </button>
 
-              {showFilterDropdown && (
-                <FilterDropdown
-                  columns={columns}
-                  data={data}
-                  filters={filters}
-                  onFilterChange={onFilterChange}
-                  onToggleFilter={onToggleFilter}
-                  showFilterDropdown={showFilterDropdown}
-                />
+      <div className="flex items-center gap-2">
+        {filter &&(
+        <>
+        <ActiveFilters
+          filters={filters}
+          columns={columns}
+          onFilterChange={onFilterChange}
+          activeFilterCount={activeFilterCount}
+        />
+      
+          <div className="relative" ref={filterDropdownRef}>
+            <button
+              type="button"
+              onClick={() => onToggleFilter(!showFilterDropdown)}
+              className={cn(
+                'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors',
+                showFilterDropdown
+                  ? 'border-blue-500 bg-blue-50 text-blue-700'
+                  : 'border-[var(--atom-border-subtle,#e2e8f0)] hover:bg-gray-50',
               )}
-            </div>
+              aria-label="Filter table data"
+              aria-expanded={showFilterDropdown}
+              aria-haspopup="true"
+            >
+              <FilterIcon />
+              {activeFilterCount > 0 && (
+                <span className="bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+
+            {showFilterDropdown && (
+              <FilterDropdown
+                columns={columns}
+                data={data}
+                filters={filters}
+                onFilterChange={onFilterChange}
+              />
+            )}
+          </div>
           </>
         )}
+
         {viewColumns && (
-          <button
-            type="button"
-            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium"
-            aria-label="View columns"
-          >
-            <ColumnsIcon />
-          </button>
+          <div className="relative" ref={columnsDropdownRef}>
+            <button
+              type="button"
+              onClick={() => onToggleColumnsDropdown(!showColumnsDropdown)}
+              className={cn(
+                'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors',
+                showColumnsDropdown
+                  ? 'border-blue-500 bg-blue-50 text-blue-700'
+                  : 'border-[var(--atom-border-subtle,#e2e8f0)] hover:bg-gray-50',
+              )}
+              aria-label="View columns"
+              aria-expanded={showColumnsDropdown}
+              aria-haspopup="true"
+            >
+              <ColumnsIcon />
+            </button>
+
+            {showColumnsDropdown && (
+              <ViewColumnsDropdown
+                columns={columns}
+                columnVisibility={columnVisibility}
+                onColumnVisibilityChange={onColumnVisibilityChange}
+              />
+            )}
+          </div>
         )}
+
         {download && (
           <button
             type="button"
-            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium cursor-pointer"
+            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium hover:bg-gray-50 cursor-pointer"
             onClick={handleDownload}
-            aria-label="Download"
+            aria-label="Download table data"
           >
             <DownloadIcon />
             <span>Export</span>
@@ -501,14 +665,16 @@ function Toolbar(props: {
 }
 
 /* -------------- PaginationControls -------------- */
-function PaginationControls(props: {
+interface PaginationControlsProps {
   pagination: boolean
   dataLength: number
   rowsPerPage: number
   currentPage: number
   totalPages: number
   onPageChange: (page: number) => void
-}) {
+}
+
+function PaginationControls(props: PaginationControlsProps) {
   const {
     pagination,
     dataLength,
@@ -558,6 +724,8 @@ function PaginationControls(props: {
                   ? 'bg-[var(--atom-primary,#3b82f6)] text-white border-[var(--atom-primary,#3b82f6)]'
                   : 'bg-white hover:bg-gray-50 text-[var(--atom-text-primary,#0f172a)] border-[var(--atom-border-subtle,#e2e8f0)] hover:border-gray-300',
               )}
+              aria-label={`Go to page ${page}`}
+              aria-current={currentPage === page ? 'page' : undefined}
             >
               {page}
             </button>
@@ -593,41 +761,18 @@ export function DataTable({
   const [currentPage, setCurrentPage] = React.useState(1)
   const [searchValue, setSearchValue] = React.useState('')
   const [showFilterDropdown, setShowFilterDropdown] = React.useState(false)
+  const [showColumnsDropdown, setShowColumnsDropdown] = React.useState(false)
   const [filters, setFilters] = React.useState<Record<string, string[]>>({})
-  const [exportData, setExportData] = React.useState<DataRow[]>([])
+  const [sortConfig, setSortConfig] = React.useState<{
+    key: string | null
+    direction: 'asc' | 'desc'
+  }>({ key: null, direction: 'asc' })
+  const [columnVisibility, setColumnVisibility] = React.useState<
+    Record<string, boolean>
+  >(() => columns.reduce((acc, col) => ({ ...acc, [col.key]: true }), {}))
 
   const rowsPerPage = 10
 
-
- // downlod functions
-  const handleDownload = () => {
-  if (!download) return
-  
-  // Export FILTERED data (respects search + filters)
-  const csvContent = convertToCSV(filteredData)
-  const blob = new Blob([csvContent], { type: 'text/csv' })
-  const url = window.URL.createObjectURL(blob)
-  const link = document.createElement('a')
-  link.href = url
-  link.download = `table-export-${new Date().toISOString().slice(0,10)}.csv`
-  link.click()
-  window.URL.revokeObjectURL(url)
-}
-
-const convertToCSV = (data: DataRow[]): string => {
-  if (data.length === 0) return ''
-  
-  // Headers from visible columns
-  const headers = columns.map(col => col.name).join(',')
-  const rows = data.map(row => 
-    columns.map(col => {
-      const value = col.selector ? col.selector(row) : row[col.key]
-      return `"${String(value || '').replace(/"/g, '""')}"`
-    }).join(',')
-  )
-  
-  return [headers, ...rows].join('\n')
-}
   const {
     search = false,
     download = false,
@@ -638,6 +783,11 @@ const convertToCSV = (data: DataRow[]): string => {
     tableBodyMaxHeight,
   } = options || {}
 
+  const visibleColumns = React.useMemo(
+    () => columns.filter((col) => columnVisibility[col.key]),
+    [columns, columnVisibility],
+  )
+
   const normalizeText = (value: unknown) => {
     if (value === null || value === undefined) return ''
     return String(value)
@@ -647,22 +797,55 @@ const convertToCSV = (data: DataRow[]): string => {
 
   const normalizedSearch = normalizeText(searchValue.trim())
 
-  // Apply search filter
-  const searchFilteredData =
-    !search || !normalizedSearch
-      ? data
-      : data.filter((row) =>
-          columns.some((column) => {
-            const value = column.selector
-              ? column.selector(row)
-              : row[column.key]
-            const normalizedValue = normalizeText(value)
-            return normalizedValue.includes(normalizedSearch)
-          }),
-        )
+  const searchFilteredData = React.useMemo(
+    () =>
+      !search || !normalizedSearch
+        ? data
+        : data.filter((row) =>
+            columns.some((column) => {
+              const value = column.selector
+                ? column.selector(row)
+                : row[column.key]
+              const normalizedValue = normalizeText(value)
+              return normalizedValue.includes(normalizedSearch)
+            }),
+          ),
+    [data, columns, search, normalizedSearch],
+  )
 
-  // Apply column filters
-  const filteredData = React.useMemo(() => {
+  const sortData = React.useCallback(
+    (items: DataRow[]): DataRow[] => {
+      if (!sortConfig.key) return items
+
+      return [...items].sort((a, b) => {
+        const column = columns.find((col) => col.key === sortConfig.key)
+        if (!column) return 0
+
+        const aValue = column.selector ? column.selector(a) : a[column.key]
+        const bValue = column.selector ? column.selector(b) : b[column.key]
+
+        if (aValue == null && bValue == null) return 0
+        if (aValue == null) return sortConfig.direction === 'asc' ? 1 : -1
+        if (bValue == null) return sortConfig.direction === 'asc' ? -1 : 1
+
+        const aNum = parseFloat(String(aValue))
+        const bNum = parseFloat(String(bValue))
+        if (!isNaN(aNum) && !isNaN(bNum)) {
+          return sortConfig.direction === 'asc' ? aNum - bNum : bNum - aNum
+        }
+
+        const aStr = String(aValue).toLowerCase().trim()
+        const bStr = String(bValue).toLowerCase().trim()
+
+        if (aStr < bStr) return sortConfig.direction === 'asc' ? -1 : 1
+        if (aStr > bStr) return sortConfig.direction === 'asc' ? 1 : -1
+        return 0
+      })
+    },
+    [sortConfig.key, sortConfig.direction, columns],
+  )
+
+  const sortedFilteredData = React.useMemo(() => {
     let result = searchFilteredData
 
     Object.entries(filters).forEach(([columnKey, selectedValues]) => {
@@ -670,7 +853,6 @@ const convertToCSV = (data: DataRow[]): string => {
         result = result.filter((row) => {
           const column = columns.find((col) => col.key === columnKey)
           if (!column) return true
-
           const cellValue = column.selector
             ? column.selector(row)
             : row[columnKey]
@@ -679,33 +861,100 @@ const convertToCSV = (data: DataRow[]): string => {
       }
     })
 
-    return result
-  }, [searchFilteredData, filters, columns])
+    return sortData(result)
+  }, [searchFilteredData, filters, columns, sortData])
 
-  const totalPages = Math.ceil(filteredData.length / rowsPerPage)
+  const convertToCSV = React.useCallback(
+    (dataToExport: DataRow[]): string => {
+      if (dataToExport.length === 0) return ''
 
+      const headers = visibleColumns
+        .map((col) => `"${col.name.replace(/"/g, '""')}"`)
+        .join(',')
+      const rows = dataToExport.map((row) =>
+        visibleColumns
+          .map((col) => {
+            const value = col.selector ? col.selector(row) : row[col.key]
+            return `"${String(value || '').replace(/"/g, '""')}"`
+          })
+          .join(','),
+      )
+
+      return [headers, ...rows].join('\n')
+    },
+    [visibleColumns],
+  )
+
+  const handleDownload = React.useCallback(() => {
+    if (!download) return
+
+    const csvContent = convertToCSV(sortedFilteredData)
+    const blob = new Blob([`\uFEFF${csvContent}`], {
+      type: 'text/csv;charset=utf-8',
+    })
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `table-export-${new Date().toISOString().slice(0, 10)}.csv`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+  }, [download, sortedFilteredData, convertToCSV])
+
+  const totalPages = Math.ceil(sortedFilteredData.length / rowsPerPage)
   const paginatedData = pagination
-    ? filteredData.slice(
+    ? sortedFilteredData.slice(
         (currentPage - 1) * rowsPerPage,
         currentPage * rowsPerPage,
       )
-    : filteredData
+    : sortedFilteredData
 
-  const handlePageChange = (page: number) => {
-    if (page < 1 || page > totalPages) return
-    setCurrentPage(page)
-  }
+  const handleSortChange = React.useCallback(
+    (key: string, direction: 'asc' | 'desc') => {
+      setSortConfig({ key, direction })
+      setCurrentPage(1)
+    },
+    [],
+  )
 
-  const handleFilterChange = (columnKey: string, values: string[]) => {
-    setFilters((prev) => ({
-      ...prev,
-      [columnKey]: values,
-    }))
-  }
+  const handleFilterChange = React.useCallback(
+    (columnKey: string, values: string[]) => {
+      setFilters((prev) => ({ ...prev, [columnKey]: values }))
+      setCurrentPage(1)
+    },
+    [],
+  )
+
+  const handleColumnVisibilityChange = React.useCallback(
+    (columnKey: string, visible: boolean) => {
+      setColumnVisibility((prev) => ({ ...prev, [columnKey]: visible }))
+    },
+    [],
+  )
+
+  const handlePageChange = React.useCallback(
+    (page: number) => {
+      if (page < 1 || page > totalPages) return
+      setCurrentPage(page)
+    },
+    [totalPages],
+  )
 
   React.useEffect(() => {
     setCurrentPage(1)
-  }, [searchValue, filters])
+  }, [searchValue, filters, sortConfig])
+
+  React.useEffect(() => {
+    setColumnVisibility(
+      columns.reduce((acc, col) => ({ ...acc, [col.key]: true }), {}),
+    )
+  }, [columns])
+
+  const activeFilterCount = React.useMemo(
+    () => Object.values(filters).reduce((acc, vals) => acc + vals.length, 0),
+    [filters],
+  )
 
   return (
     <div
@@ -723,73 +972,135 @@ const convertToCSV = (data: DataRow[]): string => {
         searchValue={searchValue}
         onSearchChange={setSearchValue}
         showFilterDropdown={showFilterDropdown}
-        onToggleFilter={() => setShowFilterDropdown(!showFilterDropdown)}
+        onToggleFilter={setShowFilterDropdown}
+        showColumnsDropdown={showColumnsDropdown}
+        onToggleColumnsDropdown={setShowColumnsDropdown}
         columns={columns}
         data={data}
         filters={filters}
         onFilterChange={handleFilterChange}
-        handleDownload = {handleDownload}
+        columnVisibility={columnVisibility}
+        onColumnVisibilityChange={handleColumnVisibilityChange}
+        handleDownload={handleDownload}
       />
+
+    
 
       <div
         className="overflow-x-auto"
-        style={{
-          height: tableBodyHeight,
-          maxHeight: tableBodyMaxHeight,
-        }}
+        style={{ height: tableBodyHeight, maxHeight: tableBodyMaxHeight }}
       >
-        <table
-          className="w-full border-collapse text-left text-sm"
-          role="table"
-          aria-label="Data table"
+       /* Update your table element */
+<table
+  className="w-full border-collapse text-left text-sm"
+  role="table"
+  aria-label="Data table"
+  aria-rowcount={sortedFilteredData.length}
+  aria-colcount={visibleColumns.length}
+>
+  <thead className="bg-[var(--atom-table-header-bg,#f8fafc)] text-xs uppercase tracking-wide text-[var(--atom-text-muted,#64748b)] sticky top-0 z-10">
+    <tr role="row">
+      {visibleColumns.map((column, colIndex) => {
+        const isSortable = column.sortable !== false
+        const isCurrentSort = sortConfig.key === column.key
+        const sortDirection = isCurrentSort ? sortConfig.direction : undefined
+
+        return (
+          <th
+            key={column.key}
+            scope="col"
+            role="columnheader"
+            aria-colindex={colIndex + 1}
+            aria-sort={
+              isCurrentSort
+                ? sortDirection === 'asc'
+                  ? 'ascending'
+                  : 'descending'
+                : isSortable
+                ? 'none'
+                : undefined
+            }
+            className="px-4 py-3 font-medium text-[var(--atom-text-muted,#64748b)] group relative"
+          >
+            <div className="flex items-center justify-between">
+              <span className="truncate">{column.name}</span>
+              {isSortable && (
+                <SortArrows
+                  columnKey={column.key}
+                  sortConfig={sortConfig}
+                  onSortChange={handleSortChange}
+                />
+              )}
+            </div>
+          </th>
+        )
+      })}
+    </tr>
+  </thead>
+
+  <tbody 
+    className="divide-y divide-[var(--atom-border-subtle,#e2e8f0)] bg-white"
+    role="rowgroup"
+  >
+    {paginatedData.length === 0 ? (
+      <tr role="row">
+        <td
+          colSpan={visibleColumns.length}
+          role="cell"
+          aria-colspan={visibleColumns.length}
+          className="h-24 text-center text-sm text-gray-500 py-8"
         >
-          <thead className="bg-[var(--atom-table-header-bg,#f8fafc)] text-xs uppercase tracking-wide text-[var(--atom-text-muted,#64748b)] sticky top-0 z-10">
-            <tr>
-              {columns.map((column) => (
-                <th
-                  key={column.key}
-                  scope="col"
-                  className="px-4 py-2 font-medium text-[var(--atom-text-muted,#64748b)]"
+          No results found
+        </td>
+      </tr>
+    ) : (
+      paginatedData.map((row, rowIndex) => {
+        const actualRowIndex = (currentPage - 1) * rowsPerPage + rowIndex + 1
+        
+        return (
+          <tr
+            key={row?.id || `row-${rowIndex}`}
+            role="row"
+            aria-rowindex={actualRowIndex}
+            className="hover:bg-gray-50/50 transition-colors"
+          >
+            {visibleColumns.map((column, colIndex) => {
+              let cellValue: ReactNode = row[column.key]
+
+              if (column.cell) {
+                cellValue = column.cell(row, rowIndex)
+              } else if (column.conditionalCell) {
+                const rawValue = column.selector
+                  ? column.selector(row)
+                  : row[column.key]
+                cellValue = column.conditionalCell(rawValue, row)
+              } else if (column.selector) {
+                cellValue = column.selector(row)
+              }
+
+              return (
+                <td 
+                  key={column.key} 
+                  role="cell"
+                  aria-colindex={colIndex + 1}
+                  className="px-4 py-3 align-top"
                 >
-                  {column.name}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-[var(--atom-border-subtle,#e2e8f0)] bg-white">
-            {paginatedData.map((row, rowIndex) => (
-              <tr key={row?.id ? row?.id : rowIndex}>
-                {columns.map((column) => {
-                  let cellValue: ReactNode = row[column.key]
+                  {cellValue}
+                </td>
+              )
+            })}
+          </tr>
+        )
+      })
+    )}
+  </tbody>
+</table>
 
-                  if (column.cell) {
-                    cellValue = column.cell(row, rowIndex)
-                  } else if (column.conditionalCell) {
-                    const rawValue = column.selector
-                      ? column.selector(row)
-                      : row[column.key]
-                    cellValue = column.conditionalCell(rawValue, row)
-                  } else if (column.selector) {
-                    cellValue = column.selector(row)
-                  } else {
-                    cellValue = row[column.key]
-                  }
-
-                  return (
-                    <td key={column.key} className="px-4 py-2">
-                      {cellValue}
-                    </td>
-                  )
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
 
       <PaginationControls
         pagination={pagination}
-        dataLength={filteredData.length}
+        dataLength={sortedFilteredData.length}
         rowsPerPage={rowsPerPage}
         currentPage={currentPage}
         totalPages={totalPages}
