@@ -27,9 +27,9 @@ const contentCardVariants = cva(
       },
 
       size: {
-        sm: 'p-3 text-xs gap-2',
-        md: 'p-4 text-sm gap-3',
-        lg: 'p-6 text-base gap-4',
+        sm: 'p-3 text-xs gap-2 ',
+        md: 'p-4 text-sm gap-3 ',
+        lg: 'p-6 text-base gap-4 ',
       },
     },
 

@@ -112,6 +112,8 @@
 
   /* ========== Effects ========== */
   --atom-focus-ring: var(--atom-primary-400);
+  --atom-shadow-xs: rgba(82, 82, 82, 0.05) 0px 0px 0px 1px;
+  --atom-shadow-xs2:rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
   --atom-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
   --atom-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --atom-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);

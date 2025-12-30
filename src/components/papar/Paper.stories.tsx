@@ -154,21 +154,7 @@ export const SizeOptions: Story = {
   ),
 }
 
-// Interactive paper (clickable card)
-export const Interactive: Story = {
-  render: () => (
-    <Paper
-      variant="outlined"
-      className="hover:border-blue-500 hover:shadow-lg cursor-pointer transition-all w-100"
-      onClick={() => alert('Paper clicked!')}
-    >
-      <h3 className="text-lg font-semibold mb-2">Interactive Card</h3>
-      <p className="text-sm">
-        Hover over me and click to see the interaction!
-      </p>
-    </Paper>
-  ),
-}
+
 
 // AsChild usage with different HTML elements
 export const AsChildUsage: Story = {
@@ -263,9 +249,85 @@ export const FormContainer: Story = {
 }
 
 // Empty state placeholder with dashed variant
-export const EmptyState: Story = {
+export const EmptyState1: Story = {
   render: () => (
-    <Paper variant="dashed" padding="lg" className="w-[400px] text-center">
+    <Paper variant="flat" padding="lg" className="w-[400px] text-center shadow-[var(--atom-shadow-xs2)]">
+      <div className="opacity-40 mb-2">
+        <svg
+          className="mx-auto h-12 w-12"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+      </div>
+      <h3 className="font-semibold mb-1">No documents yet</h3>
+      <p className="text-sm opacity-60">
+        Upload your first document to get started
+      </p>
+    </Paper>
+  ),
+}
+// Empty state placeholder with dashed variant
+export const EmptyState2: Story = {
+  render: () => (
+    <Paper variant="flat" padding="lg" className="w-[400px] text-center shadow-[var(--atom-shadow-sm)]">
+      <div className="opacity-40 mb-2">
+        <svg
+          className="mx-auto h-12 w-12"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+      </div>
+      <h3 className="font-semibold mb-1">No documents yet</h3>
+      <p className="text-sm opacity-60">
+        Upload your first document to get started
+      </p>
+    </Paper>
+  ),
+}
+export const EmptyState3: Story = {
+  render: () => (
+    <Paper variant="flat" padding="lg" className="w-[400px] text-center shadow-[var(--atom-shadow-md)]">
+      <div className="opacity-40 mb-2">
+        <svg
+          className="mx-auto h-12 w-12"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+      </div>
+      <h3 className="font-semibold mb-1">No documents yet</h3>
+      <p className="text-sm opacity-60">
+        Upload your first document to get started
+      </p>
+    </Paper>
+  ),
+}
+export const EmptyState4: Story = {
+  render: () => (
+    <Paper variant="flat" padding="lg" className="w-[400px] text-center shadow-[var(--atom-shadow-lg)]">
       <div className="opacity-40 mb-2">
         <svg
           className="mx-auto h-12 w-12"

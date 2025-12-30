@@ -5,7 +5,7 @@ import { Slot } from '@radix-ui/react-slot'
 import { cn } from '../../lib/cn'
 
 const paperVariants = cva(
-  'transition-colors duration-200 bg-(--atom-bg) border-1',
+  'transition-colors duration-200 bg-(--atom-bg) border-1 shadow-(--atom-border-xs2)',
   {
     variants: {
       variant: {
