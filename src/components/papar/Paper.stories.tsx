@@ -81,7 +81,7 @@ export const Playground: Story = {
 // All variants showcase
 export const Variants: Story = {
   render: () => (
-    <div className="space-y-4 w-[400px]">
+    <div className="space-y-4 w-100">
       <Paper variant="outlined">
         <h4 className="font-semibold mb-1">Outlined</h4>
         <p className="text-sm">Border-based design with subtle emphasis</p>
@@ -103,7 +103,7 @@ export const Variants: Story = {
 // Padding variations
 export const PaddingOptions: Story = {
   render: () => (
-    <div className="space-y-4 w-[400px]">
+    <div className="space-y-4 w-100">
       <Paper padding="none" variant="outlined">
         <div className="bg-blue-100 p-2">No padding - Custom content padding</div>
       </Paper>
@@ -126,7 +126,7 @@ export const PaddingOptions: Story = {
 // Border radius variations
 export const RadiusOptions: Story = {
   render: () => (
-    <div className="space-y-4 w-[400px]">
+    <div className="space-y-4 w-100">
       <Paper radius="none" variant="outlined">Sharp corners (none)</Paper>
       <Paper radius="sm" variant="outlined">Small radius (sm)</Paper>
       <Paper radius="md" variant="outlined">Medium radius (md) - Default</Paper>
@@ -138,7 +138,7 @@ export const RadiusOptions: Story = {
 // Size variations (text size)
 export const SizeOptions: Story = {
   render: () => (
-    <div className="space-y-4 w-[400px]">
+    <div className="space-y-4 w-100">
       <Paper size="sm" variant="outlined">
         <p>Small text size</p>
       </Paper>
@@ -159,7 +159,7 @@ export const Interactive: Story = {
   render: () => (
     <Paper
       variant="outlined"
-      className="hover:border-blue-500 hover:shadow-lg cursor-pointer transition-all w-[400px]"
+      className="hover:border-blue-500 hover:shadow-lg cursor-pointer transition-all w-100"
       onClick={() => alert('Paper clicked!')}
     >
       <h3 className="text-lg font-semibold mb-2">Interactive Card</h3>
@@ -173,7 +173,7 @@ export const Interactive: Story = {
 // AsChild usage with different HTML elements
 export const AsChildUsage: Story = {
   render: () => (
-    <div className="space-y-4 w-[400px]">
+    <div className="space-y-4 w-100">
       <Paper asChild variant="flat">
         <article>
           <h3 className="font-semibold mb-2">Article Element</h3>
@@ -201,7 +201,7 @@ export const AsChildUsage: Story = {
 // Content card example
 export const ContentCard: Story = {
   render: () => (
-    <Paper variant="outlined" className="w-[400px]">
+    <Paper variant="outlined" className="w-100">
       <div className="mb-4">
         <h2 className="text-xl font-bold mb-2">Card Title</h2>
         <p className="text-sm opacity-60">Posted on Dec 24, 2025</p>
@@ -221,7 +221,7 @@ export const ContentCard: Story = {
 // Dashboard widget example
 export const DashboardWidget: Story = {
   render: () => (
-    <Paper variant="flat" padding="lg" className="w-[300px]">
+    <Paper variant="flat" padding="lg" className="w-75">
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold">Total Sales</h3>
         <span className="text-xs text-green-600 font-medium">+12.5%</span>
@@ -235,7 +235,7 @@ export const DashboardWidget: Story = {
 // Form container example
 export const FormContainer: Story = {
   render: () => (
-    <Paper variant="outlined" padding="lg" className="w-[400px]">
+    <Paper variant="outlined" padding="lg" className="w-100">
       <h2 className="text-xl font-bold mb-4">Login Form</h2>
       <div className="space-y-4">
         <div>
