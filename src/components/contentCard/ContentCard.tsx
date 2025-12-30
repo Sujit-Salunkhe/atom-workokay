@@ -23,7 +23,7 @@ const contentCardVariants = cva(
           'bg-[color-mix(in_srgb,var(--atom-error)_8%,transparent)] border-[color-mix(in_srgb,var(--atom-error)_25%,transparent)] text-[color-mix(in_srgb,var(--atom-error)_90%,black)]',
 
         neutral:
-          'bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_6%,transparent)] border-[color-mix(in_srgb,var(--atom-badge-archived-border)_55%,transparent)] text-muted-foreground',
+          'bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_6%,transparent)] border-[color-mix(in_srgb,var(--atom-badge-archived-border)_75%,transparent)] text-muted-foreground',
       },
 
       size: {
