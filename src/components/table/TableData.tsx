@@ -140,112 +140,72 @@ const ChevronDownIcon = () => (
 )
 
 /* ------------------ Sort Dropdown (NEW) ------------------ */
-interface SortDropdownProps {
+/* ------------------ Sort Arrows (SIMPLIFIED) ------------------ */
+interface SortArrowsProps {
   columnKey: string
   sortConfig: { key: string | null; direction: 'asc' | 'desc' }
   onSortChange: (key: string, direction: 'asc' | 'desc') => void
 }
 
-function SortDropdown({
-  columnKey,
-  sortConfig,
-  onSortChange,
-}: SortDropdownProps) {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const dropdownRef = React.useRef<HTMLDivElement>(null)
-
+function SortArrows({ columnKey, sortConfig, onSortChange }: SortArrowsProps) {
   const isCurrentSort = sortConfig.key === columnKey
   const currentDirection = isCurrentSort ? sortConfig.direction : 'asc'
 
-  // Close dropdown on outside click
-  React.useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  const handleSort = (direction: 'asc' | 'desc') => {
-    onSortChange(columnKey, direction)
-    setIsOpen(false)
+  const handleSortToggle = () => {
+    const newDirection = currentDirection === 'asc' ? 'desc' : 'asc'
+    onSortChange(columnKey, newDirection)
   }
 
+  const handleSortAsc = () => onSortChange(columnKey, 'asc')
+  const handleSortDesc = () => onSortChange(columnKey, 'desc')
+
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="flex flex-col gap-0.5 -space-y-0.5 group-hover:opacity-100 opacity-50 transition-all duration-200">
+      {/* Up Arrow (Asc) */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleSortAsc}
         className={cn(
-          'flex items-center gap-1 p-1 -m-1 rounded hover:bg-gray-100 transition-all duration-200 group cursor-pointer',
-          isCurrentSort && 'text-blue-600 bg-blue-50 ',
+          'w-4 h-3 p-0 flex items-center justify-center rounded-sm transition-colors duration-200 hover:bg-blue-50 hover:opacity-100 opacity-60',
+          isCurrentSort &&
+            currentDirection === 'asc' &&
+            'opacity-100 bg-blue-50 border border-blue-300 text-blue-600 scale-110',
         )}
-        aria-label={`Sort column ${columnKey}`}
-        aria-expanded={isOpen}
+        aria-label="Sort ascending"
       >
         <svg
-          className={cn(
-            'h-3.5 w-3.5 transition-transform duration-200 flex-shrink-0',
-            {
-              'rotate-180': isCurrentSort && currentDirection === 'desc',
-              'text-blue-600': isCurrentSort,
-            },
-          )}
+          className="w-5 h-3 stroke-[2.5]"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <path d="M6 9l6 6 6-6" />
+          <path d="M6 14l6-6 6 6" />
         </svg>
       </button>
 
-      {isOpen && (
-        <div className="absolute right-0 top-full  bg-white rounded-lg border border-gray-200 shadow-xl overflow-auto z-50 ">
-          <button
-            onClick={() => handleSort('asc')}
-            className={cn(
-              'w-full text-left px-3 py-2 text-sm hover:bg-blue-50 flex items-center gap-2 transition-colors',
-              currentDirection === 'asc' &&
-                'bg-blue-50 border-r-2 border-blue-500 text-blue-700  font-medium',
-            )}
-          >
-            <svg
-              className="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-            Asc
-          </button>
-          <button
-            onClick={() => handleSort('desc')}
-            className={cn(
-              'w-full text-left px-3 py-2 text-sm hover:bg-blue-50 flex items-center gap-2 rounded-b-lg transition-colors',
-              currentDirection === 'desc' &&
-                'bg-blue-50 border-r-2 border-blue-500 text-blue-700 font-medium',
-            )}
-          >
-            <svg
-              className="h-4 w-4 rotate-180"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-            Desc
-          </button>
-        </div>
-      )}
+      {/* Down Arrow (Desc) */}
+      <button
+        onClick={handleSortDesc}
+        className={cn(
+          'w-4 h-3 p-0 flex items-center justify-center rounded-sm transition-colors duration-200 hover:bg-blue-50 hover:opacity-100 opacity-60 -mt-0.5',
+          isCurrentSort &&
+            currentDirection === 'desc' &&
+            'opacity-100 bg-blue-50 border border-blue-300 text-blue-600 scale-110',
+        )}
+        aria-label="Sort descending"
+      >
+        <svg
+          className="w-5 h-3 stroke-[2.5]"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M6 10l6 6 6-6" />
+        </svg>
+      </button>
     </div>
   )
 }
@@ -732,55 +692,57 @@ export function DataTable({
   const normalizedSearch = normalizeText(searchValue.trim())
 
   // 1. SEARCH FILTER (FIRST)
-  const searchFilteredData = React.useMemo(() => 
-    !search || !normalizedSearch
-      ? data
-      : data.filter((row) =>
-          columns.some((column) => {
-            const value = column.selector
-              ? column.selector(row)
-              : row[column.key]
-            const normalizedValue = normalizeText(value)
-            return normalizedValue.includes(normalizedSearch)
-          }),
-        ),
-    [data, columns, search, normalizedSearch]
+  const searchFilteredData = React.useMemo(
+    () =>
+      !search || !normalizedSearch
+        ? data
+        : data.filter((row) =>
+            columns.some((column) => {
+              const value = column.selector
+                ? column.selector(row)
+                : row[column.key]
+              const normalizedValue = normalizeText(value)
+              return normalizedValue.includes(normalizedSearch)
+            }),
+          ),
+    [data, columns, search, normalizedSearch],
   )
 
   // 2. SORTING FUNCTION
-  const sortData = React.useCallback((items: DataRow[]): DataRow[] => {
-    if (!sortConfig.key) return items
-    
-    return [...items].sort((a, b) => {
-      const column = columns.find(col => col.key === sortConfig.key)
-      if (!column) return 0
-      
-      const aValue = column.selector ? column.selector(a) : a[column.key]
-      const bValue = column.selector ? column.selector(b) : b[column.key]
-      
-      // Handle null/undefined
-      if (aValue == null && bValue == null) return 0
-      if (aValue == null) return sortConfig.direction === 'asc' ? 1 : -1
-      if (bValue == null) return sortConfig.direction === 'asc' ? -1 : 1
-      
-      // Numeric first
-      const aNum = parseFloat(String(aValue))
-      const bNum = parseFloat(String(bValue))
-      if (!isNaN(aNum) && !isNaN(bNum)) {
-        return sortConfig.direction === 'asc' 
-          ? aNum - bNum 
-          : bNum - aNum
-      }
-      
-      // String fallback
-      const aStr = String(aValue).toLowerCase().trim()
-      const bStr = String(bValue).toLowerCase().trim()
-      
-      if (aStr < bStr) return sortConfig.direction === 'asc' ? -1 : 1
-      if (aStr > bStr) return sortConfig.direction === 'asc' ? 1 : -1
-      return 0
-    })
-  }, [sortConfig.key, sortConfig.direction, columns])
+  const sortData = React.useCallback(
+    (items: DataRow[]): DataRow[] => {
+      if (!sortConfig.key) return items
+
+      return [...items].sort((a, b) => {
+        const column = columns.find((col) => col.key === sortConfig.key)
+        if (!column) return 0
+
+        const aValue = column.selector ? column.selector(a) : a[column.key]
+        const bValue = column.selector ? column.selector(b) : b[column.key]
+
+        // Handle null/undefined
+        if (aValue == null && bValue == null) return 0
+        if (aValue == null) return sortConfig.direction === 'asc' ? 1 : -1
+        if (bValue == null) return sortConfig.direction === 'asc' ? -1 : 1
+
+        // Numeric first
+        const aNum = parseFloat(String(aValue))
+        const bNum = parseFloat(String(bValue))
+        if (!isNaN(aNum) && !isNaN(bNum)) {
+          return sortConfig.direction === 'asc' ? aNum - bNum : bNum - aNum
+        }
+
+        // String fallback
+        const aStr = String(aValue).toLowerCase().trim()
+        const bStr = String(bValue).toLowerCase().trim()
+
+        if (aStr < bStr) return sortConfig.direction === 'asc' ? -1 : 1
+        if (aStr > bStr) return sortConfig.direction === 'asc' ? 1 : -1
+        return 0
+      })
+    },
+    [sortConfig.key, sortConfig.direction, columns],
+  )
 
   // 3. FILTER + SORT PIPELINE
   const sortedFilteredData = React.useMemo(() => {
@@ -792,7 +754,9 @@ export function DataTable({
         result = result.filter((row) => {
           const column = columns.find((col) => col.key === columnKey)
           if (!column) return true
-          const cellValue = column.selector ? column.selector(row) : row[columnKey]
+          const cellValue = column.selector
+            ? column.selector(row)
+            : row[columnKey]
           return selectedValues.includes(String(cellValue))
         })
       }
@@ -803,25 +767,34 @@ export function DataTable({
   }, [searchFilteredData, filters, columns, sortData])
 
   //  FIXED: Download functions NOW AFTER sortedFilteredData
-  const convertToCSV = React.useCallback((dataToExport: DataRow[]): string => {
-    if (dataToExport.length === 0) return ''
-    
-    const headers = columns.map(col => `"${col.name.replace(/"/g, '""')}"`).join(',')
-    const rows = dataToExport.map(row => 
-      columns.map(col => {
-        const value = col.selector ? col.selector(row) : row[col.key]
-        return `"${String(value || '').replace(/"/g, '""')}"`
-      }).join(',')
-    )
-    
-    return [headers, ...rows].join('\n')
-  }, [columns])
+  const convertToCSV = React.useCallback(
+    (dataToExport: DataRow[]): string => {
+      if (dataToExport.length === 0) return ''
+
+      const headers = columns
+        .map((col) => `"${col.name.replace(/"/g, '""')}"`)
+        .join(',')
+      const rows = dataToExport.map((row) =>
+        columns
+          .map((col) => {
+            const value = col.selector ? col.selector(row) : row[col.key]
+            return `"${String(value || '').replace(/"/g, '""')}"`
+          })
+          .join(','),
+      )
+
+      return [headers, ...rows].join('\n')
+    },
+    [columns],
+  )
 
   const handleDownload = React.useCallback(() => {
     if (!download) return
-    
+
     const csvContent = convertToCSV(sortedFilteredData)
-    const blob = new Blob([`\uFEFF${csvContent}`], { type: 'text/csv;charset=utf-8' }) // BOM for Excel
+    const blob = new Blob([`\uFEFF${csvContent}`], {
+      type: 'text/csv;charset=utf-8',
+    }) // BOM for Excel
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url
@@ -842,20 +815,29 @@ export function DataTable({
     : sortedFilteredData
 
   // Event handlers
-  const handleSortChange = React.useCallback((key: string, direction: 'asc' | 'desc') => {
-    setSortConfig({ key, direction })
-    setCurrentPage(1)
-  }, [])
+  const handleSortChange = React.useCallback(
+    (key: string, direction: 'asc' | 'desc') => {
+      setSortConfig({ key, direction })
+      setCurrentPage(1)
+    },
+    [],
+  )
 
-  const handleFilterChange = React.useCallback((columnKey: string, values: string[]) => {
-    setFilters((prev) => ({ ...prev, [columnKey]: values }))
-    setCurrentPage(1)
-  }, [])
+  const handleFilterChange = React.useCallback(
+    (columnKey: string, values: string[]) => {
+      setFilters((prev) => ({ ...prev, [columnKey]: values }))
+      setCurrentPage(1)
+    },
+    [],
+  )
 
-  const handlePageChange = React.useCallback((page: number) => {
-    if (page < 1 || page > totalPages) return
-    setCurrentPage(page)
-  }, [totalPages])
+  const handlePageChange = React.useCallback(
+    (page: number) => {
+      if (page < 1 || page > totalPages) return
+      setCurrentPage(page)
+    },
+    [totalPages],
+  )
 
   // Reset pagination on search/filter/sort
   React.useEffect(() => {
@@ -864,10 +846,12 @@ export function DataTable({
 
   // ✅ ALL COMPONENTS BELOW (unchanged from previous)
   return (
-    <div className={cn(
-      'w-full overflow-hidden rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] bg-white min-h-[80vh]',
-      className,
-    )}>
+    <div
+      className={cn(
+        'w-full overflow-hidden rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] bg-white min-h-[80vh]',
+        className,
+      )}
+    >
       <Toolbar
         search={search}
         download={download}
@@ -889,7 +873,11 @@ export function DataTable({
         className="overflow-x-auto"
         style={{ height: tableBodyHeight, maxHeight: tableBodyMaxHeight }}
       >
-        <table className="w-full border-collapse text-left text-sm" role="table" aria-label="Data table">
+        <table
+          className="w-full border-collapse text-left text-sm"
+          role="table"
+          aria-label="Data table"
+        >
           <thead className="bg-[var(--atom-table-header-bg,#f8fafc)] text-xs uppercase tracking-wide text-[var(--atom-text-muted,#64748b)] sticky top-0 z-10">
             <tr>
               {columns.map((column) => {
@@ -904,7 +892,7 @@ export function DataTable({
                     <div className="flex items-center justify-between">
                       <span className="truncate">{column.name}</span>
                       {isSortable && (
-                        <SortDropdown
+                        <SortArrows
                           columnKey={column.key}
                           sortConfig={sortConfig}
                           onSortChange={handleSortChange}
@@ -916,24 +904,32 @@ export function DataTable({
               })}
             </tr>
           </thead>
-          
+
           <tbody className="divide-y divide-[var(--atom-border-subtle,#e2e8f0)] bg-white">
             {paginatedData.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="h-24 text-center text-sm text-gray-500 py-8">
+                <td
+                  colSpan={columns.length}
+                  className="h-24 text-center text-sm text-gray-500 py-8"
+                >
                   No results found
                 </td>
               </tr>
             ) : (
               paginatedData.map((row, rowIndex) => (
-                <tr key={row?.id || `row-${rowIndex}`} className="hover:bg-gray-50/50 transition-colors">
+                <tr
+                  key={row?.id || `row-${rowIndex}`}
+                  className="hover:bg-gray-50/50 transition-colors"
+                >
                   {columns.map((column) => {
                     let cellValue: ReactNode = row[column.key]
 
                     if (column.cell) {
                       cellValue = column.cell(row, rowIndex)
                     } else if (column.conditionalCell) {
-                      const rawValue = column.selector ? column.selector(row) : row[column.key]
+                      const rawValue = column.selector
+                        ? column.selector(row)
+                        : row[column.key]
                       cellValue = column.conditionalCell(rawValue, row)
                     } else if (column.selector) {
                       cellValue = column.selector(row)
@@ -963,4 +959,3 @@ export function DataTable({
     </div>
   )
 }
-
