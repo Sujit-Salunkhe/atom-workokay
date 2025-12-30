@@ -5,9 +5,9 @@ import { ChevronRight, ChevronLeft, ChevronUp, ChevronDown } from 'lucide-react'
 import { Slot } from '@radix-ui/react-slot'
 import { cn } from '../../lib/cn'
 
-// Drawer container variants (unchanged)
+// Drawer container variants - ADDED relative class
 const drawerVariants = cva(
-  'fixed z-[1000] flex flex-col overflow-hidden border shadow-2xl transition-all duration-300 ease-in-out bg-[var(--atom-card-bg)] border-[var(--atom-card-border)]',
+  'fixed z-[1000] relative flex flex-col overflow-hidden border shadow-2xl transition-all duration-300 ease-in-out bg-[var(--atom-card-bg)] border-[var(--atom-card-border)]',
   {
     variants: {
       variant: {
@@ -40,20 +40,16 @@ const drawerVariants = cva(
   },
 )
 
-// NEW: Trigger button variants - positioned ON drawer border
+// Trigger button variants - positioned ON drawer border
 const drawerTriggerVariants = cva(
   'absolute z-[1002] flex h-12 w-12 items-center justify-center rounded-full border-2 shadow-lg transition-all duration-300 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-[var(--atom-primary)] focus:ring-offset-2 pointer-events-auto',
   {
     variants: {
       variant: {
-        // Right drawer: LEFT border (opening direction), vertically centered
-        right: '-left-6 top-1/2 -translate-y-1/2',
-        // Left drawer: RIGHT border (opening direction), vertically centered
-        left: '-right-6 top-1/2 -translate-y-1/2',
-        // Bottom drawer: TOP border (opening direction), horizontally centered
-        bottom: 'left-1/2 -top-6 -translate-x-1/2',
-        // Top drawer: BOTTOM border (opening direction), horizontally centered
-        top: 'left-1/2 -bottom-6 -translate-x-1/2',
+        right: 'left-0 top-1/2 -translate-x-1/2 -translate-y-1/2',
+        left: 'right-0 top-1/2 translate-x-1/2 -translate-y-1/2',
+        bottom: 'left-1/2 top-0 -translate-x-1/2 -translate-y-1/2',
+        top: 'left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2',
       },
       open: {
         true: 'bg-[var(--atom-primary)] text-white shadow-xl border-[var(--atom-primary)]',
@@ -81,16 +77,15 @@ const getIcon = (
   variant: DrawerVariant,
   open: boolean,
 ): React.ComponentType<any> => {
-  // Closed → points TO drawer (invites open), Open → points AWAY (invites close)
   switch (variant) {
     case 'right':
-      return open ? ChevronRight : ChevronLeft // Closed: ← (to drawer), Open: → (away)
+      return open ? ChevronRight : ChevronLeft
     case 'left':
-      return open ? ChevronLeft : ChevronRight // Closed: → (to drawer), Open: ← (away)
+      return open ? ChevronLeft : ChevronRight
     case 'bottom':
-      return open ? ChevronDown : ChevronUp // Closed: ↑ (to drawer), Open: ↓ (away)
+      return open ? ChevronDown : ChevronUp
     case 'top':
-      return open ? ChevronUp : ChevronDown // Closed: ↓ (to drawer), Open: ↑ (away)
+      return open ? ChevronUp : ChevronDown
     default:
       return ChevronRight
   }
@@ -163,12 +158,7 @@ export const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(
           aria-labelledby="drawer-title"
           {...props}
         >
-          {/* Content */}
-          <div className="h-full w-full flex flex-col p-6 overflow-auto relative z-[1001]">
-            {children}
-          </div>
-
-          {/* Trigger button - MOVES WITH DRAWER */}
+          {/* Trigger button - PERFECTLY ON BORDER */}
           <button
             className={cn(drawerTriggerVariants({ variant, open }))}
             onClick={(e) => {
@@ -180,11 +170,13 @@ export const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(
             aria-expanded={open}
             type="button"
           >
-            <>
-              <Icon className="h-5 w-5 flex-shrink-0" />
-              fdsfjsidju
-            </>
+            <Icon className="h-5 w-5 flex-shrink-0" />
           </button>
+
+          {/* Content */}
+          <div className="h-full w-full flex flex-col p-6 overflow-auto relative z-[1001]">
+            {children}
+          </div>
         </Comp>
       </>
     )
