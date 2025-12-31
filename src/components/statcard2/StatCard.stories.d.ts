@@ -1,0 +1,17 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { type StatCardProps } from './StatCard';
+declare const meta: Meta<StatCardProps>;
+export default meta;
+type Story = StoryObj<StatCardProps>;
+export declare const Playground: Story;
+export declare const primary: Story;
+export declare const WithSingleIcon: Story;
+export declare const Neutral: Story;
+export declare const Success: Story;
+export declare const Warning: Story;
+export declare const Danger: Story;
+export declare const Info: Story;
+export declare const Accent: Story;
+export declare const Sizes: Story;
+export declare const Appearances: Story;
+export declare const WithIconsRow: Story;

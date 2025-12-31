@@ -2,7 +2,7 @@ import * as React from "react";
 import { type VariantProps } from "class-variance-authority";
 declare const inputVariants: (props?: ({
     size?: "sm" | "md" | "lg" | null | undefined;
-    tone?: "default" | "success" | "invalid" | null | undefined;
+    tone?: "default" | "invalid" | "success" | null | undefined;
     hasLeft?: boolean | null | undefined;
     hasRight?: boolean | null | undefined;
 } & import("class-variance-authority/types").ClassProp) | undefined) => string;

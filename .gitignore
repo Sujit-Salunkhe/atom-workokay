@@ -45,3 +45,8 @@ test-results
 # Environment variables
 .env.local
 .env.*.local
+
+#storybook files
+**/*.d.ts
+**/*.stories.d.ts
+``
