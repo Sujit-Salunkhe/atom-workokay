@@ -797,24 +797,26 @@ export const MoonIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   
   return (
     <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 32 32" 
+      xmlns="http://www.w3.org/2000/svg" 
+      fill="none"
       {...props}
     >
-      <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
       <g id="SVGRepo_iconCarrier">
         <path 
-          fillRule="evenodd" 
-          clipRule="evenodd" 
-          d="M11.0174 2.80157C6.37072 3.29221 2.75 7.22328 2.75 12C2.75 17.1086 6.89137 21.25 12 21.25C16.7767 21.25 20.7078 17.6293 21.1984 12.9826C19.8717 14.6669 17.8126 15.75 15.5 15.75C11.4959 15.75 8.25 12.5041 8.25 8.5C8.25 6.18738 9.33315 4.1283 11.0174 2.80157ZM1.25 12C1.25 6.06294 6.06294 1.25 12 1.25C12.7166 1.25 13.0754 1.82126 13.1368 2.27627C13.196 2.71398 13.0342 3.27065 12.531 3.57467C10.8627 4.5828 9.75 6.41182 9.75 8.5C9.75 11.6756 12.3244 14.25 15.5 14.25C17.5882 14.25 19.4172 13.1373 20.4253 11.469C20.7293 10.9658 21.286 10.804 21.7237 10.8632C22.1787 10.9246 22.75 11.2834 22.75 12C22.75 17.9371 17.9371 22.75 12 22.75C6.06294 22.75 1.25 17.9371 1.25 12Z" 
-          fill={iconColor}
+          stroke={iconColor} 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          strokeWidth="0.936" 
+          d="M13.294 5A11.19 11.19 0 1027 18.706s-5.723 2.19-10.81-2.897C11.105 10.723 13.295 5 13.295 5z"
         ></path>
       </g>
     </svg>
   );
 };
+
 
 export const SearchIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   const iconColor = props?.style?.color || '#000000';
