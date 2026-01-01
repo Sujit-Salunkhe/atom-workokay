@@ -625,7 +625,7 @@ export const FailedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
 };
 
 
-export const ValidatedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+export const TickIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   const iconColor = props?.style?.color || '#43A047';
   
   return (
@@ -657,6 +657,31 @@ export const ValidatedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) =>
   );
 };
 
+export const ValidatedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg" 
+    style={{ color: ICON_COLORS.primary, ...props.style }}
+    {...props}
+  >
+    <path 
+      d="m14.25 8.75c-.5 2.5-2.3849 4.85363-5.03069 5.37991-2.64578.5263-5.33066-.7044-6.65903-3.0523-1.32837-2.34784-1.00043-5.28307.81336-7.27989 1.81379-1.99683 4.87636-2.54771 7.37636-1.54771"
+      stroke="currentColor"
+      strokeWidth="0.88"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <polyline 
+      points="5.75 7.75,8.25 10.25,14.25 3.75"
+      stroke="currentColor"
+      strokeWidth="0.88"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
 export const DrawerIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     viewBox="0 0 24 24"
@@ -665,7 +690,6 @@ export const DrawerIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     style={{ color: ICON_COLORS.primary, ...props.style }}
     {...props}
   >
-    {/* Main Tray Body - Vertically stretched by lowering the bottom to Y=22 and raising the sides */}
     <path 
       d="M3 12V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V12M3 12H8.5C9 12 9.5 12.5 10 13.5C10.5 14.5 11.2 15 12 15C12.8 15 13.5 14.5 14 13.5C14.5 12.5 15 12 15.5 12H21M3 12L5 8M21 12L19 8" 
       stroke="currentColor" 
@@ -674,7 +698,6 @@ export const DrawerIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
       strokeLinejoin="round"
     />
     
-    {/* Trapezoid Top - Vertically stretched by moving the top edge higher to Y=2 */}
     <path 
       d="M5 8H19L16" 
       stroke="currentColor" 

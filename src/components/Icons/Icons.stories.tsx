@@ -30,6 +30,7 @@ import {
   AddUserIcon,
   TrendingUpIcon,
   FolderIcon,
+  TickIcon
 } from '../../assets/icons/BrokerModelIcons'
 
 const meta = {
@@ -85,9 +86,10 @@ export const AllIcons: Story = {
         <span className="text-sm">DocumentIcon</span>
       </div>
       
+      
       <div className="flex flex-col items-center gap-2">
-        <BuildingIcon className="h-8 w-8" />
-        <span className="text-sm">BuildingIcon</span>
+        <TickIcon className="h-8 w-8" />
+        <span className="text-sm">TickIcon</span>
       </div>
       
       <div className="flex flex-col items-center gap-2">
