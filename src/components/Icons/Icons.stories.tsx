@@ -8,7 +8,6 @@ import {
   EditIcon,
   DeleteIcon,
   DocumentIcon,
-  BuildingIcon,
   ClockIcon,
   ZipFolderIcon,
   CSVFolderIcon,
