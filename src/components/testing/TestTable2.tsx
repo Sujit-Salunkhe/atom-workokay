@@ -1,11 +1,4 @@
-import {
-  useState,
-  useMemo,
-  useCallback,
-  useEffect,
-  useRef,
-  isValidElement,
-} from 'react'
+import {useState,useMemo,useCallback,useEffect,useRef}  from 'react'
 import type { ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 
@@ -264,8 +257,7 @@ function ViewColumnsDropdown({
                 type="checkbox"
                 checked={isVisible}
                 onChange={() =>
-                  !isDisabled &&
-                  onColumnVisibilityChange(column.key, !isVisible)
+                  !isDisabled && onColumnVisibilityChange(column.key, !isVisible)
                 }
                 disabled={isDisabled}
                 className="rounded border-gray-300 cursor-pointer disabled:cursor-not-allowed"
@@ -533,7 +525,7 @@ function Toolbar(props: ToolbarProps) {
   const filterDropdownRef = useRef<HTMLDivElement>(null)
   const columnsDropdownRef = useRef<HTMLDivElement>(null)
   const showToolbar = search || download || viewColumns || filter
-
+  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -554,12 +546,7 @@ function Toolbar(props: ToolbarProps) {
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [
-    showFilterDropdown,
-    showColumnsDropdown,
-    onToggleFilter,
-    onToggleColumnsDropdown,
-  ])
+  }, [showFilterDropdown, showColumnsDropdown, onToggleFilter, onToggleColumnsDropdown])
 
   if (!showToolbar) return null
 
@@ -587,7 +574,7 @@ function Toolbar(props: ToolbarProps) {
       </div>
 
       <div className="flex items-center gap-2">
-        {filter && (
+        {filter &&(
           <>
             <ActiveFilters
               filters={filters}
@@ -595,7 +582,7 @@ function Toolbar(props: ToolbarProps) {
               onFilterChange={onFilterChange}
               activeFilterCount={activeFilterCount}
             />
-
+          
             <div className="relative" ref={filterDropdownRef}>
               <button
                 type="button"
@@ -966,14 +953,6 @@ export function DataTable({
     return row.id ?? `row-${index}`
   }, [])
 
-  const renderCellValue = (value: unknown): ReactNode => {
-    if (value === null || value === undefined) return '-'
-    if (typeof value === 'boolean') return value ? 'Yes' : 'No'
-    if (typeof value === 'number') return value.toString()
-    if (isValidElement(value)) return value
-    return String(value)
-  }
-
   return (
     <div
       className={cn(
@@ -1018,9 +997,7 @@ export function DataTable({
               {visibleColumns.map((column, colIndex) => {
                 const isSortable = column.sortable !== false
                 const isCurrentSort = sortConfig.key === column.key
-                const sortDirection = isCurrentSort
-                  ? sortConfig.direction
-                  : undefined
+                const sortDirection = isCurrentSort ? sortConfig.direction : undefined
 
                 return (
                   <th
@@ -1034,8 +1011,8 @@ export function DataTable({
                           ? 'ascending'
                           : 'descending'
                         : isSortable
-                          ? 'none'
-                          : undefined
+                        ? 'none'
+                        : undefined
                     }
                     className="px-4 py-3 font-medium text-[var(--atom-text-muted,#64748b)] group relative"
                   >
@@ -1055,7 +1032,7 @@ export function DataTable({
             </tr>
           </thead>
 
-          <tbody
+          <tbody 
             className="divide-y divide-[var(--atom-border-subtle,#e2e8f0)] bg-white"
             role="rowgroup"
           >
@@ -1072,10 +1049,9 @@ export function DataTable({
               </tr>
             ) : (
               paginatedData.map((row, rowIndex) => {
-                const actualRowIndex =
-                  (currentPage - 1) * rowsPerPage + rowIndex + 1
+                const actualRowIndex = (currentPage - 1) * rowsPerPage + rowIndex + 1
                 const rowKey = getRowKey(row, rowIndex)
-
+                
                 return (
                   <tr
                     key={rowKey}
@@ -1084,7 +1060,7 @@ export function DataTable({
                     className="hover:bg-gray-50/50 transition-colors"
                   >
                     {visibleColumns.map((column, colIndex) => {
-                      let cellValue: ReactNode
+                      let cellValue: ReactNode = row[column.key]
 
                       if (column.cell) {
                         cellValue = column.cell(row, rowIndex)
@@ -1092,19 +1068,14 @@ export function DataTable({
                         const rawValue = column.selector
                           ? column.selector(row)
                           : row[column.key]
-                        cellValue = column.conditionalCell(
-                          rawValue as unknown,
-                          row,
-                        )
+                        cellValue = column.conditionalCell(rawValue as unknown, row)
                       } else if (column.selector) {
-                        cellValue = renderCellValue(column.selector(row))
-                      } else {
-                        cellValue = renderCellValue(row[column.key])
+                        cellValue = column.selector(row)
                       }
 
                       return (
-                        <td
-                          key={column.key}
+                        <td 
+                          key={column.key} 
                           role="cell"
                           aria-colindex={colIndex + 1}
                           className="px-4 py-3 align-top"

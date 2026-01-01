@@ -1,5 +1,5 @@
 // src/components/ui/input.stories.tsx
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 // import { useArgs } from "@storybook/preview-api"
 import { Input} from "./Input"
 
