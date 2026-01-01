@@ -29,7 +29,8 @@ import {
   AddUserIcon,
   TrendingUpIcon,
   FolderIcon,
-  TickIcon
+  TickIcon,
+  CalendarIcon
 } from '../../assets/icons/BrokerModelIcons'
 
 const meta = {
@@ -194,6 +195,10 @@ export const AllIcons: Story = {
       <div className="flex flex-col items-center gap-2">
         <FolderIcon className="h-8 w-8" />
         <span className="text-sm">FolderIcon</span>
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <CalendarIcon className="h-8 w-8" />
+        <span className="text-sm">CalanderIcon</span>
       </div>
     </div>
   ),

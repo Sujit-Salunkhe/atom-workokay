@@ -121,91 +121,96 @@ export const UsersIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 )
 
 export const HomeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#00796B';
-  
+  const iconColor = props?.style?.color || '#00796B'
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          d="M22 22L2 22" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
+        <path
+          d="M22 22L2 22"
+          stroke={iconColor}
+          strokeWidth="0.936"
           strokeLinecap="round"
         ></path>
-        <path 
-          d="M2 11L10.1259 4.49931C11.2216 3.62279 12.7784 3.62279 13.8741 4.49931L22 11" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
+        <path
+          d="M2 11L10.1259 4.49931C11.2216 3.62279 12.7784 3.62279 13.8741 4.49931L22 11"
+          stroke={iconColor}
+          strokeWidth="0.936"
           strokeLinecap="round"
         ></path>
-        <path 
-          d="M15.5 5.5V3.5C15.5 3.22386 15.7239 3 16 3H18.5C18.7761 3 19 3.22386 19 3.5V8.5" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
+        <path
+          d="M15.5 5.5V3.5C15.5 3.22386 15.7239 3 16 3H18.5C18.7761 3 19 3.22386 19 3.5V8.5"
+          stroke={iconColor}
+          strokeWidth="0.936"
           strokeLinecap="round"
         ></path>
-        <path 
-          d="M4 22V9.5" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
+        <path
+          d="M4 22V9.5"
+          stroke={iconColor}
+          strokeWidth="0.936"
           strokeLinecap="round"
         ></path>
-        <path 
-          d="M20 22V9.5" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
+        <path
+          d="M20 22V9.5"
+          stroke={iconColor}
+          strokeWidth="0.936"
           strokeLinecap="round"
         ></path>
-        <path 
-          d="M15 22V17C15 15.5858 15 14.8787 14.5607 14.4393C14.1213 14 13.4142 14 12 14C10.5858 14 9.87868 14 9.43934 14.4393C9 14.8787 9 15.5858 9 17V22" 
-          stroke={iconColor} 
+        <path
+          d="M15 22V17C15 15.5858 15 14.8787 14.5607 14.4393C14.1213 14 13.4142 14 12 14C10.5858 14 9.87868 14 9.43934 14.4393C9 14.8787 9 15.5858 9 17V22"
+          stroke={iconColor}
           strokeWidth="0.936"
         ></path>
-        <path 
-          d="M14 9.5C14 10.6046 13.1046 11.5 12 11.5C10.8954 11.5 10 10.6046 10 9.5C10 8.39543 10.8954 7.5 12 7.5C13.1046 7.5 14 8.39543 14 9.5Z" 
-          stroke={iconColor} 
+        <path
+          d="M14 9.5C14 10.6046 13.1046 11.5 12 11.5C10.8954 11.5 10 10.6046 10 9.5C10 8.39543 10.8954 7.5 12 7.5C13.1046 7.5 14 8.39543 14 9.5Z"
+          stroke={iconColor}
           strokeWidth="0.936"
         ></path>
       </g>
     </svg>
-  );
-};
-
+  )
+}
 
 export const EditIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#00796B';
-  
+  const iconColor = props?.style?.color || '#00796B'
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{color:ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          d="M12 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V12M9 15V12.5L17.75 3.75C18.4404 3.05964 19.5596 3.05964 20.25 3.75V3.75C20.9404 4.44036 20.9404 5.55964 20.25 6.25L15.5 11L11.5 15H9Z" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
-          strokeLinecap="round" 
+        <path
+          d="M12 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V12M9 15V12.5L17.75 3.75C18.4404 3.05964 19.5596 3.05964 20.25 3.75V3.75C20.9404 4.44036 20.9404 5.55964 20.25 6.25L15.5 11L11.5 15H9Z"
+          stroke={iconColor}
+          strokeWidth="0.936"
+          strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
       </g>
     </svg>
-  );
-};
-
+  )
+}
 
 export const DeleteIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -252,7 +257,6 @@ export const DocumentIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
     />
   </svg>
 )
-
 
 // export const BuildingIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
 //   props,
@@ -508,30 +512,33 @@ export const ExcelFolderIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
 }
 
 export const WarningIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || ICON_COLORS.primary;
-  
+  const iconColor = props?.style?.color || ICON_COLORS.primary
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          d="M12 16.99V17M12 7V14M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
-          strokeLinecap="round" 
+        <path
+          d="M12 16.99V17M12 7V14M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+          stroke={iconColor}
+          strokeWidth="0.936"
+          strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
       </g>
     </svg>
-  );
-};
-
+  )
+}
 
 export const QuariantinedMarkIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   props,
@@ -561,118 +568,127 @@ export const QuariantinedMarkIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   </svg>
 )
 
-export const QuestionMarkIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#000000';
-  
+export const QuestionMarkIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
+  props,
+) => {
+  const iconColor = props?.style?.color || '#000000'
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <circle 
-          cx="12" 
-          cy="12" 
-          r="10" 
-          stroke={iconColor} 
+        <circle
+          cx="12"
+          cy="12"
+          r="10"
+          stroke={iconColor}
           strokeWidth="0.936"
         ></circle>
-        <path 
-          d="M10.125 8.875C10.125 7.83947 10.9645 7 12 7C13.0355 7 13.875 7.83947 13.875 8.875C13.875 9.56245 13.505 10.1635 12.9534 10.4899C12.478 10.7711 12 11.1977 12 11.75V13" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
+        <path
+          d="M10.125 8.875C10.125 7.83947 10.9645 7 12 7C13.0355 7 13.875 7.83947 13.875 8.875C13.875 9.56245 13.505 10.1635 12.9534 10.4899C12.478 10.7711 12 11.1977 12 11.75V13"
+          stroke={iconColor}
+          strokeWidth="0.936"
           strokeLinecap="round"
         ></path>
-        <circle 
-          cx="12" 
-          cy="16" 
-          r="1" 
-          fill={iconColor}
-        ></circle>
+        <circle cx="12" cy="16" r="1" fill={iconColor}></circle>
       </g>
     </svg>
-  );
-};
-
+  )
+}
 
 export const FailedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#e57d76';
-  
+  const iconColor = props?.style?.color || '#e57d76'
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          d="M16 8L8 16M8.00001 8L16 16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
-          strokeLinecap="round" 
+        <path
+          d="M16 8L8 16M8.00001 8L16 16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+          stroke={iconColor}
+          strokeWidth="0.936"
+          strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
       </g>
     </svg>
-  );
-};
-
+  )
+}
 
 export const TickIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#43A047';
-  
+  const iconColor = props?.style?.color || '#43A047'
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          d="M7.29417 12.9577L10.5048 16.1681L17.6729 9" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
-          strokeLinecap="round" 
+        <path
+          d="M7.29417 12.9577L10.5048 16.1681L17.6729 9"
+          stroke={iconColor}
+          strokeWidth="0.936"
+          strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
-        <circle 
-          cx="12" 
-          cy="12" 
-          r="10" 
-          stroke={iconColor} 
+        <circle
+          cx="12"
+          cy="12"
+          r="10"
+          stroke={iconColor}
           strokeWidth="0.936"
         ></circle>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export const ValidatedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+export const ValidatedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
+  props,
+) => (
   <svg
     viewBox="0 0 16 16"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg" 
+    xmlns="http://www.w3.org/2000/svg"
     style={{ color: ICON_COLORS.primary, ...props.style }}
     {...props}
   >
-    <path 
+    <path
       d="m14.25 8.75c-.5 2.5-2.3849 4.85363-5.03069 5.37991-2.64578.5263-5.33066-.7044-6.65903-3.0523-1.32837-2.34784-1.00043-5.28307.81336-7.27989 1.81379-1.99683 4.87636-2.54771 7.37636-1.54771"
       stroke="currentColor"
       strokeWidth="0.88"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <polyline 
+    <polyline
       points="5.75 7.75,8.25 10.25,14.25 3.75"
       stroke="currentColor"
       strokeWidth="0.88"
@@ -686,194 +702,216 @@ export const DrawerIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg" 
+    xmlns="http://www.w3.org/2000/svg"
     style={{ color: ICON_COLORS.primary, ...props.style }}
     {...props}
   >
-    <path 
-      d="M3 12V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V12M3 12H8.5C9 12 9.5 12.5 10 13.5C10.5 14.5 11.2 15 12 15C12.8 15 13.5 14.5 14 13.5C14.5 12.5 15 12 15.5 12H21M3 12L5 8M21 12L19 8" 
-      stroke="currentColor" 
-      strokeWidth="0.936" 
-      strokeLinecap="round" 
+    <path
+      d="M3 12V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V12M3 12H8.5C9 12 9.5 12.5 10 13.5C10.5 14.5 11.2 15 12 15C12.8 15 13.5 14.5 14 13.5C14.5 12.5 15 12 15.5 12H21M3 12L5 8M21 12L19 8"
+      stroke="currentColor"
+      strokeWidth="0.936"
+      strokeLinecap="round"
       strokeLinejoin="round"
     />
-    
-    <path 
-      d="M5 8H19L16" 
-      stroke="currentColor" 
-      strokeWidth="0.936" 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
+
+    <path
+      d="M5 8H19L16"
+      stroke="currentColor"
+      strokeWidth="0.936"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )
 
+export const ArchivedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
+  props,
+) => {
+  const iconColor = props?.style?.color || '#546e73'
 
-export const ArchivedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#546e73';
-  
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          d="M9 14H15M4.6 10H19.4C19.9601 10 20.2401 10 20.454 9.89101C20.6422 9.79513 20.7951 9.64215 20.891 9.45399C21 9.24008 21 8.96005 21 8.4V5.6C21 5.03995 21 4.75992 20.891 4.54601C20.7951 4.35785 20.6422 4.20487 20.454 4.10899C20.2401 4 19.9601 4 19.4 4H4.6C4.03995 4 3.75992 4 3.54601 4.10899C3.35785 4.20487 3.20487 4.35785 3.10899 4.54601C3 4.75992 3 5.03995 3 5.6V8.4C3 8.96005 3 9.24008 3.10899 9.45399C3.20487 9.64215 3.35785 9.79513 3.54601 9.89101C3.75992 10 4.03995 10 4.6 10ZM5 10H19V16.8C19 17.9201 19 18.4802 18.782 18.908C18.5903 19.2843 18.2843 19.5903 17.908 19.782C17.4802 20 16.9201 20 15.8 20H8.2C7.07989 20 6.51984 20 6.09202 19.782C5.71569 19.5903 5.40973 19.2843 5.21799 18.908C5 18.4802 5 17.9201 5 16.8V10Z" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
-          strokeLinecap="round" 
+        <path
+          d="M9 14H15M4.6 10H19.4C19.9601 10 20.2401 10 20.454 9.89101C20.6422 9.79513 20.7951 9.64215 20.891 9.45399C21 9.24008 21 8.96005 21 8.4V5.6C21 5.03995 21 4.75992 20.891 4.54601C20.7951 4.35785 20.6422 4.20487 20.454 4.10899C20.2401 4 19.9601 4 19.4 4H4.6C4.03995 4 3.75992 4 3.54601 4.10899C3.35785 4.20487 3.20487 4.35785 3.10899 4.54601C3 4.75992 3 5.03995 3 5.6V8.4C3 8.96005 3 9.24008 3.10899 9.45399C3.20487 9.64215 3.35785 9.79513 3.54601 9.89101C3.75992 10 4.03995 10 4.6 10ZM5 10H19V16.8C19 17.9201 19 18.4802 18.782 18.908C18.5903 19.2843 18.2843 19.5903 17.908 19.782C17.4802 20 16.9201 20 15.8 20H8.2C7.07989 20 6.51984 20 6.09202 19.782C5.71569 19.5903 5.40973 19.2843 5.21799 18.908C5 18.4802 5 17.9201 5 16.8V10Z"
+          stroke={iconColor}
+          strokeWidth="0.936"
+          strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
       </g>
     </svg>
-  );
-};
+  )
+}
 
 export const FilterIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#546e73';
-  
+  const iconColor = props?.style?.color || '#546e73'
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          d="M3 4.6C3 4.03995 3 3.75992 3.10899 3.54601C3.20487 3.35785 3.35785 3.20487 3.54601 3.10899C3.75992 3 4.03995 3 4.6 3H19.4C19.9601 3 20.2401 3 20.454 3.10899C20.6422 3.20487 20.7951 3.35785 20.891 3.54601C21 3.75992 21 4.03995 21 4.6V6.33726C21 6.58185 21 6.70414 20.9724 6.81923C20.9479 6.92127 20.9075 7.01881 20.8526 7.10828C20.7908 7.2092 20.7043 7.29568 20.5314 7.46863L14.4686 13.5314C14.2957 13.7043 14.2092 13.7908 14.1474 13.8917C14.0925 13.9812 14.0521 14.0787 14.0276 14.1808C14 14.2959 14 14.4182 14 14.6627V17L10 21V14.6627C10 14.4182 10 14.2959 9.97237 14.1808C9.94787 14.0787 9.90747 13.9812 9.85264 13.8917C9.7908 13.7908 9.70432 13.7043 9.53137 13.5314L3.46863 7.46863C3.29568 7.29568 3.2092 7.2092 3.14736 7.10828C3.09253 7.01881 3.05213 6.92127 3.02763 6.81923C3 6.70414 3 6.58185 3 6.33726V4.6Z" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
-          strokeLinecap="round" 
+        <path
+          d="M3 4.6C3 4.03995 3 3.75992 3.10899 3.54601C3.20487 3.35785 3.35785 3.20487 3.54601 3.10899C3.75992 3 4.03995 3 4.6 3H19.4C19.9601 3 20.2401 3 20.454 3.10899C20.6422 3.20487 20.7951 3.35785 20.891 3.54601C21 3.75992 21 4.03995 21 4.6V6.33726C21 6.58185 21 6.70414 20.9724 6.81923C20.9479 6.92127 20.9075 7.01881 20.8526 7.10828C20.7908 7.2092 20.7043 7.29568 20.5314 7.46863L14.4686 13.5314C14.2957 13.7043 14.2092 13.7908 14.1474 13.8917C14.0925 13.9812 14.0521 14.0787 14.0276 14.1808C14 14.2959 14 14.4182 14 14.6627V17L10 21V14.6627C10 14.4182 10 14.2959 9.97237 14.1808C9.94787 14.0787 9.90747 13.9812 9.85264 13.8917C9.7908 13.7908 9.70432 13.7043 9.53137 13.5314L3.46863 7.46863C3.29568 7.29568 3.2092 7.2092 3.14736 7.10828C3.09253 7.01881 3.05213 6.92127 3.02763 6.81923C3 6.70414 3 6.58185 3 6.33726V4.6Z"
+          stroke={iconColor}
+          strokeWidth="0.936"
+          strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
       </g>
     </svg>
-  );
-};
+  )
+}
 
 export const SettingIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#000000';
-  
+  const iconColor = props?.style?.color || '#000000'
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       strokeWidth="0.936"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          fillRule="evenodd" 
-          clipRule="evenodd" 
-          d="M11.0175 19C10.6601 19 10.3552 18.7347 10.297 18.373C10.2434 18.0804 10.038 17.8413 9.76171 17.75C9.53658 17.6707 9.31645 17.5772 9.10261 17.47C8.84815 17.3365 8.54289 17.3565 8.30701 17.522C8.02156 17.7325 7.62943 17.6999 7.38076 17.445L6.41356 16.453C6.15326 16.186 6.11944 15.7651 6.33361 15.458C6.49878 15.2105 6.52257 14.8914 6.39601 14.621C6.31262 14.4332 6.23906 14.2409 6.17566 14.045C6.08485 13.7363 5.8342 13.5051 5.52533 13.445C5.15287 13.384 4.8779 13.0559 4.87501 12.669V11.428C4.87303 10.9821 5.18705 10.6007 5.61601 10.528C5.94143 10.4645 6.21316 10.2359 6.33751 9.921C6.37456 9.83233 6.41356 9.74433 6.45451 9.657C6.61989 9.33044 6.59705 8.93711 6.39503 8.633C6.1424 8.27288 6.18119 7.77809 6.48668 7.464L7.19746 6.735C7.54802 6.37532 8.1009 6.32877 8.50396 6.625L8.52638 6.641C8.82735 6.84876 9.21033 6.88639 9.54428 6.741C9.90155 6.60911 10.1649 6.29424 10.2375 5.912L10.2473 5.878C10.3275 5.37197 10.7536 5.00021 11.2535 5H12.1115C12.6248 4.99976 13.0629 5.38057 13.1469 5.9L13.1625 5.97C13.2314 6.33617 13.4811 6.63922 13.8216 6.77C14.1498 6.91447 14.5272 6.87674 14.822 6.67L14.8707 6.634C15.2842 6.32834 15.8528 6.37535 16.2133 6.745L16.8675 7.417C17.1954 7.75516 17.2366 8.28693 16.965 8.674C16.7522 8.99752 16.7251 9.41325 16.8938 9.763L16.9358 9.863C17.0724 10.2045 17.3681 10.452 17.7216 10.521C18.1837 10.5983 18.5235 11.0069 18.525 11.487V12.6C18.5249 13.0234 18.2263 13.3846 17.8191 13.454C17.4842 13.5199 17.2114 13.7686 17.1083 14.102C17.0628 14.2353 17.0121 14.3687 16.9562 14.502C16.8261 14.795 16.855 15.1364 17.0323 15.402C17.2662 15.7358 17.2299 16.1943 16.9465 16.485L16.0388 17.417C15.7792 17.6832 15.3698 17.7175 15.0716 17.498C14.8226 17.3235 14.5001 17.3043 14.2331 17.448C14.0428 17.5447 13.8475 17.6305 13.6481 17.705C13.3692 17.8037 13.1636 18.0485 13.1099 18.346C13.053 18.7203 12.7401 18.9972 12.3708 19H11.0175Z" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
-          strokeLinecap="round" 
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M11.0175 19C10.6601 19 10.3552 18.7347 10.297 18.373C10.2434 18.0804 10.038 17.8413 9.76171 17.75C9.53658 17.6707 9.31645 17.5772 9.10261 17.47C8.84815 17.3365 8.54289 17.3565 8.30701 17.522C8.02156 17.7325 7.62943 17.6999 7.38076 17.445L6.41356 16.453C6.15326 16.186 6.11944 15.7651 6.33361 15.458C6.49878 15.2105 6.52257 14.8914 6.39601 14.621C6.31262 14.4332 6.23906 14.2409 6.17566 14.045C6.08485 13.7363 5.8342 13.5051 5.52533 13.445C5.15287 13.384 4.8779 13.0559 4.87501 12.669V11.428C4.87303 10.9821 5.18705 10.6007 5.61601 10.528C5.94143 10.4645 6.21316 10.2359 6.33751 9.921C6.37456 9.83233 6.41356 9.74433 6.45451 9.657C6.61989 9.33044 6.59705 8.93711 6.39503 8.633C6.1424 8.27288 6.18119 7.77809 6.48668 7.464L7.19746 6.735C7.54802 6.37532 8.1009 6.32877 8.50396 6.625L8.52638 6.641C8.82735 6.84876 9.21033 6.88639 9.54428 6.741C9.90155 6.60911 10.1649 6.29424 10.2375 5.912L10.2473 5.878C10.3275 5.37197 10.7536 5.00021 11.2535 5H12.1115C12.6248 4.99976 13.0629 5.38057 13.1469 5.9L13.1625 5.97C13.2314 6.33617 13.4811 6.63922 13.8216 6.77C14.1498 6.91447 14.5272 6.87674 14.822 6.67L14.8707 6.634C15.2842 6.32834 15.8528 6.37535 16.2133 6.745L16.8675 7.417C17.1954 7.75516 17.2366 8.28693 16.965 8.674C16.7522 8.99752 16.7251 9.41325 16.8938 9.763L16.9358 9.863C17.0724 10.2045 17.3681 10.452 17.7216 10.521C18.1837 10.5983 18.5235 11.0069 18.525 11.487V12.6C18.5249 13.0234 18.2263 13.3846 17.8191 13.454C17.4842 13.5199 17.2114 13.7686 17.1083 14.102C17.0628 14.2353 17.0121 14.3687 16.9562 14.502C16.8261 14.795 16.855 15.1364 17.0323 15.402C17.2662 15.7358 17.2299 16.1943 16.9465 16.485L16.0388 17.417C15.7792 17.6832 15.3698 17.7175 15.0716 17.498C14.8226 17.3235 14.5001 17.3043 14.2331 17.448C14.0428 17.5447 13.8475 17.6305 13.6481 17.705C13.3692 17.8037 13.1636 18.0485 13.1099 18.346C13.053 18.7203 12.7401 18.9972 12.3708 19H11.0175Z"
+          stroke={iconColor}
+          strokeWidth="0.936"
+          strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
-        <path 
-          fillRule="evenodd" 
-          clipRule="evenodd" 
-          d="M13.9747 12C13.9747 13.2885 12.9563 14.333 11.7 14.333C10.4437 14.333 9.42533 13.2885 9.42533 12C9.42533 10.7115 10.4437 9.66699 11.7 9.66699C12.9563 9.66699 13.9747 10.7115 13.9747 12Z" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
-          strokeLinecap="round" 
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M13.9747 12C13.9747 13.2885 12.9563 14.333 11.7 14.333C10.4437 14.333 9.42533 13.2885 9.42533 12C9.42533 10.7115 10.4437 9.66699 11.7 9.66699C12.9563 9.66699 13.9747 10.7115 13.9747 12Z"
+          stroke={iconColor}
+          strokeWidth="0.936"
+          strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
       </g>
     </svg>
-  );
-};
-
+  )
+}
 
 export const LogoutIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#000000';
-  
+  const iconColor = props?.style?.color || '#000000'
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
       transform="rotate(180)"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          d="M15 4H18C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H15M8 8L4 12M4 12L8 16M4 12L16 12" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
-          strokeLinecap="round" 
+        <path
+          d="M15 4H18C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H15M8 8L4 12M4 12L8 16M4 12L16 12"
+          stroke={iconColor}
+          strokeWidth="0.936"
+          strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
       </g>
     </svg>
-  );
-};
-
+  )
+}
 
 export const MoonIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#000000';
-  
+  const iconColor = props?.style?.color || '#000000'
+
   return (
-    <svg 
-      viewBox="0 0 32 32" 
-      xmlns="http://www.w3.org/2000/svg" 
+    <svg
+      viewBox="0 0 32 32"
+      xmlns="http://www.w3.org/2000/svg"
       fill="none"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          stroke={iconColor} 
-          strokeLinecap="round" 
-          strokeLinejoin="round" 
-          strokeWidth="0.936" 
+        <path
+          stroke={iconColor}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="0.936"
           d="M13.294 5A11.19 11.19 0 1027 18.706s-5.723 2.19-10.81-2.897C11.105 10.723 13.295 5 13.295 5z"
         ></path>
       </g>
     </svg>
-  );
-};
-
+  )
+}
 
 export const SearchIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#000000';
-  
+  const iconColor = props?.style?.color || '#000000'
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
-          strokeLinecap="round" 
+        <path
+          d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
+          stroke={iconColor}
+          strokeWidth="0.936"
+          strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
       </g>
     </svg>
-  );
-};
+  )
+}
 
 export const EmailIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -903,96 +941,107 @@ export const EmailIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 )
 
-
-
-export const OrganizationIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+export const OrganizationIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
+  props,
+) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg" 
+    xmlns="http://www.w3.org/2000/svg"
     style={{ color: ICON_COLORS.primary, ...props.style }}
     {...props}
   >
-    <rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" strokeWidth="0.936" />
-    
-    <path 
-      d="M9 21V19C9 17.8954 9.89543 17 11 17H13C14.1046 17 15 17.8954 15 19V21" 
-      stroke="currentColor" 
-      strokeWidth="0.936" 
-      strokeLinecap="round" 
+    <rect
+      x="5"
+      y="3"
+      width="14"
+      height="18"
+      rx="2"
+      stroke="currentColor"
+      strokeWidth="0.936"
     />
-    
+
+    <path
+      d="M9 21V19C9 17.8954 9.89543 17 11 17H13C14.1046 17 15 17.8954 15 19V21"
+      stroke="currentColor"
+      strokeWidth="0.936"
+      strokeLinecap="round"
+    />
+
     <circle cx="9" cy="8" r="1" fill="currentColor" />
     <circle cx="12" cy="8" r="1" fill="currentColor" />
     <circle cx="15" cy="8" r="1" fill="currentColor" />
-    
+
     <circle cx="9" cy="11" r="1" fill="currentColor" />
     <circle cx="12" cy="11" r="1" fill="currentColor" />
     <circle cx="15" cy="11" r="1" fill="currentColor" />
-    
+
     <circle cx="9" cy="14" r="1" fill="currentColor" />
     <circle cx="12" cy="14" r="1" fill="currentColor" />
     <circle cx="15" cy="14" r="1" fill="currentColor" />
   </svg>
 )
 
-
 export const AddUserIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#000000';
-  
+  const iconColor = props?.style?.color || '#000000'
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      xmlns="http://www.w3.org/2000/svg" 
-      fill={iconColor} 
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      fill={iconColor}
       stroke={iconColor}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
         <title></title>
         <g id="Complete">
           <g id="user-add">
             <g>
-              <path 
-                d="M17,21V19a4,4,0,0,0-4-4H5a4,4,0,0,0-4,4v2" 
-                fill="none" 
-                stroke={iconColor} 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
+              <path
+                d="M17,21V19a4,4,0,0,0-4-4H5a4,4,0,0,0-4,4v2"
+                fill="none"
+                stroke={iconColor}
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 strokeWidth="0.936"
               ></path>
-              <circle 
-                cx="9" 
-                cy="7" 
-                fill="none" 
-                r="4" 
-                stroke={iconColor} 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
+              <circle
+                cx="9"
+                cy="7"
+                fill="none"
+                r="4"
+                stroke={iconColor}
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 strokeWidth="0.936"
               ></circle>
-              <line 
-                fill="none" 
-                stroke={iconColor} 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="0.936" 
-                x1="17" 
-                x2="23" 
-                y1="11" 
+              <line
+                fill="none"
+                stroke={iconColor}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="0.936"
+                x1="17"
+                x2="23"
+                y1="11"
                 y2="11"
               ></line>
-              <line 
-                fill="none" 
-                stroke={iconColor} 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="0.936" 
-                x1="20" 
-                x2="20" 
-                y1="8" 
+              <line
+                fill="none"
+                stroke={iconColor}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="0.936"
+                x1="20"
+                x2="20"
+                y1="8"
                 y2="14"
               ></line>
             </g>
@@ -1000,58 +1049,144 @@ export const AddUserIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export const TrendingUpIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#000000';
-  
+export const TrendingUpIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
+  props,
+) => {
+  const iconColor = props?.style?.color || '#000000'
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          d="M3 17L8.29289 11.7071C8.68342 11.3166 9.31658 11.3166 9.70711 11.7071L12.2929 14.2929C12.6834 14.6834 13.3166 14.6834 13.7071 14.2929L21 7M21 7H16M21 7V12" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
-          strokeLinecap="round" 
+        <path
+          d="M3 17L8.29289 11.7071C8.68342 11.3166 9.31658 11.3166 9.70711 11.7071L12.2929 14.2929C12.6834 14.6834 13.3166 14.6834 13.7071 14.2929L21 7M21 7H16M21 7V12"
+          stroke={iconColor}
+          strokeWidth="0.936"
+          strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
       </g>
     </svg>
-  );
-};
+  )
+}
 
 export const FolderIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const iconColor = props?.style?.color || '#00796B';
-  
+  const iconColor = props?.style?.color || '#00796B'
+
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
-      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
       <g id="SVGRepo_iconCarrier">
-        <path 
-          d="M3 8.2C3 7.07989 3 6.51984 3.21799 6.09202C3.40973 5.71569 3.71569 5.40973 4.09202 5.21799C4.51984 5 5.0799 5 6.2 5H9.67452C10.1637 5 10.4083 5 10.6385 5.05526C10.8425 5.10425 11.0376 5.18506 11.2166 5.29472C11.4184 5.4184 11.5914 5.59135 11.9373 5.93726L12.0627 6.06274C12.4086 6.40865 12.5816 6.5816 12.7834 6.70528C12.9624 6.81494 13.1575 6.89575 13.3615 6.94474C13.5917 7 13.8363 7 14.3255 7H17.8C18.9201 7 19.4802 7 19.908 7.21799C20.2843 7.40973 20.5903 7.71569 20.782 8.09202C21 8.51984 21 9.0799 21 10.2V15.8C21 16.9201 21 17.4802 20.782 17.908C20.5903 18.2843 20.2843 18.5903 19.908 18.782C19.4802 19 18.9201 19 17.8 19H6.2C5.07989 19 4.51984 19 4.09202 18.782C3.71569 18.5903 3.40973 18.2843 3.21799 17.908C3 17.4802 3 16.9201 3 15.8V8.2Z" 
-          stroke={iconColor} 
-          strokeWidth="0.936" 
-          strokeLinecap="round" 
+        <path
+          d="M3 8.2C3 7.07989 3 6.51984 3.21799 6.09202C3.40973 5.71569 3.71569 5.40973 4.09202 5.21799C4.51984 5 5.0799 5 6.2 5H9.67452C10.1637 5 10.4083 5 10.6385 5.05526C10.8425 5.10425 11.0376 5.18506 11.2166 5.29472C11.4184 5.4184 11.5914 5.59135 11.9373 5.93726L12.0627 6.06274C12.4086 6.40865 12.5816 6.5816 12.7834 6.70528C12.9624 6.81494 13.1575 6.89575 13.3615 6.94474C13.5917 7 13.8363 7 14.3255 7H17.8C18.9201 7 19.4802 7 19.908 7.21799C20.2843 7.40973 20.5903 7.71569 20.782 8.09202C21 8.51984 21 9.0799 21 10.2V15.8C21 16.9201 21 17.4802 20.782 17.908C20.5903 18.2843 20.2843 18.5903 19.908 18.782C19.4802 19 18.9201 19 17.8 19H6.2C5.07989 19 4.51984 19 4.09202 18.782C3.71569 18.5903 3.40973 18.2843 3.21799 17.908C3 17.4802 3 16.9201 3 15.8V8.2Z"
+          stroke={iconColor}
+          strokeWidth="0.936"
+          strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-
-
+export const CalendarIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
+  props,
+) => (
+  <svg
+    viewBox="-5.4 0 98.4 98.4"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="#000000"
+    style={{color:ICON_COLORS.primary}}
+    {...props}
+  >
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g
+      id="SVGRepo_tracerCarrier"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    ></g>
+    <g id="SVGRepo_iconCarrier">
+      {' '}
+      <g id="Group_4" data-name="Group 4" transform="translate(-822.7 -241.5)">
+        
+        <path
+          id="Path_52"
+          data-name="Path 52"
+          d="M899.4,254.3H833.6a8.92,8.92,0,0,0-8.9,8.9V329a8.92,8.92,0,0,0,8.9,8.9h65.8a8.92,8.92,0,0,0,8.9-8.9V263.2A8.92,8.92,0,0,0,899.4,254.3Z"
+          fill="none"
+          stroke={ICON_COLORS.primary}
+          stroke-linecap="round"
+          stroke-miterlimit="10"
+          stroke-width="1.936"
+        ></path>{' '}
+        <line
+          id="Line_25"
+          data-name="Line 25"
+          x2="21.2"
+          transform="translate(842.6 283.7)"
+          fill="none"
+          stroke={ICON_COLORS.primary}
+          stroke-linecap="round"
+          stroke-miterlimit="10"
+          stroke-width="1.936"
+        ></line>{' '}
+        <line
+          id="Line_26"
+          data-name="Line 26"
+          x2="45.9"
+          transform="translate(842.6 302)"
+          fill="none"
+          stroke={ICON_COLORS.primary}
+          stroke-linecap="round"
+          stroke-miterlimit="10"
+          stroke-width="1.936"
+        ></line>{' '}
+        <line
+          id="Line_27"
+          data-name="Line 27"
+          y2="19.6"
+          transform="translate(853.6 243.5)"
+          fill="none"
+          stroke={ICON_COLORS.primary}
+          stroke-linecap="round"
+          stroke-miterlimit="10"
+          stroke-width="1.936"
+        ></line>{' '}
+        <line
+          id="Line_28"
+          data-name="Line 28"
+          y2="19.6"
+          transform="translate(879.4 243.5)"
+          fill="none"
+          stroke={ICON_COLORS.primary}
+          stroke-linecap="round"
+          stroke-miterlimit="10"
+          stroke-width="1.936"
+        ></line>
+      </g>
+    </g>
+  </svg>
+)

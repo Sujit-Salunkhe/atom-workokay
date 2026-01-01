@@ -1,5 +1,5 @@
 // src/components/ui/data-table.stories.tsx
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 import {
   DataTable,
   type Column,
