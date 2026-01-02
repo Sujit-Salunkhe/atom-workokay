@@ -9,13 +9,13 @@ import {
   DrawerBody,
   DrawerFooter,
   type DrawerProps,
-} from './TestDrawer'
+} from './Drawer'
 
 // Custom args type that omits children since we provide it in render
 type DrawerStoryArgs = Omit<DrawerProps, 'children' | 'open' | 'onOpenChange'>
 
 const meta: Meta<DrawerProps> = {
-  title: 'Components/TestDrawer',
+  title: 'Components/Drawer',
   component: Drawer,
   parameters: {
     layout: 'fullscreen',

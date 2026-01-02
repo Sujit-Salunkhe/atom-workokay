@@ -41,7 +41,7 @@ const progressTrackVariants = cva(
 )
 
 const progressIndicatorVariants = cva(
-  ["h-full transition-none"].join(" "),
+  ["h-full transition-all duration-300 ease-out"].join(" "),
   {
     variants: {
       indicatorVariant: {
@@ -69,50 +69,62 @@ export type ProgressBarSize = NonNullable<
 export interface ProgressBarProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "children">,
     VariantProps<typeof progressTrackVariants> {
-  /** 0..100 */
+  /** Progress value from 0 to 100 */
   value?: number
-  /** If true, omit aria-valuenow (indeterminate) */
+  /** If true, shows animated indeterminate state */
   indeterminate?: boolean
   /** Optional label for screen readers */
   ariaLabel?: string
-  /** If omitted, indicatorVariant will follow trackVariant */
+  /** Visual variant for both track and indicator */
   variant?: 'default' | 'outline' | 'subtle'
 }
 
-export function ProgressBar({
-  className,
-  variant,
-  size,
-  fullWidth,
-  value = 0,
-  indeterminate = false,
-  ariaLabel = "Progress",
-  ...props
-}: ProgressBarProps) {
-  const clamped = Math.max(0, Math.min(100, value));
+export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
+  (
+    {
+      className,
+      variant = "default",
+      size,
+      fullWidth,
+      value = 0,
+      indeterminate = false,
+      ariaLabel = "Progress",
+      ...props
+    },
+    ref
+  ) => {
+    const clamped = Math.max(0, Math.min(100, value))
 
-  return (
-    <div
-      data-slot="progress-track"
-      role="progressbar"
-      aria-label={ariaLabel}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-valuenow={indeterminate ? undefined : clamped}
-      className={cn(
-        progressTrackVariants({trackVariant:variant, size, fullWidth }),
-        className
-      )}
-      {...props}
-    >
+    return (
       <div
-        data-slot="progress-indicator"
-        className={cn(progressIndicatorVariants({indicatorVariant:variant}))}
-        style={{
-          width: indeterminate ? "40%" : `${clamped}%`,
-          transform: indeterminate ? "translateX(-60%)" : undefined,
-        }}
-      />
-    </div>
-  )
-}
+        ref={ref}
+        data-slot="progress-track"
+        role="progressbar"
+        aria-label={ariaLabel}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={indeterminate ? undefined : clamped}
+        aria-valuetext={indeterminate ? undefined : `${clamped}%`}
+        aria-busy={indeterminate ? true : undefined}
+        className={cn(
+          progressTrackVariants({ trackVariant: variant, size, fullWidth }),
+          className
+        )}
+        {...props}
+      >
+        <div
+          data-slot="progress-indicator"
+          className={cn(
+            progressIndicatorVariants({ indicatorVariant: variant }),
+            indeterminate && "animate-indeterminate"
+          )}
+          style={{
+            width: indeterminate ? "40%" : `${clamped}%`,
+          }}
+        />
+      </div>
+    )
+  }
+)
+
+ProgressBar.displayName = "ProgressBar"

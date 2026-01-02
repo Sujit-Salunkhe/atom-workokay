@@ -133,7 +133,7 @@ export const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(
         {/* Backdrop */}
         {showBackdrop && open && (
           <div
-            className="fixed inset-0 z-[999] bg-black/50 transition-opacity duration-300"
+            className="fixed inset-0 z-999 bg-black/50 transition-opacity duration-300"
             onClick={handleBackdropClick}
             aria-hidden="true"
           />
@@ -152,6 +152,7 @@ export const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(
           role="dialog"
           aria-modal={open}
           aria-hidden={!open}
+           aria-labelledby="drawer-title"
           {...props}
         >
           <div className="h-full w-full flex flex-col overflow-auto">
@@ -200,7 +201,7 @@ export const DrawerDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn('text-sm text-[var(--atom-text-secondary)]', className)}
+    className={cn('text-sm text-(--atom-text)', className)}
     {...props}
   />
 ))
