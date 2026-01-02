@@ -1,13 +1,11 @@
-// src/components/ui/skeleton.tsx
 "use client"
-
 import * as React from "react"
 import { motion } from "framer-motion"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from '../../lib/cn'
 
 const skeletonVariants = cva(
-  "relative rounded-md bg-[var(--atom-skeleton-bg-color)] overflow-hidden",
+  "relative rounded-md bg-(--atom-skeleton-bg-color) overflow-hidden",
   {
     variants: {
       variant: {
@@ -57,7 +55,7 @@ export function Skeleton({
     >
       {animate && (
         <motion.div
-          className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-[var(--atom-skeleton-shimmer-color,rgba(255,255,255,0.2))] to-transparent"
+          className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-(--atom-skeleton-shimmer-color,rgba(255,255,255,0.2)) to-transparent"
           animate={{
             x: ['0%', '200%'],
           }}
