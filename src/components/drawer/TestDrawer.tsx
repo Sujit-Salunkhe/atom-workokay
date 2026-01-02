@@ -1,13 +1,11 @@
 // src/components/ui/Drawer.tsx
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { ChevronRight, ChevronLeft, ChevronUp, ChevronDown } from 'lucide-react'
 import { Slot } from '@radix-ui/react-slot'
 import { cn } from '../../lib/cn'
 
-// Drawer container variants - ADDED relative class
 const drawerVariants = cva(
-  'fixed z-[1000] relative flex flex-col overflow-hidden border shadow-2xl transition-all duration-300 ease-in-out bg-[var(--atom-card-bg)] border-[var(--atom-card-border)]',
+  'fixed z-[1000] flex flex-col overflow-hidden border shadow-2xl transition-transform duration-300 ease-in-out bg-[var(--atom-card-bg)] border-[var(--atom-card-border)]',
   {
     variants: {
       variant: {
@@ -40,70 +38,35 @@ const drawerVariants = cva(
   },
 )
 
-// Trigger button variants - positioned ON drawer border
-const drawerTriggerVariants = cva(
-  'absolute z-[1002] flex h-12 w-12 items-center justify-center rounded-full border-2 shadow-lg transition-all duration-300 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-[var(--atom-primary)] focus:ring-offset-2 pointer-events-auto',
-  {
-    variants: {
-      variant: {
-        right: 'left-0 top-1/2 -translate-x-1/2 -translate-y-1/2',
-        left: 'right-0 top-1/2 translate-x-1/2 -translate-y-1/2',
-        bottom: 'left-1/2 top-0 -translate-x-1/2 -translate-y-1/2',
-        top: 'left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2',
-      },
-      open: {
-        true: 'bg-[var(--atom-primary)] text-white shadow-xl border-[var(--atom-primary)]',
-        false:
-          'bg-[var(--atom-card-bg)] border-[var(--atom-card-border)] hover:bg-[var(--atom-primary)/10]',
-      },
-    },
-  },
-)
-
 export type DrawerVariant = 'right' | 'left' | 'bottom' | 'top'
 export type DrawerSize = 'sm' | 'md' | 'lg' | 'xl'
 
 export interface DrawerProps
-  extends
-    React.HTMLAttributes<HTMLDivElement>,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>,
     VariantProps<typeof drawerVariants> {
   open: boolean
-  onOpenChange: (open: boolean) => void
-  children: React.ReactNode
+  onOpenChange?: (open: boolean) => void
+  children?: React.ReactNode
   asChild?: boolean
+  closeOnBackdropClick?: boolean
+  closeOnEscape?: boolean
+  showBackdrop?: boolean
 }
 
-const getIcon = (
-  variant: DrawerVariant,
-  open: boolean,
-): React.ComponentType<any> => {
+const getTransformClass = (variant: DrawerVariant | undefined | null, open: boolean): string => {
+  if (open) return 'translate-x-0 translate-y-0'
+  
   switch (variant) {
     case 'right':
-      return open ? ChevronRight : ChevronLeft
+      return 'translate-x-full'
     case 'left':
-      return open ? ChevronLeft : ChevronRight
+      return '-translate-x-full'
     case 'bottom':
-      return open ? ChevronDown : ChevronUp
+      return 'translate-y-full'
     case 'top':
-      return open ? ChevronUp : ChevronDown
+      return '-translate-y-full'
     default:
-      return ChevronRight
-  }
-}
-
-const getTransform = (variant: DrawerVariant, open: boolean): string => {
-  if (open) return 'translateX(0) translateY(0)'
-  switch (variant) {
-    case 'right':
-      return 'translateX(100%)'
-    case 'left':
-      return 'translateX(-100%)'
-    case 'bottom':
-      return 'translateY(100%)'
-    case 'top':
-      return 'translateY(-100%)'
-    default:
-      return 'translateX(100%)'
+      return 'translate-x-full'
   }
 }
 
@@ -112,69 +75,86 @@ export const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(
     {
       className,
       variant = 'right',
-      size,
-      open,
+      size = 'md',
+      open = false,
       onOpenChange,
       children,
-      asChild,
+      asChild = false,
+      closeOnBackdropClick = true,
+      closeOnEscape = true,
+      showBackdrop = true,
       ...props
     },
     ref,
   ) => {
     const Comp = asChild ? Slot : 'div'
-    const Icon = getIcon(variant, open)
+
+    // Handle escape key press
+    React.useEffect(() => {
+      if (!open || !closeOnEscape || !onOpenChange) return
+
+      const handleEscape = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          onOpenChange(false)
+        }
+      }
+
+      document.addEventListener('keydown', handleEscape)
+      return () => document.removeEventListener('keydown', handleEscape)
+    }, [open, closeOnEscape, onOpenChange])
+
+    // Prevent body scroll when drawer is open
+    React.useEffect(() => {
+      if (open) {
+        const scrollbarWidth =
+          window.innerWidth - document.documentElement.clientWidth
+        document.body.style.overflow = 'hidden'
+        document.body.style.paddingRight = `${scrollbarWidth}px`
+      } else {
+        document.body.style.overflow = ''
+        document.body.style.paddingRight = ''
+      }
+
+      return () => {
+        document.body.style.overflow = ''
+        document.body.style.paddingRight = ''
+      }
+    }, [open])
+
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      if (closeOnBackdropClick && onOpenChange) {
+        e.stopPropagation()
+        onOpenChange(false)
+      }
+    }
 
     return (
       <>
         {/* Backdrop */}
-        {open && (
+        {showBackdrop && open && (
           <div
-            className="fixed inset-0 z-[999] bg-black/30 transition-all duration-300"
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              onOpenChange(false)
-            }}
-            aria-hidden
+            className="fixed inset-0 z-[999] bg-black/50 transition-opacity duration-300"
+            onClick={handleBackdropClick}
+            aria-hidden="true"
           />
         )}
 
-        {/* Drawer with trigger button ON border */}
+        {/* Drawer */}
         <Comp
           ref={ref}
           data-state={open ? 'open' : 'closed'}
           data-variant={variant}
           className={cn(
             drawerVariants({ variant, size }),
-            'transform',
-            open
-              ? 'opacity-100 visible'
-              : 'opacity-0 invisible pointer-events-none',
+            getTransformClass(variant, open),
             className,
           )}
-          style={{ transform: getTransform(variant, open) }}
           role="dialog"
           aria-modal={open}
-          aria-labelledby="drawer-title"
+          aria-hidden={!open}
           {...props}
         >
-          {/* Trigger button - PERFECTLY ON BORDER */}
-          <button
-            className={cn(drawerTriggerVariants({ variant, open }))}
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              onOpenChange(!open)
-            }}
-            aria-label={`${open ? 'Close' : 'Open'} ${variant} drawer`}
-            aria-expanded={open}
-            type="button"
-          >
-            <Icon className="h-5 w-5 flex-shrink-0" />
-          </button>
-
-          {/* Content */}
-          <div className="h-full w-full flex flex-col p-6 overflow-auto relative z-[1001]">
+          <div className="h-full w-full flex flex-col overflow-auto">
             {children}
           </div>
         </Comp>
@@ -184,3 +164,68 @@ export const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(
 )
 
 Drawer.displayName = 'Drawer'
+
+// Drawer subcomponents for better composition
+export const DrawerHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn('flex flex-col space-y-1.5 p-6', className)}
+    {...props}
+  />
+))
+DrawerHeader.displayName = 'DrawerHeader'
+
+export const DrawerTitle = React.forwardRef<
+  HTMLHeadingElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h2
+    ref={ref}
+    id="drawer-title"
+    className={cn(
+      'text-lg font-semibold leading-none tracking-tight',
+      className,
+    )}
+    {...props}
+  />
+))
+DrawerTitle.displayName = 'DrawerTitle'
+
+export const DrawerDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p
+    ref={ref}
+    className={cn('text-sm text-[var(--atom-text-secondary)]', className)}
+    {...props}
+  />
+))
+DrawerDescription.displayName = 'DrawerDescription'
+
+export const DrawerBody = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn('flex-1 overflow-auto p-6 pt-0', className)}
+    {...props}
+  />
+))
+DrawerBody.displayName = 'DrawerBody'
+
+export const DrawerFooter = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn('flex items-center justify-end gap-2 p-6 pt-0', className)}
+    {...props}
+  />
+))
+DrawerFooter.displayName = 'DrawerFooter'
