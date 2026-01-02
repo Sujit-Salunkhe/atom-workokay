@@ -75,7 +75,7 @@ export interface ProgressBarProps
   indeterminate?: boolean
   /** Optional label for screen readers */
   ariaLabel?: string
-  /** Visual variant for both track and indicator */
+  /** Visual variant for both track and indicator */  
   variant?: 'default' | 'outline' | 'subtle'
 }
 
