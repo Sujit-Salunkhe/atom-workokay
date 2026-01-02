@@ -69,3 +69,6 @@ export function Skeleton({
     </div>
   )
 }
+
+
+Skeleton.displayName = 'Skeleton'
