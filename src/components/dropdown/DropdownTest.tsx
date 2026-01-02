@@ -13,6 +13,7 @@ import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/cn'
+import { Slot } from '@radix-ui/react-slot'
 
 // ============================================================================
 // CONTEXT
@@ -75,11 +76,41 @@ const dropdownItemVariants = cva(
     'relative flex cursor-pointer select-none items-center',
     'rounded-sm px-3 py-2 text-sm outline-none',
     'transition-colors duration-150',
-    'hover:bg-[var(--atom-card-border)] hover:text-[var(--atom-text)]',
-    'focus:bg-[var(--atom-card-border)] focus:text-[var(--atom-text)]',
+    'hover:bg-[var(--atom-card-hover)] hover:text-[var(--atom-text)]',
+    'focus:bg-[var(--atom-card-hover)] focus:text-[var(--atom-text)]',
     'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-    'data-[selected]:text-blue-600 data-[selected]:font-medium',
+    'data-[selected]:text-[var(--atom-primary)] data-[selected]:font-medium'
+    ].join(' '),
+)
+
+const dropdownTriggerVariants = cva(
+  [
+    'inline-flex items-center justify-center gap-2',
+    'px-4 py-2 rounded-md text-sm font-medium',
+    'transition-colors duration-150',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--atom-primary)] focus-visible:ring-offset-2',
+    'cursor-pointer',
+    'disabled:pointer-events-none disabled:opacity-50',
   ].join(' '),
+  {
+    variants: {
+      variant: {
+        default: [
+          'bg-transparent border border-[var(--atom-card-border)]',
+          'hover:bg-[var(--atom-card-hover)]',
+          'text-[var(--atom-text)]',
+        ].join(' '),
+        ghost: [
+          'bg-transparent',
+          'hover:bg-[var(--atom-card-hover)]',
+          'text-[var(--atom-text)]',
+        ].join(' '),
+      },
+    },
+    defaultVariants: {
+      variant: 'ghost',
+    },
+  },
 )
 
 // ============================================================================
@@ -122,6 +153,7 @@ const getAnimationVariants = (side: DropdownSide) => {
 
 export type DropdownSide = 'top' | 'bottom' | 'left' | 'right'
 export type DropdownAlign = 'start' | 'center' | 'end'
+export type DropdownTriggerVariant = 'default' | 'ghost'
 
 export interface DropdownProps {
   /** Controlled open state */
@@ -138,7 +170,8 @@ export interface DropdownProps {
 }
 
 export interface DropdownTriggerProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof dropdownTriggerVariants> {
   asChild?: boolean
 }
 
@@ -183,8 +216,7 @@ function useClickOutside(
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
       const target = event.target as Node
-      
-      // Don't close if clicking the trigger or content
+
       if (
         !ref.current ||
         ref.current.contains(target) ||
@@ -192,7 +224,7 @@ function useClickOutside(
       ) {
         return
       }
-      
+
       handler()
     }
 
@@ -230,7 +262,6 @@ function usePosition(
     let top = 0
     let left = 0
 
-    // Calculate vertical position
     switch (side) {
       case 'top':
         top = trigger.top - content.height - sideOffset
@@ -254,7 +285,6 @@ function usePosition(
         break
     }
 
-    // Calculate horizontal position
     switch (side) {
       case 'left':
         left = trigger.left - content.width - sideOffset
@@ -278,7 +308,6 @@ function usePosition(
         break
     }
 
-    // Boundary detection - keep dropdown in viewport
     if (left < 0) left = 8
     if (left + content.width > viewport.width) {
       left = viewport.width - content.width - 8
@@ -308,7 +337,7 @@ export const Dropdown = ({
 }: DropdownProps) => {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen)
   const [selectedValue, setSelectedValue] = useState(controlledValue || '')
-  
+
   const isControlled = controlledOpen !== undefined
   const open = isControlled ? controlledOpen : uncontrolledOpen
 
@@ -346,7 +375,15 @@ export const Dropdown = ({
       selectedValue: controlledValue || selectedValue,
       setSelectedValue: handleValueChange,
     }),
-    [open, setOpen, triggerId, contentId, controlledValue, selectedValue, handleValueChange],
+    [
+      open,
+      setOpen,
+      triggerId,
+      contentId,
+      controlledValue,
+      selectedValue,
+      handleValueChange,
+    ],
   )
 
   return (
@@ -361,7 +398,7 @@ Dropdown.displayName = 'Dropdown'
 export const DropdownTrigger = forwardRef<
   HTMLButtonElement,
   DropdownTriggerProps
->(({ className, children, onClick, onMouseDown, ...props }, ref) => {
+>(({ className, children, onClick, onMouseDown, variant, asChild = false, ...props }, ref) => {
   const { open, setOpen, triggerId, contentId } = useDropdownContext()
   const triggerRef = useRef<HTMLButtonElement>(null)
 
@@ -377,7 +414,6 @@ export const DropdownTrigger = forwardRef<
   }, [ref])
 
   const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Prevent the click from immediately closing the dropdown
     e.preventDefault()
     onMouseDown?.(e)
   }
@@ -395,26 +431,24 @@ export const DropdownTrigger = forwardRef<
     }
   }
 
+  const Comp = asChild ? Slot : 'button'
+
   return (
-    <button
+    <Comp
       ref={triggerRef}
       id={triggerId}
-      type="button"
+      type={asChild ? undefined : 'button'}
       aria-haspopup="true"
       aria-expanded={open}
       aria-controls={contentId}
-      className={cn(
-        'inline-flex items-center justify-center gap-2',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--atom-primary)] focus-visible:ring-offset-2 cursor-pointer',
-        className,
-      )}
+      className={asChild ? className : cn(dropdownTriggerVariants({ variant }), className)}
       onMouseDown={handleMouseDown}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       {...props}
     >
       {children}
-    </button>
+    </Comp>
   )
 })
 
@@ -537,15 +571,15 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
 
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
       if (disabled) return
-      
+
       e.stopPropagation()
-      
+
       if (value !== undefined) {
         setSelectedValue(value)
       }
-      
+
       onClick?.(e)
-      
+
       if (!preventClose) {
         setOpen(false)
       }

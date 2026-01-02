@@ -8,7 +8,7 @@ import {
   DropdownItem,
   DropdownSeparator,
   DropdownLabel,
-} from './DropDown'
+} from './DropdownTest'
 import {
   ChevronDown,
   User,
@@ -23,7 +23,7 @@ import {
 } from 'lucide-react'
 
 const meta: Meta<typeof Dropdown> = {
-  title: 'Components/Dropdown',
+  title: 'Components/DropdownTest',
   component: Dropdown,
   parameters: {
     layout: 'centered',

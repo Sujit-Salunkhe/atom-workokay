@@ -205,6 +205,9 @@
   --atom-progressbar-bg: #2e9995;
 
   --atom-calendar-hover-bg:#b8e4e9;
+
+  --atom-skeleton-bg-color: #e5e7eb;
+  --atom-skeleton-shimmer-color: rgba(255, 255, 255, 0.5);
 }
 
 /* Deep Teal — DARK */
@@ -361,7 +364,10 @@
 
   --atom-input-bg : var(--atom-badge-archived-bg);
 
-  --atom-progressbar-bg: var(--atom-info-card-jobstatus-secondary-text)
+  --atom-progressbar-bg: var(--atom-info-card-jobstatus-secondary-text);
+
+  --atom-skeleton-bg-color: #374151;
+  --atom-skeleton-shimmer-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Sapphire Cyan — LIGHT */

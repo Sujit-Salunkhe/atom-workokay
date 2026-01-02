@@ -14,7 +14,7 @@ export const globalTypes = {
   },
 };
 
-const withTheme = (Story, ctx) => {
+const withTheme = (Story:any, ctx:any) => {
   const theme = ctx.globals.theme ?? "light";
   return (
     <div className="atom-theme" data-theme={theme} style={{ minHeight: "100vh", padding: 16 }}>
