@@ -24,7 +24,7 @@ export const avatarVariants = cva(
       /** Visual variant / semantic color */
       variant: {
         primary:
-         'text-[var(--atom-info-card-jobstatus-secondary-text)] bg-[color-mix(in_oklab,var(--atom-info-card-jobstatus-secondary-text)_10%,transparent)] border-[color-mix(in_oklab,var(--atom-info-card-jobstatus-secondary-text)_20%,transparent)]',
+          'text-[var(--atom-theme-secondary-bg)] bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_10%,transparent)] border-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_20%,transparent)]',
         neutral:
           'bg-[var(--atom-badge-neutral-bg-low)] ' +
           'text-[var(--atom-badge-neutral-fg-low)] ' +
@@ -53,12 +53,11 @@ export const avatarVariants = cva(
 
       /** Appearance / fill level */
       appearance: {
-        subtle: '', // default uses *-low tokens above
-        solid: ' border-transparent',
+        subtle: '', 
+        solid: 'border-transparent',
         outline: 'bg-transparent',
         ghost: 'bg-transparent border-transparent hover:bg-[var(--atom-badge-neutral-bg-low)]',
-        soft:'border-none'
-        
+        soft: 'border-none',
       },
 
       /** Shape options */
@@ -90,6 +89,14 @@ export const avatarVariants = cva(
 
     compoundVariants: [
       // Solid appearance = use *-high tokens
+      {
+        appearance: 'solid',
+        variant: 'primary',
+        class:
+          'bg-[var(--atom-theme-secondary-bg)] ' +
+          'text-[var(--atom-theme-primary-bg)] ' +
+          'border-transparent',
+      },
       {
         appearance: 'solid',
         variant: 'success',
@@ -159,8 +166,8 @@ export const avatarVariants = cva(
     ],
 
     defaultVariants: {
-      variant: 'neutral',
-      appearance: 'subtle',
+      variant: 'primary',
+      appearance: 'soft',
       shape: 'circle',
       size: 'md',
       fullWidth: false,
@@ -169,8 +176,8 @@ export const avatarVariants = cva(
   },
 )
 
-// Public unions
-export type AvatarStatus =
+export type AvatarVariant =
+  | 'primary'
   | 'neutral'
   | 'success'
   | 'warning'
@@ -185,19 +192,24 @@ export type AvatarSize = 'sm' | 'md' | 'lg'
 export type AvatarShape = 'circle' | 'square' | 'pill'
 
 export interface AvatarProps
-  extends
-    React.HTMLAttributes<HTMLDivElement>,
+  extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof avatarVariants> {
   /** Render via Radix Slot (e.g. wrap an <img> or <Link>) */
   asChild?: boolean
   /** Initials or fallback text when no image is provided */
   initials?: string
-  /** Optional image source; if provided you can layer an <img> */
+  /** Optional image source; automatically falls back to initials on error */
   src?: string
-  /** Accessible label if you hide the text */
-  'aria-label'?: string
+  /** Alt text for the image; required for accessibility when src is provided */
+  alt?: string
+  /** Whether the avatar is purely decorative (hides from screen readers) */
+  decorative?: boolean
 }
 
+/**
+ * Avatar component with built-in image error handling and accessibility support.
+ * Automatically falls back to initials if image fails to load.
+ */
 export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
   (
     {
@@ -211,25 +223,53 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
       asChild,
       initials,
       src,
+      alt,
+      decorative = false,
       children,
       ...props
     },
     ref,
   ) => {
     const Comp = asChild ? Slot : 'div'
+    const [imageError, setImageError] = React.useState(false)
 
-    const content =
-      children ??
-      (src ? (
-        // If you want image support, style this with object-cover etc.
-        <img
-          src={src}
-          alt={props['aria-label'] || initials || 'AZ'} // if  initals doenst' get AZ will be written
-          className="w-full h-full object-cover"
-        />
-      ) : (
-        <span>{initials}</span>
-      ))
+    // Reset error state when src changes
+    React.useEffect(() => {
+      if (src) {
+        setImageError(false)
+      }
+    }, [src])
+
+    const handleImageError = React.useCallback(() => {
+      setImageError(true)
+    }, [])
+
+    // Determine what to render
+    const shouldShowImage = src && !imageError
+    const shouldShowInitials = !shouldShowImage && initials
+
+    const content = children ? (
+      children
+    ) : shouldShowImage ? (
+      <img
+        src={src}
+        alt={decorative ? '' : alt || initials || ''}
+        className="w-full h-full object-cover"
+        onError={handleImageError}
+        aria-hidden={decorative}
+      />
+    ) : shouldShowInitials ? (
+      <span aria-hidden={decorative}>{initials}</span>
+    ) : null
+
+    // Determine ARIA attributes
+    const ariaProps = decorative
+      ? { 'aria-hidden': true as const }
+      : shouldShowInitials && !alt
+        ? { role: 'img' as const, 'aria-label': initials }
+        : alt && !src
+          ? { role: 'img' as const, 'aria-label': alt }
+          : {}
 
     return (
       <Comp
@@ -246,6 +286,7 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
           }),
           className,
         )}
+        {...ariaProps}
         {...props}
       >
         {content}
