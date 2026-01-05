@@ -3,6 +3,7 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
+
 // Dialog Root
 const Dialog = DialogPrimitive.Root;
 
@@ -95,7 +96,7 @@ const DialogContent = React.forwardRef<
     >
       {children}
       {showClose && (
-        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-[var(--atom-bg)] transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-[var(--atom-ring-color)] focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-[var(--atom-surface-alt)]">
+        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-var(--atom-bg) transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-(--atom-ring-color) focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-(--atom-surface-alt)">
           <X className="h-4 w-4" />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>
@@ -150,7 +151,7 @@ const DialogTitle = React.forwardRef<
     ref={ref}
     className={[
       'text-lg font-semibold leading-none tracking-tight',
-      'text-[var(--atom-card-fg)]',
+      'text-(--atom-card-fg)',
       className,
     ]
       .filter(Boolean)
@@ -168,7 +169,7 @@ const DialogDescription = React.forwardRef<
   <DialogPrimitive.Description
     ref={ref}
     className={[
-      'text-sm text-[var(--atom-text-muted)]',
+      'text-sm text-(--atom-text-muted)',
       className,
     ]
       .filter(Boolean)
@@ -186,7 +187,7 @@ const DialogBody = ({
   <div
     className={[
       'px-6 py-4',
-      'text-[var(--atom-card-fg)]',
+      'text-(--atom-card-fg)',
       className,
     ]
       .filter(Boolean)

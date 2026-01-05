@@ -111,7 +111,7 @@ export function Tooltip({
             {content}
             {showArrow && (
               <TooltipPrimitive.Arrow
-                className="fill-(--atom-card-bg) stroke-(--atom-border)"
+                className="fill-(--atom-primary) stroke-(--atom-primary)"
                 width={12}
                 height={6}
               />
