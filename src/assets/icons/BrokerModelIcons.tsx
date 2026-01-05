@@ -1190,3 +1190,150 @@ export const CalendarIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
     </g>
   </svg>
 )
+
+export const DatabaseIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
+  props,
+) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ color: ICON_COLORS.primary, ...props.style }}
+    {...props}
+  >
+    <path
+      d="M20 12c0 1.657-3.582 3-8 3s-8-1.343-8-3"
+      stroke="currentColor"
+      strokeWidth="0.936"
+    />
+    <path
+      d="M20 18c0 1.657-3.582 3-8 3s-8-1.343-8-3"
+      stroke="currentColor"
+      strokeWidth="0.936"
+    />
+    <ellipse
+      cx="12"
+      cy="6"
+      rx="8"
+      ry="3"
+      stroke="currentColor"
+      strokeWidth="0.936"
+    />
+    <path
+      d="M4 6v12"
+      stroke="currentColor"
+      strokeWidth="0.936"
+    />
+    <path
+      d="M20 6v12"
+      stroke="currentColor"
+      strokeWidth="0.936"
+    />
+  </svg>
+);
+
+export const DocumentIcon2: React.FC<React.SVGProps<SVGSVGElement>> = (
+  props,
+) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ color: ICON_COLORS.primary, ...props.style }}
+    {...props}
+  >
+    <path
+      d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"
+      stroke="currentColor"
+      strokeWidth="0.936"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <polyline
+      points="14 2 14 8 20 8"
+      stroke="currentColor"
+      strokeWidth="0.936"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <line
+      x1="16"
+      y1="13"
+      x2="8"
+      y2="13"
+      stroke="currentColor"
+      strokeWidth="0.936"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <line
+      x1="16"
+      y1="17"
+      x2="8"
+      y2="17"
+      stroke="currentColor"
+      strokeWidth="0.936"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <line
+      x1="10"
+      y1="9"
+      x2="8"
+      y2="9"
+      stroke="currentColor"
+      strokeWidth="0.936"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const LockIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
+  props,
+) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ color: ICON_COLORS.primary, ...props.style }}
+    {...props}
+  >
+    <path
+      d="M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288"
+      stroke="currentColor"
+      strokeWidth="0.936"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const SunIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
+  props,
+) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ color: ICON_COLORS.primary, ...props.style }}
+    {...props}
+  >
+    <path
+      d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"
+      stroke="currentColor"
+      strokeWidth="0.936"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"
+      stroke="currentColor"
+      strokeWidth="0.936"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+
