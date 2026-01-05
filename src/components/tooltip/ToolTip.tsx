@@ -85,7 +85,7 @@ export function Tooltip({
   size,
   showArrow,
   className,
-  side = 'top',
+  side = 'right',
   align = 'center',
   sideOffset = 6,
   ...props
