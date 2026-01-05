@@ -352,7 +352,8 @@ function FilterDropdown({
         <span className="text-sm font-semibold">Filter Columns</span>
         <button
           onClick={handleClearAll}
-          className="text-xs text-blue-600 hover:text-blue-700 font-medium"
+          className="text-xs text-(--atom-theme-secondary-bg)
+hover:text-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_85%,black)] font-medium cursor-pointer"
         >
           Clear All
         </button>
@@ -376,7 +377,7 @@ function FilterDropdown({
                 <span>{column.name}</span>
                 <div className="flex items-center gap-2">
                   {columnFilters.length > 0 && (
-                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
+                    <span className="bg-(--atom-theme-secondary-bg) text-white text-xs px-1.5 py-1 rounded-full min-w-4.5 text-center">
                       {columnFilters.length}
                     </span>
                   )}
@@ -394,7 +395,8 @@ function FilterDropdown({
                       className="rounded border-gray-300"
                       aria-label={`Select all ${column.name}`}
                     />
-                    <span className="font-medium text-blue-600">
+                    <span className="text-xs text-(--atom-theme-secondary-bg)
+hover:text-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_85%,black)] font-medium cursor-pointer">
                       Select All
                     </span>
                   </label>
@@ -451,8 +453,11 @@ function ActiveFilters({
   if (activeFilterCount === 0) return null
 
   return (
-    <div className="px-4 py-2 border-b border-(--atom-theme-border) bg-gray-50 h-12 flex items-center">
-      <div className="flex gap-2 items-center overflow-x-auto overflow-y-hidden max-w-xl scrollbar-thin">
+    <div className="px-4 py-2 border-b border-(--atom-theme-border) bg-[color-mix(in_oklab,var(--atom-theme-tertiary-bg)_50%,transparent)] h-12 flex items-center">
+      <div
+        className="flex gap-2 items-center overflow-x-auto overflow-y-hidden max-w-xl scrollbar-thin   [&::-webkit-scrollbar]:bg-transparent
+  [&::-webkit-scrollbar-track]:bg-transparent"
+      >
         {Object.entries(filters).map(([columnKey, values]) => {
           const column = columns.find((col) => col.key === columnKey)
           const columnName = column?.name || columnKey
@@ -601,10 +606,10 @@ function Toolbar(props: ToolbarProps) {
                 type="button"
                 onClick={() => onToggleFilter(!showFilterDropdown)}
                 className={cn(
-                  'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors',
+                  'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors border-(--atom-theme-border) hover:bg-[color-mix(in_oklab,var(--atom-theme-bg)_97%,black)]',
                   showFilterDropdown
-                    ? 'border-(--atom-theme-border)'
-                    : 'border-[var(--atom-border-subtle,#e2e8f0)] hover:bg-gray-50',
+                    ? ''
+                    : '',
                 )}
                 aria-label="Filter table data"
                 aria-expanded={showFilterDropdown}
@@ -612,7 +617,12 @@ function Toolbar(props: ToolbarProps) {
               >
                 <FilterIcon />
                 {activeFilterCount > 0 && (
-                  <span className="bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                  <span className="bg-(--atom-theme-secondary-bg) 
+         text-white text-xs 
+         px-1.5 py-1.5 
+         rounded-full 
+         inline-flex items-center justify-center 
+         leading-none text-center">
                     {activeFilterCount}
                   </span>
                 )}
@@ -636,10 +646,10 @@ function Toolbar(props: ToolbarProps) {
               type="button"
               onClick={() => onToggleColumnsDropdown(!showColumnsDropdown)}
               className={cn(
-                'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors',
+                'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors border-(--atom-theme-border)',
                 showColumnsDropdown
-                  ? 'border-blue-500 bg-blue-50 text-blue-700'
-                  : 'border-[var(--atom-border-subtle,#e2e8f0)] hover:bg-gray-50',
+                  ? ''
+                  : '',
               )}
               aria-label="View columns"
               aria-expanded={showColumnsDropdown}
@@ -661,7 +671,7 @@ function Toolbar(props: ToolbarProps) {
         {download && (
           <button
             type="button"
-            className="flex h-8 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-3 text-xs font-medium hover:bg-gray-50 cursor-pointer"
+            className="flex h-8 items-center flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors border-(--atom-theme-border)"
             onClick={handleDownload}
             aria-label="Download table data"
           >
