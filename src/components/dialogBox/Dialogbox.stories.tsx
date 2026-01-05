@@ -1,23 +1,16 @@
-// src/components/ui/Dialog.stories.tsx
+// Dialog.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import { useArgs } from 'storybook/preview-api'
 import {
   Dialog,
   DialogTrigger,
   DialogContent,
   DialogHeader,
+  DialogFooter,
   DialogTitle,
   DialogDescription,
   DialogBody,
-  DialogFooter,
-  type DialogProps,
 } from './Dialogbox'
-import { cn } from '../../lib/cn'
-
-type DialogStoryProps = Omit<DialogProps, 'children'> & {
-  children?: React.ReactNode
-}
 
 const meta = {
   title: 'Components/Dialog',
@@ -27,83 +20,72 @@ const meta = {
     docs: {
       description: {
         component:
-          'A fully accessible modal dialog component with portal rendering, focus trap, body scroll lock, smooth animations, and customizable backdrop variants. Supports both controlled and uncontrolled modes.',
+          'A modal dialog built on Radix UI primitives with custom styling. Fully accessible with keyboard navigation, focus trapping, and ARIA attributes.',
       },
     },
   },
   tags: ['autodocs'],
-  argTypes: {
-    open: {
-      control: 'boolean',
-      description: 'Controlled open state',
-      table: {
-        category: 'Controlled',
-      },
-    },
-    defaultOpen: {
-      control: 'boolean',
-      description: 'Default open state (uncontrolled)',
-      table: {
-        category: 'Uncontrolled',
-      },
-    },
-    onOpenChange: {
-      action: 'onOpenChange',
-      description: 'Callback when open state changes',
-      table: {
-        category: 'Events',
-      },
-    },
-  },
   decorators: [
-    function Component(Story, ctx) {
-      const [, updateArgs] = useArgs()
-
-      const onOpenChange = (open: boolean) => {
-        ctx.args.onOpenChange?.(open)
-        // Update controlled state in Storybook
-        if (ctx.args.open !== undefined) {
-          updateArgs({ open })
-        }
-      }
-
-      return <Story args={{ ...ctx.args, onOpenChange }} />
-    },
+    (Story) => (
+      <div className="atom-theme">
+        <Story />
+      </div>
+    ),
   ],
-} satisfies Meta<DialogStoryProps>
+} satisfies Meta<typeof Dialog>
 
 export default meta
-type Story = StoryObj<DialogStoryProps>
+type Story = StoryObj<typeof meta>
 
 // ============================================================================
 // BASIC EXAMPLES
 // ============================================================================
 
 export const Default: Story = {
-  render: (args) => (
-    <Dialog {...args}>
+  render: () => (
+    <Dialog>
       <DialogTrigger className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
         Open Dialog
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Dialog Title</DialogTitle>
+          <DialogTitle>Edit Profile</DialogTitle>
           <DialogDescription>
-            This is a description of what this dialog is about.
+            Make changes to your profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <DialogBody>
-          <p className="text-sm">
-            This is the main content area of the dialog. You can put any
-            content here including forms, lists, or complex layouts.
-          </p>
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium mb-1.5">
+                Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                defaultValue="John Doe"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium mb-1.5">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                defaultValue="john@example.com"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
         </DialogBody>
         <DialogFooter>
           <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
             Cancel
           </button>
           <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-            Confirm
+            Save Changes
           </button>
         </DialogFooter>
       </DialogContent>
@@ -112,123 +94,99 @@ export const Default: Story = {
 }
 
 // ============================================================================
-// UNCONTROLLED EXAMPLES
+// CONTROLLED DIALOG
 // ============================================================================
 
-export const UncontrolledDefault: Story = {
-  args: {
-    defaultOpen: false,
-  },
-  argTypes: {
-    open: {
-      control: { disable: true },
-      table: { disable: true },
-    },
-  },
-  render: (args) => (
-    <Dialog {...args}>
-      <DialogTrigger className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors">
-        Open Uncontrolled Dialog
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Uncontrolled Dialog</DialogTitle>
-          <DialogDescription>
-            This dialog manages its own state internally using defaultOpen prop.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogBody>
-          <p className="text-sm text-gray-600 mb-3">
-            Uncontrolled components handle their own state. You set the initial
-            state with <code className="px-1.5 py-0.5 bg-gray-100 rounded text-xs">defaultOpen</code> and
-            the component manages opening/closing internally.
-          </p>
-          <div className="p-3 bg-purple-50 border border-purple-200 rounded-md">
-            <p className="text-xs font-medium text-purple-900">
-              Use uncontrolled mode when:
-            </p>
-            <ul className="mt-2 space-y-1 text-xs text-purple-800 list-disc list-inside">
-              <li>You don't need to programmatically control the dialog</li>
-              <li>Simple user-triggered interactions are sufficient</li>
-              <li>You want less boilerplate code</li>
-            </ul>
-          </div>
-        </DialogBody>
-        <DialogFooter>
-          <button className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors">
-            Close
+export const Controlled: Story = {
+  render: function ControlledExample() {
+    const [open, setOpen] = useState(false)
+
+    return (
+      <div className="space-y-4">
+        <div className="flex gap-2">
+          <button
+            onClick={() => setOpen(true)}
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+          >
+            Open Dialog
           </button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  ),
+          <button
+            onClick={() => setOpen(false)}
+            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+          >
+            Close Dialog
+          </button>
+        </div>
+        <div className="p-3 bg-gray-100 rounded-md">
+          <p className="text-sm">
+            Dialog state:{' '}
+            <strong className={open ? 'text-green-600' : 'text-red-600'}>
+              {open ? 'Open' : 'Closed'}
+            </strong>
+          </p>
+        </div>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Controlled Dialog</DialogTitle>
+              <DialogDescription>
+                This dialog's open state is controlled by parent component state.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogBody>
+              <p className="text-sm text-gray-600 mb-3">
+                You can control the dialog programmatically using external buttons
+                or close it by clicking outside, pressing Escape, or using the X button.
+              </p>
+              <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
+                <p className="text-xs font-medium text-blue-900">
+                  Use controlled mode when:
+                </p>
+                <ul className="mt-2 space-y-1 text-xs text-blue-800 list-disc list-inside">
+                  <li>You need to programmatically open/close the dialog</li>
+                  <li>Dialog state affects other parts of your UI</li>
+                  <li>You want to track open/close events</li>
+                </ul>
+              </div>
+            </DialogBody>
+            <DialogFooter>
+              <button
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Close from Inside
+              </button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+    )
+  },
 }
 
-export const UncontrolledStartsOpen: Story = {
-  args: {
-    defaultOpen: true,
-  },
-  argTypes: {
-    open: {
-      control: { disable: true },
-      table: { disable: true },
-    },
-  },
-  render: (args) => (
-    <Dialog {...args}>
-      <DialogTrigger className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors">
-        Trigger (Dialog Already Open)
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Welcome!</DialogTitle>
-          <DialogDescription>
-            This dialog opens automatically when the component mounts.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogBody>
-          <p className="text-sm text-gray-600">
-            Set <code className="px-1.5 py-0.5 bg-gray-100 rounded text-xs">defaultOpen={'{'}true{'}'}</code> to
-            show the dialog immediately. Perfect for welcome messages, important announcements,
-            or first-time user onboarding.
-          </p>
-        </DialogBody>
-        <DialogFooter>
-          <button className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors">
-            Get Started
-          </button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  ),
-}
+// ============================================================================
+// FORM DIALOGS
+// ============================================================================
 
-export const UncontrolledUserProfile: Story = {
-  args: {
-    defaultOpen: false,
-  },
-  argTypes: {
-    open: {
-      control: { disable: true },
-      table: { disable: true },
-    },
-  },
-  render: (args) => {
+export const UserProfileForm: Story = {
+  render: function ProfileExample() {
     const [formData, setFormData] = useState({
       firstName: 'Sarah',
       lastName: 'Chen',
       email: 'sarah.chen@company.com',
       role: 'Senior Product Designer',
       department: 'Design',
+      location: 'San Francisco, CA',
+      phone: '+1 (555) 123-4567',
       bio: 'Passionate about creating intuitive user experiences and leading design systems.',
     })
 
     return (
-      <Dialog {...args}>
+      <Dialog>
         <DialogTrigger className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
           Edit Profile
         </DialogTrigger>
-        <DialogContent size="lg">
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Edit Your Profile</DialogTitle>
             <DialogDescription>
@@ -275,34 +233,62 @@ export const UncontrolledUserProfile: Story = {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <div>
-                <label htmlFor="role" className="block text-sm font-medium mb-1.5">
-                  Job Title
-                </label>
-                <input
-                  id="role"
-                  type="text"
-                  value={formData.role}
-                  onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="role" className="block text-sm font-medium mb-1.5">
+                    Job Title
+                  </label>
+                  <input
+                    id="role"
+                    type="text"
+                    value={formData.role}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="department" className="block text-sm font-medium mb-1.5">
+                    Department
+                  </label>
+                  <select
+                    id="department"
+                    value={formData.department}
+                    onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option>Design</option>
+                    <option>Engineering</option>
+                    <option>Product</option>
+                    <option>Marketing</option>
+                    <option>Sales</option>
+                  </select>
+                </div>
               </div>
-              <div>
-                <label htmlFor="department" className="block text-sm font-medium mb-1.5">
-                  Department
-                </label>
-                <select
-                  id="department"
-                  value={formData.department}
-                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option>Design</option>
-                  <option>Engineering</option>
-                  <option>Product</option>
-                  <option>Marketing</option>
-                  <option>Sales</option>
-                </select>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="location" className="block text-sm font-medium mb-1.5">
+                    Location
+                  </label>
+                  <input
+                    id="location"
+                    type="text"
+                    value={formData.location}
+                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium mb-1.5">
+                    Phone
+                  </label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
               </div>
               <div>
                 <label htmlFor="bio" className="block text-sm font-medium mb-1.5">
@@ -332,115 +318,334 @@ export const UncontrolledUserProfile: Story = {
   },
 }
 
-// ============================================================================
-// CONTROLLED EXAMPLES
-// ============================================================================
-
-export const ControlledDialog: Story = {
-  args: {
-    open: false,
-  },
-  argTypes: {
-    defaultOpen: {
-      control: { disable: true },
-      table: { disable: true },
-    },
-  },
-  render: function ControlledExample(args) {
-    const [open, setOpen] = useState(args.open ?? false)
+export const CreateProjectForm: Story = {
+  render: function CreateProjectExample() {
+    const [formData, setFormData] = useState({
+      projectName: '',
+      projectType: 'Web Application',
+      client: '',
+      budget: '',
+      startDate: '',
+      endDate: '',
+      description: '',
+    })
 
     return (
-      <div className="space-y-4">
-        <div className="flex gap-2">
-          <button
-            onClick={() => setOpen(true)}
-            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
-          >
-            Open Dialog
-          </button>
-          <button
-            onClick={() => setOpen(false)}
-            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-          >
-            Close Dialog
-          </button>
-          <button
-            onClick={() => setOpen(!open)}
-            className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
-          >
-            Toggle
-          </button>
-        </div>
-        <div className="p-3 bg-gray-100 rounded-md">
-          <p className="text-sm">
-            Dialog state: <strong className={open ? 'text-green-600' : 'text-red-600'}>{open ? 'Open' : 'Closed'}</strong>
-          </p>
-        </div>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Controlled Dialog</DialogTitle>
-              <DialogDescription>
-                This dialog's state is controlled externally via useState.
-              </DialogDescription>
-            </DialogHeader>
-            <DialogBody>
-              <p className="text-sm text-gray-600 mb-3">
-                Controlled components receive their state from props and notify
-                changes via callbacks. The parent component manages the state.
-              </p>
-              <div className="p-3 bg-green-50 border border-green-200 rounded-md">
-                <p className="text-xs font-medium text-green-900">
-                  Use controlled mode when:
-                </p>
-                <ul className="mt-2 space-y-1 text-xs text-green-800 list-disc list-inside">
-                  <li>You need to programmatically open/close the dialog</li>
-                  <li>Dialog state affects other parts of your UI</li>
-                  <li>You want to validate before closing</li>
-                  <li>You need to track open/close events</li>
-                </ul>
+      <Dialog>
+        <DialogTrigger className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+          Create New Project
+        </DialogTrigger>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Create New Project</DialogTitle>
+            <DialogDescription>
+              Enter the details for your new project.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogBody>
+            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+              <div>
+                <label htmlFor="projectName" className="block text-sm font-medium mb-1.5">
+                  Project Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="projectName"
+                  type="text"
+                  placeholder="E.g., Website Redesign"
+                  value={formData.projectName}
+                  onChange={(e) => setFormData({ ...formData, projectName: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  required
+                />
               </div>
-            </DialogBody>
-            <DialogFooter>
-              <button
-                onClick={() => setOpen(false)}
-                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
-              >
-                Close from Inside
-              </button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="projectType" className="block text-sm font-medium mb-1.5">
+                    Project Type
+                  </label>
+                  <select
+                    id="projectType"
+                    value={formData.projectType}
+                    onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  >
+                    <option>Web Application</option>
+                    <option>Mobile App</option>
+                    <option>Desktop Software</option>
+                    <option>API Development</option>
+                    <option>Design System</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="client" className="block text-sm font-medium mb-1.5">
+                    Client Name
+                  </label>
+                  <input
+                    id="client"
+                    type="text"
+                    placeholder="E.g., Acme Corp"
+                    value={formData.client}
+                    onChange={(e) => setFormData({ ...formData, client: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="startDate" className="block text-sm font-medium mb-1.5">
+                    Start Date
+                  </label>
+                  <input
+                    id="startDate"
+                    type="date"
+                    value={formData.startDate}
+                    onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="endDate" className="block text-sm font-medium mb-1.5">
+                    End Date
+                  </label>
+                  <input
+                    id="endDate"
+                    type="date"
+                    value={formData.endDate}
+                    onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="budget" className="block text-sm font-medium mb-1.5">
+                  Budget (USD)
+                </label>
+                <input
+                  id="budget"
+                  type="text"
+                  placeholder="E.g., $50,000"
+                  value={formData.budget}
+                  onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div>
+                <label htmlFor="description" className="block text-sm font-medium mb-1.5">
+                  Description
+                </label>
+                <textarea
+                  id="description"
+                  rows={4}
+                  placeholder="Describe the project goals and requirements..."
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+                />
+              </div>
+            </form>
+          </DialogBody>
+          <DialogFooter>
+            <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
+              Cancel
+            </button>
+            <button className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+              Create Project
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     )
   },
 }
 
-export const ControlledMultiStep: Story = {
-  args: {
-    open: false,
+// ============================================================================
+// CONFIRMATION DIALOGS
+// ============================================================================
+
+export const DeleteConfirmation: Story = {
+  render: function DeleteExample() {
+    const [confirmText, setConfirmText] = useState('')
+    const projectName = 'Production Database'
+    const canDelete = confirmText === projectName
+
+    return (
+      <Dialog>
+        <DialogTrigger className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+          Delete Project
+        </DialogTrigger>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Delete Project</DialogTitle>
+            <DialogDescription>
+              This action cannot be undone. This will permanently delete your project.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogBody>
+            <div className="space-y-4">
+              <div className="p-4 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-sm font-medium text-red-900 mb-2">
+                  ⚠️ Warning: This is a destructive action
+                </p>
+                <ul className="text-xs text-red-800 space-y-1 list-disc list-inside">
+                  <li>All project data will be permanently deleted</li>
+                  <li>This includes all files, settings, and history</li>
+                  <li>Team members will lose access immediately</li>
+                  <li>This action cannot be reversed</li>
+                </ul>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Type{' '}
+                  <code className="px-1.5 py-0.5 bg-gray-100 rounded font-mono text-xs">
+                    {projectName}
+                  </code>{' '}
+                  to confirm:
+                </label>
+                <input
+                  type="text"
+                  value={confirmText}
+                  onChange={(e) => setConfirmText(e.target.value)}
+                  placeholder="Enter project name"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+              </div>
+            </div>
+          </DialogBody>
+          <DialogFooter>
+            <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
+              Cancel
+            </button>
+            <button
+              disabled={!canDelete}
+              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Delete Project
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    )
   },
-  argTypes: {
-    defaultOpen: {
-      control: { disable: true },
-      table: { disable: true },
-    },
-  },
-  render: function MultiStepExample(args) {
-    const [open, setOpen] = useState(args.open ?? false)
+}
+
+export const LogoutConfirmation: Story = {
+  render: () => (
+    <Dialog>
+      <DialogTrigger className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors">
+        Logout
+      </DialogTrigger>
+      <DialogContent className="max-w-sm">
+        <DialogHeader>
+          <DialogTitle>Confirm Logout</DialogTitle>
+          <DialogDescription>
+            Are you sure you want to log out of your account?
+          </DialogDescription>
+        </DialogHeader>
+        <DialogBody>
+          <div className="flex items-center gap-3 text-gray-600">
+            <svg
+              className="w-12 h-12 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
+            <p className="text-sm">
+              You'll need to sign in again to access your account.
+            </p>
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
+            Cancel
+          </button>
+          <button className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors">
+            Logout
+          </button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+}
+
+// ============================================================================
+// SUCCESS/INFO DIALOGS
+// ============================================================================
+
+export const SuccessMessage: Story = {
+  render: () => (
+    <Dialog>
+      <DialogTrigger className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+        Show Success
+      </DialogTrigger>
+      <DialogContent className="max-w-sm">
+        <DialogHeader>
+          <DialogTitle>Success!</DialogTitle>
+          <DialogDescription>
+            Your changes have been saved successfully.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogBody>
+          <div className="flex items-center gap-3 text-green-600">
+            <svg
+              className="w-16 h-16"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <div>
+              <p className="text-sm font-medium text-gray-900">
+                All changes are now live
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                Your updates are visible to all users
+              </p>
+            </div>
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <button className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors w-full">
+            Got it
+          </button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+}
+
+// ============================================================================
+// MULTI-STEP DIALOG
+// ============================================================================
+
+export const MultiStepWizard: Story = {
+  render: function MultiStepExample() {
+    const [open, setOpen] = useState(false)
     const [step, setStep] = useState(1)
     const [formData, setFormData] = useState({
-      projectName: 'E-commerce Redesign',
-      projectType: 'Web Application',
-      budget: '$50,000 - $100,000',
-      timeline: '3-6 months',
-      teamSize: '5-10',
-      description: 'Complete redesign of our e-commerce platform with focus on mobile experience',
+      accountType: 'personal',
+      fullName: '',
+      email: '',
+      password: '',
+      company: '',
+      agreeToTerms: false,
     })
 
     const handleClose = () => {
       setOpen(false)
-      setTimeout(() => setStep(1), 300) // Reset after animation
+      setTimeout(() => setStep(1), 300)
     }
 
     const handleNext = () => {
@@ -452,21 +657,21 @@ export const ControlledMultiStep: Story = {
     }
 
     return (
-      <div className="space-y-4">
+      <>
         <button
           onClick={() => setOpen(true)}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
         >
-          Create New Project
+          Create Account
         </button>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent size="xl">
+          <DialogContent className="max-w-xl">
             <DialogHeader>
-              <DialogTitle>Create New Project - Step {step} of 3</DialogTitle>
+              <DialogTitle>Create Account - Step {step} of 3</DialogTitle>
               <DialogDescription>
-                {step === 1 && 'Enter basic project information'}
-                {step === 2 && 'Define project scope and budget'}
-                {step === 3 && 'Review and confirm details'}
+                {step === 1 && 'Choose your account type'}
+                {step === 2 && 'Enter your personal information'}
+                {step === 3 && 'Review and confirm'}
               </DialogDescription>
             </DialogHeader>
             <DialogBody>
@@ -475,10 +680,9 @@ export const ControlledMultiStep: Story = {
                 {[1, 2, 3].map((s) => (
                   <div
                     key={s}
-                    className={cn(
-                      'flex-1 h-2 rounded-full transition-colors',
-                      s <= step ? 'bg-blue-600' : 'bg-gray-200'
-                    )}
+                    className={`flex-1 h-2 rounded-full transition-colors ${
+                      s <= step ? 'bg-purple-600' : 'bg-gray-200'
+                    }`}
                   />
                 ))}
               </div>
@@ -486,36 +690,42 @@ export const ControlledMultiStep: Story = {
               {/* Step 1 */}
               {step === 1 && (
                 <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1.5">
-                      Project Name
-                    </label>
+                  <label className="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 has-[:checked]:border-purple-600 has-[:checked]:bg-purple-50">
                     <input
-                      type="text"
-                      value={formData.projectName}
+                      type="radio"
+                      name="accountType"
+                      value="personal"
+                      checked={formData.accountType === 'personal'}
                       onChange={(e) =>
-                        setFormData({ ...formData, projectName: e.target.value })
+                        setFormData({ ...formData, accountType: e.target.value })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="mr-3"
                     />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1.5">
-                      Project Type
-                    </label>
-                    <select
-                      value={formData.projectType}
+                    <div>
+                      <p className="font-medium">Personal Account</p>
+                      <p className="text-sm text-gray-500">
+                        For individual use and personal projects
+                      </p>
+                    </div>
+                  </label>
+                  <label className="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 has-[:checked]:border-purple-600 has-[:checked]:bg-purple-50">
+                    <input
+                      type="radio"
+                      name="accountType"
+                      value="business"
+                      checked={formData.accountType === 'business'}
                       onChange={(e) =>
-                        setFormData({ ...formData, projectType: e.target.value })
+                        setFormData({ ...formData, accountType: e.target.value })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option>Web Application</option>
-                      <option>Mobile App</option>
-                      <option>Desktop Software</option>
-                      <option>API Development</option>
-                    </select>
-                  </div>
+                      className="mr-3"
+                    />
+                    <div>
+                      <p className="font-medium">Business Account</p>
+                      <p className="text-sm text-gray-500">
+                        For teams and organizations
+                      </p>
+                    </div>
+                  </label>
                 </div>
               )}
 
@@ -524,55 +734,58 @@ export const ControlledMultiStep: Story = {
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium mb-1.5">
-                      Budget Range
+                      Full Name
                     </label>
-                    <select
-                      value={formData.budget}
+                    <input
+                      type="text"
+                      value={formData.fullName}
                       onChange={(e) =>
-                        setFormData({ ...formData, budget: e.target.value })
+                        setFormData({ ...formData, fullName: e.target.value })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option>$10,000 - $25,000</option>
-                      <option>$25,000 - $50,000</option>
-                      <option>$50,000 - $100,000</option>
-                      <option>$100,000+</option>
-                    </select>
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1.5">
-                      Timeline
+                      Email Address
                     </label>
-                    <select
-                      value={formData.timeline}
+                    <input
+                      type="email"
+                      value={formData.email}
                       onChange={(e) =>
-                        setFormData({ ...formData, timeline: e.target.value })
+                        setFormData({ ...formData, email: e.target.value })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option>1-3 months</option>
-                      <option>3-6 months</option>
-                      <option>6-12 months</option>
-                      <option>12+ months</option>
-                    </select>
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1.5">
-                      Team Size
+                      Password
                     </label>
-                    <select
-                      value={formData.teamSize}
+                    <input
+                      type="password"
+                      value={formData.password}
                       onChange={(e) =>
-                        setFormData({ ...formData, teamSize: e.target.value })
+                        setFormData({ ...formData, password: e.target.value })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option>1-5</option>
-                      <option>5-10</option>
-                      <option>10-20</option>
-                      <option>20+</option>
-                    </select>
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
                   </div>
+                  {formData.accountType === 'business' && (
+                    <div>
+                      <label className="block text-sm font-medium mb-1.5">
+                        Company Name
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.company}
+                        onChange={(e) =>
+                          setFormData({ ...formData, company: e.target.value })
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      />
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -581,31 +794,45 @@ export const ControlledMultiStep: Story = {
                 <div className="space-y-4">
                   <div className="p-4 bg-gray-50 rounded-md space-y-3">
                     <div>
-                      <p className="text-xs text-gray-500">Project Name</p>
-                      <p className="text-sm font-medium">{formData.projectName}</p>
+                      <p className="text-xs text-gray-500">Account Type</p>
+                      <p className="text-sm font-medium capitalize">
+                        {formData.accountType}
+                      </p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">Project Type</p>
-                      <p className="text-sm font-medium">{formData.projectType}</p>
+                      <p className="text-xs text-gray-500">Full Name</p>
+                      <p className="text-sm font-medium">
+                        {formData.fullName || 'Not provided'}
+                      </p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">Budget</p>
-                      <p className="text-sm font-medium">{formData.budget}</p>
+                      <p className="text-xs text-gray-500">Email</p>
+                      <p className="text-sm font-medium">
+                        {formData.email || 'Not provided'}
+                      </p>
                     </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Timeline</p>
-                      <p className="text-sm font-medium">{formData.timeline}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Team Size</p>
-                      <p className="text-sm font-medium">{formData.teamSize}</p>
-                    </div>
+                    {formData.accountType === 'business' && (
+                      <div>
+                        <p className="text-xs text-gray-500">Company</p>
+                        <p className="text-sm font-medium">
+                          {formData.company || 'Not provided'}
+                        </p>
+                      </div>
+                    )}
                   </div>
-                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
-                    <p className="text-xs text-blue-800">
-                      ✓ Review your information and click "Create Project" to continue.
-                    </p>
-                  </div>
+                  <label className="flex items-start gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.agreeToTerms}
+                      onChange={(e) =>
+                        setFormData({ ...formData, agreeToTerms: e.target.checked })
+                      }
+                      className="mt-1"
+                    />
+                    <span className="text-sm text-gray-600">
+                      I agree to the terms of service and privacy policy
+                    </span>
+                  </label>
                 </div>
               )}
             </DialogBody>
@@ -627,170 +854,56 @@ export const ControlledMultiStep: Story = {
               {step < 3 ? (
                 <button
                   onClick={handleNext}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
                 >
                   Next
                 </button>
               ) : (
                 <button
                   onClick={handleClose}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  disabled={!formData.agreeToTerms}
+                  className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Create Project
+                  Create Account
                 </button>
               )}
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      </div>
-    )
-  },
-}
-
-export const ControlledDeleteConfirmation: Story = {
-  args: {
-    open: false,
-  },
-  argTypes: {
-    defaultOpen: {
-      control: { disable: true },
-      table: { disable: true },
-    },
-  },
-  render: function DeleteExample(args) {
-    const [open, setOpen] = useState(args.open ?? false)
-    const [confirmText, setConfirmText] = useState('')
-    const [isDeleting, setIsDeleting] = useState(false)
-
-    const projectName = 'Production Database'
-    const canDelete = confirmText === projectName
-
-    const handleDelete = () => {
-      setIsDeleting(true)
-      // Simulate API call
-      setTimeout(() => {
-        setIsDeleting(false)
-        setOpen(false)
-        setConfirmText('')
-      }, 2000)
-    }
-
-    return (
-      <div className="space-y-4">
-        <button
-          onClick={() => setOpen(true)}
-          className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-        >
-          Delete Project
-        </button>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent size="md" disableClose={isDeleting}>
-            <DialogHeader>
-              <DialogTitle>Delete Project</DialogTitle>
-              <DialogDescription>
-                This action cannot be undone. This will permanently delete your project.
-              </DialogDescription>
-            </DialogHeader>
-            <DialogBody>
-              <div className="space-y-4">
-                <div className="p-4 bg-red-50 border border-red-200 rounded-md">
-                  <p className="text-sm font-medium text-red-900 mb-2">
-                    ⚠️ Warning: This is a destructive action
-                  </p>
-                  <ul className="text-xs text-red-800 space-y-1 list-disc list-inside">
-                    <li>All project data will be permanently deleted</li>
-                    <li>This includes all files, settings, and history</li>
-                    <li>Team members will lose access immediately</li>
-                    <li>This action cannot be reversed</li>
-                  </ul>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Type <code className="px-1.5 py-0.5 bg-gray-100 rounded font-mono text-xs">{projectName}</code> to confirm:
-                  </label>
-                  <input
-                    type="text"
-                    value={confirmText}
-                    onChange={(e) => setConfirmText(e.target.value)}
-                    placeholder="Enter project name"
-                    disabled={isDeleting}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 disabled:bg-gray-100"
-                  />
-                </div>
-              </div>
-            </DialogBody>
-            <DialogFooter>
-              <button
-                onClick={() => {
-                  setOpen(false)
-                  setConfirmText('')
-                }}
-                disabled={isDeleting}
-                className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDelete}
-                disabled={!canDelete || isDeleting}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isDeleting ? 'Deleting...' : 'Delete Project'}
-              </button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </div>
+      </>
     )
   },
 }
 
 // ============================================================================
-// ADDITIONAL EXAMPLES
+// WITHOUT CLOSE BUTTON
 // ============================================================================
 
-export const WithAsChildTrigger: Story = {
-  render: (args) => (
-    <Dialog {...args}>
-      <DialogTrigger asChild>
-        <div className="group cursor-pointer">
-          <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-md hover:shadow-lg">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-            <div>
-              <p className="font-semibold">Add New Item</p>
-              <p className="text-xs text-purple-100">Click to open dialog</p>
-            </div>
-          </div>
-        </div>
+export const WithoutCloseButton: Story = {
+  render: () => (
+    <Dialog>
+      <DialogTrigger className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors">
+        No Close Button
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent showClose={false}>
         <DialogHeader>
-          <DialogTitle>Custom Trigger Example</DialogTitle>
+          <DialogTitle>Required Action</DialogTitle>
           <DialogDescription>
-            Using asChild prop to render a custom trigger element.
+            This dialog requires you to make a choice. There is no close button.
           </DialogDescription>
         </DialogHeader>
         <DialogBody>
           <p className="text-sm text-gray-600">
-            The <code className="px-1.5 py-0.5 bg-gray-100 rounded text-xs">asChild</code> prop
-            allows you to use any element as the trigger by using Radix UI's Slot component.
+            You can still close this dialog by pressing Escape or clicking outside,
+            but there is no X button in the top-right corner.
           </p>
         </DialogBody>
         <DialogFooter>
-          <button className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors">
-            Close
+          <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
+            Decline
+          </button>
+          <button className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors">
+            Accept
           </button>
         </DialogFooter>
       </DialogContent>
@@ -798,80 +911,68 @@ export const WithAsChildTrigger: Story = {
   ),
 }
 
-export const BackdropVariants: Story = {
+// ============================================================================
+// SCROLLABLE CONTENT
+// ============================================================================
+
+export const ScrollableContent: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4">
-      {(['blur', 'dark', 'light', 'none'] as const).map((backdrop) => (
-        <Dialog key={backdrop}>
-          <DialogTrigger className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm transition-colors capitalize">
-            {backdrop}
-          </DialogTrigger>
-          <DialogContent backdrop={backdrop}>
-            <DialogHeader>
-              <DialogTitle>Backdrop: {backdrop}</DialogTitle>
-              <DialogDescription>
-                This dialog uses the "{backdrop}" backdrop variant.
-              </DialogDescription>
-            </DialogHeader>
-            <DialogBody>
-              <p className="text-sm mb-3">
-                The backdrop affects the overlay appearance behind the dialog.
-              </p>
-              <ul className="space-y-1.5 text-sm list-disc list-inside text-gray-600">
-                <li><strong>blur</strong>: Blurred background with 50% opacity</li>
-                <li><strong>dark</strong>: Solid dark background</li>
-                <li><strong>light</strong>: Semi-transparent light overlay</li>
-                <li><strong>none</strong>: No backdrop overlay</li>
-              </ul>
-            </DialogBody>
-            <DialogFooter>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-                Close
-              </button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      ))}
-    </div>
+    <Dialog>
+      <DialogTrigger className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+        Terms & Conditions
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Terms and Conditions</DialogTitle>
+          <DialogDescription>
+            Please read our terms and conditions carefully.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogBody>
+          <div className="space-y-4 text-sm">
+            {Array.from({ length: 15 }, (_, i) => (
+              <div key={i}>
+                <h4 className="font-semibold mb-1">Section {i + 1}</h4>
+                <p className="text-gray-600">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                  enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                  nisi ut aliquip ex ea commodo consequat.
+                </p>
+              </div>
+            ))}
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
+            Decline
+          </button>
+          <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+            Accept
+          </button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   ),
-  parameters: {
-    layout: 'padded',
-  },
 }
 
-export const SizeVariants: Story = {
+// ============================================================================
+// MINIMAL DIALOG
+// ============================================================================
+
+export const MinimalDialog: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4">
-      {(['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', 'full'] as const).map(
-        (size) => (
-          <Dialog key={size}>
-            <DialogTrigger className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm transition-colors">
-              {size.toUpperCase()}
-            </DialogTrigger>
-            <DialogContent size={size}>
-              <DialogHeader>
-                <DialogTitle>Size: {size}</DialogTitle>
-                <DialogDescription>
-                  This dialog has size variant: {size}
-                </DialogDescription>
-              </DialogHeader>
-              <DialogBody>
-                <p className="text-sm">
-                  Maximum width for this size is <code className="px-1.5 py-0.5 bg-gray-100 rounded text-xs">max-w-{size}</code>.
-                </p>
-              </DialogBody>
-              <DialogFooter>
-                <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
-                  Close
-                </button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        ),
-      )}
-    </div>
+    <Dialog>
+      <DialogTrigger className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors">
+        Simple Message
+      </DialogTrigger>
+      <DialogContent className="max-w-sm">
+        <DialogBody>
+          <p className="text-sm text-center">
+            This is a minimal dialog with just body content and no header or footer.
+          </p>
+        </DialogBody>
+      </DialogContent>
+    </Dialog>
   ),
-  parameters: {
-    layout: 'padded',
-  },
 }
