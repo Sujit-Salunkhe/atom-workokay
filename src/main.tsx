@@ -7,7 +7,7 @@ import '../src/styles/style.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <div className="atom-theme" data-theme="light">
+    <div id="app-root" className="atom-theme" data-theme="light">
       <App />
     </div>
   </StrictMode>,

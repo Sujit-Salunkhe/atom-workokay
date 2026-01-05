@@ -15,7 +15,7 @@ const DialogPortal = ({ children, ...props }: DialogPrimitive.DialogPortalProps)
 
   React.useEffect(() => {
     // Find the atom-theme container
-    const atomTheme = document.querySelector('.atom-theme') as HTMLElement;
+    const atomTheme = document.getElementById('app-root') as HTMLElement;
     
     if (atomTheme) {
       setContainer(atomTheme);

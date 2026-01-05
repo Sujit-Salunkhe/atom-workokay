@@ -5,14 +5,8 @@ import * as React from 'react'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/cn'
+import { useThemePortal } from '../../hooks/useTheme'
 
-/**
- * Tooltip content variants
- * - variant: visual style (default/soft/solid/outline)
- * - size: padding + font size
- * - tone: optional semantic border accent
- * - showArrow: toggle arrow (styling hook)
- */
 const tooltipContentVariants = cva(
   'z-50 rounded-lg border bg-[var(--atom-card-bg)] px-3 py-1.5 ' +
     'text-xs text-[var(--atom-text)] shadow-md ' +
@@ -36,7 +30,7 @@ const tooltipContentVariants = cva(
           'bg-transparent text-[var(--atom-text)] border-[var(--atom-border)]',
 
         primary:
-          'bg-[var(--atom-info-card-jobstatus-secondary-text)] text-[var(--atom-info-card-jobstatus-primary-text)]',
+          'bg-[var(--atom-theme-secondary-bg)] text-[var(--atom-theme-tooltip)] border-none',
       },
 
       size: {
@@ -46,12 +40,11 @@ const tooltipContentVariants = cva(
       },
 
       showArrow: {
-        true: 'data-[show-arrow=true]:[&>span[data-slot=tooltip-arrow]]:block',
+        true: '',
         false: '',
       },
     },
 
-    // NEW: make "primary" the default variant
     defaultVariants: {
       variant: 'primary',
       size: 'md',
@@ -59,7 +52,6 @@ const tooltipContentVariants = cva(
     },
   },
 )
-
 
 export type TooltipVariant = NonNullable<
   VariantProps<typeof tooltipContentVariants>['variant']
@@ -72,10 +64,8 @@ type RadixTooltipContentProps = React.ComponentPropsWithoutRef<
   typeof TooltipPrimitive.Content
 >
 
-// remove conflicting "content" from Radix before extending
 export interface TooltipProps
-  extends
-    Omit<RadixTooltipContentProps, 'content'>,
+  extends Omit<RadixTooltipContentProps, 'content'>,
     VariantProps<typeof tooltipContentVariants> {
   /** Text or React node to render inside the tooltip */
   content: React.ReactNode
@@ -100,16 +90,18 @@ export function Tooltip({
   sideOffset = 6,
   ...props
 }: TooltipProps) {
+  const portalContainer = useThemePortal()
+
   return (
     <TooltipPrimitive.Provider delayDuration={200}>
       <TooltipPrimitive.Root>
         <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
-        <TooltipPrimitive.Portal>
+        
+        <TooltipPrimitive.Portal container={portalContainer || undefined}>
           <TooltipPrimitive.Content
             side={side}
             align={align}
             sideOffset={sideOffset}
-            data-show-arrow={showArrow ? 'true' : 'false'}
             className={cn(
               tooltipContentVariants({ variant, size, showArrow }),
               className,
@@ -119,8 +111,9 @@ export function Tooltip({
             {content}
             {showArrow && (
               <TooltipPrimitive.Arrow
-                data-slot="tooltip-arrow"
-                className="hidden fill-(--atom-card-bg) stroke-(--atom-border)"
+                className="fill-(--atom-card-bg) stroke-(--atom-border)"
+                width={12}
+                height={6}
               />
             )}
           </TooltipPrimitive.Content>
@@ -129,3 +122,5 @@ export function Tooltip({
     </TooltipPrimitive.Provider>
   )
 }
+
+Tooltip.displayName = 'Tooltip'

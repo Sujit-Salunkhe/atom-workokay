@@ -213,6 +213,8 @@
   --atom-theme-border:#cfe7e8;
 
   --atom-theme-secondary-bg:#2e9995;
+
+  --atom-theme-tooltip:#ffffff;
 }
 
 /* Deep Teal — DARK */
@@ -378,6 +380,8 @@
   --atom-theme-border:#2a4142;
 
   --atom-theme-secondary-bg:#2e9995;
+
+  --atom-theme-tooltip:#ffffff;
 }
 
 /* Sapphire Cyan — LIGHT */
