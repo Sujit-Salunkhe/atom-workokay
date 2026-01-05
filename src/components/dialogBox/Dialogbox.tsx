@@ -64,7 +64,7 @@ const dialogContentVariants = cva(
     'fixed left-[50%] top-[50%] z-[9999]',
     'translate-x-[-50%] translate-y-[-50%]',
     'w-full max-w-lg max-h-[90vh] overflow-y-auto',
-    'bg-[var(--atom-card-bg)] border border-[var(--atom-card-border)]',
+    'bg-[var(--atom-theme-bg)] border border-[var(--atom-theme-border)]',
     'rounded-lg shadow-2xl',
     'flex flex-col',
     'data-[state=open]:animate-in data-[state=closed]:animate-out',
