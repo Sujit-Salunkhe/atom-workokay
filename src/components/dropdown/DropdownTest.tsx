@@ -146,7 +146,7 @@ const dropdownTriggerVariants = cva(
         default: [
           'bg-[var(--atom-theme-bg)]',
           'border border-[var(--atom-theme-border)]',
-          'text-[var(--atom-theme-text)]',
+          'text-[var(--atom-theme-text-primary)]',
         ].join(' '),
         ghost: [
           'bg-transparent',

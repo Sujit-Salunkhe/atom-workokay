@@ -607,7 +607,7 @@ function Toolbar(props: ToolbarProps) {
                 aria-expanded={showFilterDropdown}
                 aria-haspopup="true"
               >
-                <FilterIcon className='text-(--atom-theme-text) h-4 w-4'  />
+                <FilterIcon className='text-(--atom-theme-text-primary) h-4 w-4'  />
                 {activeFilterCount > 0 && (
                   <span className="bg-(--atom-theme-secondary-bg) 
          text-white text-xs 

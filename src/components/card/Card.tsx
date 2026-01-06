@@ -141,7 +141,7 @@ const CardTitle = React.forwardRef<
     ref={ref}
     className={[
       'text-lg font-semibold leading-none tracking-tight',
-      'text-(--atom-theme-text)',
+      'text-(--atom-theme-text-primary)',
       className,
     ]
       .filter(Boolean)

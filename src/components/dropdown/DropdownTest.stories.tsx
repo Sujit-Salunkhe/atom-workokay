@@ -288,7 +288,7 @@ export const ControlledState: Story = {
 
     return (
       <div className="flex flex-col items-center gap-4">
-        <p className="text-sm text-[var(--atom-text-secondary)]">
+        <p className="text-sm text-(--atom-text-secondary)">
           State: {open ? 'Open' : 'Closed'}
         </p>
         <Dropdown open={open} onOpenChange={setOpen}>
@@ -303,7 +303,7 @@ export const ControlledState: Story = {
         </Dropdown>
         <button
           onClick={() => setOpen(!open)}
-          className="px-4 py-2 text-sm rounded-md bg-[var(--atom-primary)] text-white"
+          className="px-4 py-2 text-sm rounded-md bg-(--atom-primary) text-white"
         >
           Toggle from outside
         </button>
@@ -321,7 +321,7 @@ export const WithValueSelection: Story = {
 
     return (
       <div className="flex flex-col items-center gap-4">
-        <p className="text-sm text-[var(--atom-text-secondary)]">
+        <p className="text-sm text-(--atom-text-secondary)">
           Selected: <strong>{selected}</strong>
         </p>
         <Dropdown value={selected} onValueChange={setSelected}>
@@ -418,7 +418,7 @@ export const CustomTrigger: Story = {
     children: (
       <>
         <DropdownTrigger asChild>
-          <button className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:opacity-90 transition-opacity">
+          <button className="px-4 py-2 rounded-full bg-linear-to-r from-purple-500 to-pink-500 text-white font-semibold hover:opacity-90 transition-opacity">
             Custom Button <Plus className="inline h-4 w-4 ml-2" />
           </button>
         </DropdownTrigger>
@@ -450,7 +450,7 @@ export const NestedContent: Story = {
               <User className="mr-2 h-4 w-4" />
               <div className="flex flex-col">
                 <span className="font-medium">John Doe</span>
-                <span className="text-xs text-[var(--atom-text-secondary)]">
+                <span className="text-xs text-(--atom-text-secondary)">
                   john@example.com
                 </span>
               </div>
@@ -489,7 +489,7 @@ export const LongMenu: Story = {
         <DropdownTrigger>
           Long Menu <ChevronDown className="h-4 w-4" />
         </DropdownTrigger>
-        <DropdownContent className="max-h-[300px] overflow-y-auto">
+        <DropdownContent className="max-h-75overflow-y-auto">
           {Array.from({ length: 20 }, (_, i) => (
             <DropdownItem key={i} value={`item-${i + 1}`}>
               Item {i + 1}

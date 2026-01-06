@@ -10,7 +10,7 @@ import { Info, CheckCircle, AlertTriangle, XCircle, Bell } from 'lucide-react';
 beforeEach(() => {
   document.documentElement.style.setProperty('--atom-theme-bg', '#ffffff');
   document.documentElement.style.setProperty('--atom-theme-border', '#e5e7eb');
-  document.documentElement.style.setProperty('--atom-theme-text', '#111827');
+  document.documentElement.style.setProperty('--atom-theme-text-primary', '#111827');
   document.documentElement.style.setProperty('--atom-info', '#3b82f6');
   document.documentElement.style.setProperty('--atom-success', '#10b981');
   document.documentElement.style.setProperty('--atom-warning', '#f59e0b');
@@ -261,7 +261,7 @@ describe('ContentCard Component', () => {
       
       const icon = screen.getByTestId('default-icon');
       const iconSpan = icon.parentElement;
-      expect(iconSpan).toHaveClass('text-(--atom-theme-text)');
+      expect(iconSpan).toHaveClass('text-(--atom-theme-text-primary)');
     });
   });
 

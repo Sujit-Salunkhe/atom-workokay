@@ -77,7 +77,7 @@ export function PopUpCalandar({
 
         <span
           className={cn(
-            value && 'text-(--atom-info-card-jobstatus-primary-text)',
+            value && 'text-(--atom-theme-text-primary)',
             'opacity-70 px-3 py-2 ',
           )}
         >

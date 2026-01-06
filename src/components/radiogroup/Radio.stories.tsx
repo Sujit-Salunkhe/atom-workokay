@@ -174,7 +174,7 @@ export const Controlled: Story = {
             <RadioGroupLabel htmlFor="c3">Option 3</RadioGroupLabel>
           </RadioGroupOption>
         </RadioGroup>
-        <div className="text-sm text-[var(--atom-text-muted)]">
+        <div className="text-sm text-(--atom-text-muted)">
           Selected value: <span className="font-semibold">{value}</span>
         </div>
       </div>
@@ -189,9 +189,9 @@ export const PlanSelection: Story = {
     orientation: 'vertical',
   },
   render: (args) => (
-    <div className="w-[400px]">
+    <div className="w-100">
       <RadioGroup {...args} className="space-y-3">
-        <div className="space-y-1 rounded-lg border border-[var(--atom-theme-border)] p-4">
+        <div className="space-y-1 rounded-lg border border-(--atom-theme-border) p-4">
           <RadioGroupOption>
             <RadioGroupItem value="free" id="plan-free" />
             <div className="flex-1">
@@ -201,14 +201,14 @@ export const PlanSelection: Story = {
               <RadioGroupDescription>
                 Basic features for personal use
               </RadioGroupDescription>
-              <div className="mt-2 text-2xl font-bold text-[var(--atom-card-fg)]">
+              <div className="mt-2 text-2xl font-bold text-(--atom-card-fg)">
                 $0<span className="text-sm font-normal">/month</span>
               </div>
             </div>
           </RadioGroupOption>
         </div>
 
-        <div className="space-y-1 rounded-lg border border-[var(--atom-theme-border)] p-4">
+        <div className="space-y-1 rounded-lg border border-(--atom-theme-border) p-4">
           <RadioGroupOption>
             <RadioGroupItem value="pro" id="plan-pro" />
             <div className="flex-1">
@@ -218,14 +218,14 @@ export const PlanSelection: Story = {
               <RadioGroupDescription>
                 Advanced features for professionals
               </RadioGroupDescription>
-              <div className="mt-2 text-2xl font-bold text-[var(--atom-card-fg)]">
+              <div className="mt-2 text-2xl font-bold text-(--atom-card-fg)">
                 $15<span className="text-sm font-normal">/month</span>
               </div>
             </div>
           </RadioGroupOption>
         </div>
 
-        <div className="space-y-1 rounded-lg border border-[var(--atom-theme-border)] p-4">
+        <div className="space-y-1 rounded-lg border border-(--atom-theme-border) p-4">
           <RadioGroupOption>
             <RadioGroupItem value="enterprise" id="plan-enterprise" />
             <div className="flex-1">
@@ -235,7 +235,7 @@ export const PlanSelection: Story = {
               <RadioGroupDescription>
                 Custom solutions for large teams
               </RadioGroupDescription>
-              <div className="mt-2 text-2xl font-bold text-[var(--atom-card-fg)]">
+              <div className="mt-2 text-2xl font-bold text-(--atom-card-fg)">
                 $99<span className="text-sm font-normal">/month</span>
               </div>
             </div>
@@ -253,9 +253,9 @@ export const SettingsExample: Story = {
     const [density, setDensity] = useState('default');
 
     return (
-      <div className="w-[400px] space-y-6">
+      <div className="w-100 space-y-6">
         <div>
-          <h3 className="mb-3 text-sm font-semibold text-[var(--atom-card-fg)]">
+          <h3 className="mb-3 text-sm font-semibold text-(--atom-card-fg)">
             Theme
           </h3>
           <RadioGroup value={theme} onValueChange={setTheme}>
@@ -275,7 +275,7 @@ export const SettingsExample: Story = {
         </div>
 
         <div>
-          <h3 className="mb-3 text-sm font-semibold text-[var(--atom-card-fg)]">
+          <h3 className="mb-3 text-sm font-semibold text-(--atom-card-fg)">
             Density
           </h3>
           <RadioGroup value={density} onValueChange={setDensity}>
@@ -310,9 +310,9 @@ export const InForm: Story = {
     };
 
     return (
-      <form onSubmit={handleSubmit} className="w-[350px] space-y-6">
+      <form onSubmit={handleSubmit} className="w-87.5 space-y-6">
         <div>
-          <label className="mb-3 block text-sm font-semibold text-[var(--atom-card-fg)]">
+          <label className="mb-3 block text-sm font-semibold text-(--atom-card-fg)">
             Notification Preference
           </label>
           <RadioGroup
@@ -351,7 +351,7 @@ export const InForm: Story = {
         </div>
         <button
           type="submit"
-          className="w-full rounded-md bg-[var(--atom-primary)] px-4 py-2 text-sm font-medium text-white hover:opacity-90"
+          className="w-full rounded-md bg-(--atom-primary) px-4 py-2 text-sm font-medium text-white hover:opacity-90"
         >
           Save Preferences
         </button>

@@ -9,7 +9,7 @@ const contentCardVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-(--atom-theme-bg) border-(--atom-theme-border) text-(--atom-theme-text)',
+          'bg-(--atom-theme-bg) border-(--atom-theme-border) text-(--atom-theme-text-primary)',
 
         info: 'bg-[color-mix(in_srgb,var(--atom-info)_8%,transparent)] border-[color-mix(in_srgb,var(--atom-info)_25%,transparent)] text-[color-mix(in_srgb,var(--atom-info)_90%,black)]',
 
@@ -86,7 +86,7 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
                   variant === 'warning' && 'text-(--atom-warning)',
                   variant === 'error' && 'text-(--atom-error)',
                   variant === 'neutral' && 'text-muted-foreground',
-                  variant === 'default' && 'text-(--atom-theme-text)',
+                  variant === 'default' && 'text-(--atom-theme-text-primary)',
                  
                  )}
                 aria-hidden="true"
