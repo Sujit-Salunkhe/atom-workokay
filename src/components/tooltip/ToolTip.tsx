@@ -29,7 +29,7 @@ const tooltipContentVariants = cva(
         outline:
           'bg-transparent text-[var(--atom-text)] border-[var(--atom-border)]',
 
-        primary:
+        default:
           'bg-[var(--atom-theme-secondary-bg)] text-[var(--atom-theme-tooltip)] border-none',
       },
 
@@ -46,7 +46,7 @@ const tooltipContentVariants = cva(
     },
 
     defaultVariants: {
-      variant: 'primary',
+      variant: 'default',
       size: 'md',
       showArrow: false,
     },

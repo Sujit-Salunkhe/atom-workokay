@@ -119,7 +119,7 @@ export const Variants: Story = {
         </button>
       </Tooltip>
 
-      <Tooltip content="Primary variant" variant="primary">
+      <Tooltip content="Primary variant" variant="default">
         <button className="px-4 py-2 bg-gray-100 rounded-md hover:bg-gray-200">
           Primary
         </button>

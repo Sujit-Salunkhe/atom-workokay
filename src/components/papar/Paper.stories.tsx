@@ -251,7 +251,7 @@ export const FormContainer: Story = {
 // Empty state placeholder with dashed variant
 export const EmptyState1: Story = {
   render: () => (
-    <Paper variant="flat" padding="lg" className="w-[400px] text-center shadow-[var(--atom-shadow-xs2)]">
+    <Paper variant="flat" padding="lg" className="w-100 text-center shadow-(--atom-shadow-xs2)">
       <div className="opacity-40 mb-2">
         <svg
           className="mx-auto h-12 w-12"
@@ -277,7 +277,7 @@ export const EmptyState1: Story = {
 // Empty state placeholder with dashed variant
 export const EmptyState2: Story = {
   render: () => (
-    <Paper variant="flat" padding="lg" className="w-[400px] text-center shadow-[var(--atom-shadow-sm)]">
+    <Paper variant="flat" padding="lg" className="w-100 text-center shadow-(--atom-shadow-sm)">
       <div className="opacity-40 mb-2">
         <svg
           className="mx-auto h-12 w-12"
@@ -302,7 +302,7 @@ export const EmptyState2: Story = {
 }
 export const EmptyState3: Story = {
   render: () => (
-    <Paper variant="flat" padding="lg" className="w-[400px] text-center shadow-[var(--atom-shadow-md)]">
+    <Paper variant="flat" padding="lg" className="w-100 text-center shadow-(--atom-shadow-md)">
       <div className="opacity-40 mb-2">
         <svg
           className="mx-auto h-12 w-12"
@@ -327,7 +327,7 @@ export const EmptyState3: Story = {
 }
 export const EmptyState4: Story = {
   render: () => (
-    <Paper variant="flat" padding="lg" className="w-[400px] text-center shadow-[var(--atom-shadow-lg)]">
+    <Paper variant="flat" padding="lg" className="w-100 text-center shadow-(--atom-shadow-lg)">
       <div className="opacity-40 mb-2">
         <svg
           className="mx-auto h-12 w-12"
@@ -357,7 +357,7 @@ export const UploadZone: Story = {
     <Paper 
       variant="dashed" 
       padding="lg" 
-      className="w-[400px] text-center cursor-pointer hover:bg-gray-50 transition-colors"
+      className="w-100 text-center cursor-pointer hover:bg-gray-50 transition-colors"
     >
       <svg
         className="mx-auto h-12 w-12 mb-3 opacity-40"
@@ -383,7 +383,7 @@ export const UploadZone: Story = {
 // Product card example
 export const ProductCard: Story = {
   render: () => (
-    <Paper variant="outlined" padding="none" className="w-[280px] overflow-hidden">
+    <Paper variant="outlined" padding="none" className="w-70 overflow-hidden">
       <div className="h-48 bg-gray-200 flex items-center justify-center">
         <span className="text-gray-400">Product Image</span>
       </div>
@@ -406,9 +406,9 @@ export const ProductCard: Story = {
 // Notification card
 export const NotificationCard: Story = {
   render: () => (
-    <Paper variant="flat" className="w-[400px]">
+    <Paper variant="flat" className="w-100">
       <div className="flex gap-3">
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
             <span className="text-blue-600 text-xl">🔔</span>
           </div>
@@ -450,7 +450,7 @@ export const ProfileCard: Story = {
   render: () => (
     <Paper variant="outlined" className="w-[320px]">
       <div className="flex flex-col items-center text-center">
-        <div className="w-20 h-20 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mb-4" />
+        <div className="w-20 h-20 bg-liner-to-br from-blue-400 to-purple-500 rounded-full mb-4" />
         <h3 className="text-lg font-bold mb-1">John Doe</h3>
         <p className="text-sm opacity-60 mb-4">Full Stack Developer</p>
         <div className="flex gap-2 mb-4">

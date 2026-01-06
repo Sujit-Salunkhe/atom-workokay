@@ -1,6 +1,6 @@
 // src/components/tooltip/Tooltip.test.tsx
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent, waitFor, within } from "@testing-library/react"; // ✅ Added within`
+import { describe, it, expect } from "vitest";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react"; // ✅ Added within`
 import * as React from "react";
 import { Tooltip } from "./ToolTip"; 
 

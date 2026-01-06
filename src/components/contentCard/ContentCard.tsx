@@ -9,7 +9,7 @@ const contentCardVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-background border-[var(--atom-badge-archived-border)] text-foreground',
+          'bg-(--atom-theme-bg) border-(--atom-theme-border) text-(--atom-theme-text)',
 
         info: 'bg-[color-mix(in_srgb,var(--atom-info)_8%,transparent)] border-[color-mix(in_srgb,var(--atom-info)_25%,transparent)] text-[color-mix(in_srgb,var(--atom-info)_90%,black)]',
 
@@ -24,6 +24,7 @@ const contentCardVariants = cva(
 
         neutral:
           'bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_6%,transparent)] border-[color-mix(in_srgb,var(--atom-badge-archived-border)_75%,transparent)] text-muted-foreground',
+     
       },
 
       size: {
@@ -79,13 +80,15 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
             {icon && (
               <span
                 className={cn(
-                  'flex-shrink-0 mt-0.5',
-                  variant === 'info' && 'text-[var(--atom-info)]',
-                  variant === 'success' && 'text-[var(--atom-success)]',
-                  variant === 'warning' && 'text-[var(--atom-warning)]',
-                  variant === 'error' && 'text-[var(--atom-error)]',
+                  'shrink-0 mt-0.5',
+                  variant === 'info' && 'text-(--atom-info)',
+                  variant === 'success' && 'text-(--atom-success)',
+                  variant === 'warning' && 'text-(--atom-warning)',
+                  variant === 'error' && 'text-(--atom-error)',
                   variant === 'neutral' && 'text-muted-foreground',
-                )}
+                  variant === 'default' && 'text-(--atom-theme-text)',
+                 
+                 )}
                 aria-hidden="true"
               >
                 {icon}

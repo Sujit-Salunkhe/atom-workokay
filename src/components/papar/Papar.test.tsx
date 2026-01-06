@@ -1,5 +1,5 @@
 // Paper.test.tsx
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { Paper } from './Paper';
@@ -257,28 +257,6 @@ describe('Paper Component', () => {
       const paper = screen.getByTestId('paper');
       expect(paper).toHaveClass('rounded-lg');
     });
-
-    it('should render with extra large radius', () => {
-      render(
-        <Paper radius="xl" data-testid="paper">
-          Content
-        </Paper>
-      );
-      
-      const paper = screen.getByTestId('paper');
-      expect(paper).toHaveClass('rounded-xl');
-    });
-
-    it('should render with full radius', () => {
-      render(
-        <Paper radius="full" data-testid="paper">
-          Content
-        </Paper>
-      );
-      
-      const paper = screen.getByTestId('paper');
-      expect(paper).toHaveClass('rounded-full');
-    });
   });
 
   describe('Combined Variants', () => {
@@ -288,7 +266,7 @@ describe('Paper Component', () => {
           variant="dashed"
           size="lg"
           padding="sm"
-          radius="xl"
+          radius="lg"
           data-testid="paper"
         >
           Content
@@ -307,7 +285,7 @@ describe('Paper Component', () => {
       expect(paper).toHaveClass('p-4');
       
       // Radius
-      expect(paper).toHaveClass('rounded-xl');
+      expect(paper).toHaveClass('rounded-lg');
     });
 
     it('should handle all none values', () => {
@@ -556,7 +534,7 @@ describe('Paper Component', () => {
 
   describe('Edge Cases', () => {
     it('should handle empty children', () => {
-      const { container } = render(<Paper data-testid="paper" />);
+      render(<Paper data-testid="paper" />);
       
       const paper = screen.getByTestId('paper');
       expect(paper).toBeInTheDocument();
@@ -631,7 +609,6 @@ describe('Paper Component', () => {
 
   describe('Type Exports', () => {
     it('should export PaperVariant type', () => {
-      // This is a compile-time check, but we can verify the values
       const variants: Array<'outlined' | 'flat' | 'dashed'> = [
         'outlined',
         'flat',
@@ -683,13 +660,11 @@ describe('Paper Component', () => {
     });
 
     it('should export PaperRadius type', () => {
-      const radiuses: Array<'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full'> = [
+      const radiuses: Array<'none' | 'sm' | 'md' | 'lg'> = [
         'none',
         'sm',
         'md',
         'lg',
-        'xl',
-        'full',
       ];
       
       radiuses.forEach((radius) => {
@@ -773,3 +748,4 @@ describe('Paper Component', () => {
     });
   });
 });
+

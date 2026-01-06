@@ -8,6 +8,7 @@ import {
 } from 'react'
 import type { ReactNode } from 'react'
 import { cn } from '../../lib/cn'
+import { FilterIcon } from '../../assets/icons/BrokerModelIcons'
 
 export interface Column {
   name: string
@@ -47,7 +48,7 @@ const LeftArrowIcon = () => (
   <span className="inline-flex h-5 w-5 items-center justify-center">
     <svg
       viewBox="0 0 24 24"
-      className="h-4 w-4 text-[var(--atom-text-primary,#4b5563)]"
+      className="h-4 w-4 text-(--atom-text-primary,#4b5563)"
       aria-hidden="true"
     >
       <path
@@ -66,7 +67,7 @@ const RightArrowIcon = () => (
   <span className="inline-flex h-5 w-5 items-center justify-center">
     <svg
       viewBox="0 0 24 24"
-      className="h-4 w-4 text-[var(--atom-text-primary,#4b5563)]"
+      className="h-4 w-4 text-(--atom-text-primary,#4b5563)"
       aria-hidden="true"
     >
       <path
@@ -94,18 +95,7 @@ const SearchIcon = () => (
   </svg>
 )
 
-const FilterIcon = () => (
-  <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
-    <path
-      d="M4 5h16l-6 7v5l-4 2v-7L4 5z"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
+
 
 const ColumnsIcon = () => (
   <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
@@ -113,7 +103,7 @@ const ColumnsIcon = () => (
       d="M5 4h4v16H5zM10 4h4v16h-4zM15 4h4v16h-4z"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="0.936"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
@@ -126,7 +116,7 @@ const DownloadIcon = () => (
       d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="0.936"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
@@ -234,13 +224,14 @@ function ViewColumnsDropdown({
     <div
       role="dialog"
       aria-label="Column visibility options"
-      className="absolute right-0 top-full mt-2 w-64 max-h-96 overflow-y-auto bg-white rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] shadow-lg z-50"
+      className="absolute right-0 top-full mt-2 w-64 max-h-96 overflow-y-auto bg-(--atom-theme-bg) rounded-md border border-(--atom-theme-border)  shadow-lg z-50"
     >
-      <div className="p-3 border-b border-[var(--atom-border-subtle,#e2e8f0)] flex items-center justify-between">
+      <div className="p-3 border-b border-(--atom-theme-border)  flex items-center justify-between">
         <span className="text-sm font-semibold">Show Columns</span>
         <button
           onClick={handleToggleAll}
-          className="text-xs text-blue-600 hover:text-blue-700 font-medium"
+          className="text-xs text-(--atom-theme-secondary-bg)
+hover:text-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_85%,black)] font-medium cursor-pointer"
         >
           {visibleCount === columns.length ? 'Hide All' : 'Show All'}
         </button>
@@ -255,10 +246,11 @@ function ViewColumnsDropdown({
             <label
               key={column.key}
               className={cn(
-                'flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-gray-50 rounded cursor-pointer transition-colors',
+                'flex items-center gap-3 px-3 py-2.5 text-sm rounded-md cursor-pointer transition-colors text-(--atom-theme-text-primary) font-medium hover:text-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_85%,black)]',
                 isDisabled && 'opacity-50 cursor-not-allowed',
               )}
               title={isDisabled ? 'At least one column must be visible' : ''}
+        
             >
               <input
                 type="checkbox"
@@ -346,9 +338,9 @@ function FilterDropdown({
     <div
       role="dialog"
       aria-label="Filter options"
-      className="absolute right-0 top-full mt-2 w-72 max-h-96 overflow-y-auto bg-white rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] shadow-lg z-50"
+      className="absolute right-0 top-full mt-2 w-72 max-h-96 overflow-y-auto bg-(--atom-theme-bg) rounded-md border shadow-lg z-50 border-(--atom-theme-border)"
     >
-      <div className="p-3 border-b border-[var(--atom-border-subtle,#e2e8f0)] flex items-center justify-between">
+      <div className="p-3 border-b border-(--atom-theme-border) flex items-center justify-between">
         <span className="text-sm font-semibold">Filter Columns</span>
         <button
           onClick={handleClearAll}
@@ -372,7 +364,7 @@ hover:text-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_85%,black)] font-m
                 onClick={() =>
                   setExpandedColumn(isExpanded ? null : column.key)
                 }
-                className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium hover:bg-gray-50 rounded-md transition-colors"
+                className="w-full flex items-center justify-between text-(--atom-theme-text-primary) px-3 py-2 text-sm  font-medium hover:text-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_85%,black)] rounded-md"
               >
                 <span>{column.name}</span>
                 <div className="flex items-center gap-2">
@@ -386,8 +378,8 @@ hover:text-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_85%,black)] font-m
               </button>
 
               {isExpanded && (
-                <div className="ml-2 mt-1 border-l-2 border-gray-200 pl-2">
-                  <label className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-gray-50 rounded cursor-pointer">
+                <div className="ml-2 mt-1 border-l-2 border-(--atom-theme-border) pl-2">
+                  <label className="flex items-center gap-2 px-3 py-1.5 text-sm rounded cursor-pointer">
                     <input
                       type="checkbox"
                       checked={allSelected}
@@ -405,7 +397,7 @@ hover:text-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_85%,black)] font-m
                     {uniqueValues.map((value) => (
                       <label
                         key={value}
-                        className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-gray-50 rounded cursor-pointer"
+                        className="flex items-center gap-2 px-3 py-1.5 text-sm  rounded cursor-pointer hover:text-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_85%,black)] hover:text-md"
                       >
                         <input
                           type="checkbox"
@@ -453,9 +445,9 @@ function ActiveFilters({
   if (activeFilterCount === 0) return null
 
   return (
-    <div className="px-4 py-2 border-b border-(--atom-theme-border) bg-[color-mix(in_oklab,var(--atom-theme-tertiary-bg)_50%,transparent)] h-12 flex items-center">
+    <div className="px-4 py-2 border-b border-(--atom-theme-border) bg-[color-mix(in_oklab,var(--atom-theme-tertiary-bg)_50%,transparent)] h-12 w-[65%] flex items-center justify-end">
       <div
-        className="flex gap-2 items-center overflow-x-auto overflow-y-hidden max-w-xl scrollbar-thin   [&::-webkit-scrollbar]:bg-transparent
+        className="flex gap-2 items-center overflow-x-auto overflow-y-hidden max-w-xl scrollbar-thin [&::-webkit-scrollbar]:bg-transparent
   [&::-webkit-scrollbar-track]:bg-transparent"
       >
         {Object.entries(filters).map(([columnKey, values]) => {
@@ -575,9 +567,9 @@ function Toolbar(props: ToolbarProps) {
 
   return (
     <div className="flex items-center justify-between gap-3 px-4 py-2 border-b border-(--atom-theme-border)  bg-(--atom-theme-bg)">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 w-[30%]">
         {search && (
-          <div className="flex h-8 w-48 items-center gap-2 rounded-md border border-[var(--atom-border-subtle,#e2e8f0)] px-2">
+          <div className="flex h-8 w-full items-center gap-2 rounded-md border border-(--atom-theme-border) px-2">
             <SearchIcon />
             <input
               type="text"
@@ -591,7 +583,7 @@ function Toolbar(props: ToolbarProps) {
         )}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 w-[60%]  justify-end">
         {filter && (
           <>
             <ActiveFilters
@@ -606,7 +598,7 @@ function Toolbar(props: ToolbarProps) {
                 type="button"
                 onClick={() => onToggleFilter(!showFilterDropdown)}
                 className={cn(
-                  'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors border-(--atom-theme-border) hover:bg-[color-mix(in_oklab,var(--atom-theme-bg)_97%,black)]  dark:hover:bg-[color-mix(in_oklab,var(--atom-theme-bg)_85%,black)] bg-(--atom-theme-bg) cursor-pointer',
+                  'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors border-(--atom-theme-border) hover:bg-[color-mix(in_oklab,var(--atom-theme-bg)_97%,black)]  dark:hover:bg-[color-mix(in_oklab,var(--atom-theme-bg)_85%,black)] bg-(--atom-theme-bg) cursor-pointer ',
                   showFilterDropdown
                     ? ''
                     : '',
@@ -615,7 +607,7 @@ function Toolbar(props: ToolbarProps) {
                 aria-expanded={showFilterDropdown}
                 aria-haspopup="true"
               >
-                <FilterIcon  />
+                <FilterIcon className='text-(--atom-theme-text) h-4 w-4'  />
                 {activeFilterCount > 0 && (
                   <span className="bg-(--atom-theme-secondary-bg) 
          text-white text-xs 
@@ -646,7 +638,7 @@ function Toolbar(props: ToolbarProps) {
               type="button"
               onClick={() => onToggleColumnsDropdown(!showColumnsDropdown)}
               className={cn(
-                'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors border-(--atom-theme-border)',
+                'flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors border-(--atom-theme-border) hover:bg-[color-mix(in_oklab,var(--atom-theme-bg)_97%,black)]  dark:hover:bg-[color-mix(in_oklab,var(--atom-theme-bg)_85%,black)] bg-(--atom-theme-bg) cursor-pointer',
                 showColumnsDropdown
                   ? ''
                   : '',
@@ -671,7 +663,7 @@ function Toolbar(props: ToolbarProps) {
         {download && (
           <button
             type="button"
-            className="flex h-8 items-center flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors border-(--atom-theme-border)"
+            className="flex h-8 items-center gap-2 rounded-md border px-3 text-xs font-medium transition-colors border-(--atom-theme-border) hover:bg-[color-mix(in_oklab,var(--atom-theme-bg)_97%,black)]  dark:hover:bg-[color-mix(in_oklab,var(--atom-theme-bg)_85%,black)] bg-(--atom-theme-bg) cursor-pointer"
             onClick={handleDownload}
             aria-label="Download table data"
           >
@@ -707,9 +699,9 @@ function PaginationControls(props: PaginationControlsProps) {
   if (!pagination || dataLength <= rowsPerPage || totalPages <= 1) return null
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-[var(--atom-border-subtle,#e2e8f0)] sm:px-6">
+    <div className="flex items-center justify-between px-4 py-3 bg-(--atom-theme-bg) border-t border-(--atom-theme-border) sm:px-6">
       <div
-        className="text-sm text-[var(--atom-text-muted,#64748b)]"
+        className="text-sm text-(--atom-text-muted,#64748b)"
         role="status"
         aria-live="polite"
       >
@@ -726,7 +718,7 @@ function PaginationControls(props: PaginationControlsProps) {
             'flex h-9 w-9 items-center justify-center rounded-full border transition-colors',
             currentPage === 1
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200'
-              : 'bg-white hover:bg-gray-50 text-[var(--atom-text-primary,#0f172a)] border-[var(--atom-border-subtle,#e2e8f0)] hover:border-gray-300 cursor-pointer',
+              : 'bg-white hover:bg-gray-50 text-(--atom-text-primary,#0f172a) border-(--atom-border-subtle,#e2e8f0) hover:border-gray-300 cursor-pointer',
           )}
           aria-label="Previous page"
         >
@@ -739,10 +731,10 @@ function PaginationControls(props: PaginationControlsProps) {
               key={page}
               onClick={() => onPageChange(page)}
               className={cn(
-                'min-w-[2.25rem] h-9 rounded-md text-sm font-medium flex items-center justify-center border transition-colors px-2 cursor-pointer',
+                'min-w-9 h-9 rounded-md text-sm font-medium flex items-center justify-center border transition-colors px-2 cursor-pointer',
                 currentPage === page
-                  ? 'bg-[var(--atom-primary,#3b82f6)] text-white border-[var(--atom-primary,#3b82f6)]'
-                  : 'bg-white hover:bg-gray-50 text-[var(--atom-text-primary,#0f172a)] border-[var(--atom-border-subtle,#e2e8f0)] hover:border-gray-300',
+                  ? 'bg-(--atom-primary,#3b82f6) text-white border-(--atom-primary,#3b82f6)'
+                  : 'bg-white hover:bg-gray-50 text-(--atom-text-primary,#0f172a) border-(--atom-border-subtle,#e2e8f0) hover:border-gray-300',
               )}
               aria-label={`Go to page ${page}`}
               aria-current={currentPage === page ? 'page' : undefined}
@@ -759,7 +751,7 @@ function PaginationControls(props: PaginationControlsProps) {
             'flex h-9 w-9 items-center justify-center rounded-full border transition-colors',
             currentPage === totalPages
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200'
-              : 'bg-white hover:bg-gray-50 text-[var(--atom-text-primary,#0f172a)] border-[var(--atom-border-subtle,#e2e8f0)] hover:border-gray-300 cursor-pointer',
+              : 'bg-white hover:bg-gray-50 text-(--atom-text-primary,#0f172a) border-(--atom-border-subtle,#e2e8f0) hover:border-gray-300 cursor-pointer',
           )}
           aria-label="Next page"
         >
@@ -1047,7 +1039,7 @@ export function DataTable({
                           ? 'none'
                           : undefined
                     }
-                    className="px-4 py-3 font-(--atom-font-weight-medium) text-left relative text-[14px] text-(--atom-theme-text-primary) text-(--atom-text-md) "
+                    className="px-4 py-3 font-(--atom-font-weight-medium) text-left relative text-[14px] text-(--atom-theme-text-primary)  "
                   >
                     <div className="flex items-center justify-between">
                       <span className="truncate">{column.name}</span>
@@ -1091,7 +1083,7 @@ export function DataTable({
                     key={rowKey}
                     role="row"
                     aria-rowindex={actualRowIndex}
-                    className="hover:bg-gray-50/50 transition-colors"
+                    className="hover:hover:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_25%,transparent)]  transition-colors"
                   >
                     {visibleColumns.map((column, colIndex) => {
                       let cellValue: ReactNode
