@@ -690,7 +690,7 @@ export const MultiStepWizard: Story = {
               {/* Step 1 */}
               {step === 1 && (
                 <div className="space-y-4">
-                  <label className="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 has-[:checked]:border-purple-600 has-[:checked]:bg-purple-50">
+                  <label className="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 has-checked:border-purple-600 has-checked:bg-purple-50">
                     <input
                       type="radio"
                       name="accountType"
@@ -708,7 +708,7 @@ export const MultiStepWizard: Story = {
                       </p>
                     </div>
                   </label>
-                  <label className="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 has-[:checked]:border-purple-600 has-[:checked]:bg-purple-50">
+                  <label className="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 has-checked:border-purple-600 has-checked:bg-purple-50">
                     <input
                       type="radio"
                       name="accountType"
