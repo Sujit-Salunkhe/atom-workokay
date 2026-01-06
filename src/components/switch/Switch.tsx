@@ -8,36 +8,21 @@ const MotionThumb = motion.create(SwitchPrimitive.Thumb)
 
 export const switchVariants = cva(
   'peer inline-flex shrink-0 cursor-pointer items-center rounded-full ' +
-    'border border-transparent bg-[var(--atom-border)] ' +
-    'transition-colors duration-300 ease-in-out ' +
+    'border border-transparent transition-colors duration-300 ease-in-out ' +
     'focus-visible:outline-none focus-visible:ring-2 ' +
     'focus-visible:ring-[var(--atom-ring-color)] focus-visible:ring-offset-2 ' +
     'focus-visible:ring-offset-[var(--atom-ring-offset)] ' +
-    'data-[state=unchecked]:bg-[var(--atom-border)] ' +
-    'data-[state=unchecked]:border-[var(--atom-border)] ' +
     'disabled:opacity-50 disabled:cursor-not-allowed ' +
-    'relative overflow-visible',
+    'relative overflow-visible bg-[var(--atom-border)] ' +
+          'data-[state=checked]:bg-[var(--atom-primary)] ' +
+          'data-[state=checked]:border-[var(--atom-primary)]',
   {
     variants: {
       variant: {
-        primary:
-          'data-[state=checked]:bg-[var(--atom-primary)] ' +
-          'data-[state=checked]:border-[var(--atom-primary)]',
-        success:
-          'data-[state=checked]:bg-[var(--atom-success)] ' +
-          'data-[state=checked]:border-[var(--atom-success)]',
-        warning:
-          'data-[state=checked]:bg-[var(--atom-warning)] ' +
-          'data-[state=checked]:border-[var(--atom-warning)]',
-        danger:
-          'data-[state=checked]:bg-[var(--atom-error)] ' +
-          'data-[state=checked]:border-[var(--atom-error)]',
-        info:
-          'data-[state=checked]:bg-[var(--atom-info)] ' +
-          'data-[state=checked]:border-[var(--atom-info)]',
-        neutral:
-          'data-[state=checked]:bg-[var(--atom-text-muted)] ' +
-          'data-[state=checked]:border-[var(--atom-text-muted)]',
+        default:
+          '',
+        theme:
+          '',
       },
       size: {
         sm: 'h-4 w-7 p-0.5',
@@ -50,7 +35,7 @@ export const switchVariants = cva(
       },
     },
     defaultVariants: {
-      variant: 'primary',
+      variant: 'default',
       size: 'md',
       fullWidth: false,
     },
@@ -72,7 +57,7 @@ const SunIcon: React.FC<{ size?: number }> = ({ size = 12 }) => (
     width={size}
     height={size}
     viewBox="0 0 24 24"
-    fill="#ffffff"
+    fill="#fffff"
     xmlns="http://www.w3.org/2000/svg"
   >
     <circle cx="12" cy="12" r="4" fill="#ffffff" />
@@ -118,7 +103,7 @@ const StarIcon: React.FC<{ size?: number }> = ({ size = 8 }) => (
   </svg>
 )
 
-export type SwitchVariant = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'
+export type SwitchVariant = 'default' | 'theme'
 export type SwitchSize = 'sm' | 'md' | 'lg'
 
 export interface SwitchProps
@@ -133,6 +118,7 @@ export const Switch = React.forwardRef<
   const [shouldAnimate, setShouldAnimate] = React.useState(false)
   
   const currentSize = size ?? 'md'
+  const currentVariant = variant ?? 'default'
   const config = thumbConfig[currentSize]
   
   const iconSize = currentSize === 'sm' ? 10 : currentSize === 'md' ? 12 : 14
@@ -158,84 +144,83 @@ export const Switch = React.forwardRef<
     <SwitchPrimitive.Root
       ref={ref}
       data-slot="switch"
-      className={cn(switchVariants({ variant, size: currentSize, fullWidth }), className)}
+      className={cn(switchVariants({ variant: currentVariant, size: currentSize, fullWidth }), className)}
       checked={checkedState}
       onCheckedChange={handleCheckedChange}
       {...props}
     >
-      {/* Background decorative icons */}
-      <AnimatePresence mode="wait">
-        {!checkedState ? (
-          // Sun for OFF state (unchecked)
-          <motion.div
-            key="sun"
-            className="absolute right-1 top-1/2 -translate-y-1/2 text-amber-500 z-0"
-            initial={{ opacity: 0, scale: 0, rotate: -180 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            exit={{ opacity: 0, scale: 0, rotate: 180 }}
-            transition={{
-              duration: 0.4,
-              ease: 'easeOut',
-            }}
-          >
-            <SunIcon size={iconSize} />
-          </motion.div>
-        ) : (
-          // Moon and stars for ON state (checked)
-          <>
-            {/* Moon icon */}
+      {/* Show icons only for theme variant */}
+      {currentVariant === 'theme' && (
+        <AnimatePresence mode="wait">
+          {!checkedState ? (
+            // Sun for OFF state (day mode)
             <motion.div
-              key="moon"
-              className="absolute left-1 top-1/2 -translate-y-1/2 text-white/80 z-0"
-              initial={{ opacity: 0, scale: 0, rotate: -90 }}
+              key="sun"
+              className="absolute right-1 top-1/2 -translate-y-1/2 text-amber-500 z-0"
+              initial={{ opacity: 0, scale: 0, rotate: -180 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              exit={{ opacity: 0, scale: 0, rotate: 90 }}
+              exit={{ opacity: 0, scale: 0, rotate: 180 }}
               transition={{
                 duration: 0.4,
                 ease: 'easeOut',
               }}
             >
-              <MoonIcon size={iconSize} />
+              <SunIcon size={iconSize} />
             </motion.div>
+          ) : (
+            // Moon and stars for ON state (night mode)
+            <>
+              <motion.div
+                key="moon"
+                className="absolute left-1 top-1/2 -translate-y-1/2 text-white/80 z-0"
+                initial={{ opacity: 0, scale: 0, rotate: -90 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0, rotate: 90 }}
+                transition={{
+                  duration: 0.4,
+                  ease: 'easeOut',
+                }}
+              >
+                <MoonIcon size={iconSize} />
+              </motion.div>
 
-            {/* Star 1 */}
-            <motion.div
-              key="star1"
-              className="absolute right-3 top-1 text-white/60 z-0"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0 }}
-              transition={{
-                duration: 0.3,
-                delay: 0.1,
-                ease: 'easeOut',
-              }}
-            >
-              <StarIcon size={starSize} />
-            </motion.div>
+              <motion.div
+                key="star1"
+                className="absolute right-3 top-1 text-white/60 z-0"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
+                transition={{
+                  duration: 0.3,
+                  delay: 0.1,
+                  ease: 'easeOut',
+                }}
+              >
+                <StarIcon size={starSize} />
+              </motion.div>
 
-            {/* Star 2 */}
-            <motion.div
-              key="star2"
-              className="absolute right-2 bottom-1 text-white/40 z-0"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0 }}
-              transition={{
-                duration: 0.3,
-                delay: 0.2,
-                ease: 'easeOut',
-              }}
-            >
-              <StarIcon size={starSize - 2} />
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+              <motion.div
+                key="star2"
+                className="absolute right-2 bottom-1 text-white/40 z-0"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
+                transition={{
+                  duration: 0.3,
+                  delay: 0.2,
+                  ease: 'easeOut',
+                }}
+              >
+                <StarIcon size={starSize - 2} />
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      )}
 
       <MotionThumb
         data-slot="switch-thumb"
-        className={cn(config.size, 'block rounded-full bg-[var(--atom-bg)] shadow-lg relative z-10')}
+        className={cn(config.size, 'block rounded-full bg-(--atom-bg) shadow-lg relative z-10')}
         animate={{
           x: checkedState ? config.translateX : 0,
           scaleX: shouldAnimate ? [1, 1.3, 1] : 1,
