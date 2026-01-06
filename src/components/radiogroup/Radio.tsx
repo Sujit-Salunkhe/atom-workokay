@@ -16,7 +16,7 @@ const radioGroupVariants = cva(['flex', 'gap-2'].join(' '), {
   },
 });
 
-interface RadioGroupProps
+export interface RadioGroupProps
   extends Omit<
       React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>,
       'orientation'
@@ -48,15 +48,14 @@ const radioGroupItemVariants = cva(
   [
     'aspect-square h-4 w-4 rounded-full',
     'border border-[var(--atom-theme-border)]',
-    'bg-[var(--atom-theme-bg)]',
-    'text-[var(--atom-primary)]',
+    'bg-(--atom-theme-bg)',
+    'text-(--atom-primary)',
     'focus:outline-none  ',
     'disabled:cursor-not-allowed disabled:opacity-50',
     'transition-colors cursor-pointer',
   ].join(' ')
 );
-
-const RadioGroupItem = React.forwardRef<
+ const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
 >(({ className, ...props }, ref) => (
@@ -81,7 +80,7 @@ const RadioGroupLabel = React.forwardRef<
     ref={ref}
     className={[
       'text-sm font-medium leading-none',
-      'text-[var(--atom-card-fg)]',
+      'text-(--atom-card-fg)',
       'peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
       'cursor-pointer',
       className,
