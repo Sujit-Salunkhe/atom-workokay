@@ -12,7 +12,7 @@ import {
   Suspense,
   Component,
 } from 'react'
-import type { ErrorInfo,ReactNode } from 'react'
+import type { ErrorInfo, ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
@@ -20,11 +20,9 @@ import { cn } from '../../lib/cn'
 import { Slot } from '@radix-ui/react-slot'
 import { useThemePortal } from '../../hooks/useTheme'
 
-
 // ============================================================================
 // ERROR BOUNDARY
 // ============================================================================
-
 
 interface ErrorBoundaryProps {
   children: ReactNode
@@ -32,29 +30,27 @@ interface ErrorBoundaryProps {
   onError?: (error: Error, errorInfo: ErrorInfo) => void
 }
 
-
 interface ErrorBoundaryState {
   hasError: boolean
 }
 
-
-class DropdownErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class DropdownErrorBoundary extends Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   constructor(props: ErrorBoundaryProps) {
     super(props)
     this.state = { hasError: false }
   }
 
-
   static getDerivedStateFromError(): ErrorBoundaryState {
     return { hasError: true }
   }
-
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     console.error('Dropdown Error:', error, errorInfo)
     this.props.onError?.(error, errorInfo)
   }
-
 
   render(): ReactNode {
     if (this.state.hasError) {
@@ -64,11 +60,9 @@ class DropdownErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryS
   }
 }
 
-
 // ============================================================================
 // CONTEXT
 // ============================================================================
-
 
 interface DropdownContextValue {
   open: boolean
@@ -82,11 +76,9 @@ interface DropdownContextValue {
   animateItems: boolean
 }
 
-
 const DropdownContext = createContext<DropdownContextValue | undefined>(
   undefined,
 )
-
 
 function useDropdownContext(): DropdownContextValue {
   const context = useContext(DropdownContext)
@@ -96,11 +88,9 @@ function useDropdownContext(): DropdownContextValue {
   return context
 }
 
-
 // ============================================================================
 // VARIANTS
 // ============================================================================
-
 
 const dropdownContentVariants = cva(
   [
@@ -129,7 +119,6 @@ const dropdownContentVariants = cva(
   },
 )
 
-
 const dropdownItemVariants = cva(
   [
     'relative flex cursor-pointer select-none items-center',
@@ -141,7 +130,6 @@ const dropdownItemVariants = cva(
     'data-[selected]:text-[var(--atom-primary)] data-[selected]:font-medium',
   ].join(' '),
 )
-
 
 const dropdownTriggerVariants = cva(
   [
@@ -159,7 +147,6 @@ const dropdownTriggerVariants = cva(
           'bg-[var(--atom-theme-bg)]',
           'border border-[var(--atom-theme-border)]',
           'text-[var(--atom-theme-text)]',
-          
         ].join(' '),
         ghost: [
           'bg-transparent',
@@ -174,11 +161,9 @@ const dropdownTriggerVariants = cva(
   },
 )
 
-
 // ============================================================================
 // ANIMATION VARIANTS
 // ============================================================================
-
 
 const getAnimationVariants = (side: DropdownSide) => {
   const slideDistance = 8
@@ -210,16 +195,13 @@ const getAnimationVariants = (side: DropdownSide) => {
   }
 }
 
-
 // ============================================================================
 // TYPES
 // ============================================================================
 
-
 export type DropdownSide = 'top' | 'bottom' | 'left' | 'right'
 export type DropdownAlign = 'start' | 'center' | 'end'
 export type DropdownTriggerVariant = 'default' | 'ghost'
-
 
 export interface DropdownProps {
   /** Controlled open state */
@@ -243,16 +225,16 @@ export interface DropdownProps {
   children: React.ReactNode
 }
 
-
 export interface DropdownTriggerProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof dropdownTriggerVariants> {
   asChild?: boolean
 }
 
-
 export interface DropdownContentProps
-  extends Omit<
+  extends
+    Omit<
       React.HTMLAttributes<HTMLDivElement>,
       'children' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
     >,
@@ -270,12 +252,10 @@ export interface DropdownContentProps
   children?: React.ReactNode
 }
 
-
-export interface DropdownItemProps
-  extends Omit<
-    React.HTMLAttributes<HTMLDivElement>,
-    'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
-  > {
+export interface DropdownItemProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
+> {
   disabled?: boolean
   /** Prevent closing on click */
   preventClose?: boolean
@@ -283,16 +263,13 @@ export interface DropdownItemProps
   value?: string
 }
 
-
 export interface DropdownGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
 }
 
-
 // ============================================================================
 // HOOKS
 // ============================================================================
-
 
 function useClickOutside(
   ref: React.RefObject<HTMLElement>,
@@ -326,7 +303,6 @@ function useClickOutside(
     }
   }, [ref, triggerRef, handler, enabled])
 }
-
 
 function usePosition(
   triggerRef: React.RefObject<HTMLElement | null>,
@@ -371,7 +347,8 @@ function usePosition(
             top = trigger.top + scrollY + alignOffset
             break
           case 'center':
-            top = trigger.top + scrollY + trigger.height / 2 - content.height / 2
+            top =
+              trigger.top + scrollY + trigger.height / 2 - content.height / 2
             break
           case 'end':
             top = trigger.bottom + scrollY - content.height - alignOffset
@@ -394,7 +371,8 @@ function usePosition(
             left = trigger.left + scrollX + alignOffset
             break
           case 'center':
-            left = trigger.left + scrollX + trigger.width / 2 - content.width / 2
+            left =
+              trigger.left + scrollX + trigger.width / 2 - content.width / 2
             break
           case 'end':
             left = trigger.right + scrollX - content.width - alignOffset
@@ -437,7 +415,10 @@ function usePosition(
     }
 
     // Listen to scroll and resize events
-    window.addEventListener('scroll', calculatePosition, { passive: true, capture: true })
+    window.addEventListener('scroll', calculatePosition, {
+      passive: true,
+      capture: true,
+    })
     window.addEventListener('resize', calculatePosition, { passive: true })
 
     return () => {
@@ -450,11 +431,9 @@ function usePosition(
   return position
 }
 
-
 // ============================================================================
 // COMPONENTS
 // ============================================================================
-
 
 export const Dropdown = ({
   open: controlledOpen,
@@ -477,7 +456,11 @@ export const Dropdown = ({
   const contentId = `dropdown-content-${uniqueId}`
 
   const isControlled = controlledOpen !== undefined
-  const open = disabled ? false : (isControlled ? controlledOpen : uncontrolledOpen)
+  const open = disabled
+    ? false
+    : isControlled
+      ? controlledOpen
+      : uncontrolledOpen
 
   const setOpen = useCallback(
     (value: boolean) => {
@@ -550,9 +533,7 @@ export const Dropdown = ({
   )
 }
 
-
 Dropdown.displayName = 'Dropdown'
-
 
 export const DropdownTrigger = forwardRef<
   HTMLButtonElement,
@@ -625,7 +606,9 @@ export const DropdownTrigger = forwardRef<
         disabled={disabled}
         data-testid="dropdown-trigger"
         className={
-          asChild ? className : cn(dropdownTriggerVariants({ variant }), className)
+          asChild
+            ? className
+            : cn(dropdownTriggerVariants({ variant }), className)
         }
         onMouseDown={handleMouseDown}
         onClick={handleClick}
@@ -638,9 +621,7 @@ export const DropdownTrigger = forwardRef<
   },
 )
 
-
 DropdownTrigger.displayName = 'DropdownTrigger'
-
 
 export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
   (
@@ -737,7 +718,9 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
 
     // Determine the portal container with SSR check
     const portalContainer =
-      container || dropdownContainer || (typeof document !== 'undefined' ? document.body : null)
+      container ||
+      dropdownContainer ||
+      (typeof document !== 'undefined' ? document.body : null)
 
     // SSR safety check
     if (!portalContainer) return null
@@ -758,7 +741,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
             exit="exit"
             variants={animationVariants}
             transition={{
-              duration: 0.40,
+              duration: 0.4,
               ease: [0.16, 1, 0.3, 1],
             }}
             className={cn(dropdownContentVariants({ side, align }), className)}
@@ -783,9 +766,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
   },
 )
 
-
 DropdownContent.displayName = 'DropdownContent'
-
 
 export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
   (
@@ -801,8 +782,13 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
     },
     ref,
   ) => {
-    const { setOpen, selectedValue, setSelectedValue, setActiveDescendant, animateItems } =
-      useDropdownContext()
+    const {
+      setOpen,
+      selectedValue,
+      setSelectedValue,
+      setActiveDescendant,
+      animateItems,
+    } = useDropdownContext()
     const isSelected = value !== undefined && value === selectedValue
     const itemRef = useRef<HTMLDivElement>(null)
     const uniqueId = useId()
@@ -929,9 +915,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
   },
 )
 
-
 DropdownItem.displayName = 'DropdownItem'
-
 
 export const DropdownSeparator = forwardRef<
   HTMLDivElement,
@@ -942,14 +926,12 @@ export const DropdownSeparator = forwardRef<
     role="separator"
     aria-orientation="horizontal"
     data-testid="dropdown-separator"
-    className={cn('my-1 h-px bg-[var(--atom-card-border)]', className)}
+    className={cn('my-1 h-px bg-(--atom-theme-border)', className)}
     {...props}
   />
 ))
 
-
 DropdownSeparator.displayName = 'DropdownSeparator'
-
 
 export const DropdownLabel = forwardRef<
   HTMLDivElement,
@@ -960,16 +942,14 @@ export const DropdownLabel = forwardRef<
     role="presentation"
     data-testid="dropdown-label"
     className={cn(
-      'px-3 py-1.5 text-xs font-semibold text-[var(--atom-text-secondary)]',
+      'px-3 py-1.5 text-xs font-semibold text-(--atom-text-secondary)',
       className,
     )}
     {...props}
   />
 ))
 
-
 DropdownLabel.displayName = 'DropdownLabel'
-
 
 export const DropdownGroup = forwardRef<HTMLDivElement, DropdownGroupProps>(
   ({ className, children, ...props }, ref) => (
@@ -984,6 +964,5 @@ export const DropdownGroup = forwardRef<HTMLDivElement, DropdownGroupProps>(
     </div>
   ),
 )
-
 
 DropdownGroup.displayName = 'DropdownGroup'
