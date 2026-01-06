@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
 import { within, userEvent, expect } from "storybook/test";
 import { Calendar } from "./Calendar";
+import type { DateRange } from "react-day-picker";
 
 const meta = {
   title: "Components/Calendar",
@@ -82,13 +83,10 @@ export const OutlineButtons: Story = {
   },
 };
 
-// Date range picker
-export const DateRange: Story = {
+// Date range picker - RENAMED to avoid conflict
+export const RangePicker: Story = {
   render: (args) => {
-    const [range, setRange] = React.useState< {
-      from?: Date 
-      to?: Date 
-    }>({
+    const [range, setRange] = React.useState<DateRange | undefined>({
       from: new Date(2025, 11, 15),
       to: new Date(2025, 11, 22),
     });
@@ -174,5 +172,69 @@ export const MultipleMonths: Story = {
     buttonVariant: "ghost",
     showOutsideDays: true,
     numberOfMonths: 2,
+  },
+};
+
+// Disabled dates example
+export const DisabledDates: Story = {
+  render: (args) => {
+    const [date, setDate] = React.useState<Date | undefined>();
+
+    // Disable weekends
+    const disabledDays = { dayOfWeek: [0, 6] };
+
+    return (
+      <div>
+        <Calendar
+          {...args}
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          disabled={disabledDays}
+        />
+        <div className="mt-4 text-sm text-muted-foreground">
+          Selected: {date ? date.toLocaleDateString() : "none"}
+          <br />
+          <span className="text-xs">Weekends are disabled</span>
+        </div>
+      </div>
+    );
+  },
+  args: {
+    captionLayout: "dropdown",
+    buttonVariant: "ghost",
+    showOutsideDays: true,
+  },
+};
+
+// Min/Max date example
+export const MinMaxDates: Story = {
+  render: (args) => {
+    const [date, setDate] = React.useState<Date | undefined>();
+    const today = new Date();
+    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
+
+    return (
+      <div>
+        <Calendar
+          {...args}
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          fromDate={today}
+          toDate={nextMonth}
+        />
+        <div className="mt-4 text-sm text-muted-foreground">
+          Selected: {date ? date.toLocaleDateString() : "none"}
+          <br />
+          <span className="text-xs">Only next 30 days available</span>
+        </div>
+      </div>
+    );
+  },
+  args: {
+    captionLayout: "dropdown",
+    buttonVariant: "ghost",
+    showOutsideDays: true,
   },
 };

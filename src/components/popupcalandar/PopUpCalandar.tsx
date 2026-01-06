@@ -51,7 +51,7 @@ export function PopUpCalandar({
           'bg-(--atom-input-bg) px-3 py-2 text-left text-sm',
           'text-(--atom-badge-archived-text) font-(--atom-font-weight-medium) shadow-sm',
           'focus:outline-none leading-[calc(1.25 / .875)] whitespace-nowrap',
-          'hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_75%,transparent)] hover:text-(--atom-info-card-jobstatus-primary-text) cursor-pointer border-(--atom-theme-border)',
+          'hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_95%,transparent)] cursor-pointer border-(--atom-theme-border)',
         )}
         aria-haspopup="dialog"
         aria-expanded={open}
@@ -78,7 +78,7 @@ export function PopUpCalandar({
         <span
           className={cn(
             value && 'text-(--atom-info-card-jobstatus-primary-text)',
-            'opacity-70 px-3 py-2',
+            'opacity-70 px-3 py-2 ',
           )}
         >
           {value

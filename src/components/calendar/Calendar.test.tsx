@@ -1,8 +1,7 @@
 // Calendar.test.tsx
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen, within, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import * as React from 'react';
 import { Calendar, CalendarDayButton } from './Calendar';
 import { defaultDateLib, CalendarDay } from 'react-day-picker';
 
