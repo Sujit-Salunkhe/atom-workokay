@@ -1,4 +1,4 @@
-// src/components/ui/info-card.tsx
+// src/components/ui/stat-card.tsx
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { Slot } from '@radix-ui/react-slot'
@@ -6,18 +6,17 @@ import { cn } from '../../lib/cn'
 
 /* ------------------------------------------------------
  * CVA
- * (CSS strings unchanged; only reorganized for clarity)
  * ------------------------------------------------------ */
 
 // Wrapper/layout styles
-const infoCardVariants = cva(
-  'flex bg-[color-mix(in_oklab,var(--atom-badge-archived-bg)_50%,transparent)] ',
+const statCardVariants = cva(
+  'flex bg-[color-mix(in_oklab,var(--atom-badge-archived-bg)_50%,transparent)]',
   {
     variants: {
       order: {
         col: 'flex-col items-center justify-center border-none shadow-none',
-        colR: 'flex-col-reverse items-center justify-center  border-none shadow-none',
-        row: 'flex-row items-center justify-between  border-none shadow-none',
+        colR: 'flex-col-reverse items-center justify-center border-none shadow-none',
+        row: 'flex-row items-center justify-between border-none shadow-none',
         rowR: 'flex-row-reverse items-center justify-between border-none shadow-none',
       },
       size: {
@@ -31,11 +30,11 @@ const infoCardVariants = cva(
       order: 'col',
       size: 'sm',
     },
-  },
+  }
 )
 
-// Top “info” text styles
-const infoValueVariants = cva('', {
+// Top "stat value" text styles
+const statValueVariants = cva('', {
   variants: {
     variant: {
       primary:
@@ -51,8 +50,8 @@ const infoValueVariants = cva('', {
   },
 })
 
-// Bottom “label” text styles
-const infoLabelVariants = cva('', {
+// Bottom "label" text styles
+const statLabelVariants = cva('', {
   variants: {
     variant: {
       primary:
@@ -68,60 +67,104 @@ const infoLabelVariants = cva('', {
   },
 })
 
-export type InfoCardVariant = VariantProps<typeof infoValueVariants>['variant']
-export type InfoCardOrder = VariantProps<typeof infoCardVariants>['order']
-export type InfoCardSize = VariantProps<typeof infoCardVariants>['size']
+/* ------------------------------------------------------
+ * TYPES
+ * ------------------------------------------------------ */
 
-export interface InfoCardProps
-  extends
-    React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof infoCardVariants> {
-  /** Semantic color variant used for both info and label */
-  variant?: NonNullable<InfoCardVariant>
+export type StatCardVariant = NonNullable<
+  VariantProps<typeof statValueVariants>['variant']
+>
 
-  /** Label text */
+export type StatCardOrder = NonNullable<
+  VariantProps<typeof statCardVariants>['order']
+>
+
+export type StatCardSize = NonNullable<
+  VariantProps<typeof statCardVariants>['size']
+>
+
+export interface StatCardProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof statCardVariants> {
+  /**
+   * Semantic color variant used for both value and label
+   * @default 'primary'
+   */
+  variant?: StatCardVariant
+
+  /**
+   * Label text displayed below the stat value
+   */
   label?: React.ReactNode
 
-  /** Main info/number */
-  info?: React.ReactNode
+  /**
+   * Main stat value/number displayed prominently
+   */
+  value?: React.ReactNode
 
-  /** Future-proof (kept), currently unused */
+  /**
+   * Status indicator (future-proof, currently unused)
+   */
   status?: 'high' | 'medium' | 'low'
 
-  /** Render as child using Radix Slot */
+  /**
+   * Change the default rendered element for the one passed as a child,
+   * merging their props and behavior.
+   * @default false
+   */
   asChild?: boolean
 }
 
 /* ------------------------------------------------------
  * COMPONENT
  * ------------------------------------------------------ */
-export const InfoCard = React.forwardRef<HTMLDivElement, InfoCardProps>(
+
+/**
+ * StatCard component - Displays a statistic with a value and label.
+ * 
+ * @example
+ * ```tsx
+ * <StatCard 
+ *   variant="success" 
+ *   value="1,234" 
+ *   label="Total Users" 
+ *   size="md"
+ * />
+ * ```
+ */
+export const StatCard = React.forwardRef<HTMLDivElement, StatCardProps>(
   (
     {
       variant = 'primary',
       order = 'col',
       size = 'sm',
       label,
-      info,
+      value,
       asChild = false,
       className,
+      children,
       ...props
     },
-    ref,
+    ref
   ) => {
     const Comp = asChild ? Slot : 'div'
 
     return (
       <Comp
         ref={ref}
-        className={cn(infoCardVariants({ order, size }), className)}
+        data-slot="stat-card"
+        className={cn(statCardVariants({ order, size }), className)}
         {...props}
       >
-        <div className={infoValueVariants({ variant })}>{info}</div>
-        <div className={infoLabelVariants({ variant })}>{label}</div>
+        {children ?? (
+          <>
+            <div className={statValueVariants({ variant })}>{value}</div>
+            <div className={statLabelVariants({ variant })}>{label}</div>
+          </>
+        )}
       </Comp>
     )
-  },
+  }
 )
 
-InfoCard.displayName = 'InfoCard'
+StatCard.displayName = 'StatCard'

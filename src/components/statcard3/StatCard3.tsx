@@ -9,8 +9,8 @@ import { cn } from '../../lib/cn'
  * Example: "High Priority   [ 6 ]"
  */
 export const statCardPriorityVariants = cva(
-  'flex items-center justify-between rounded-xl border bg-[var(--atom-card-bg)] ' +
-    'border-[var(--atom-card-border)] px-4 py-3 w-full ' +
+  'flex items-center justify-between rounded-xl border bg-[var(--atom-theme-bg)] ' +
+    'border-[var(--atom-theme-border)] px-4 py-3 w-full ' +
     'transition-colors duration-150 ease-in-out shadow-sm border-[var(--atom-badge-archived-border)]',
   {
     variants: {

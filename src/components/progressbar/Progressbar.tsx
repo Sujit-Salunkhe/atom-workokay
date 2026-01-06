@@ -41,7 +41,7 @@ const progressTrackVariants = cva(
 )
 
 const progressIndicatorVariants = cva(
-  ["h-full transition-all duration-300 ease-out"].join(" "),
+  ["h-full transition-all duration-300 ease-out  rounded-[var(--atom-radius-1)]"].join(" "),
   {
     variants: {
       indicatorVariant: {

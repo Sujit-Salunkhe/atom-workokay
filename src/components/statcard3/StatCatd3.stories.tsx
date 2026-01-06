@@ -6,7 +6,7 @@ import {
 } from './StatCard3'
 
 const meta: Meta<StatCardPriorityProps> = {
-  title: 'Components/StatCardPriority',
+  title: 'Components/StatCard3',
   component: StatCardPriority,
   tags: ['autodocs'],
   args: {

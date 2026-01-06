@@ -6,10 +6,10 @@ import { cn } from '../../lib/cn'
 
 export const statCardVariants = cva(
   // Base layout: like your screenshot
-  'flex flex-col justify-center rounded-xl border bg-[var(--atom-card-bg)] ' +
-    'border-[var(--atom-card-border)] px-4 py-3' +
+  'flex flex-col justify-center rounded-xl border bg-[var(--atom-theme-bg)] ' +
+    'border-[var(--atom-theme-border)] px-4 py-3' +
     'transition-colors duration-150 ease-in-out ' +
-    'shadow-sm border-[var(--atom-badge-archived-border)]',
+    'shadow-sm ',
   {
     variants: {
       /** Semantic tone (matches your overview items) */

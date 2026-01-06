@@ -5,12 +5,12 @@ import { Slot } from '@radix-ui/react-slot'
 import { cn } from '../../lib/cn'
 
 const paperVariants = cva(
-  'transition-colors duration-200 bg-(--atom-bg) border-1 shadow-(--atom-border-xs2)',
+  'transition-colors duration-200 bg-(--atom-theme-bg) border-1 shadow-(--atom-border-xs2)',
   {
     variants: {
       variant: {
-        outlined: 'bg-(--atom-surface) border border-(--atom-border)',
-        flat: 'bg-(--atom-surface) ',
+        outlined: ' border border-(--atom-theme-border)',
+        flat: '',
         dashed: 'bg-transparent border border-dashed border-(--atom-border) ',
       },
       size: {

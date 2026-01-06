@@ -4,7 +4,7 @@ import { StatCard, type StatCardProps } from './StatCard'
 import { CheckCircle2, AlertTriangle, XCircle, Inbox, Archive } from 'lucide-react'
 
 const meta: Meta<StatCardProps> = {
-  title: 'Components/StatCard',
+  title: 'Components/StatCard2',
   component: StatCard,
   tags: ['autodocs'],
   args: {
