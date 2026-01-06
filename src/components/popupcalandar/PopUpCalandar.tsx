@@ -51,7 +51,7 @@ export function PopUpCalandar({
           'bg-(--atom-input-bg) px-3 py-2 text-left text-sm',
           'text-(--atom-badge-archived-text) font-(--atom-font-weight-medium) shadow-sm',
           'focus:outline-none leading-[calc(1.25 / .875)] whitespace-nowrap',
-          'hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_75%,transparent)] hover:text-(--atom-info-card-jobstatus-primary-text) cursor-pointer',
+          'hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_75%,transparent)] hover:text-(--atom-info-card-jobstatus-primary-text) cursor-pointer border-(--atom-theme-border)',
         )}
         aria-haspopup="dialog"
         aria-expanded={open}
@@ -104,7 +104,7 @@ export function PopUpCalandar({
               damping: 22,
               mass: 0.9,
             }}
-            className="absolute z-50 mt-2 left-0 w-55 origin-top-left"
+            className="absolute z-50 mt-2 left-0 w-55 origin-top-left  "
           >
             <Calendar
               mode="single"
