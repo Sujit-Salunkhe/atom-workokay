@@ -12,8 +12,8 @@ import {
   ZipFolderIcon,
   CSVFolderIcon,
   ExcelFolderIcon,
+  InfoIcon,
   WarningIcon,
-  QuariantinedMarkIcon,
   QuestionMarkIcon,
   FailedIcon,
   ValidatedIcon,
@@ -121,13 +121,13 @@ export const AllIcons: Story = {
       </div>
 
       <div className="flex flex-col items-center gap-2">
-        <WarningIcon className="h-8 w-8" />
-        <span className="text-sm">WarningIcon</span>
+        <InfoIcon className="h-8 w-8" />
+        <span className="text-sm">InfoIcon</span>
       </div>
 
       <div className="flex flex-col items-center gap-2">
-        <QuariantinedMarkIcon className="h-8 w-8" />
-        <span className="text-sm">QuariantinedMarkIcon</span>
+        <WarningIcon className="h-8 w-8" />
+        <span className="text-sm">WarningIcon</span>
       </div>
 
       <div className="flex flex-col items-center gap-2">
