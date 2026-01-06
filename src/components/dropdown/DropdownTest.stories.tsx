@@ -8,6 +8,7 @@ import {
   DropdownItem,
   DropdownSeparator,
   DropdownLabel,
+  DropdownGroup,
 } from './DropdownTest'
 import {
   ChevronDown,
@@ -17,12 +18,9 @@ import {
   Mail,
   MessageSquare,
   Plus,
-  Edit,
-  Trash,
-  Check,
 } from 'lucide-react'
 
-const meta: Meta<typeof Dropdown> = {
+const meta = {
   title: 'Components/DropdownTest',
   component: Dropdown,
   parameters: {
@@ -30,520 +28,407 @@ const meta: Meta<typeof Dropdown> = {
     docs: {
       description: {
         component:
-          'A fully accessible dropdown menu component with smooth Framer Motion animations. Supports keyboard navigation, positioning, selected values, and custom content.',
+          'A fully accessible dropdown menu component with keyboard navigation, portal rendering, and animation support. Built with Framer Motion and Radix UI primitives.',
       },
     },
   },
   tags: ['autodocs'],
-  argTypes: {
-    open: {
-      control: 'boolean',
-      description: 'Controlled open state',
-    },
-    defaultOpen: {
-      control: 'boolean',
-      description: 'Default open state (uncontrolled)',
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    value: {
-      control: 'text',
-      description: 'Selected value (controlled)',
-    },
-    onOpenChange: {
-      control: false,
-      description: 'Callback when open state changes',
-    },
-    onValueChange: {
-      control: false,
-      description: 'Callback when selected value changes',
-    },
-  },
-}
+} satisfies Meta<typeof Dropdown>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 // ============================================================================
-// BASIC EXAMPLES
+// BASIC STORIES
 // ============================================================================
 
 export const Default: Story = {
-  render: () => (
-    <Dropdown>
-      <DropdownTrigger className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-        Open Menu <ChevronDown className="ml-2 h-4 w-4" />
-      </DropdownTrigger>
-      <DropdownContent>
-        <DropdownItem value="profile">
-          <User className="mr-2 h-4 w-4" />
-          Profile
-        </DropdownItem>
-        <DropdownItem value="settings">
-          <Settings className="mr-2 h-4 w-4" />
-          Settings
-        </DropdownItem>
-        <DropdownSeparator />
-        <DropdownItem value="logout">
-          <LogOut className="mr-2 h-4 w-4" />
-          Logout
-        </DropdownItem>
-      </DropdownContent>
-    </Dropdown>
-  ),
-}
-
-export const WithSelectedValue: Story = {
-  render: () => {
-    const [selected, setSelected] = useState('settings')
-
-    return (
-      <div className="space-y-4">
-        <p className="text-sm">
-          Selected: <strong>{selected}</strong>
-        </p>
-        <Dropdown value={selected} onValueChange={setSelected}>
-          <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-            Account Menu <ChevronDown className="ml-2 h-4 w-4" />
-          </DropdownTrigger>
-          <DropdownContent className="w-48">
-            <DropdownItem value="profile">
-              <User className="mr-2 h-4 w-4" />
-              Profile
-              {selected === 'profile' && <Check className="ml-auto h-4 w-4" />}
-            </DropdownItem>
-            <DropdownItem value="settings">
-              <Settings className="mr-2 h-4 w-4" />
-              Settings
-              {selected === 'settings' && <Check className="ml-auto h-4 w-4" />}
-            </DropdownItem>
-            <DropdownSeparator />
-            <DropdownItem value="logout">
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </DropdownItem>
-          </DropdownContent>
-        </Dropdown>
-      </div>
-    )
-  },
-}
-
-export const SelectDropdown: Story = {
-  render: () => {
-    const [selectedCountry, setSelectedCountry] = useState('us')
-
-    const countries = [
-      { value: 'us', label: 'United States', flag: '🇺🇸' },
-      { value: 'uk', label: 'United Kingdom', flag: '🇬🇧' },
-      { value: 'ca', label: 'Canada', flag: '🇨🇦' },
-      { value: 'au', label: 'Australia', flag: '🇦🇺' },
-      { value: 'de', label: 'Germany', flag: '🇩🇪' },
-    ]
-
-    const selected = countries.find((c) => c.value === selectedCountry)
-
-    return (
-      <Dropdown value={selectedCountry} onValueChange={setSelectedCountry}>
-        <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50 min-w-[200px] justify-between">
-          <span className="flex items-center gap-2">
-            <span>{selected?.flag}</span>
-            <span>{selected?.label}</span>
-          </span>
-          <ChevronDown className="h-4 w-4" />
+  args: {
+    children: (
+      <>
+        <DropdownTrigger>
+          Open Menu <ChevronDown className="h-4 w-4" />
         </DropdownTrigger>
-        <DropdownContent className="w-[200px]">
-          {countries.map((country) => (
-            <DropdownItem
-              key={country.value}
-              value={country.value}
-              className="justify-between"
-            >
-              <span className="flex items-center gap-2">
-                <span>{country.flag}</span>
-                <span>{country.label}</span>
-              </span>
-              {selectedCountry === country.value && (
-                <Check className="h-4 w-4" />
-              )}
-            </DropdownItem>
-          ))}
+        <DropdownContent>
+          <DropdownItem>Profile</DropdownItem>
+          <DropdownItem>Settings</DropdownItem>
+          <DropdownItem>Logout</DropdownItem>
         </DropdownContent>
-      </Dropdown>
-    )
+      </>
+    ),
   },
 }
 
-export const WithLabels: Story = {
-  render: () => {
-    const [selected, setSelected] = useState('profile')
-
-    return (
-      <Dropdown value={selected} onValueChange={setSelected}>
-        <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-          Account Options <ChevronDown className="ml-2 h-4 w-4" />
+export const WithIcons: Story = {
+  args: {
+    children: (
+      <>
+        <DropdownTrigger>
+          Account <ChevronDown className="h-4 w-4" />
         </DropdownTrigger>
-        <DropdownContent className="w-56">
-          <DropdownLabel>My Account</DropdownLabel>
-          <DropdownItem value="profile">
+        <DropdownContent>
+          <DropdownItem>
             <User className="mr-2 h-4 w-4" />
             Profile
           </DropdownItem>
-          <DropdownItem value="settings">
+          <DropdownItem>
+            <Mail className="mr-2 h-4 w-4" />
+            Messages
+          </DropdownItem>
+          <DropdownItem>
             <Settings className="mr-2 h-4 w-4" />
             Settings
           </DropdownItem>
           <DropdownSeparator />
-          <DropdownLabel>Communication</DropdownLabel>
-          <DropdownItem value="email">
-            <Mail className="mr-2 h-4 w-4" />
-            Email
-          </DropdownItem>
-          <DropdownItem value="messages">
-            <MessageSquare className="mr-2 h-4 w-4" />
-            Messages
-          </DropdownItem>
-          <DropdownSeparator />
-          <DropdownItem value="logout">
+          <DropdownItem>
             <LogOut className="mr-2 h-4 w-4" />
             Logout
           </DropdownItem>
         </DropdownContent>
-      </Dropdown>
-    )
+      </>
+    ),
   },
 }
 
-export const WithDisabledItems: Story = {
-  render: () => (
-    <Dropdown>
-      <DropdownTrigger className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-        Actions <ChevronDown className="ml-2 h-4 w-4" />
-      </DropdownTrigger>
-      <DropdownContent className="w-48">
-        <DropdownItem value="edit">
-          <Edit className="mr-2 h-4 w-4" />
-          Edit
-        </DropdownItem>
-        <DropdownItem value="delete" disabled>
-          <Trash className="mr-2 h-4 w-4" />
-          Delete (disabled)
-        </DropdownItem>
-        <DropdownSeparator />
-        <DropdownItem value="add">
-          <Plus className="mr-2 h-4 w-4" />
-          Add New
-        </DropdownItem>
-      </DropdownContent>
-    </Dropdown>
-  ),
+export const WithGroups: Story = {
+  args: {
+    children: (
+      <>
+        <DropdownTrigger variant="default">
+          Options <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent>
+          <DropdownLabel>Account</DropdownLabel>
+          <DropdownGroup>
+            <DropdownItem>
+              <User className="mr-2 h-4 w-4" />
+              Profile
+            </DropdownItem>
+            <DropdownItem>
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </DropdownItem>
+          </DropdownGroup>
+          <DropdownSeparator />
+          <DropdownLabel>Communication</DropdownLabel>
+          <DropdownGroup>
+            <DropdownItem>
+              <Mail className="mr-2 h-4 w-4" />
+              Email
+            </DropdownItem>
+            <DropdownItem>
+              <MessageSquare className="mr-2 h-4 w-4" />
+              Messages
+            </DropdownItem>
+          </DropdownGroup>
+          <DropdownSeparator />
+          <DropdownItem>
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </DropdownItem>
+        </DropdownContent>
+      </>
+    ),
+  },
 }
 
 // ============================================================================
-// POSITIONING
+// POSITIONING STORIES
 // ============================================================================
-
-export const PositionBottom: Story = {
-  render: () => (
-    <Dropdown>
-      <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-        Bottom (Default)
-      </DropdownTrigger>
-      <DropdownContent side="bottom">
-        <DropdownItem value="1">Option 1</DropdownItem>
-        <DropdownItem value="2">Option 2</DropdownItem>
-        <DropdownItem value="3">Option 3</DropdownItem>
-      </DropdownContent>
-    </Dropdown>
-  ),
-}
 
 export const PositionTop: Story = {
-  render: () => (
-    <Dropdown>
-      <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-        Top
-      </DropdownTrigger>
-      <DropdownContent side="top">
-        <DropdownItem value="1">Option 1</DropdownItem>
-        <DropdownItem value="2">Option 2</DropdownItem>
-        <DropdownItem value="3">Option 3</DropdownItem>
-      </DropdownContent>
-    </Dropdown>
-  ),
-}
-
-export const PositionLeft: Story = {
-  render: () => (
-    <Dropdown>
-      <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-        Left
-      </DropdownTrigger>
-      <DropdownContent side="left">
-        <DropdownItem value="1">Option 1</DropdownItem>
-        <DropdownItem value="2">Option 2</DropdownItem>
-        <DropdownItem value="3">Option 3</DropdownItem>
-      </DropdownContent>
-    </Dropdown>
-  ),
+  args: {
+    children: (
+      <>
+        <DropdownTrigger>
+          Open Above <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent side="top">
+          <DropdownItem>Item 1</DropdownItem>
+          <DropdownItem>Item 2</DropdownItem>
+          <DropdownItem>Item 3</DropdownItem>
+        </DropdownContent>
+      </>
+    ),
+  },
 }
 
 export const PositionRight: Story = {
-  render: () => (
-    <Dropdown>
-      <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-        Right
-      </DropdownTrigger>
-      <DropdownContent side="right">
-        <DropdownItem value="1">Option 1</DropdownItem>
-        <DropdownItem value="2">Option 2</DropdownItem>
-        <DropdownItem value="3">Option 3</DropdownItem>
-      </DropdownContent>
-    </Dropdown>
-  ),
+  args: {
+    children: (
+      <>
+        <DropdownTrigger>
+          Open Right <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent side="right" sideOffset={8}>
+          <DropdownItem>Item 1</DropdownItem>
+          <DropdownItem>Item 2</DropdownItem>
+          <DropdownItem>Item 3</DropdownItem>
+        </DropdownContent>
+      </>
+    ),
+  },
 }
 
-export const AlignmentStart: Story = {
-  render: () => (
-    <Dropdown>
-      <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-        Align Start
-      </DropdownTrigger>
-      <DropdownContent side="bottom" align="start" className="w-64">
-        <DropdownItem value="1">
-          This dropdown aligns to the start of the trigger
-        </DropdownItem>
-        <DropdownItem value="2">Option 2</DropdownItem>
-      </DropdownContent>
-    </Dropdown>
-  ),
+export const PositionLeft: Story = {
+  args: {
+    children: (
+      <>
+        <DropdownTrigger>
+          Open Left <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent side="left" sideOffset={8}>
+          <DropdownItem>Item 1</DropdownItem>
+          <DropdownItem>Item 2</DropdownItem>
+          <DropdownItem>Item 3</DropdownItem>
+        </DropdownContent>
+      </>
+    ),
+  },
 }
 
-export const AlignmentCenter: Story = {
-  render: () => (
-    <Dropdown>
-      <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-        Align Center
-      </DropdownTrigger>
-      <DropdownContent side="bottom" align="center" className="w-64">
-        <DropdownItem value="1">
-          This dropdown is centered on the trigger
-        </DropdownItem>
-        <DropdownItem value="2">Option 2</DropdownItem>
-      </DropdownContent>
-    </Dropdown>
-  ),
+export const AlignCenter: Story = {
+  args: {
+    children: (
+      <>
+        <DropdownTrigger>
+          Center Aligned <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent align="center">
+          <DropdownItem>Short</DropdownItem>
+          <DropdownItem>Medium Item</DropdownItem>
+          <DropdownItem>Very Long Item Name Here</DropdownItem>
+        </DropdownContent>
+      </>
+    ),
+  },
 }
 
-export const AlignmentEnd: Story = {
-  render: () => (
-    <Dropdown>
-      <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-        Align End
-      </DropdownTrigger>
-      <DropdownContent side="bottom" align="end" className="w-64">
-        <DropdownItem value="1">
-          This dropdown aligns to the end of the trigger
-        </DropdownItem>
-        <DropdownItem value="2">Option 2</DropdownItem>
-      </DropdownContent>
-    </Dropdown>
-  ),
+export const AlignEnd: Story = {
+  args: {
+    children: (
+      <>
+        <DropdownTrigger>
+          End Aligned <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent align="end">
+          <DropdownItem>Short</DropdownItem>
+          <DropdownItem>Medium Item</DropdownItem>
+          <DropdownItem>Very Long Item Name Here</DropdownItem>
+        </DropdownContent>
+      </>
+    ),
+  },
 }
 
 // ============================================================================
-// CONTROLLED MODE
+// INTERACTIVE STATES
 // ============================================================================
 
-export const Controlled: Story = {
+export const WithDisabledItems: Story = {
+  args: {
+    children: (
+      <>
+        <DropdownTrigger>
+          Actions <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent>
+          <DropdownItem>Edit</DropdownItem>
+          <DropdownItem>Duplicate</DropdownItem>
+          <DropdownItem disabled>Archive (disabled)</DropdownItem>
+          <DropdownSeparator />
+          <DropdownItem disabled>Delete (disabled)</DropdownItem>
+        </DropdownContent>
+      </>
+    ),
+  },
+}
+
+export const DisabledDropdown: Story = {
+  args: {
+    disabled: true,
+    children: (
+      <>
+        <DropdownTrigger disabled>
+          Disabled Menu <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent>
+          <DropdownItem>This won't open</DropdownItem>
+        </DropdownContent>
+      </>
+    ),
+  },
+}
+
+export const WithItemAnimations: Story = {
+  args: {
+    animateItems: true,
+    children: (
+      <>
+        <DropdownTrigger>
+          Animated Items <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent>
+          <DropdownItem>Hover me!</DropdownItem>
+          <DropdownItem>I scale on hover</DropdownItem>
+          <DropdownItem>And on click</DropdownItem>
+        </DropdownContent>
+      </>
+    ),
+  },
+}
+
+// ============================================================================
+// CONTROLLED STATE STORIES (use render for hooks)
+// ============================================================================
+
+export const ControlledState: Story = {
   render: () => {
     const [open, setOpen] = useState(false)
 
     return (
-      <div className="space-y-4">
-        <div className="flex gap-2">
-          <button
-            onClick={() => setOpen(true)}
-            className="px-3 py-1 bg-green-600 text-white rounded text-sm"
-          >
-            Open
-          </button>
-          <button
-            onClick={() => setOpen(false)}
-            className="px-3 py-1 bg-red-600 text-white rounded text-sm"
-          >
-            Close
-          </button>
-          <button
-            onClick={() => setOpen(!open)}
-            className="px-3 py-1 bg-blue-600 text-white rounded text-sm"
-          >
-            Toggle
-          </button>
-        </div>
-        <p className="text-sm">
-          Dropdown is: <strong>{open ? 'Open' : 'Closed'}</strong>
+      <div className="flex flex-col items-center gap-4">
+        <p className="text-sm text-[var(--atom-text-secondary)]">
+          State: {open ? 'Open' : 'Closed'}
         </p>
         <Dropdown open={open} onOpenChange={setOpen}>
-          <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-            Controlled Menu
+          <DropdownTrigger>
+            Controlled Menu <ChevronDown className="h-4 w-4" />
           </DropdownTrigger>
           <DropdownContent>
-            <DropdownItem value="1">Option 1</DropdownItem>
-            <DropdownItem value="2">Option 2</DropdownItem>
-            <DropdownItem value="3">Option 3</DropdownItem>
+            <DropdownItem>Item 1</DropdownItem>
+            <DropdownItem>Item 2</DropdownItem>
+            <DropdownItem>Item 3</DropdownItem>
+          </DropdownContent>
+        </Dropdown>
+        <button
+          onClick={() => setOpen(!open)}
+          className="px-4 py-2 text-sm rounded-md bg-[var(--atom-primary)] text-white"
+        >
+          Toggle from outside
+        </button>
+      </div>
+    )
+  },
+  args: {
+    children: null as any, // Placeholder since render overrides it
+  },
+}
+
+export const WithValueSelection: Story = {
+  render: () => {
+    const [selected, setSelected] = useState('profile')
+
+    return (
+      <div className="flex flex-col items-center gap-4">
+        <p className="text-sm text-[var(--atom-text-secondary)]">
+          Selected: <strong>{selected}</strong>
+        </p>
+        <Dropdown value={selected} onValueChange={setSelected}>
+          <DropdownTrigger>
+            Select Option <ChevronDown className="h-4 w-4" />
+          </DropdownTrigger>
+          <DropdownContent closeOnSelect>
+            <DropdownItem value="profile">
+              <User className="mr-2 h-4 w-4" />
+              Profile
+            </DropdownItem>
+            <DropdownItem value="settings">
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </DropdownItem>
+            <DropdownItem value="messages">
+              <Mail className="mr-2 h-4 w-4" />
+              Messages
+            </DropdownItem>
           </DropdownContent>
         </Dropdown>
       </div>
     )
   },
+  args: {
+    children: null as any, // Placeholder since render overrides it
+  },
 }
 
-// ============================================================================
-// CUSTOM CONTENT
-// ============================================================================
-
-export const WithCustomContent: Story = {
-  render: () => (
-    <Dropdown>
-      <DropdownTrigger className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-        User Profile
-      </DropdownTrigger>
-      <DropdownContent className="w-72 p-4">
-        <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
-              JD
-            </div>
-            <div>
-              <p className="font-semibold">John Doe</p>
-              <p className="text-sm text-gray-500">john@example.com</p>
-            </div>
-          </div>
-          <div className="border-t pt-3">
-            <DropdownItem value="view">View Profile</DropdownItem>
-            <DropdownItem value="account">Account Settings</DropdownItem>
-            <DropdownItem value="billing">Billing</DropdownItem>
-          </div>
-        </div>
-      </DropdownContent>
-    </Dropdown>
-  ),
-}
-
-export const WithForm: Story = {
-  render: () => (
-    <Dropdown>
-      <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-        Quick Actions
-      </DropdownTrigger>
-      <DropdownContent className="w-64 p-4" preventClose>
-        <div className="space-y-3">
-          <h3 className="font-semibold text-sm">Create New Item</h3>
-          <div>
-            <label
-              htmlFor="item-name"
-              className="block text-xs font-medium mb-1"
-            >
-              Name
-            </label>
-            <input
-              id="item-name"
-              type="text"
-              className="w-full px-2 py-1 border rounded text-sm"
-              placeholder="Enter name"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="item-type"
-              className="block text-xs font-medium mb-1"
-            >
-              Type
-            </label>
-            <select
-              id="item-type"
-              className="w-full px-2 py-1 border rounded text-sm"
-            >
-              <option>Document</option>
-              <option>Folder</option>
-              <option>Link</option>
-            </select>
-          </div>
-          <div className="flex gap-2">
-            <button className="flex-1 px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700">
-              Create
-            </button>
-            <button className="flex-1 px-3 py-1 border rounded text-sm hover:bg-gray-50">
-              Cancel
-            </button>
-          </div>
-        </div>
-      </DropdownContent>
-    </Dropdown>
-  ),
-}
-
-export const WithCheckboxes: Story = {
-  render: () => {
-    const [selected, setSelected] = useState<string[]>(['email'])
-
-    const toggleItem = (item: string) => {
-      setSelected((prev) =>
-        prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item],
-      )
-    }
-
-    return (
-      <Dropdown>
-        <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-          Notifications ({selected.length})
+export const PreventCloseOnClick: Story = {
+  args: {
+    children: (
+      <>
+        <DropdownTrigger>
+          Stay Open <ChevronDown className="h-4 w-4" />
         </DropdownTrigger>
-        <DropdownContent className="w-56" preventClose>
-          <DropdownLabel>Enable Notifications</DropdownLabel>
-          <DropdownItem
-            onClick={() => toggleItem('email')}
-            className="justify-between"
-            preventClose
-          >
-            Email
-            <input
-              type="checkbox"
-              checked={selected.includes('email')}
-              onChange={() => {}}
-              className="ml-auto"
-            />
+        <DropdownContent preventClose>
+          <DropdownLabel>Click items below - menu stays open</DropdownLabel>
+          <DropdownItem preventClose>
+            <input type="checkbox" className="mr-2" />
+            Option 1
           </DropdownItem>
-          <DropdownItem
-            onClick={() => toggleItem('sms')}
-            className="justify-between"
-            preventClose
-          >
-            SMS
-            <input
-              type="checkbox"
-              checked={selected.includes('sms')}
-              onChange={() => {}}
-              className="ml-auto"
-            />
+          <DropdownItem preventClose>
+            <input type="checkbox" className="mr-2" />
+            Option 2
           </DropdownItem>
-          <DropdownItem
-            onClick={() => toggleItem('push')}
-            className="justify-between"
-            preventClose
-          >
-            Push
-            <input
-              type="checkbox"
-              checked={selected.includes('push')}
-              onChange={() => {}}
-              className="ml-auto"
-            />
+          <DropdownItem preventClose>
+            <input type="checkbox" className="mr-2" />
+            Option 3
           </DropdownItem>
+          <DropdownSeparator />
+          <DropdownItem>Close Menu</DropdownItem>
+        </DropdownContent>
+      </>
+    ),
+  },
+}
+
+// ============================================================================
+// VARIANT STORIES
+// ============================================================================
+
+export const TriggerVariants: Story = {
+  render: () => (
+    <div className="flex gap-4">
+      <Dropdown>
+        <DropdownTrigger variant="default">
+          Default Variant <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent>
+          <DropdownItem>Item 1</DropdownItem>
+          <DropdownItem>Item 2</DropdownItem>
         </DropdownContent>
       </Dropdown>
-    )
+
+      <Dropdown>
+        <DropdownTrigger variant="ghost">
+          Ghost Variant <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent>
+          <DropdownItem>Item 1</DropdownItem>
+          <DropdownItem>Item 2</DropdownItem>
+        </DropdownContent>
+      </Dropdown>
+    </div>
+  ),
+  args: {
+    children: null as any, // Placeholder since render overrides it
+  },
+}
+
+export const CustomTrigger: Story = {
+  args: {
+    children: (
+      <>
+        <DropdownTrigger asChild>
+          <button className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:opacity-90 transition-opacity">
+            Custom Button <Plus className="inline h-4 w-4 ml-2" />
+          </button>
+        </DropdownTrigger>
+        <DropdownContent>
+          <DropdownItem>Create New</DropdownItem>
+          <DropdownItem>Import</DropdownItem>
+          <DropdownItem>From Template</DropdownItem>
+        </DropdownContent>
+      </>
+    ),
   },
 }
 
@@ -551,76 +436,159 @@ export const WithCheckboxes: Story = {
 // COMPLEX EXAMPLES
 // ============================================================================
 
-export const WithOffsets: Story = {
-  render: () => (
-    <div className="flex gap-4">
-      <Dropdown>
-        <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-          Default Offset
+export const NestedContent: Story = {
+  args: {
+    children: (
+      <>
+        <DropdownTrigger variant="default">
+          User Menu <ChevronDown className="h-4 w-4" />
         </DropdownTrigger>
-        <DropdownContent>
-          <DropdownItem value="1">Option 1</DropdownItem>
-          <DropdownItem value="2">Option 2</DropdownItem>
+        <DropdownContent className="w-56">
+          <DropdownLabel>My Account</DropdownLabel>
+          <DropdownGroup>
+            <DropdownItem>
+              <User className="mr-2 h-4 w-4" />
+              <div className="flex flex-col">
+                <span className="font-medium">John Doe</span>
+                <span className="text-xs text-[var(--atom-text-secondary)]">
+                  john@example.com
+                </span>
+              </div>
+            </DropdownItem>
+          </DropdownGroup>
+          <DropdownSeparator />
+          <DropdownLabel>Options</DropdownLabel>
+          <DropdownGroup>
+            <DropdownItem>
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </DropdownItem>
+            <DropdownItem>
+              <Mail className="mr-2 h-4 w-4" />
+              Messages
+              <span className="ml-auto text-xs bg-red-500 text-white px-2 py-0.5 rounded-full">
+                3
+              </span>
+            </DropdownItem>
+          </DropdownGroup>
+          <DropdownSeparator />
+          <DropdownItem>
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </DropdownItem>
         </DropdownContent>
-      </Dropdown>
-
-      <Dropdown>
-        <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50">
-          Large Offset
-        </DropdownTrigger>
-        <DropdownContent sideOffset={20} alignOffset={10}>
-          <DropdownItem value="1">Option 1</DropdownItem>
-          <DropdownItem value="2">Option 2</DropdownItem>
-        </DropdownContent>
-      </Dropdown>
-    </div>
-  ),
+      </>
+    ),
+  },
 }
 
-export const ManyItems: Story = {
-  render: () => {
-    const [selected, setSelected] = useState('United States')
-
-    return (
-      <Dropdown value={selected} onValueChange={setSelected}>
-        <DropdownTrigger className="px-4 py-2 border rounded-md hover:bg-gray-50 min-w-[200px] justify-between">
-          {selected}
-          <ChevronDown className="h-4 w-4" />
+export const LongMenu: Story = {
+  args: {
+    children: (
+      <>
+        <DropdownTrigger>
+          Long Menu <ChevronDown className="h-4 w-4" />
         </DropdownTrigger>
-        <DropdownContent className="max-h-64 overflow-y-auto w-[200px]">
-          {[
-            'United States',
-            'United Kingdom',
-            'Canada',
-            'Australia',
-            'Germany',
-            'France',
-            'Italy',
-            'Spain',
-            'Netherlands',
-            'Sweden',
-            'Norway',
-            'Denmark',
-            'Finland',
-            'Poland',
-            'Japan',
-            'South Korea',
-            'China',
-            'India',
-            'Brazil',
-            'Mexico',
-          ].map((country) => (
-            <DropdownItem
-              key={country}
-              value={country}
-              className="justify-between"
-            >
-              {country}
-              {selected === country && <Check className="h-4 w-4" />}
+        <DropdownContent className="max-h-[300px] overflow-y-auto">
+          {Array.from({ length: 20 }, (_, i) => (
+            <DropdownItem key={i} value={`item-${i + 1}`}>
+              Item {i + 1}
             </DropdownItem>
           ))}
         </DropdownContent>
-      </Dropdown>
-    )
+      </>
+    ),
+  },
+}
+
+// ============================================================================
+// ACCESSIBILITY DEMONSTRATION
+// ============================================================================
+
+export const KeyboardNavigation: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'This dropdown supports full keyboard navigation:\n- Arrow keys to navigate items\n- Enter/Space to select\n- Escape to close\n- Home/End to jump to first/last item',
+      },
+    },
+  },
+  args: {
+    children: (
+      <>
+        <DropdownTrigger>
+          Keyboard Navigation <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent>
+          <DropdownLabel>Try keyboard navigation</DropdownLabel>
+          <DropdownItem value="1">First Item (Home)</DropdownItem>
+          <DropdownItem value="2">Second Item (↓)</DropdownItem>
+          <DropdownItem value="3">Third Item (↓)</DropdownItem>
+          <DropdownItem value="4">Fourth Item (↓)</DropdownItem>
+          <DropdownItem value="5">Last Item (End)</DropdownItem>
+          <DropdownSeparator />
+          <DropdownLabel className="text-xs">Press Esc to close</DropdownLabel>
+        </DropdownContent>
+      </>
+    ),
+  },
+}
+
+// ============================================================================
+// PLAYGROUND
+// ============================================================================
+
+export const Playground: Story = {
+  args: {
+    defaultOpen: false,
+    disabled: false,
+    animateItems: true,
+
+    children: (
+      <>
+        <DropdownTrigger variant="default">
+          Playground Menu <ChevronDown className="h-4 w-4" />
+        </DropdownTrigger>
+        <DropdownContent>
+          <DropdownLabel>Section 1</DropdownLabel>
+          <DropdownGroup>
+            <DropdownItem value="item1">
+              <User className="mr-2 h-4 w-4" />
+              Item 1
+            </DropdownItem>
+            <DropdownItem value="item2">
+              <Settings className="mr-2 h-4 w-4" />
+              Item 2
+            </DropdownItem>
+            <DropdownItem value="item3" disabled>
+              <Mail className="mr-2 h-4 w-4" />
+              Disabled Item
+            </DropdownItem>
+          </DropdownGroup>
+          <DropdownSeparator />
+          <DropdownItem value="logout">
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </DropdownItem>
+        </DropdownContent>
+      </>
+    ),
+
+    value: '',
+  },
+  argTypes: {
+    defaultOpen: {
+      control: 'boolean',
+      description: 'Default open state (uncontrolled)',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disable the entire dropdown',
+    },
+    animateItems: {
+      control: 'boolean',
+      description: 'Enable scale animation on dropdown items',
+    },
   },
 }
