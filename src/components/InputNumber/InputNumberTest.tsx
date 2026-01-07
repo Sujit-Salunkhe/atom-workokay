@@ -443,7 +443,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           <div
             className={cn(
               'absolute right-0 top-0 bottom-0 flex flex-col',
-              'border-l border-[var(--atom-theme-border)]',
+              'border-l border-(--atom-theme-border)',
               'rounded-r-md overflow-hidden',
               'min-w-0 max-w-full',
               spinnerConfig.spinnerWidth,
@@ -462,8 +462,8 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 'hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_10%,transparent)]',
                 'active:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_20%,transparent)]',
                 'disabled:opacity-50 disabled:cursor-not-allowed',
-                'transition-colors border-b border-[var(--atom-theme-border)]',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--atom-primary)] focus-visible:ring-offset-0 ',
+                'transition-colors border-b border-(--atom-theme-border)',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--atom-primary) focus-visible:ring-offset-0 ',
                 'cursor-pointer',
               )}
             >
@@ -485,7 +485,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 'active:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_20%,transparent)]',
                 'disabled:opacity-50 disabled:cursor-not-allowed',
                 'transition-colors',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--atom-primary)] focus-visible:ring-offset-0',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--atom-primary) focus-visible:ring-offset-0',
                 'cursor-pointer',
               )}
             >

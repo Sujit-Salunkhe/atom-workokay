@@ -128,15 +128,15 @@ export const StatCardPriority = React.forwardRef<
               'text-xs font-medium',
             // match priority variant colors for the pill
             variant === 'high' &&
-              'bg-[color-mix(in_srgb,var(--atom-error)_10%,transparent)] text-(--atom-error)',
+              'bg-[color-mix(in_srgb,var(--atom-error)_15%,transparent)] text-(--atom-error) border-[color-mix(in_srgb,var(--atom-error)_40%,var(--atom-card-border))] border',
             variant === 'medium' &&
-              'bg-[color-mix(in_srgb,var(--atom-warning)_10%,transparent)] text-(--atom-warning)',
+              'bg-[color-mix(in_srgb,var(--atom-warning)_15%,transparent)] text-(--atom-warning) border-[color-mix(in_srgb,var(--atom-warning)_40%,var(--atom-card-border))] border',
             variant === 'low' &&
-              'bg-[color-mix(in_srgb,var(--atom-success)_10%,transparent)] text-(--atom-success)',
+              'bg-[color-mix(in_srgb,var(--atom-success)_15%,transparent)] text-(--atom-success) border-[color-mix(in_srgb,var(--atom-success)_40%,var(--atom-card-border))] border',
             variant === 'primary' &&
-              'bg-[color-mix(in_srgb,var(--atom-primary)_10%,transparent)] textvar(--atom-primary)',
+              'bg-[color-mix(in_srgb,var(--atom-theme-bg)_10%,transparent)] text-(--atom-theme-text-primary) border border-(--atom-theme-border)',
             variant === 'neutral' &&
-              'bg-[color-mix(in_srgb,var(--atom-border)_12%,transparent)] text-(--atom-text-muted)',
+              'bg-[color-mix(in_srgb,var(--atom-border)_12%,transparent)] text-(--atom-text-muted) border-(--atom-card-border) border',
           )}
         >
           {pillIcon && (

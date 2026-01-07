@@ -40,9 +40,9 @@ const statValueVariants = cva('', {
       primary:
         'text-[var(--atom-info-card-jobstatus-primary-text)] text-[calc(var(--atom-text-2xl))] font-semibold leading-[var(--atom-info-card-jobstatus-line-height)]',
       secondary:
-        'text-[var(--atom-info-card-jobstatus-secondary-text)] font-[600] text-[calc(var(--atom-text-2xl))] leading-[var(--atom-info-card-jobstatus-line-height)]',
+        'text-[var(--atom-info-card-jobstatus-secondary-text)] font-[600] font-semibold text-[calc(var(--atom-text-2xl))] leading-[var(--atom-info-card-jobstatus-line-height)]',
       success:
-        'text-[var(--atom-info-card-jobstatus-success-text)] font-[600] text-[calc(var(--atom-text-2xl))] leading-[var(--atom-info-card-jobstatus-line-height)]',
+        'text-[var(--atom-info-card-jobstatus-success-text)] font-[600] font-semibold text-[calc(var(--atom-text-2xl))] leading-[var(--atom-info-card-jobstatus-line-height)]',
     },
   },
   defaultVariants: {
