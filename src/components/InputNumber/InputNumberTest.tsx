@@ -55,7 +55,7 @@ const numberInputVariants = cva(
         alpha: '',
       },
       size: {
-        sm: 'h-9 px-2 py-1 text-xs w-38',
+        sm: 'h-8 px-2 py-1 text-xs w-32  ',
         md: 'h-10 px-3 py-2 text-sm w-40',
         lg: 'h-12 px-4 py-3 text-base w-48',
       },
@@ -81,15 +81,49 @@ export interface NumberInputProps
       'type' | 'onChange' | 'size' | 'value'
     >,
     VariantProps<typeof numberInputVariants> {
+  /**
+   * Current value of the input
+   */
   value?: string | number
+  /**
+   * Callback fired when the value changes
+   * @param value - The new value as a string
+   */
   onChange?: (value: string) => void
+  /**
+   * Minimum allowed value (numeric variant only)
+   */
   min?: number
+  /**
+   * Maximum allowed value (numeric variant only)
+   */
   max?: number
+  /**
+   * Step value for increment/decrement (numeric variant only)
+   * @default 1
+   */
   step?: number
+  /**
+   * Show increment/decrement spinner buttons
+   * @default false
+   */
   showSpinners?: boolean
+  /**
+   * Maximum decimal places for numeric variant
+   * @default 3
+   */
   decimalPlaces?: number
 }
 
+/**
+ * Format numeric value to limit decimal places
+ * @param value - The numeric string to format
+ * @param maxDecimals - Maximum decimal places allowed
+ * @returns Formatted string with limited decimal places
+ * @example
+ * formatDecimal('3.14159', 3) // returns '3.141'
+ * formatDecimal('10', 3) // returns '10'
+ */
 const formatDecimal = (value: string, maxDecimals: number = 3): string => {
   if (!value || value === '' || value === '-') return value
 
@@ -104,6 +138,11 @@ const formatDecimal = (value: string, maxDecimals: number = 3): string => {
   return `${integerPart}.${limitedDecimal}`
 }
 
+/**
+ * Increment letter-only string (A → B → C → ... → Z → AA)
+ * @param str - The letter string to increment
+ * @returns The incremented string
+ */
 const incrementAlpha = (str: string): string => {
   if (!str) return 'A'
 
@@ -132,6 +171,11 @@ const incrementAlpha = (str: string): string => {
   return chars.join('')
 }
 
+/**
+ * Decrement letter-only string (C → B → A → Z)
+ * @param str - The letter string to decrement
+ * @returns The decremented string
+ */
 const decrementAlpha = (str: string): string => {
   if (!str) return 'A'
 
@@ -160,6 +204,11 @@ const decrementAlpha = (str: string): string => {
   return chars.join('')
 }
 
+/**
+ * Increment alphanumeric string - increments ONLY the letter part
+ * @param str - The alphanumeric string to increment
+ * @returns The incremented string
+ */
 const incrementAlphanumeric = (str: string): string => {
   if (!str) return 'A'
 
@@ -190,6 +239,11 @@ const incrementAlphanumeric = (str: string): string => {
   return chars.join('') + numbers
 }
 
+/**
+ * Decrement alphanumeric string - decrements ONLY the letter part
+ * @param str - The alphanumeric string to decrement
+ * @returns The decremented string
+ */
 const decrementAlphanumeric = (str: string): string => {
   if (!str) return 'A'
 
@@ -220,6 +274,23 @@ const decrementAlphanumeric = (str: string): string => {
   return chars.join('') + numbers
 }
 
+/**
+ * NumberInput component with keyboard arrow support and optional spinner buttons.
+ * Supports three variants: numeric, alphanumeric, and alpha (letters only).
+ * Numeric variant automatically limits decimal places.
+ *
+ * @example
+ * // Numeric input (max 3 decimal places)
+ * <NumberInput variant="numeric" value={10} onChange={setValue} min={0} max={100} />
+ *
+ * @example
+ * // Alphanumeric input (letters + numbers, e.g., A1 → B1)
+ * <NumberInput variant="alphanumeric" value="A1" onChange={setCode} showSpinners />
+ *
+ * @example
+ * // Alpha input (letters only, e.g., A → B → C)
+ * <NumberInput variant="alpha" value="A" onChange={setLetter} showSpinners />
+ */
 export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
   (
     {
@@ -322,7 +393,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       switch (size) {
         case 'sm':
           return {
-            iconSize: 14,
+            iconSize: 12,
             spinnerWidth: 'w-[20px]',
             inputPadding: 'pr-[22px]',
           }
@@ -347,7 +418,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
 
     if (showSpinners) {
       return (
-        <div className="relative w-full">
+        <div className="relative inline-flex items-center w-full">
           <input
             ref={ref}
             type="text"
@@ -371,9 +442,10 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           />
           <div
             className={cn(
-              'absolute top-px right-px bottom-px flex flex-col',
-              'border-l border-(--atom-theme-border)',
-              'rounded-r-[calc(0.375rem-1px)] overflow-hidden',
+              'absolute right-0 top-0 bottom-0 flex flex-col',
+              'border-l border-[var(--atom-theme-border)]',
+              'rounded-r-md overflow-hidden',
+              'min-w-0 max-w-full',
               spinnerConfig.spinnerWidth,
             )}
             role="group"
@@ -386,19 +458,18 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               aria-label="Increment value"
               tabIndex={-1}
               className={cn(
-                'flex items-center justify-center flex-1',
-                'hover:bg-[color-mix(in_srgb,var(--atom-theme-border)_10%,transparent)]',
-                'active:bg-[color-mix(in_srgb,var(--atom-theme-border)_20%,transparent)]',
+                'flex items-center justify-center flex-1 w-full h-full',
+                'hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_10%,transparent)]',
+                'active:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_20%,transparent)]',
                 'disabled:opacity-50 disabled:cursor-not-allowed',
-                'transition-colors border-b border-(--atom-theme-border)',
-                'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-(--atom-primary) focus-visible:ring-inset',
+                'transition-colors border-b border-[var(--atom-theme-border)]',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--atom-primary)] focus-visible:ring-offset-0 ',
                 'cursor-pointer',
               )}
             >
               <ChevronUp
                 size={spinnerConfig.iconSize}
-                className="text-muted-foreground"
-                strokeWidth={2}
+                className="text-muted-foreground shrink-0"
                 aria-hidden="true"
               />
             </button>
@@ -409,19 +480,18 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               aria-label="Decrement value"
               tabIndex={-1}
               className={cn(
-                'flex items-center justify-center flex-1',
-                'hover:bg-[color-mix(in_srgb,var(--atom-theme-border)_10%,transparent)]',
-                'active:bg-[color-mix(in_srgb,var(--atom-theme-border)_20%,transparent)]',
+                'flex items-center justify-center flex-1 w-full h-full',
+                'hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_10%,transparent)]',
+                'active:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_20%,transparent)]',
                 'disabled:opacity-50 disabled:cursor-not-allowed',
                 'transition-colors',
-                'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-(--atom-primary) focus-visible:ring-inset',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--atom-primary)] focus-visible:ring-offset-0',
                 'cursor-pointer',
               )}
             >
               <ChevronDown
                 size={spinnerConfig.iconSize}
-                className="text-muted-foreground"
-                strokeWidth={2}
+                className="text-muted-foreground shrink-0"
                 aria-hidden="true"
               />
             </button>
