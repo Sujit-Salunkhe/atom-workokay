@@ -1084,7 +1084,7 @@ export function DataTable({
                     key={rowKey}
                     role="row"
                     aria-rowindex={actualRowIndex}
-                    className="hover:hover:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_25%,transparent)]  transition-colors"
+                    className="hover:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_25%,transparent)]  transition-colors"
                   >
                     {visibleColumns.map((column, colIndex) => {
                       let cellValue: ReactNode

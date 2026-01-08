@@ -20,9 +20,11 @@ import { cn } from '../../lib/cn'
 import { Slot } from '@radix-ui/react-slot'
 import { useThemePortal } from '../../hooks/useTheme'
 
+
 // ============================================================================
 // ERROR BOUNDARY
 // ============================================================================
+
 
 interface ErrorBoundaryProps {
   children: ReactNode
@@ -30,9 +32,11 @@ interface ErrorBoundaryProps {
   onError?: (error: Error, errorInfo: ErrorInfo) => void
 }
 
+
 interface ErrorBoundaryState {
   hasError: boolean
 }
+
 
 class DropdownErrorBoundary extends Component<
   ErrorBoundaryProps,
@@ -43,14 +47,17 @@ class DropdownErrorBoundary extends Component<
     this.state = { hasError: false }
   }
 
+
   static getDerivedStateFromError(): ErrorBoundaryState {
     return { hasError: true }
   }
+
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     console.error('Dropdown Error:', error, errorInfo)
     this.props.onError?.(error, errorInfo)
   }
+
 
   render(): ReactNode {
     if (this.state.hasError) {
@@ -60,9 +67,11 @@ class DropdownErrorBoundary extends Component<
   }
 }
 
+
 // ============================================================================
 // CONTEXT
 // ============================================================================
+
 
 interface DropdownContextValue {
   open: boolean
@@ -76,9 +85,11 @@ interface DropdownContextValue {
   animateItems: boolean
 }
 
+
 const DropdownContext = createContext<DropdownContextValue | undefined>(
   undefined,
 )
+
 
 function useDropdownContext(): DropdownContextValue {
   const context = useContext(DropdownContext)
@@ -88,15 +99,17 @@ function useDropdownContext(): DropdownContextValue {
   return context
 }
 
+
 // ============================================================================
 // VARIANTS
 // ============================================================================
+
 
 const dropdownContentVariants = cva(
   [
     'absolute z-[1000] min-w-[8rem] overflow-hidden',
     'rounded-md border shadow-lg',
-    'bg-[var(--atom-theme-bg)] border border-[var(--atom-theme-border)]',
+    'bg-[var(--atom-theme-bg)] border border-[var(--atom-theme-border)] ',
   ].join(' '),
   {
     variants: {
@@ -119,17 +132,23 @@ const dropdownContentVariants = cva(
   },
 )
 
+
 const dropdownItemVariants = cva(
   [
     'relative flex cursor-pointer select-none items-center',
     'rounded-sm px-3 py-2 text-sm outline-none',
     'transition-colors duration-150',
-    'hover:bg-[var(--atom-card-hover)] hover:text-[var(--atom-text)]',
-    'focus:bg-[var(--atom-card-hover)] focus:text-[var(--atom-text)]',
+    // Focus styles (for keyboard navigation)
+    'focus:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_15%,transparent)] focus:text-[var(--atom-theme-text-primary)]',
+    // Hover styles (works on all items, including focused ones)
+    'hover:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_15%,transparent)] hover:text-[var(--atom-text)]',
+    // Combined state - ensures hover works even when focused
+    'focus:hover:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_20%,transparent)]',
     'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
     'data-[selected]:text-[var(--atom-primary)] data-[selected]:font-medium',
   ].join(' '),
 )
+
 
 const dropdownTriggerVariants = cva(
   [
@@ -150,7 +169,7 @@ const dropdownTriggerVariants = cva(
         ].join(' '),
         ghost: [
           'bg-transparent',
-          'hover:bg-[var(--atom-card-hover)]',
+          'hover:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_15%,transparent)]',
           'text-[var(--atom-text)]',
         ].join(' '),
       },
@@ -161,12 +180,15 @@ const dropdownTriggerVariants = cva(
   },
 )
 
+
 // ============================================================================
 // ANIMATION VARIANTS
 // ============================================================================
 
+
 const getAnimationVariants = (side: DropdownSide) => {
   const slideDistance = 8
+
 
   const slideDirection = {
     top: { y: slideDistance, x: 0 },
@@ -174,6 +196,7 @@ const getAnimationVariants = (side: DropdownSide) => {
     left: { y: 0, x: slideDistance },
     right: { y: 0, x: -slideDistance },
   }
+
 
   return {
     initial: {
@@ -195,13 +218,16 @@ const getAnimationVariants = (side: DropdownSide) => {
   }
 }
 
+
 // ============================================================================
 // TYPES
 // ============================================================================
 
+
 export type DropdownSide = 'top' | 'bottom' | 'left' | 'right'
 export type DropdownAlign = 'start' | 'center' | 'end'
 export type DropdownTriggerVariant = 'default' | 'ghost'
+
 
 export interface DropdownProps {
   /** Controlled open state */
@@ -225,12 +251,14 @@ export interface DropdownProps {
   children: React.ReactNode
 }
 
+
 export interface DropdownTriggerProps
   extends
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof dropdownTriggerVariants> {
   asChild?: boolean
 }
+
 
 export interface DropdownContentProps
   extends
@@ -252,6 +280,7 @@ export interface DropdownContentProps
   children?: React.ReactNode
 }
 
+
 export interface DropdownItemProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
@@ -263,13 +292,16 @@ export interface DropdownItemProps extends Omit<
   value?: string
 }
 
+
 export interface DropdownGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
 }
 
+
 // ============================================================================
 // HOOKS
 // ============================================================================
+
 
 function useClickOutside(
   ref: React.RefObject<HTMLElement>,
@@ -280,8 +312,10 @@ function useClickOutside(
   useEffect(() => {
     if (!enabled || typeof document === 'undefined') return
 
+
     const listener = (event: MouseEvent | TouchEvent) => {
       const target = event.target as Node
+
 
       if (
         !ref.current ||
@@ -291,11 +325,14 @@ function useClickOutside(
         return
       }
 
+
       handler()
     }
 
+
     document.addEventListener('mousedown', listener)
     document.addEventListener('touchstart', listener)
+
 
     return () => {
       document.removeEventListener('mousedown', listener)
@@ -303,6 +340,7 @@ function useClickOutside(
     }
   }, [ref, triggerRef, handler, enabled])
 }
+
 
 function usePosition(
   triggerRef: React.RefObject<HTMLElement | null>,
@@ -315,10 +353,12 @@ function usePosition(
 ): { top: number; left: number } {
   const [position, setPosition] = useState({ top: 0, left: 0 })
 
+
   const calculatePosition = useCallback(() => {
     // SSR check
     if (typeof window === 'undefined') return
     if (!open || !triggerRef.current || !contentRef.current) return
+
 
     const trigger = triggerRef.current.getBoundingClientRect()
     const content = contentRef.current.getBoundingClientRect()
@@ -329,8 +369,10 @@ function usePosition(
     const scrollY = window.scrollY
     const scrollX = window.scrollX
 
+
     let top = 0
     let left = 0
+
 
     // Calculate initial position based on side
     switch (side) {
@@ -357,6 +399,7 @@ function usePosition(
         break
     }
 
+
     switch (side) {
       case 'left':
         left = trigger.left + scrollX - content.width - sideOffset
@@ -381,8 +424,10 @@ function usePosition(
         break
     }
 
+
     // Viewport boundary collision detection
     const EDGE_PADDING = 8
+
 
     if (left < EDGE_PADDING) {
       left = EDGE_PADDING
@@ -397,22 +442,28 @@ function usePosition(
       top = scrollY + viewport.height - content.height - EDGE_PADDING
     }
 
+
     setPosition({ top, left })
   }, [open, side, align, sideOffset, alignOffset])
+
 
   useEffect(() => {
     if (typeof window === 'undefined') return
     if (!open || !triggerRef.current || !contentRef.current) return
 
+
     calculatePosition()
+
 
     // ResizeObserver with polyfill check
     let resizeObserver: ResizeObserver | null = null
+
 
     if (typeof ResizeObserver !== 'undefined' && contentRef.current) {
       resizeObserver = new ResizeObserver(calculatePosition)
       resizeObserver.observe(contentRef.current)
     }
+
 
     // Listen to scroll and resize events
     window.addEventListener('scroll', calculatePosition, {
@@ -421,6 +472,7 @@ function usePosition(
     })
     window.addEventListener('resize', calculatePosition, { passive: true })
 
+
     return () => {
       resizeObserver?.disconnect()
       window.removeEventListener('scroll', calculatePosition, true)
@@ -428,12 +480,15 @@ function usePosition(
     }
   }, [calculatePosition, open])
 
+
   return position
 }
+
 
 // ============================================================================
 // COMPONENTS
 // ============================================================================
+
 
 export const Dropdown = ({
   open: controlledOpen,
@@ -451,9 +506,11 @@ export const Dropdown = ({
   const [selectedValue, setSelectedValue] = useState(controlledValue || '')
   const [activeDescendant, setActiveDescendant] = useState<string>()
 
+
   const uniqueId = useId()
   const triggerId = `dropdown-trigger-${uniqueId}`
   const contentId = `dropdown-content-${uniqueId}`
+
 
   const isControlled = controlledOpen !== undefined
   const open = disabled
@@ -461,6 +518,7 @@ export const Dropdown = ({
     : isControlled
       ? controlledOpen
       : uncontrolledOpen
+
 
   const setOpen = useCallback(
     (value: boolean) => {
@@ -473,6 +531,7 @@ export const Dropdown = ({
     [isControlled, onOpenChange, disabled],
   )
 
+
   const handleValueChange = useCallback(
     (value: string) => {
       setSelectedValue(value)
@@ -481,12 +540,14 @@ export const Dropdown = ({
     [onValueChange],
   )
 
+
   // Sync controlled value with internal state
   useEffect(() => {
     if (controlledValue !== undefined) {
       setSelectedValue(controlledValue)
     }
   }, [controlledValue])
+
 
   const contextValue = useMemo(
     () => ({
@@ -513,10 +574,11 @@ export const Dropdown = ({
     ],
   )
 
+
   return (
     <DropdownErrorBoundary fallback={errorFallback} onError={onError}>
       <DropdownContext.Provider value={contextValue}>
-        <div className="relative inline-block">
+        <div className="relative inline-block ">
           {children}
           {/* Screen reader live region */}
           <div
@@ -533,7 +595,9 @@ export const Dropdown = ({
   )
 }
 
+
 Dropdown.displayName = 'Dropdown'
+
 
 export const DropdownTrigger = forwardRef<
   HTMLButtonElement,
@@ -556,6 +620,7 @@ export const DropdownTrigger = forwardRef<
     const { open, setOpen, triggerId, contentId } = useDropdownContext()
     const triggerRef = useRef<HTMLButtonElement>(null)
 
+
     useEffect(() => {
       if (ref) {
         if (typeof ref === 'function') {
@@ -567,10 +632,12 @@ export const DropdownTrigger = forwardRef<
       }
     }, [ref])
 
+
     const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       onMouseDown?.(e)
     }
+
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       if (disabled) return
@@ -579,21 +646,38 @@ export const DropdownTrigger = forwardRef<
       onClick?.(e)
     }
 
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
       if (disabled) return
 
-      if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault()
-        setOpen(true)
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault()
-        setOpen(true)
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault()
+          if (!open) {
+            setOpen(true)
+          }
+          break
+        case 'ArrowUp':
+          e.preventDefault()
+          if (!open) {
+            setOpen(true)
+          }
+          break
+        case 'Enter':
+        case ' ':
+          e.preventDefault()
+          setOpen(!open)
+          break
       }
+
 
       onKeyDown?.(e)
     }
 
+
     const Comp = asChild ? Slot : 'button'
+
 
     return (
       <Comp
@@ -621,7 +705,9 @@ export const DropdownTrigger = forwardRef<
   },
 )
 
+
 DropdownTrigger.displayName = 'DropdownTrigger'
+
 
 export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
   (
@@ -645,6 +731,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
     const triggerRef = useRef<HTMLElement | null>(null)
     const dropdownContainer = useThemePortal()
 
+
     // Combine external ref with internal ref
     useEffect(() => {
       if (ref) {
@@ -656,6 +743,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       }
     }, [ref])
 
+
     const position = usePosition(
       triggerRef,
       contentRef,
@@ -666,6 +754,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       alignOffset,
     )
 
+
     useEffect(() => {
       if (typeof document === 'undefined') return
       const trigger = document.getElementById(triggerId)
@@ -673,6 +762,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
         triggerRef.current = trigger
       }
     }, [triggerId])
+
 
     useClickOutside(
       contentRef as React.RefObject<HTMLElement>,
@@ -683,19 +773,23 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       open,
     )
 
+
     // Focus management and keyboard handling
     useEffect(() => {
       if (typeof document === 'undefined') return
       if (!open || !contentRef.current) return
+
 
       // Focus first non-disabled item when opened
       const focusableElements = contentRef.current.querySelectorAll(
         '[role="menuitem"]:not([aria-disabled="true"])',
       )
 
+
       if (focusableElements.length > 0) {
         ;(focusableElements[0] as HTMLElement).focus()
       }
+
 
       const handleEscape = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
@@ -706,9 +800,11 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
         }
       }
 
+
       document.addEventListener('keydown', handleEscape)
       return () => document.removeEventListener('keydown', handleEscape)
     }, [open, setOpen])
+
 
     // Memoize animation variants
     const animationVariants = useMemo(
@@ -716,14 +812,17 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       [side],
     )
 
+
     // Determine the portal container with SSR check
     const portalContainer =
       container ||
       dropdownContainer ||
       (typeof document !== 'undefined' ? document.body : null)
 
+
     // SSR safety check
     if (!portalContainer) return null
+
 
     const content = (
       <AnimatePresence mode="wait">
@@ -759,6 +858,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       </AnimatePresence>
     )
 
+
     return createPortal(
       <Suspense fallback={null}>{content}</Suspense>,
       portalContainer,
@@ -766,7 +866,9 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
   },
 )
 
+
 DropdownContent.displayName = 'DropdownContent'
+
 
 export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
   (
@@ -794,6 +896,8 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
     const uniqueId = useId()
     const itemId = `dropdown-item-${uniqueId}`
     const [isProcessing, setIsProcessing] = useState(false)
+    const [isFocused, setIsFocused] = useState(false) // ← Add focus state
+
 
     // Combine external ref with internal ref
     useEffect(() => {
@@ -806,31 +910,40 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
       }
     }, [ref])
 
+
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
       if (disabled || isProcessing) return
 
+
       setIsProcessing(true)
       e.stopPropagation()
+
 
       if (value !== undefined) {
         setSelectedValue(value)
       }
 
+
       onClick?.(e)
+
 
       if (!preventClose) {
         setOpen(false)
       }
 
+
       // Prevent rapid clicks
       setTimeout(() => setIsProcessing(false), 300)
     }
 
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (disabled) return
 
+
       const currentItem = itemRef.current
       if (!currentItem) return
+
 
       const menuItems = Array.from(
         currentItem
@@ -839,6 +952,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
           [],
       )
       const currentIndex = menuItems.indexOf(currentItem)
+
 
       switch (e.key) {
         case 'Enter':
@@ -849,6 +963,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
           break
         case 'ArrowDown':
           e.preventDefault()
+          e.stopPropagation()
           if (menuItems.length > 0) {
             const nextIndex = (currentIndex + 1) % menuItems.length
             const nextItem = menuItems[nextIndex] as HTMLElement
@@ -858,6 +973,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
           break
         case 'ArrowUp':
           e.preventDefault()
+          e.stopPropagation()
           if (menuItems.length > 0) {
             const prevIndex =
               currentIndex === 0 ? menuItems.length - 1 : currentIndex - 1
@@ -868,6 +984,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
           break
         case 'Home':
           e.preventDefault()
+          e.stopPropagation()
           if (menuItems.length > 0) {
             const firstItem = menuItems[0] as HTMLElement
             firstItem?.focus()
@@ -876,20 +993,59 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
           break
         case 'End':
           e.preventDefault()
+          e.stopPropagation()
           if (menuItems.length > 0) {
             const lastItem = menuItems[menuItems.length - 1] as HTMLElement
             lastItem?.focus()
             setActiveDescendant?.(lastItem.id)
           }
           break
+        case 'Tab':
+          // Tab navigation through items
+          if (menuItems.length > 0) {
+            if (!e.shiftKey) {
+              // Tab forward
+              if (currentIndex === menuItems.length - 1) {
+                // Last item - close dropdown and let focus move outside
+                setOpen(false)
+              } else {
+                // Move to next item
+                e.preventDefault()
+                const nextItem = menuItems[currentIndex + 1] as HTMLElement
+                nextItem?.focus()
+                setActiveDescendant?.(nextItem.id)
+              }
+            } else {
+              // Shift+Tab backward
+              if (currentIndex === 0) {
+                // First item - close dropdown and return to trigger
+                setOpen(false)
+              } else {
+                // Move to previous item
+                e.preventDefault()
+                const prevItem = menuItems[currentIndex - 1] as HTMLElement
+                prevItem?.focus()
+                setActiveDescendant?.(prevItem.id)
+              }
+            }
+          }
+          break
       }
+
 
       onKeyDown?.(e)
     }
 
+
     const handleFocus = () => {
+      setIsFocused(true) // ← Track focus
       setActiveDescendant?.(itemId)
     }
+
+    const handleBlur = () => {
+      setIsFocused(false) // ← Track blur
+    }
+
 
     return (
       <motion.div
@@ -900,11 +1056,13 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
         aria-disabled={disabled}
         data-disabled={disabled ? '' : undefined}
         data-selected={isSelected ? '' : undefined}
+        data-focused={isFocused ? '' : undefined} // ← Add data attribute
         data-testid={`dropdown-item-${value || itemId}`}
         className={cn(dropdownItemVariants(), className)}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
+        onBlur={handleBlur} // ← Add blur handler
         whileHover={disabled || !animateItems ? undefined : { scale: 1.01 }}
         whileTap={disabled || !animateItems ? undefined : { scale: 0.98 }}
         {...props}
@@ -915,7 +1073,8 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
   },
 )
 
-DropdownItem.displayName = 'DropdownItem'
+
+
 
 export const DropdownSeparator = forwardRef<
   HTMLDivElement,
@@ -926,12 +1085,14 @@ export const DropdownSeparator = forwardRef<
     role="separator"
     aria-orientation="horizontal"
     data-testid="dropdown-separator"
-    className={cn('my-1 h-px bg-(--atom-theme-border)', className)}
+    className={cn('my-1 h-px bg-[var(--atom-theme-border)]', className)}
     {...props}
   />
 ))
 
+
 DropdownSeparator.displayName = 'DropdownSeparator'
+
 
 export const DropdownLabel = forwardRef<
   HTMLDivElement,
@@ -942,14 +1103,16 @@ export const DropdownLabel = forwardRef<
     role="presentation"
     data-testid="dropdown-label"
     className={cn(
-      'px-3 py-1.5 text-xs font-semibold text-(--atom-text-secondary)',
+      'px-3 py-1.5 text-xs font-semibold text-[var(--atom-text-secondary)]',
       className,
     )}
     {...props}
   />
 ))
 
+
 DropdownLabel.displayName = 'DropdownLabel'
+
 
 export const DropdownGroup = forwardRef<HTMLDivElement, DropdownGroupProps>(
   ({ className, children, ...props }, ref) => (
@@ -964,5 +1127,6 @@ export const DropdownGroup = forwardRef<HTMLDivElement, DropdownGroupProps>(
     </div>
   ),
 )
+
 
 DropdownGroup.displayName = 'DropdownGroup'
