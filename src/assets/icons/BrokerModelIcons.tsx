@@ -47,6 +47,90 @@ export const ConfigIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <rect x="16" y="6" width="4" height="3" rx="1" fill="currentColor" />
   </svg>
 )
+export const ConfigIcon2: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ color: ICON_COLORS.primary, ...props.style }}
+    transform="rotate(90)"
+    {...props}
+  >
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g
+      id="SVGRepo_tracerCarrier"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    ></g>
+    <g id="SVGRepo_iconCarrier">
+      {' '}
+      <rect width="48" height="48" fill="white" fill-opacity="0.01"></rect>{' '}
+      <path
+        d="M41.5 10H35.5"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>{' '}
+      <path
+        d="M27.5 6V14"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>{' '}
+      <path
+        d="M27.5 10L5.5 10"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>{' '}
+      <path
+        d="M13.5 24H5.5"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>{' '}
+      <path
+        d="M21.5 20V28"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>{' '}
+      <path
+        d="M43.5 24H21.5"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>{' '}
+      <path
+        d="M41.5 38H35.5"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>{' '}
+      <path
+        d="M27.5 34V42"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>{' '}
+      <path
+        d="M27.5 38H5.5"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>{' '}
+    </g>
+  </svg>
+)
 
 export const CloudUploadIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   props,
@@ -120,12 +204,13 @@ export const UsersIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 )
 
-export const HomeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  return (
+export const HomeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -180,7 +265,8 @@ export const HomeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  r
   )
 }
 
-export const EditIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  return (
+export const EditIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
@@ -253,8 +339,6 @@ export const DocumentIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   </svg>
 )
 
-
-
 export const ClockIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     viewBox="0 0 24 24"
@@ -275,14 +359,15 @@ export const ClockIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 
 export const ZipFolderIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   props,
-) => {  return (
+) => {
+  return (
     <svg
       viewBox="0 0 400 400"
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       stroke="currentColor"
       strokeWidth="0.936"
-      style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
@@ -338,13 +423,14 @@ export const ZipFolderIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
 
 export const CSVFolderIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   props,
-) => {  return (
+) => {
+  return (
     <svg
       viewBox="0 0 400 400"
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       stroke="currentColor"
-       style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       strokeWidth="0.936"
       {...props}
     >
@@ -406,14 +492,15 @@ export const CSVFolderIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
 
 export const ExcelFolderIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   props,
-) => {  return (
+) => {
+  return (
     <svg
       width="64px"
       height="64px"
       viewBox="0 0 400 400"
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
-       style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       stroke="currentColor"
       strokeWidth="0.936"
       {...props}
@@ -483,12 +570,13 @@ export const ExcelFolderIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   )
 }
 
-export const InfoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  return (
+export const InfoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-       style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -515,7 +603,7 @@ export const WarningIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-     style={{color: ICON_COLORS.warning,...props.style}}
+    style={{ color: ICON_COLORS.warning, ...props.style }}
     {...props}
   >
     <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
@@ -539,12 +627,13 @@ export const WarningIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 
 export const QuestionMarkIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   props,
-) => {  return (
+) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-       style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -573,12 +662,13 @@ export const QuestionMarkIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   )
 }
 
-export const FailedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  return (
+export const FailedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{color: ICON_COLORS.error,...props.style}}
+      style={{ color: ICON_COLORS.error, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -600,12 +690,13 @@ export const FailedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => { 
   )
 }
 
-export const TickIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  return (
+export const TickIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-       style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
@@ -689,7 +780,8 @@ export const DrawerIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 
 export const ArchivedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   props,
-) => {  return (
+) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
@@ -717,40 +809,40 @@ export const ArchivedIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
 
 // FilterIcon.tsx
 export const FilterIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{color: ICON_COLORS.primary,...props.style}}
-      {...props}
-    >
-      <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
-      <g
-        id="SVGRepo_tracerCarrier"
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ color: ICON_COLORS.primary, ...props.style }}
+    {...props}
+  >
+    <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
+    <g
+      id="SVGRepo_tracerCarrier"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    ></g>
+    <g id="SVGRepo_iconCarrier">
+      <path
+        className="filter-icon-path"
+        d="M3 4.6C3 4.03995 3 3.75992 3.10899 3.54601C3.20487 3.35785 3.35785 3.20487 3.54601 3.10899C3.75992 3 4.03995 3 4.6 3H19.4C19.9601 3 20.2401 3 20.454 3.10899C20.6422 3.20487 20.7951 3.35785 20.891 3.54601C21 3.75992 21 4.03995 21 4.6V6.33726C21 6.58185 21 6.70414 20.9724 6.81923C20.9479 6.92127 20.9075 7.01881 20.8526 7.10828C20.7908 7.2092 20.7043 7.29568 20.5314 7.46863L14.4686 13.5314C14.2957 13.7043 14.2092 13.7908 14.1474 13.8917C14.0925 13.9812 14.0521 14.0787 14.0276 14.1808C14 14.2959 14 14.4182 14 14.6627V17L10 21V14.6627C10 14.4182 10 14.2959 9.97237 14.1808C9.94787 14.0787 9.90747 13.9812 9.85264 13.8917C9.7908 13.7908 9.70432 13.7043 9.53137 13.5314L3.46863 7.46863C3.29568 7.29568 3.2092 7.2092 3.14736 7.10828C3.09253 7.01881 3.05213 6.92127 3.02763 6.81923C3 6.70414 3 6.58185 3 6.33726V4.6Z"
+        stroke="currentColor"
+        strokeWidth="0.936"
         strokeLinecap="round"
         strokeLinejoin="round"
-      ></g>
-      <g id="SVGRepo_iconCarrier">
-        <path
-          className="filter-icon-path"
-          d="M3 4.6C3 4.03995 3 3.75992 3.10899 3.54601C3.20487 3.35785 3.35785 3.20487 3.54601 3.10899C3.75992 3 4.03995 3 4.6 3H19.4C19.9601 3 20.2401 3 20.454 3.10899C20.6422 3.20487 20.7951 3.35785 20.891 3.54601C21 3.75992 21 4.03995 21 4.6V6.33726C21 6.58185 21 6.70414 20.9724 6.81923C20.9479 6.92127 20.9075 7.01881 20.8526 7.10828C20.7908 7.2092 20.7043 7.29568 20.5314 7.46863L14.4686 13.5314C14.2957 13.7043 14.2092 13.7908 14.1474 13.8917C14.0925 13.9812 14.0521 14.0787 14.0276 14.1808C14 14.2959 14 14.4182 14 14.6627V17L10 21V14.6627C10 14.4182 10 14.2959 9.97237 14.1808C9.94787 14.0787 9.90747 13.9812 9.85264 13.8917C9.7908 13.7908 9.70432 13.7043 9.53137 13.5314L3.46863 7.46863C3.29568 7.29568 3.2092 7.2092 3.14736 7.10828C3.09253 7.01881 3.05213 6.92127 3.02763 6.81923C3 6.70414 3 6.58185 3 6.33726V4.6Z"
-          stroke="currentColor"
-          strokeWidth="0.936"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></path>
-      </g>
-    </svg>
-  )
+      ></path>
+    </g>
+  </svg>
+)
 
-
-export const SettingIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  return (
+export const SettingIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       strokeWidth="0.936"
-       style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -783,13 +875,14 @@ export const SettingIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   )
 }
 
-export const LogoutIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  return (
+export const LogoutIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       transform="rotate(180)"
-       style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -811,12 +904,13 @@ export const LogoutIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => { 
   )
 }
 
-export const MoonIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  return (
+export const MoonIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
     <svg
       viewBox="0 0 32 32"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
-       style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -838,12 +932,13 @@ export const MoonIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  r
   )
 }
 
-export const SearchIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  return (
+export const SearchIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-       style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
@@ -934,13 +1029,14 @@ export const OrganizationIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   </svg>
 )
 
-export const AddUserIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  return (
+export const AddUserIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       stroke="currentColor"
-       style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
@@ -1004,12 +1100,13 @@ export const AddUserIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
 
 export const TrendingUpIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   props,
-) => {  return (
+) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-       style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
@@ -1031,12 +1128,13 @@ export const TrendingUpIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   )
 }
 
-export const FolderIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {  return (
+export const FolderIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-       style={{color: ICON_COLORS.primary,...props.style}}
+      style={{ color: ICON_COLORS.primary, ...props.style }}
       {...props}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
@@ -1065,7 +1163,7 @@ export const CalendarIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-     style={{color: ICON_COLORS.primary,...props.style}}
+    style={{ color: ICON_COLORS.primary, ...props.style }}
     {...props}
   >
     <g id="SVGRepo_bgCarrier" strokeWidth="0.936"></g>
@@ -1084,7 +1182,7 @@ export const CalendarIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
       />
     </g>
   </svg>
-);
+)
 
 export const DatabaseIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   props,

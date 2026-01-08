@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import {
   ConfigIcon,
+  ConfigIcon2,
   CloudUploadIcon,
   MonitorIcon,
   UsersIcon,
@@ -56,6 +57,10 @@ export const AllIcons: Story = {
         <ConfigIcon className="h-8 w-8" />
         <span className="text-sm">ConfigIcon</span>
       </div>
+      <div className="flex flex-col items-center gap-2">
+        <ConfigIcon2 className="h-8 w-8" />
+        <span className="text-sm">ConfigIcon2</span>
+      </div>
 
       <div className="flex flex-col items-center gap-2">
         <CloudUploadIcon className="h-8 w-8" />
@@ -76,6 +81,7 @@ export const AllIcons: Story = {
         <HomeIcon className="h-8 w-8" />
         <span className="text-sm">HomeIcon</span>
       </div>
+     
 
       <div className="flex flex-col items-center gap-2">
         <EditIcon className="h-8 w-8" />
