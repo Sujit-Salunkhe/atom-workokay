@@ -108,7 +108,7 @@ function useDropdownContext(): DropdownContextValue {
 const dropdownContentVariants = cva(
   [
     'absolute z-[1000] min-w-[8rem] overflow-hidden',
-    'rounded-md border shadow-lg',
+    'rounded-sm border shadow-lg px-1 py-2',
     'bg-[var(--atom-theme-bg)] border border-[var(--atom-theme-border)] ',
   ].join(' '),
   {
@@ -1085,7 +1085,7 @@ export const DropdownSeparator = forwardRef<
     role="separator"
     aria-orientation="horizontal"
     data-testid="dropdown-separator"
-    className={cn('my-1 h-px bg-[var(--atom-theme-border)]', className)}
+    className={cn('my-1 h-px bg-(--atom-theme-border)', className)}
     {...props}
   />
 ))
@@ -1103,7 +1103,7 @@ export const DropdownLabel = forwardRef<
     role="presentation"
     data-testid="dropdown-label"
     className={cn(
-      'px-3 py-1.5 text-xs font-semibold text-[var(--atom-text-secondary)]',
+      'px-3 py-1.5 text-xs font-semibold text-(--atom-text-secondary)',
       className,
     )}
     {...props}

@@ -75,7 +75,7 @@ class DropdownErrorBoundary extends Component<
 
 interface DropdownContextValue {
   open: boolean
-  setOpen: (open: boolean) => void
+  setOpen: (open: boolean, viaKeyboard?: boolean) => void
   triggerId: string
   contentId: string
   selectedValue?: string
@@ -83,6 +83,7 @@ interface DropdownContextValue {
   activeDescendant?: string
   setActiveDescendant?: (id: string) => void
   animateItems: boolean
+  openedViaKeyboard: boolean
 }
 
 
@@ -109,7 +110,7 @@ const dropdownContentVariants = cva(
   [
     'absolute z-[1000] min-w-[8rem] overflow-hidden',
     'rounded-md border shadow-lg',
-    'bg-[var(--atom-theme-bg)] border border-[var(--atom-theme-border)] ',
+    'bg-[var(--atom-theme-bg)] border border-[var(--atom-theme-border)] px-1.5 py-2 ',
   ].join(' '),
   {
     variants: {
@@ -139,7 +140,7 @@ const dropdownItemVariants = cva(
     'rounded-sm px-3 py-2 text-sm outline-none',
     'transition-colors duration-150',
     // Focus styles (for keyboard navigation)
-    'focus:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_15%,transparent)] focus:text-[var(--atom-theme-text-primary)]',
+    'focus:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_15%,transparent)] focus:text-[var(--atom-text)]',
     // Hover styles (works on all items, including focused ones)
     'hover:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_15%,transparent)] hover:text-[var(--atom-text)]',
     // Combined state - ensures hover works even when focused
@@ -505,6 +506,7 @@ export const Dropdown = ({
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen)
   const [selectedValue, setSelectedValue] = useState(controlledValue || '')
   const [activeDescendant, setActiveDescendant] = useState<string>()
+  const [openedViaKeyboard, setOpenedViaKeyboard] = useState(false)
 
 
   const uniqueId = useId()
@@ -521,8 +523,9 @@ export const Dropdown = ({
 
 
   const setOpen = useCallback(
-    (value: boolean) => {
+    (value: boolean, viaKeyboard: boolean = false) => {
       if (disabled) return
+      setOpenedViaKeyboard(viaKeyboard)
       if (!isControlled) {
         setUncontrolledOpen(value)
       }
@@ -560,6 +563,7 @@ export const Dropdown = ({
       activeDescendant,
       setActiveDescendant,
       animateItems,
+      openedViaKeyboard,
     }),
     [
       open,
@@ -571,6 +575,7 @@ export const Dropdown = ({
       handleValueChange,
       activeDescendant,
       animateItems,
+      openedViaKeyboard,
     ],
   )
 
@@ -642,7 +647,7 @@ export const DropdownTrigger = forwardRef<
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       if (disabled) return
       e.stopPropagation()
-      setOpen(!open)
+      setOpen(!open, false)
       onClick?.(e)
     }
 
@@ -655,19 +660,19 @@ export const DropdownTrigger = forwardRef<
         case 'ArrowDown':
           e.preventDefault()
           if (!open) {
-            setOpen(true)
+            setOpen(true, true)
           }
           break
         case 'ArrowUp':
           e.preventDefault()
           if (!open) {
-            setOpen(true)
+            setOpen(true, true)
           }
           break
         case 'Enter':
         case ' ':
           e.preventDefault()
-          setOpen(!open)
+          setOpen(!open, true)
           break
       }
 
@@ -725,7 +730,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
     },
     ref,
   ) => {
-    const { open, setOpen, triggerId, contentId, activeDescendant } =
+    const { open, setOpen, triggerId, contentId, activeDescendant, openedViaKeyboard } =
       useDropdownContext()
     const contentRef = useRef<HTMLDivElement | null>(null)
     const triggerRef = useRef<HTMLElement | null>(null)
@@ -780,14 +785,16 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       if (!open || !contentRef.current) return
 
 
-      // Focus first non-disabled item when opened
-      const focusableElements = contentRef.current.querySelectorAll(
-        '[role="menuitem"]:not([aria-disabled="true"])',
-      )
+      // Only auto-focus first item if opened via keyboard
+      if (openedViaKeyboard) {
+        const focusableElements = contentRef.current.querySelectorAll(
+          '[role="menuitem"]:not([aria-disabled="true"])',
+        )
 
 
-      if (focusableElements.length > 0) {
-        ;(focusableElements[0] as HTMLElement).focus()
+        if (focusableElements.length > 0) {
+          ;(focusableElements[0] as HTMLElement).focus()
+        }
       }
 
 
@@ -803,7 +810,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
 
       document.addEventListener('keydown', handleEscape)
       return () => document.removeEventListener('keydown', handleEscape)
-    }, [open, setOpen])
+    }, [open, setOpen, openedViaKeyboard])
 
 
     // Memoize animation variants
@@ -896,7 +903,6 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
     const uniqueId = useId()
     const itemId = `dropdown-item-${uniqueId}`
     const [isProcessing, setIsProcessing] = useState(false)
-    const [isFocused, setIsFocused] = useState(false) // ← Add focus state
 
 
     // Combine external ref with internal ref
@@ -1038,12 +1044,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
 
 
     const handleFocus = () => {
-      setIsFocused(true) // ← Track focus
       setActiveDescendant?.(itemId)
-    }
-
-    const handleBlur = () => {
-      setIsFocused(false) // ← Track blur
     }
 
 
@@ -1056,13 +1057,11 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
         aria-disabled={disabled}
         data-disabled={disabled ? '' : undefined}
         data-selected={isSelected ? '' : undefined}
-        data-focused={isFocused ? '' : undefined} // ← Add data attribute
         data-testid={`dropdown-item-${value || itemId}`}
         className={cn(dropdownItemVariants(), className)}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
-        onBlur={handleBlur} // ← Add blur handler
         whileHover={disabled || !animateItems ? undefined : { scale: 1.01 }}
         whileTap={disabled || !animateItems ? undefined : { scale: 0.98 }}
         {...props}
@@ -1074,6 +1073,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
 )
 
 
+DropdownItem.displayName = 'DropdownItem'
 
 
 export const DropdownSeparator = forwardRef<
