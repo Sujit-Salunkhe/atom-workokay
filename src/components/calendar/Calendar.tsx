@@ -76,7 +76,7 @@ function Calendar({
           defaultClassNames.dropdown,
         ),
         caption_label: cn(
-          'select-none font-medium flex items-center',
+          'select-none font-medium flex items-center border-(--atom-theme-border)',
           captionLayout === 'label'
             ? 'text-sm'
             : '[&>svg]:text-muted-foreground flex h-8 items-center gap-1 rounded-md pl-2 pr-1 text-sm [&>svg]:size-3.5',
@@ -172,6 +172,8 @@ function Calendar({
       }}
       {...props}
     />
+
+
   )
 }
 

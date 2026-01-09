@@ -1085,7 +1085,7 @@ export const DropdownSeparator = forwardRef<
     role="separator"
     aria-orientation="horizontal"
     data-testid="dropdown-separator"
-    className={cn('my-1 h-px bg-(--atom-theme-border)', className)}
+    className={cn('my-1 h-px bg-(--atom-theme-border)`', className)}
     {...props}
   />
 ))

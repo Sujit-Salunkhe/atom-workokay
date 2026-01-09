@@ -166,7 +166,11 @@ export const InteractiveSelection: Story = {
 
 // Multiple months
 export const MultipleMonths: Story = {
-  render: (args) => <ControlledCalendar {...args} />,
+  render: (args) => (
+    <div className="flex flex-col gap-4">
+      <ControlledCalendar {...args} />
+    </div>
+  ),
   args: {
     captionLayout: "dropdown",
     buttonVariant: "ghost",
@@ -221,8 +225,8 @@ export const MinMaxDates: Story = {
           mode="single"
           selected={date}
           onSelect={setDate}
-          fromDate={today}
-          toDate={nextMonth}
+          startMonth={today}
+          endMonth={nextMonth}
         />
         <div className="mt-4 text-sm text-muted-foreground">
           Selected: {date ? date.toLocaleDateString() : "none"}

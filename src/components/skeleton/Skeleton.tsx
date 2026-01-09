@@ -5,16 +5,16 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from '../../lib/cn'
 
 const skeletonVariants = cva(
-  "relative rounded-md bg-(--atom-skeleton-bg-color) overflow-hidden",
+  "relative rounded-sm bg-(--atom-skeleton-bg-color) overflow-hidden",
   {
     variants: {
       variant: {
         // simple gray block
         default: "",
         // more rounded, like pill/buttons
-        rounded: "rounded-full",
+        rounded: "rounded-md",
         // card-like block
-        card: "rounded-lg",
+        card: "rounded-lg", 
         // circular avatar
         circle: "rounded-full aspect-square",
       },

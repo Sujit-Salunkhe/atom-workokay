@@ -10,6 +10,7 @@ import {
   useState,
   useMemo,
 } from 'react'
+import { Slot } from '@radix-ui/react-slot'
 import { cva } from 'class-variance-authority'
 import { cn } from '../../lib/cn'
 
@@ -133,11 +134,14 @@ export interface TabsListProps extends React.HTMLAttributes<HTMLDivElement> {
   'aria-label': string
 }
 
-export interface TabTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface TabTriggerProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Unique identifier for this tab */
   value: string
   /** If true, tab is disabled */
   disabled?: boolean
+  /** Change the default rendered element for the one passed as a child */
+  asChild?: boolean
 }
 
 export interface TabContentProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -227,7 +231,10 @@ export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
 TabsList.displayName = 'TabsList'
 
 export const TabTrigger = forwardRef<HTMLButtonElement, TabTriggerProps>(
-  ({ className, value, disabled, children, ...props }, ref) => {
+  (
+    { className, value, disabled, asChild = false, children, ...props },
+    ref,
+  ) => {
     const { activeTab, setActiveTab, variant, orientation } = useTabsContext()
     const isActive = activeTab === value
 
@@ -301,11 +308,13 @@ export const TabTrigger = forwardRef<HTMLButtonElement, TabTriggerProps>(
       }
     }
 
+    const Comp = asChild ? Slot : 'button'
+
     return (
-      <button
+      <Comp
         ref={triggerRef}
         role="tab"
-        type="button"
+        type={!asChild ? 'button' : undefined}
         id={`tab-${value}`}
         aria-selected={isActive}
         aria-controls={`tabpanel-${value}`}
@@ -319,7 +328,7 @@ export const TabTrigger = forwardRef<HTMLButtonElement, TabTriggerProps>(
         {...props}
       >
         {children}
-      </button>
+      </Comp>
     )
   },
 )
@@ -350,3 +359,4 @@ export const TabContent = forwardRef<HTMLDivElement, TabContentProps>(
 )
 
 TabContent.displayName = 'TabContent'
+
