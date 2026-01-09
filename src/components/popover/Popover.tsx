@@ -749,7 +749,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.15 }}
-                className="fixed inset-0 z-[999] bg-black/50 backdrop-blur-sm"
+                className="fixed inset-0 z-999 bg-black/50 backdrop-blur-sm"
                 data-testid="popover-backdrop"
                 onClick={() => !preventClose && !preventOutsideClick && setOpen(false)}
                 aria-hidden="true"
@@ -922,8 +922,8 @@ export const PopoverClose = forwardRef<HTMLButtonElement, PopoverCloseProps>(
             ? className
             : cn(
                 'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors',
-                'hover:bg-[var(--atom-card-hover)]',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--atom-primary)]',
+                'hover:bg-(--atom-card-hover)',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--atom-primary)',
                 'disabled:pointer-events-none disabled:opacity-50',
                 'h-8 w-8',
                 className,

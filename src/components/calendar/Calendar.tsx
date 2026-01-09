@@ -51,35 +51,35 @@ function Calendar({
         ),
         button_previous: cn(
           buttonVariants({ variant: buttonVariant }),
-          'h-7 w-7 bg-(--atom-card-bg) p-0 opacity-60 hover:opacity-100 cursor-pointer border-1 border-[color-mix(in_srgb,var(--atom-primary)_15%,transparent)] border-1',
+          'flex items-center justify-center  h-7 w-7 bg-(--atom-card-bg) p-0 opacity-60 hover:opacity-100 cursor-pointer border-1 border-[color-mix(in_srgb,var(--atom-primary)_15%,transparent)] border-1',
           defaultClassNames.button_previous,
         ),
         button_next: cn(
           buttonVariants({ variant: buttonVariant }),
-          'h-7 w-7 bg-(--atom-card-bg) p-0 opacity-50 hover:opacity-100 cursor-pointer  border-[color-mix(in_srgb,var(--atom-primary)_15%,transparent)] border-1',
+          'flex items-center justify-center rounded-md h-7 w-7 bg-(--atom-card-bg) p-0 opacity-50 hover:opacity-100 cursor-pointer  border-[color-mix(in_srgb,var(--atom-primary)_15%,transparent)] border-1',
           defaultClassNames.button_next,
         ),
         month_caption: cn(
-          'flex  w-full items-center justify-center self-center',
+          'flex  w-full items-center justify-center self-center ',
           defaultClassNames.month_caption,
         ),
         dropdowns: cn(
-          'flex w-full items-center justify-center gap-1.5 text-sm font-medium',
-          defaultClassNames.dropdowns,``
+          'flex w-full items-center justify-center gap-1.5 text-sm font-medium ',
+          defaultClassNames.dropdowns,
         ),
         dropdown_root: cn(
           ' border-input shadow-xs  relative rounded-md border',
           defaultClassNames.dropdown_root,
         ),
         dropdown: cn(
-          'bg-popover absolute inset-0 opacity-0',
+          'bg-popover absolute inset-0 opacity-0 ',
           defaultClassNames.dropdown,
         ),
         caption_label: cn(
-          'select-none font-medium flex items-center border-(--atom-theme-border)',
+          'select-none font-medium flex',
           captionLayout === 'label'
-            ? 'text-sm'
-            : '[&>svg]:text-muted-foreground flex h-8 items-center gap-1 rounded-md pl-2 pr-1 text-sm [&>svg]:size-3.5',
+            ? 'text-sm items-end h-6'  
+            : '[&>svg]:text-muted-foreground flex h-8 items-center gap-1 rounded-md pl-2 pr-1 text-sm [&>svg]:size-3.5 ',
           defaultClassNames.caption_label,
         ),
         table: 'w-full border-collapse',
@@ -210,8 +210,8 @@ function CalendarDayButton({
   "data-[selected-single=true]:bg-(--atom-info-card-jobstatus-secondary-text) data-[selected-single=true]:text-primary-foreground",
   
   // Range states
-  "data-[range-start=true]:bg-(--atom-info-card-jobstatus-secondary-text) data-[range-start=true]:text-primary-foreground data-[range-start=true]:rounded-none",
-  "data-[range-end=true]:bg-(--atom-info-card-jobstatus-secondary-text) data-[range-end=true]:text-primary-foreground data-[range-end=true]:rounded-none",
+  "data-[range-start=true]:bg-(--atom-info-card-jobstatus-secondary-text) data-[range-start=true]:text-primary-foreground data-[range-start=true]:rounded-md",
+  "data-[range-end=true]:bg-(--atom-info-card-jobstatus-secondary-text) data-[range-end=true]:text-primary-foreground data-[range-end=true]:rounded-md",
   "data-[range-middle=true]:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_90%,transparent)] data-[range-middle=true]:text-accent-foreground data-[range-middle=true]:rounded-none",
   
   // Focus states

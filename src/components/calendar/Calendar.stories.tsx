@@ -164,20 +164,8 @@ export const InteractiveSelection: Story = {
   },
 };
 
-// Multiple months
-export const MultipleMonths: Story = {
-  render: (args) => (
-    <div className="flex flex-col gap-4">
-      <ControlledCalendar {...args} />
-    </div>
-  ),
-  args: {
-    captionLayout: "dropdown",
-    buttonVariant: "ghost",
-    showOutsideDays: true,
-    numberOfMonths: 2,
-  },
-};
+
+
 
 // Disabled dates example
 export const DisabledDates: Story = {
