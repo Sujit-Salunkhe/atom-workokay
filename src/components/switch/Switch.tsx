@@ -13,16 +13,14 @@ export const switchVariants = cva(
     'focus-visible:ring-[var(--atom-ring-color)] focus-visible:ring-offset-2 ' +
     'focus-visible:ring-offset-[var(--atom-ring-offset)] ' +
     'disabled:opacity-50 disabled:cursor-not-allowed ' +
-    'relative overflow-visible bg-[var(--atom-border)] ' +
-          'data-[state=checked]:bg-[var(--atom-primary)] ' +
-          'data-[state=checked]:border-[var(--atom-primary)]',
+    'relative overflow-visible bg-[var(--atom-theme-border-primary)] ' +
+    'data-[state=checked]:bg-[var(--atom-primary)] ' +
+    'data-[state=checked]:border-[var(--atom-primary)]',
   {
     variants: {
       variant: {
-        default:
-          '',
-        theme:
-          '',
+        default: '',
+        theme: '',
       },
       size: {
         sm: 'h-4 w-7 p-0.5',
@@ -107,7 +105,8 @@ export type SwitchVariant = 'default' | 'theme'
 export type SwitchSize = 'sm' | 'md' | 'lg'
 
 export interface SwitchProps
-  extends React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>,
+  extends
+    React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>,
     VariantProps<typeof switchVariants> {}
 
 export const Switch = React.forwardRef<
@@ -116,11 +115,11 @@ export const Switch = React.forwardRef<
 >(({ className, variant, size, fullWidth, checked, ...props }, ref) => {
   const [checkedState, setCheckedState] = React.useState(checked ?? false)
   const [shouldAnimate, setShouldAnimate] = React.useState(false)
-  
+
   const currentSize = size ?? 'md'
   const currentVariant = variant ?? 'default'
   const config = thumbConfig[currentSize]
-  
+
   const iconSize = currentSize === 'sm' ? 10 : currentSize === 'md' ? 12 : 14
   const starSize = currentSize === 'sm' ? 6 : currentSize === 'md' ? 8 : 10
 
@@ -135,7 +134,7 @@ export const Switch = React.forwardRef<
       setShouldAnimate(true)
       setTimeout(() => setShouldAnimate(false), 300)
     }
-    
+
     setCheckedState(newChecked)
     props.onCheckedChange?.(newChecked)
   }
@@ -144,7 +143,14 @@ export const Switch = React.forwardRef<
     <SwitchPrimitive.Root
       ref={ref}
       data-slot="switch"
-      className={cn(switchVariants({ variant: currentVariant, size: currentSize, fullWidth }), className)}
+      className={cn(
+        switchVariants({
+          variant: currentVariant,
+          size: currentSize,
+          fullWidth,
+        }),
+        className,
+      )}
       checked={checkedState}
       onCheckedChange={handleCheckedChange}
       {...props}
@@ -220,7 +226,10 @@ export const Switch = React.forwardRef<
 
       <MotionThumb
         data-slot="switch-thumb"
-        className={cn(config.size, 'block rounded-full bg-(--atom-bg) shadow-lg relative z-10')}
+        className={cn(
+          config.size,
+          'block rounded-full bg-(--atom-bg) shadow-lg relative z-10',
+        )}
         animate={{
           x: checkedState ? config.translateX : 0,
           scaleX: shouldAnimate ? [1, 1.3, 1] : 1,
