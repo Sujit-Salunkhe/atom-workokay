@@ -10,14 +10,14 @@
       variants: {
         variant:{
           primary:'text-[var(--atom-primary)]',
-          secondary:'text-[var(--atom-info-card-jobstatus-secondary-text)]',
-          tertiary:'text-[var(--atom-info-card-jobstatus-success-text)]',
+          secondary:'text-[var(--atom-theme-surface-secondary)]',
+          tertiary:'text-[var(--atom-theme-surface-secondary)]',
           neutral: 'text-[var(--atom-text)]',
           success: 'text-[var(--atom-success)]',
           error: 'text-[var(--atom-error)]',
           info:'text-[var(--atom-info)]',
           warning:'text-[var(--atom-warning)]',
-          disabled:'text-[var(--atom-badge-archived-text)]'
+          disabled:'text-[var(--atom-theme-text-secondary)]'
         },
         size: {
           none:'',

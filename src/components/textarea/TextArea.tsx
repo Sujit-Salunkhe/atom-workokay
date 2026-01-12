@@ -14,16 +14,16 @@ const textareaVariants = cva(
     'outline-none disabled:cursor-not-allowed disabled:opacity-50',
 
     // base colors (your tokens)
-    'border-[var(--atom-badge-archived-border)]',
+    'border-[var(--atom-theme-border-primary)]',
     'placeholder:text-muted-foreground',
 
     // hover: change bg + border only
-    'hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_6%,transparent)]',
-    'hover:border-[color-mix(in_srgb,var(--atom-badge-archived-border)_25%,transparent)] ',
+    'hover:bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_6%,transparent)]',
+    'hover:border-[color-mix(in_srgb,var(--atom-theme-border-primary)_25%,transparent)] ',
 
     // focus: change border + ring only (keep your fixed color)
-    'focus-visible:border-[var(--atom-badge-archived-border))]',
-    'focus-visible:ring-1 focus-visible:ring-[color-mix(in_srgb,var(--atom-badge-archived-border)_35%,transparent)]',
+    'focus-visible:border-[var(--atom-theme-border-primary))]',
+    'focus-visible:ring-1 focus-visible:ring-[color-mix(in_srgb,var(--atom-theme-border-primary)_35%,transparent)]',
     'focus-visible:ring-offset-0',
 
     // invalid state (keep your existing logic)
@@ -38,8 +38,8 @@ const textareaVariants = cva(
 
     // NEW: filled state (data-filled="true")
       'placeholder:text-muted-foreground ' +
-      'placeholder-shown:border-[var(--atom-badge-archived-border)] ' +
-      '[&:not(:placeholder-shown)]:border-[color-mix(in_srgb,var(--atom-badge-archived-border)_70%,var(--atom-primary))] ' +
+      'placeholder-shown:border-[var(--atom-theme-border-primary)] ' +
+      '[&:not(:placeholder-shown)]:border-[color-mix(in_srgb,var(--atom-theme-border-primary)_70%,var(--atom-primary))] ' +
       'focus-visible:border-[var(--atom-primary)] ',
   ].join(' '),
   {
