@@ -6,8 +6,8 @@ import { cn } from '../../lib/cn'
 
 export const statCardVariants = cva(
   // Base layout: like your screenshot
-  'flex flex-col justify-center rounded-xl border bg-[var(--atom-theme-bg)] ' +
-    'border-[var(--atom-theme-border)] px-4 py-3' +
+  'flex flex-col justify-center rounded-xl border bg-[var(--atom-theme-surface-primary] ' +
+    'border-[var(--atom-theme-border-primary)] px-4 py-3' +
     'transition-colors duration-150 ease-in-out ' +
     'shadow-sm ',
   {

@@ -183,6 +183,11 @@
   --atom-info-card-jobstatus-secondary-text: #2e9995;
   --atom-info-card-jobstatus-success-text: #66bfa5;
 
+    --atom-line-height-tight: 1.2;     /* Headings, badges, chips */
+  --atom-line-height-snug: 1.33;     /* Labels, metadata, status text */
+  --atom-line-height-normal: 1.5;    /* Body text (default) */
+  --atom-line-height-relaxed: 1.75;  /* Long paragraphs */
+  
   --atom-info-card-jobstatus-label-text: #546e73;
   --atom-info-card-jobstatus-font-size: 1.5rem;
   --atom-info-card-jobstatus-line-height: calc(2 / 1.5);

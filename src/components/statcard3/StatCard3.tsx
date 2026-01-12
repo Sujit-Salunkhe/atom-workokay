@@ -9,9 +9,9 @@ import { cn } from '../../lib/cn'
  * Example: "High Priority   [ 6 ]"
  */
 export const statCardPriorityVariants = cva(
-  'flex items-center justify-between rounded-xl border bg-[var(--atom-theme-bg)] ' +
-    'border-[var(--atom-theme-border)] px-4 py-3 w-full ' +
-    'transition-colors duration-150 ease-in-out shadow-sm border-[var(--atom-badge-archived-border)]',
+  'flex items-center justify-between rounded-xl border bg-[var(--atom-theme-surface-primary)] ' +
+    'border-[var(--atom-theme-border-primary)] px-4 py-3 w-full ' +
+    'transition-colors duration-150 ease-in-out shadow-sm border-[var(--atom-theme-border-primary)]',
   {
     variants: {
       /** Semantic tone: primary + priority levels */
@@ -134,7 +134,7 @@ export const StatCardPriority = React.forwardRef<
             variant === 'low' &&
               'bg-[color-mix(in_srgb,var(--atom-success)_15%,transparent)] text-(--atom-success) border-[color-mix(in_srgb,var(--atom-success)_40%,var(--atom-card-border))] border',
             variant === 'primary' &&
-              'bg-[color-mix(in_srgb,var(--atom-theme-bg)_10%,transparent)] text-(--atom-theme-text-primary) border border-(--atom-theme-border)',
+              'bg-[color-mix(in_srgb,var(--atom-theme-surface-primary)_10%,transparent)] text-(--atom-theme-text-primary) border border-(--atom-theme-border-primary)',
             variant === 'neutral' &&
               'bg-[color-mix(in_srgb,var(--atom-border)_12%,transparent)] text-(--atom-text-muted) border-(--atom-card-border) border',
           )}

@@ -10,7 +10,7 @@ import { cn } from '../../lib/cn'
 
 // Wrapper/layout styles
 const statCardVariants = cva(
-  'flex bg-[color-mix(in_oklab,var(--atom-badge-archived-bg)_50%,transparent)]',
+  'flex bg-[color-mix(in_oklab,var(--atom-theme-surface-tertiary)_50%,transparent)]',
   {
     variants: {
       order: {
@@ -38,11 +38,11 @@ const statValueVariants = cva('', {
   variants: {
     variant: {
       primary:
-        'text-[var(--atom-info-card-jobstatus-primary-text)] text-[calc(var(--atom-text-2xl))] font-semibold leading-[var(--atom-info-card-jobstatus-line-height)]',
+        'text-[var(--atom-theme-text-primary)] text-[calc(var(--atom-text-2xl))] font-semibold leading-[var(--atom-line-height-snug)]',
       secondary:
-        'text-[var(--atom-info-card-jobstatus-secondary-text)] font-[600] font-semibold text-[calc(var(--atom-text-2xl))] leading-[var(--atom-info-card-jobstatus-line-height)]',
+        'text-[var(--atom-theme-surface-secondary)] font-[600] font-semibold text-[calc(var(--atom-text-2xl))] leading-[var(--atom-line-height-snug)]',
       success:
-        'text-[var(--atom-info-card-jobstatus-success-text)] font-[600] font-semibold text-[calc(var(--atom-text-2xl))] leading-[var(--atom-info-card-jobstatus-line-height)]',
+        'text-[var(--atom-info-card-jobstatus-success-text)] font-[600] font-semibold text-[calc(var(--atom-text-2xl))] leading-[var(--atom-line-height-snug)]',
     },
   },
   defaultVariants: {
@@ -55,11 +55,11 @@ const statLabelVariants = cva('', {
   variants: {
     variant: {
       primary:
-        'text-[var(--atom-info-card-jobstatus-label-text)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]',
+        'text-[var(--atom-theme-text-secondary)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]',
       secondary:
-        'text-[var(--atom-info-card-jobstatus-label-text)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]',
+        'text-[var(--atom-theme-text-secondary)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]',
       success:
-        'text-[var(--atom-info-card-jobstatus-label-text)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]',
+        'text-[var(--atom-theme-text-secondary)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]',
     },
   },
   defaultVariants: {

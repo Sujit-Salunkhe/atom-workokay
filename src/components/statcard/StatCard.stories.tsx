@@ -1,5 +1,5 @@
 // src/components/ui/stat-card.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { StatCard } from './StatCard';
 
 
@@ -275,7 +275,7 @@ export const AsButton: Story = {
     label: 'Click me',
     size: 'md',
   },
-  render: (args:any) => (
+  render: (args) => (
     <StatCard {...args} asChild>
       <button
         onClick={() => alert('StatCard clicked!')}
@@ -294,7 +294,7 @@ export const AsLink: Story = {
     variant: 'success',
     size: 'md',
   },
-  render: (args:any) => (
+  render: (args) => (
     <StatCard {...args} asChild>
       <a href="#stats" style={{ textDecoration: 'none' }}>
         <div className="text-2xl font-semibold text-green-600">89.2%</div>
