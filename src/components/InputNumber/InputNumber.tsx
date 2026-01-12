@@ -372,7 +372,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           <div
             className={cn(
               'absolute top-px right-px bottom-px flex flex-col',
-              'border-l border-(--atom-theme-border)',
+              'border-l border-(--atom-theme-border-primary)',
               'rounded-r-[calc(0.375rem-1px)] overflow-hidden',
               spinnerConfig.spinnerWidth,
             )}
@@ -387,10 +387,10 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               tabIndex={-1}
               className={cn(
                 'flex items-center justify-center flex-1',
-                'hover:bg-[color-mix(in_srgb,var(--atom-theme-border)_10%,transparent)]',
-                'active:bg-[color-mix(in_srgb,var(--atom-theme-border)_20%,transparent)]',
+                'hover:bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_10%,transparent)]',
+                'active:bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_20%,transparent)]',
                 'disabled:opacity-50 disabled:cursor-not-allowed',
-                'transition-colors border-b border-(--atom-theme-border)',
+                'transition-colors border-b border-(--atom-theme-border-primary)',
                 'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-(--atom-primary) focus-visible:ring-inset',
                 'cursor-pointer',
               )}
@@ -410,8 +410,8 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               tabIndex={-1}
               className={cn(
                 'flex items-center justify-center flex-1',
-                'hover:bg-[color-mix(in_srgb,var(--atom-theme-border)_10%,transparent)]',
-                'active:bg-[color-mix(in_srgb,var(--atom-theme-border)_20%,transparent)]',
+                'hover:bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_10%,transparent)]',
+                'active:bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_20%,transparent)]',
                 'disabled:opacity-50 disabled:cursor-not-allowed',
                 'transition-colors',
                 'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-(--atom-primary) focus-visible:ring-inset',

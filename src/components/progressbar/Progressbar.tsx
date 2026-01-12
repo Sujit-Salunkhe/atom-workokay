@@ -9,18 +9,18 @@ const progressTrackVariants = cva(
     "w-full overflow-hidden",
 
     // shape + border
-    "border border-[var(--atom-badge-archived-border)] rounded-[var(--atom-radius-1)]",
+    "border border-[var(--atom-theme-border-primary)] rounded-[var(--atom-radius-1)]",
 
     // default background (can be overridden by variants)
-    "bg-[color-mix(in_srgb,var(--atom-info-card-jobstatus-secondary-text)_20%,transparent)]",
+    "bg-[color-mix(in_srgb,var(--atom-theme-surface-secondary)_20%,transparent)]",
   ].join(" "),
   {
     variants: {
       trackVariant: {
-        default: "bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_8%,transparent)]",
+        default: "bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_8%,transparent)]",
         outline: "bg-transparent bg-none",
         subtle:
-          "bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_6%,var(--atom-bg))]",
+          "bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_6%,var(--atom-bg))]",
       },
       size: {
         sm: "h-3",

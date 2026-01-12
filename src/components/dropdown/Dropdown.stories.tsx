@@ -1,5 +1,5 @@
 // src/components/ui/Dropdown.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import {
   Dropdown,
@@ -311,7 +311,7 @@ export const ControlledState: Story = {
     )
   },
   args: {
-    children: null as any, // Placeholder since render overrides it
+    children: null , // Placeholder since render overrides it
   },
 }
 
@@ -328,7 +328,7 @@ export const WithValueSelection: Story = {
           <DropdownTrigger>
             Select Option <ChevronDown className="h-4 w-4" />
           </DropdownTrigger>
-          <DropdownContent closeOnSelect>
+          <DropdownContent >
             <DropdownItem value="profile">
               <User className="mr-2 h-4 w-4" />
               Profile
@@ -347,7 +347,7 @@ export const WithValueSelection: Story = {
     )
   },
   args: {
-    children: null as any, // Placeholder since render overrides it
+    children: null , // Placeholder since render overrides it
   },
 }
 
@@ -409,7 +409,7 @@ export const TriggerVariants: Story = {
     </div>
   ),
   args: {
-    children: null as any, // Placeholder since render overrides it
+    children: null , // Placeholder since render overrides it
   },
 }
 
@@ -418,7 +418,7 @@ export const CustomTrigger: Story = {
     children: (
       <>
         <DropdownTrigger asChild>
-          <button className="px-4 py-2 rounded-full bg-liner-to-r from-purple-500 to-pink-500 text-white font-semibold hover:opacity-90 transition-opacity">
+          <button className="px-4 py-2 rounded-full bg-linear-to-r from-purple-500 to-pink-500 text-white font-semibold hover:opacity-90 transition-opacity">
             Custom Button <Plus className="inline h-4 w-4 ml-2" />
           </button>
         </DropdownTrigger>
@@ -489,7 +489,7 @@ export const LongMenu: Story = {
         <DropdownTrigger>
           Long Menu <ChevronDown className="h-4 w-4" />
         </DropdownTrigger>
-        <DropdownContent className="max-h-75 overflow-y-auto">
+        <DropdownContent className="max-h-75overflow-y-auto">
           {Array.from({ length: 20 }, (_, i) => (
             <DropdownItem key={i} value={`item-${i + 1}`}>
               Item {i + 1}

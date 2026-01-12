@@ -1,5 +1,5 @@
 // src/components/ui/paper.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Paper } from './Paper'
 
 const meta = {

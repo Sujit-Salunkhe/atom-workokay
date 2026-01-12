@@ -1,5 +1,5 @@
 // src/components/ui/content-card.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { ContentCard } from './ContentCard'
 
 const meta = {
@@ -12,7 +12,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'info', 'success', 'warning', 'error', 'neutral', 'theme'],
+      options: ['default', 'info', 'success', 'warning', 'error', 'neutral'],
       description: 'Visual style variant',
       table: {
         type: { summary: 'ContentCardVariant' },

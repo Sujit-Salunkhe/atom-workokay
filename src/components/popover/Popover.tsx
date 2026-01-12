@@ -104,7 +104,7 @@ function usePopoverContext(): PopoverContextValue {
 const popoverContentVariants = cva(
   [
     'absolute z-[1000] rounded-lg border shadow-lg',
-    'bg-[var(--atom-theme-bg)] border-[var(--atom-theme-border)]',
+    'bg-[var(--atom-theme-surface-primary)] border-[var(--atom-theme-border-primary)]',
     'outline-none overflow-hidden',
   ].join(' '),
   {
@@ -714,7 +714,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
     if (!targetContainer) return null
 
     const getArrowStyles = () => {
-      const baseStyles = 'absolute h-2 w-2 rotate-45 bg-[var(--atom-theme-bg)] border-[var(--atom-theme-border)]'
+      const baseStyles = 'absolute h-2 w-2 rotate-45 bg-[var(--atom-theme-surface-primary)] border-[var(--atom-theme-border-primary)]'
       
       const positionStyles = {
         top: 'bottom-[-5px] border-r border-b',
@@ -814,7 +814,7 @@ export const PopoverHeader = forwardRef<HTMLDivElement, PopoverHeaderProps>(
       ref={ref}
       data-testid="popover-header"
       className={cn(
-        'flex items-center justify-between px-4 py-3 border-b border-[var(--atom-theme-border)]',
+        'flex items-center justify-between px-4 py-3 border-b border-(--atom-theme-border-primary)',
         className,
       )}
       {...props}
@@ -849,7 +849,7 @@ export const PopoverFooter = forwardRef<HTMLDivElement, PopoverFooterProps>(
       ref={ref}
       data-testid="popover-footer"
       className={cn(
-        'flex items-center justify-end gap-2 px-4 py-3 border-t border-[var(--atom-theme-border)]',
+        'flex items-center justify-end gap-2 px-4 py-3 border-t border-(--atom-theme-border-primary)',
         className,
       )}
       {...props}
@@ -868,7 +868,7 @@ export const PopoverTitle = forwardRef<HTMLHeadingElement, PopoverTitleProps>(
       ref={ref}
       data-testid="popover-title"
       className={cn(
-        'text-lg font-semibold text-[var(--atom-text)]',
+        'text-lg font-semibold text-(--atom-text)',
         className,
       )}
       {...props}
@@ -889,7 +889,7 @@ export const PopoverDescription = forwardRef<
     ref={ref}
     data-testid="popover-description"
     className={cn(
-      'text-sm text-[var(--atom-text-secondary)]',
+      'text-sm text-(--atom-text)',
       className,
     )}
     {...props}
@@ -922,7 +922,6 @@ export const PopoverClose = forwardRef<HTMLButtonElement, PopoverCloseProps>(
             ? className
             : cn(
                 'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors',
-                'hover:bg-(--atom-card-hover)',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--atom-primary)',
                 'disabled:pointer-events-none disabled:opacity-50',
                 'h-8 w-8',

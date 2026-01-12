@@ -109,7 +109,7 @@ const dropdownContentVariants = cva(
   [
     'absolute z-[1000] min-w-[8rem] overflow-hidden',
     'rounded-sm border shadow-lg px-1 py-2',
-    'bg-[var(--atom-theme-bg)] border border-[var(--atom-theme-border)] ',
+    'bg-[var(--atom-theme-bg)] border border-[var(--atom-theme-border-primary)] ',
   ].join(' '),
   {
     variants: {
@@ -276,7 +276,7 @@ export interface DropdownContentProps
   /** Prevent closing on content click */
   preventClose?: boolean
   /** Close dropdown when an item is selected */
-  closeOnSelect?: boolean
+
   children?: React.ReactNode
 }
 
@@ -444,7 +444,7 @@ function usePosition(
 
 
     setPosition({ top, left })
-  }, [open, side, align, sideOffset, alignOffset])
+  }, [open, side, align, sideOffset, alignOffset,contentRef,triggerRef])
 
 
   useEffect(() => {
@@ -478,7 +478,7 @@ function usePosition(
       window.removeEventListener('scroll', calculatePosition, true)
       window.removeEventListener('resize', calculatePosition)
     }
-  }, [calculatePosition, open])
+  }, [calculatePosition, open,contentRef,triggerRef])
 
 
   return position
@@ -719,8 +719,6 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       sideOffset = 4,
       alignOffset = 0,
       container,
-      preventClose = false,
-      closeOnSelect = true,
       ...props
     },
     ref,
@@ -768,7 +766,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       contentRef as React.RefObject<HTMLElement>,
       triggerRef,
       () => {
-        if (open && !preventClose) setOpen(false)
+        if (open) setOpen(false)
       },
       open,
     )
@@ -871,19 +869,15 @@ DropdownContent.displayName = 'DropdownContent'
 
 
 export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
-  (
-    {
-      className,
-      children,
-      disabled,
-      preventClose = false,
-      value,
-      onClick,
-      onKeyDown,
-      ...props
-    },
-    ref,
-  ) => {
+  ({
+    className,
+    children,
+    disabled,
+    value,
+    onClick,
+    onKeyDown,
+    ...props
+  }, ref) => {
     const {
       setOpen,
       selectedValue,
@@ -896,10 +890,27 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
     const uniqueId = useId()
     const itemId = `dropdown-item-${uniqueId}`
     const [isProcessing, setIsProcessing] = useState(false)
-    const [isFocused, setIsFocused] = useState(false) // ← Add focus state
+    const [isFocused, setIsFocused] = useState(false)
 
+    // ✅ SHARED SELECTION LOGIC - NO TYPE ISSUES
+    const handleSelect = useCallback(() => {
+      if (disabled || isProcessing) return
+      
+      setIsProcessing(true)
+      
+      if (value !== undefined) {
+        setSelectedValue(value)
+      }
+      
+      // Trigger user's onClick with safe synthetic event
+      onClick?.({} as React.MouseEvent<HTMLDivElement, MouseEvent>)
+      
+      // Always close on selection (standard UX)
+      setOpen(false)
+      
+      setTimeout(() => setIsProcessing(false), 300)
+    }, [disabled, isProcessing, value, setSelectedValue, onClick, setOpen])
 
-    // Combine external ref with internal ref
     useEffect(() => {
       if (ref) {
         if (typeof ref === 'function') {
@@ -910,57 +921,32 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
       }
     }, [ref])
 
-
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-      if (disabled || isProcessing) return
-
-
-      setIsProcessing(true)
       e.stopPropagation()
-
-
-      if (value !== undefined) {
-        setSelectedValue(value)
-      }
-
-
-      onClick?.(e)
-
-
-      if (!preventClose) {
-        setOpen(false)
-      }
-
-
-      // Prevent rapid clicks
-      setTimeout(() => setIsProcessing(false), 300)
+      handleSelect()
     }
-
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (disabled) return
 
-
       const currentItem = itemRef.current
       if (!currentItem) return
-
 
       const menuItems = Array.from(
         currentItem
           .closest('[role="menu"]')
-          ?.querySelectorAll('[role="menuitem"]:not([aria-disabled="true"])') ||
-          [],
+          ?.querySelectorAll('[role="menuitem"]:not([aria-disabled="true"])') || [],
       )
       const currentIndex = menuItems.indexOf(currentItem)
-
 
       switch (e.key) {
         case 'Enter':
         case ' ':
           e.preventDefault()
           e.stopPropagation()
-          handleClick(e as any)
+          handleSelect()  // ✅ NO MORE `as any`!
           break
+
         case 'ArrowDown':
           e.preventDefault()
           e.stopPropagation()
@@ -971,17 +957,18 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
             setActiveDescendant?.(nextItem.id)
           }
           break
+
         case 'ArrowUp':
           e.preventDefault()
           e.stopPropagation()
           if (menuItems.length > 0) {
-            const prevIndex =
-              currentIndex === 0 ? menuItems.length - 1 : currentIndex - 1
+            const prevIndex = currentIndex === 0 ? menuItems.length - 1 : currentIndex - 1
             const prevItem = menuItems[prevIndex] as HTMLElement
             prevItem?.focus()
             setActiveDescendant?.(prevItem.id)
           }
           break
+
         case 'Home':
           e.preventDefault()
           e.stopPropagation()
@@ -991,6 +978,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
             setActiveDescendant?.(firstItem.id)
           }
           break
+
         case 'End':
           e.preventDefault()
           e.stopPropagation()
@@ -1000,28 +988,22 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
             setActiveDescendant?.(lastItem.id)
           }
           break
+
         case 'Tab':
-          // Tab navigation through items
           if (menuItems.length > 0) {
             if (!e.shiftKey) {
-              // Tab forward
               if (currentIndex === menuItems.length - 1) {
-                // Last item - close dropdown and let focus move outside
                 setOpen(false)
               } else {
-                // Move to next item
                 e.preventDefault()
                 const nextItem = menuItems[currentIndex + 1] as HTMLElement
                 nextItem?.focus()
                 setActiveDescendant?.(nextItem.id)
               }
             } else {
-              // Shift+Tab backward
               if (currentIndex === 0) {
-                // First item - close dropdown and return to trigger
                 setOpen(false)
               } else {
-                // Move to previous item
                 e.preventDefault()
                 const prevItem = menuItems[currentIndex - 1] as HTMLElement
                 prevItem?.focus()
@@ -1032,20 +1014,17 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
           break
       }
 
-
       onKeyDown?.(e)
     }
 
-
     const handleFocus = () => {
-      setIsFocused(true) // ← Track focus
+      setIsFocused(true)
       setActiveDescendant?.(itemId)
     }
 
     const handleBlur = () => {
-      setIsFocused(false) // ← Track blur
+      setIsFocused(false)
     }
-
 
     return (
       <motion.div
@@ -1056,13 +1035,13 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
         aria-disabled={disabled}
         data-disabled={disabled ? '' : undefined}
         data-selected={isSelected ? '' : undefined}
-        data-focused={isFocused ? '' : undefined} // ← Add data attribute
+        data-focused={isFocused ? '' : undefined}
         data-testid={`dropdown-item-${value || itemId}`}
         className={cn(dropdownItemVariants(), className)}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
-        onBlur={handleBlur} // ← Add blur handler
+        onBlur={handleBlur}
         whileHover={disabled || !animateItems ? undefined : { scale: 1.01 }}
         whileTap={disabled || !animateItems ? undefined : { scale: 0.98 }}
         {...props}
@@ -1072,6 +1051,8 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
     )
   },
 )
+
+DropdownItem.displayName = 'DropdownItem'
 
 
 

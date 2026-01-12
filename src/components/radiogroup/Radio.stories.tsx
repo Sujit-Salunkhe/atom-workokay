@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import {
   RadioGroup,
@@ -96,7 +96,7 @@ export const WithDescriptions: Story = {
     defaultValue: 'default',
     orientation: 'vertical',
   },
-  render: (args:any) => (
+  render: (args) => (
     <RadioGroup {...args} className="space-y-4">
       <div className="space-y-1">
         <RadioGroupOption>
@@ -135,7 +135,7 @@ export const Disabled: Story = {
     defaultValue: 'option1',
     orientation: 'vertical',
   },
-  render: (args:any) => (
+  render: (args) => (
     <RadioGroup {...args}>
       <RadioGroupOption>
         <RadioGroupItem value="option1" id="d1" />

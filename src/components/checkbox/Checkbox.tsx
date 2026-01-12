@@ -7,13 +7,14 @@ export const checkboxVariants = cva(
   [
     // base
     "shrink-0 rounded-[var(--atom-radius-1)]",
-    "border-[var(--atom-card-border)]",
+  
+    "border border-[var(--atom-theme-border)]",
     "bg-[var(--atom-input-bg)]",
     "transition-[background-color,border-color,box-shadow,color]",
     "disabled:cursor-not-allowed disabled:opacity-50",
 
     // interaction
-    "hover:border-[color-mix(in_srgb,var(--atom-card-border)_70%,var(--atom-text))]",
+    "hover:border-[color-mix(in_srgb,var(--atom-card-border)_70%,var(--atom-theme-border))]",
     "hover:cursor-pointer",
     "focus-visible:outline-none focus-visible:ring-2",
     "focus-visible:ring-[color-mix(in_srgb,var(--atom-primary)_35%,transparent)]",

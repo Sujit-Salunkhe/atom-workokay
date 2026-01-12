@@ -1,5 +1,5 @@
 // src/components/ui/Dropdown.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import {
   Dropdown,
@@ -311,7 +311,7 @@ export const ControlledState: Story = {
     )
   },
   args: {
-    children: null as any, // Placeholder since render overrides it
+    children: null , // Placeholder since render overrides it
   },
 }
 
@@ -328,7 +328,7 @@ export const WithValueSelection: Story = {
           <DropdownTrigger>
             Select Option <ChevronDown className="h-4 w-4" />
           </DropdownTrigger>
-          <DropdownContent closeOnSelect>
+          <DropdownContent >
             <DropdownItem value="profile">
               <User className="mr-2 h-4 w-4" />
               Profile
@@ -347,7 +347,7 @@ export const WithValueSelection: Story = {
     )
   },
   args: {
-    children: null as any, // Placeholder since render overrides it
+    children: null , // Placeholder since render overrides it
   },
 }
 
@@ -409,7 +409,7 @@ export const TriggerVariants: Story = {
     </div>
   ),
   args: {
-    children: null as any, // Placeholder since render overrides it
+    children: null , // Placeholder since render overrides it
   },
 }
 

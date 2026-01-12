@@ -47,8 +47,8 @@ RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 const radioGroupItemVariants = cva(
   [
     'aspect-square h-4 w-4 rounded-full',
-    'border border-[var(--atom-theme-border)]',
-    'bg-(--atom-theme-bg)',
+    'border border-[var(--atom-theme-border-primary)]',
+    'bg-(--atom-theme-surface-primary)',
     'text-(--atom-primary)',
     'focus:outline-none  ',
     'disabled:cursor-not-allowed disabled:opacity-50',
