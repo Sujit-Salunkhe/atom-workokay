@@ -12,16 +12,16 @@ const numberInputVariants = cva(
     'outline-none disabled:cursor-not-allowed disabled:opacity-50',
 
     // base colors
-    'border-[var(--atom-badge-archived-border)]',
+    'border-[var(--atom-theme-border-primary)]',
     'placeholder:text-muted-foreground',
 
     // hover
-    'hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_6%,transparent)]',
-    'hover:border-[color-mix(in_srgb,var(--atom-badge-archived-border)_25%,transparent)]',
+    'hover:bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_6%,transparent)]',
+    'hover:border-[color-mix(in_srgb,var(--atom-theme-border-primary)_25%,transparent)]',
 
     // focus
-    'focus-visible:border-[var(--atom-badge-archived-border)]',
-    'focus-visible:ring-1 focus-visible:ring-[color-mix(in_srgb,var(--atom-badge-archived-border)_35%,transparent)]',
+    'focus-visible:border-[var(--atom-theme-border-primary)]',
+    'focus-visible:ring-1 focus-visible:ring-[color-mix(in_srgb,var(--atom-theme-border-primary)_35%,transparent)]',
     'focus-visible:ring-offset-0',
 
     // invalid state
@@ -37,8 +37,8 @@ const numberInputVariants = cva(
 
     // filled state
     'placeholder:text-muted-foreground',
-    'placeholder-shown:border-[var(--atom-badge-archived-border)]',
-    '[&:not(:placeholder-shown)]:border-[color-mix(in_srgb,var(--atom-badge-archived-border)_70%,var(--atom-primary))]',
+    'placeholder-shown:border-[var(--atom-theme-border-primary)]',
+    '[&:not(:placeholder-shown)]:border-[color-mix(in_srgb,var(--atom-theme-border-primary)_70%,var(--atom-primary))]',
     'focus-visible:border-[var(--atom-primary)]',
 
     // hide native spinners

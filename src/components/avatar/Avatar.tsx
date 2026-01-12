@@ -24,7 +24,7 @@ export const avatarVariants = cva(
       /** Visual variant / semantic color */
       variant: {
         primary:
-          'text-[var(--atom-theme-secondary-bg)] bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_10%,transparent)] border-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_20%,transparent)]',
+          'text-[var(--atom-theme-surface-secondary)] bg-[color-mix(in_oklab,var(--atom-theme-surface-secondary)_10%,transparent)] border-[color-mix(in_oklab,var(--atom-theme-surface-secondary)_20%,transparent)]',
         neutral:
           'bg-[var(--atom-badge-neutral-bg-low)] ' +
           'text-[var(--atom-badge-neutral-fg-low)] ' +
@@ -93,7 +93,7 @@ export const avatarVariants = cva(
         appearance: 'solid',
         variant: 'primary',
         class:
-          'bg-[var(--atom-theme-secondary-bg)] ' +
+          'bg-[var(--atom-theme-surface-secondary)] ' +
           'text-[var(--atom-theme-primary-bg)] ' +
           'border-transparent',
       },

@@ -2,13 +2,13 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import * as React from "react";
-import { InfoCard } from "./InfoCard";
+import { StatCard } from "./StatCard";
 import { cn } from "../../lib/cn"
 
 describe("InfoCard", () => {
-  const renderInfoCard = (props: any) => {
+  const renderInfoCard = (props:object) => {
     return render(
-      <InfoCard data-testid="info-card" {...props} />
+      <StatCard data-testid="info-card" {...props} />
     );
   };
 
@@ -17,7 +17,7 @@ describe("InfoCard", () => {
   const getInfoLabel = () => screen.getByTestId("info-label");
 
   it("renders basic InfoCard with children", () => {
-    renderInfoCard({ info: "42", label: "Users" });
+    renderInfoCard({ value: "42", label: "Users" });
     expect(getInfoCard()).toBeInTheDocument();
     expect(getInfoValue()).toHaveTextContent("42");
     expect(getInfoLabel()).toHaveTextContent("Users");
@@ -186,7 +186,7 @@ describe("InfoCard", () => {
 
     render(
       <TestButton>
-        <InfoCard asChild info="42" label="Slot test" />
+        <StatCard asChild value="42" label="Slot test" />
       </TestButton>
     );
     

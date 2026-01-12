@@ -45,7 +45,7 @@ const progressIndicatorVariants = cva(
   {
     variants: {
       indicatorVariant: {
-        default: "bg-[var(--atom-progressbar-bg)]",
+        default: "bg-[var(--atom-theme-surface-secondary)]",
         outline: "bg-[var(--atom-primary)]",
         subtle: "bg-[color-mix(in_srgb,var(--atom-primary)_45%,transparent)]",
       },

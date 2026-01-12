@@ -42,7 +42,7 @@ const statValueVariants = cva('', {
       secondary:
         'text-[var(--atom-theme-surface-secondary)] font-[600] font-semibold text-[calc(var(--atom-text-2xl))] leading-[var(--atom-line-height-snug)]',
       success:
-        'text-[var(--atom-info-card-jobstatus-success-text)] font-[600] font-semibold text-[calc(var(--atom-text-2xl))] leading-[var(--atom-line-height-snug)]',
+        'text-[var(--atom-primary)] font-[600] font-semibold text-[calc(var(--atom-text-2xl))] leading-[var(--atom-line-height-snug)]',
     },
   },
   defaultVariants: {
@@ -55,11 +55,11 @@ const statLabelVariants = cva('', {
   variants: {
     variant: {
       primary:
-        'text-[var(--atom-theme-text-secondary)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]',
+        'text-[var( --atom-theme-text-secondary)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]',
       secondary:
-        'text-[var(--atom-theme-text-secondary)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]',
+        'text-[var( --atom-theme-text-secondary)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]',
       success:
-        'text-[var(--atom-theme-text-secondary)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]',
+        'text-[var( --atom-theme-text-secondary)] leading-[var(--atom-info-card-jobstatus-label-line-height)] font-[var(--atom-text-xs)]',
     },
   },
   defaultVariants: {

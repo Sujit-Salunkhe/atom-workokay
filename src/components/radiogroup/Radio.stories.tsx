@@ -191,7 +191,7 @@ export const PlanSelection: Story = {
   render: (args) => (
     <div className="w-100">
       <RadioGroup {...args} className="space-y-3">
-        <div className="space-y-1 rounded-lg border border-(--atom-theme-border) p-4">
+        <div className="space-y-1 rounded-lg border border-(--atom-theme-border-primary) p-4">
           <RadioGroupOption>
             <RadioGroupItem value="free" id="plan-free" />
             <div className="flex-1">
@@ -208,7 +208,9 @@ export const PlanSelection: Story = {
           </RadioGroupOption>
         </div>
 
-        <div className="space-y-1 rounded-lg border border-(--atom-theme-border) p-4">
+        <div className="space-y-1 rounded-lg border border-(--atom-theme-border-primary
+        
+) p-4">
           <RadioGroupOption>
             <RadioGroupItem value="pro" id="plan-pro" />
             <div className="flex-1">
@@ -225,7 +227,7 @@ export const PlanSelection: Story = {
           </RadioGroupOption>
         </div>
 
-        <div className="space-y-1 rounded-lg border border-(--atom-theme-border) p-4">
+        <div className="space-y-1 rounded-lg border border-(--atom-theme-border-primary) p-4">
           <RadioGroupOption>
             <RadioGroupItem value="enterprise" id="plan-enterprise" />
             <div className="flex-1">

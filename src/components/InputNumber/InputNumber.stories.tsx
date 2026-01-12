@@ -1,5 +1,5 @@
 // src/components/ui/number-input.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import { NumberInput } from './InputNumber'
 
@@ -78,7 +78,7 @@ const Controlled = (args: React.ComponentProps<typeof NumberInput>) => {
         value={value}
         onChange={(val) => {
           setValue(val)
-          args.onChange?.(val as any)
+          args.onChange?.(val)
         }}
       />
       <p className="text-sm text-muted-foreground">
