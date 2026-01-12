@@ -30,7 +30,7 @@ const tooltipContentVariants = cva(
           'bg-transparent text-[var(--atom-text)] border-[var(--atom-border)]',
 
         default:
-          'bg-[var(--atom-theme-secondary-bg)] text-[var(--atom-theme-tooltip)] border-none',
+          'bg-[var(--atom-theme-surface-secondary)] text-white border-none',
       },
 
       size: {
