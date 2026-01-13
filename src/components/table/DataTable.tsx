@@ -8,7 +8,7 @@ import {
 } from 'react'
 import type { ReactNode } from 'react'
 import { cn } from '../../lib/cn'
-import { FilterIcon } from '../../assets/icons/BrokerModelIcons'
+import  FilterIcon  from '../../assets/icons/FilterIcon.svg?react'
 
 export interface Column {
   name: string
@@ -979,7 +979,7 @@ export function DataTable({
   return (
     <div
       className={cn(
-        'w-full overflow-hidden  min-h-[80vh] rounded-md border border-(--atom-theme-border-primary) ',
+        'w-full overflow-hidden  min-h-[80vh] rounded-md border border-(--atom-theme-border-primary) bg-(--atom-theme-surface-primary)',
         className,
       )}
     >

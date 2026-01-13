@@ -1,42 +1,43 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import {
-  ConfigIcon,
-  ConfigIcon2,
-  CloudUploadIcon,
-  MonitorIcon,
-  UsersIcon,
-  HomeIcon,
-  EditIcon,
-  DeleteIcon,
-  DocumentIcon,
-  ClockIcon,
-  ZipFolderIcon,
-  CSVFolderIcon,
-  ExcelFolderIcon,
-  InfoIcon,
-  WarningIcon,
-  QuestionMarkIcon,
-  FailedIcon,
-  ValidatedIcon,
-  DrawerIcon,
-  ArchivedIcon,
-  FilterIcon,
-  SettingIcon,
-  LogoutIcon,
-  MoonIcon,
-  SearchIcon,
-  EmailIcon,
-  OrganizationIcon,
-  AddUserIcon,
-  TrendingUpIcon,
-  FolderIcon,
-  TickIcon,
-  CalendarIcon,
-  DatabaseIcon,
-  DocumentIcon2,
-  SunIcon,
-  LockIcon
-} from '../../assets/icons/BrokerModelIcons'
+
+import ConfigIcon from '@/assets/icons/ConfigIcon.svg?react';
+// import ConfigIcon2 from '@/assets/icons/ConfigIcon2.svg?react';
+import CloudUploadIcon from '@/assets/icons/CloudUploadIcon.svg?react';
+import MonitorIcon from '@/assets/icons/MonitorIcon.svg?react';
+import UsersIcon from '@/assets/icons/UsersIcon.svg?react';
+import HomeIcon from '@/assets/icons/HomeIcon.svg?react';
+import EditIcon from '@/assets/icons/EditIcon.svg?react';
+import DeleteIcon from '@/assets/icons/DeleteIcon.svg?react';
+import DocumentIcon from '@/assets/icons/DocumentIcon.svg?react';
+import ClockIcon from '@/assets/icons/ClockIcon.svg?react';
+import ZipFolderIcon from '@/assets/icons/ZipFolderIcon.svg?react';
+import CSVFolderIcon from '@/assets/icons/CSVFolderIcon.svg?react';
+import ExcelFolderIcon from '@/assets/icons/ExcelFolderIcon.svg?react';
+import InfoIcon from '@/assets/icons/InfoIcon.svg?react';
+import WarningIcon from '@/assets/icons/WarningIcon.svg?react';
+import QuestionMarkIcon from '@/assets/icons/QuestionMarkIcon.svg?react';
+import FailedIcon from '@/assets/icons/FailedIcon.svg?react';
+import ValidatedIcon from '@/assets/icons/ValidatedIcon.svg?react';
+import DrawerIcon from '@/assets/icons/DrawerIcon.svg?react';
+import ArchivedIcon from '@/assets/icons/ArchivedIcon.svg?react';
+import FilterIcon from '@/assets/icons/FilterIcon.svg?react';
+import SettingIcon from '@/assets/icons/SettingIcon.svg?react';
+import LogoutIcon from '@/assets/icons/LogoutIcon.svg?react';
+import MoonIcon from '@/assets/icons/MoonIcon.svg?react';
+import SearchIcon from '@/assets/icons/SearchIcon.svg?react';
+import EmailIcon from '@/assets/icons/EmailIcon.svg?react';
+import OrganizationIcon from '@/assets/icons/OrganizationIcon.svg?react';
+import AddUserIcon from '@/assets/icons/AddUserIcon.svg?react';
+import TrendingUpIcon from '@/assets/icons/TrendingUpIcon.svg?react';
+import FolderIcon from '@/assets/icons/FolderIcon.svg?react';
+import TickIcon from '@/assets/icons/TickIcon.svg?react';
+import CalendarIcon from '@/assets/icons/CalendarIcon.svg?react';
+import DatabaseIcon from '@/assets/icons/DatabaseIcon.svg?react';
+// import DocumentIcon2 from '@/assets/icons/DocumentIcon2.svg?react';
+import SunIcon from '@/assets/icons/SunIcon.svg?react';
+import LockIcon from '@/assets/icons/LockIcon.svg?react';
+
+
 
 
 
@@ -57,10 +58,10 @@ export const AllIcons: Story = {
         <ConfigIcon className="h-8 w-8" />
         <span className="text-sm">ConfigIcon</span>
       </div>
-      <div className="flex flex-col items-center gap-2">
+      {/* <div className="flex flex-col items-center gap-2">
         <ConfigIcon2 className="h-8 w-8" />
         <span className="text-sm">ConfigIcon2</span>
-      </div>
+      </div> */}
 
       <div className="flex flex-col items-center gap-2">
         <CloudUploadIcon className="h-8 w-8" />
@@ -98,16 +99,16 @@ export const AllIcons: Story = {
         <span className="text-sm">DocumentIcon</span>
       </div>
 
-      <div className="flex flex-col items-center gap-2">
+      {/* <div className="flex flex-col items-center gap-2">
         <DocumentIcon2 className="h-8 w-8" />
         <span className="text-sm">DocumentIcon2</span>
-      </div>
+      </div> */}
 
       <div className="flex flex-col items-center gap-2">
         <TickIcon className="h-8 w-8" />
         <span className="text-sm">TickIcon</span>
       </div>
-
+``
       <div className="flex flex-col items-center gap-2">
         <ClockIcon className="h-8 w-8" />
         <span className="text-sm">ClockIcon</span>
