@@ -108,7 +108,7 @@ export const AllIcons: Story = {
         <TickIcon className="h-8 w-8" />
         <span className="text-sm">TickIcon</span>
       </div>
-``
+
       <div className="flex flex-col items-center gap-2">
         <ClockIcon className="h-8 w-8" />
         <span className="text-sm">ClockIcon</span>

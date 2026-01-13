@@ -1,4 +1,4 @@
-  // src/components/ui/Tabs.tsx
+  // src/components/Tabs.tsx
   import {
     useCallback,
     useContext,

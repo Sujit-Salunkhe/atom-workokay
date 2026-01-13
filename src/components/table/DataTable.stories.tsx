@@ -43,7 +43,7 @@ const mockColumns: Column[] = [
 ];
 
 const meta: Meta<typeof DataTable> = {
-  title: 'Components/Data Display/DataTable',
+  title: 'Components/DataTable',
   component: DataTable,
   parameters: {
     layout: 'fullscreen',
