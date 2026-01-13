@@ -20,11 +20,9 @@ import { cn } from '../../lib/cn'
 import { Slot } from '@radix-ui/react-slot'
 import { useThemePortal } from '../../hooks/useTheme'
 
-
 // ============================================================================
 // ERROR BOUNDARY
 // ============================================================================
-
 
 interface ErrorBoundaryProps {
   children: ReactNode
@@ -32,11 +30,10 @@ interface ErrorBoundaryProps {
   onError?: (error: Error, errorInfo: ErrorInfo) => void
 }
 
-
 interface ErrorBoundaryState {
   hasError: boolean
+  error?: Error
 }
-
 
 class DropdownErrorBoundary extends Component<
   ErrorBoundaryProps,
@@ -47,17 +44,14 @@ class DropdownErrorBoundary extends Component<
     this.state = { hasError: false }
   }
 
-
-  static getDerivedStateFromError(): ErrorBoundaryState {
-    return { hasError: true }
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error }
   }
-
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     console.error('Dropdown Error:', error, errorInfo)
     this.props.onError?.(error, errorInfo)
   }
-
 
   render(): ReactNode {
     if (this.state.hasError) {
@@ -67,29 +61,26 @@ class DropdownErrorBoundary extends Component<
   }
 }
 
-
 // ============================================================================
 // CONTEXT
 // ============================================================================
 
-
 interface DropdownContextValue {
   open: boolean
-  setOpen: (open: boolean) => void
+  setOpen: (open: boolean, viaKeyboard?: boolean) => void
   triggerId: string
   contentId: string
   selectedValue?: string
   setSelectedValue: (value: string) => void
   activeDescendant?: string
-  setActiveDescendant?: (id: string) => void
+  setActiveDescendant: (id: string) => void
   animateItems: boolean
+  openedViaKeyboard: boolean
 }
-
 
 const DropdownContext = createContext<DropdownContextValue | undefined>(
   undefined,
 )
-
 
 function useDropdownContext(): DropdownContextValue {
   const context = useContext(DropdownContext)
@@ -99,17 +90,15 @@ function useDropdownContext(): DropdownContextValue {
   return context
 }
 
-
 // ============================================================================
 // VARIANTS
 // ============================================================================
 
-
 const dropdownContentVariants = cva(
   [
     'absolute z-[1000] min-w-[8rem] overflow-hidden',
-    'rounded-sm border shadow-lg px-1 py-2',
-    'bg-[var(--atom-theme-bg)] border border-[var(--atom-theme-border-primary)] ',
+    'rounded-md border shadow-lg',
+    'bg-[var(--atom-theme-surface-primary)] border-[var(--atom-theme-border-primary)] px-1.5 py-2',
   ].join(' '),
   {
     variants: {
@@ -132,23 +121,18 @@ const dropdownContentVariants = cva(
   },
 )
 
-
 const dropdownItemVariants = cva(
   [
     'relative flex cursor-pointer select-none items-center',
     'rounded-sm px-3 py-2 text-sm outline-none',
     'transition-colors duration-150',
-    // Focus styles (for keyboard navigation)
-    'focus:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_15%,transparent)] focus:text-[var(--atom-theme-text-primary)]',
-    // Hover styles (works on all items, including focused ones)
-    'hover:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_15%,transparent)] hover:text-[var(--atom-text)]',
-    // Combined state - ensures hover works even when focused
-    'focus:hover:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_20%,transparent)]',
+    'focus:bg-[color-mix(in_oklab,var(--atom-theme-surface-secondary)_15%,transparent)] focus:text-[var(--atom-text)]',
+    'hover:bg-[color-mix(in_oklab,var(--atom-theme-surface-secondary)_15%,transparent)] hover:text-[var(--atom-text)]',
+    'focus:hover:bg-[color-mix(in_oklab,var(--atom-theme-surface-secondary)_20%,transparent)]',
     'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
     'data-[selected]:text-[var(--atom-primary)] data-[selected]:font-medium',
   ].join(' '),
 )
-
 
 const dropdownTriggerVariants = cva(
   [
@@ -163,13 +147,13 @@ const dropdownTriggerVariants = cva(
     variants: {
       variant: {
         default: [
-          'bg-[var(--atom-theme-bg)]',
-          'border border-[var(--atom-theme-border)]',
+          'bg-[var(--atom-theme-surface-primary)]',
+          'border border-[var(--atom-theme-border-primary)]',
           'text-[var(--atom-theme-text-primary)]',
         ].join(' '),
         ghost: [
           'bg-transparent',
-          'hover:bg-[color-mix(in_oklab,var(--atom-theme-secondary-bg)_15%,transparent)]',
+          'hover:bg-[color-mix(in_oklab,var(--atom-theme-surface-secondary)_15%,transparent)]',
           'text-[var(--atom-text)]',
         ].join(' '),
       },
@@ -180,15 +164,12 @@ const dropdownTriggerVariants = cva(
   },
 )
 
-
 // ============================================================================
 // ANIMATION VARIANTS
 // ============================================================================
 
-
 const getAnimationVariants = (side: DropdownSide) => {
   const slideDistance = 8
-
 
   const slideDirection = {
     top: { y: slideDistance, x: 0 },
@@ -196,7 +177,6 @@ const getAnimationVariants = (side: DropdownSide) => {
     left: { y: 0, x: slideDistance },
     right: { y: 0, x: -slideDistance },
   }
-
 
   return {
     initial: {
@@ -218,16 +198,13 @@ const getAnimationVariants = (side: DropdownSide) => {
   }
 }
 
-
 // ============================================================================
 // TYPES
 // ============================================================================
 
-
 export type DropdownSide = 'top' | 'bottom' | 'left' | 'right'
 export type DropdownAlign = 'start' | 'center' | 'end'
 export type DropdownTriggerVariant = 'default' | 'ghost'
-
 
 export interface DropdownProps {
   /** Controlled open state */
@@ -248,9 +225,8 @@ export interface DropdownProps {
   errorFallback?: ReactNode
   /** Error handler callback */
   onError?: (error: Error, errorInfo: ErrorInfo) => void
-  children: React.ReactNode
+  children: ReactNode
 }
-
 
 export interface DropdownTriggerProps
   extends
@@ -258,7 +234,6 @@ export interface DropdownTriggerProps
     VariantProps<typeof dropdownTriggerVariants> {
   asChild?: boolean
 }
-
 
 export interface DropdownContentProps
   extends
@@ -276,15 +251,14 @@ export interface DropdownContentProps
   /** Prevent closing on content click */
   preventClose?: boolean
   /** Close dropdown when an item is selected */
-
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
-
-export interface DropdownItemProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
-> {
+export interface DropdownItemProps
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
+  > {
   disabled?: boolean
   /** Prevent closing on click */
   preventClose?: boolean
@@ -292,30 +266,34 @@ export interface DropdownItemProps extends Omit<
   value?: string
 }
 
-
-export interface DropdownGroupProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode
+export interface DropdownGroupProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  children: ReactNode
 }
 
+// export interface DropdownLabelProps
+//   extends React.HTMLAttributes<HTMLDivElement> {}
 
+// export interface DropdownSeparatorProps
+//   extends React.HTMLAttributes<HTMLDivElement> {}
+
+export type DropdownLabelProps = React.HTMLAttributes<HTMLDivElement>
+export type DropdownSeparatorProps = React.HTMLAttributes<HTMLDivElement>
 // ============================================================================
 // HOOKS
 // ============================================================================
-
 
 function useClickOutside(
   ref: React.RefObject<HTMLElement>,
   triggerRef: React.RefObject<HTMLElement | null>,
   handler: () => void,
-  enabled: boolean = true,
+  enabled = true,
 ): void {
   useEffect(() => {
     if (!enabled || typeof document === 'undefined') return
 
-
     const listener = (event: MouseEvent | TouchEvent) => {
       const target = event.target as Node
-
 
       if (
         !ref.current ||
@@ -325,14 +303,11 @@ function useClickOutside(
         return
       }
 
-
       handler()
     }
 
-
     document.addEventListener('mousedown', listener)
     document.addEventListener('touchstart', listener)
-
 
     return () => {
       document.removeEventListener('mousedown', listener)
@@ -340,7 +315,6 @@ function useClickOutside(
     }
   }, [ref, triggerRef, handler, enabled])
 }
-
 
 function usePosition(
   triggerRef: React.RefObject<HTMLElement | null>,
@@ -353,12 +327,9 @@ function usePosition(
 ): { top: number; left: number } {
   const [position, setPosition] = useState({ top: 0, left: 0 })
 
-
   const calculatePosition = useCallback(() => {
-    // SSR check
     if (typeof window === 'undefined') return
     if (!open || !triggerRef.current || !contentRef.current) return
-
 
     const trigger = triggerRef.current.getBoundingClientRect()
     const content = contentRef.current.getBoundingClientRect()
@@ -369,10 +340,8 @@ function usePosition(
     const scrollY = window.scrollY
     const scrollX = window.scrollX
 
-
     let top = 0
     let left = 0
-
 
     // Calculate initial position based on side
     switch (side) {
@@ -399,7 +368,6 @@ function usePosition(
         break
     }
 
-
     switch (side) {
       case 'left':
         left = trigger.left + scrollX - content.width - sideOffset
@@ -424,10 +392,8 @@ function usePosition(
         break
     }
 
-
     // Viewport boundary collision detection
     const EDGE_PADDING = 8
-
 
     if (left < EDGE_PADDING) {
       left = EDGE_PADDING
@@ -442,53 +408,41 @@ function usePosition(
       top = scrollY + viewport.height - content.height - EDGE_PADDING
     }
 
-
     setPosition({ top, left })
-  }, [open, side, align, sideOffset, alignOffset,contentRef,triggerRef])
-
+  }, [open, side, align, sideOffset, alignOffset, contentRef, triggerRef])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
     if (!open || !triggerRef.current || !contentRef.current) return
 
-
     calculatePosition()
 
-
-    // ResizeObserver with polyfill check
     let resizeObserver: ResizeObserver | null = null
-
 
     if (typeof ResizeObserver !== 'undefined' && contentRef.current) {
       resizeObserver = new ResizeObserver(calculatePosition)
       resizeObserver.observe(contentRef.current)
     }
 
-
-    // Listen to scroll and resize events
     window.addEventListener('scroll', calculatePosition, {
       passive: true,
       capture: true,
     })
     window.addEventListener('resize', calculatePosition, { passive: true })
 
-
     return () => {
       resizeObserver?.disconnect()
       window.removeEventListener('scroll', calculatePosition, true)
       window.removeEventListener('resize', calculatePosition)
     }
-  }, [calculatePosition, open,contentRef,triggerRef])
-
+  }, [calculatePosition, open, contentRef, triggerRef])
 
   return position
 }
 
-
 // ============================================================================
 // COMPONENTS
 // ============================================================================
-
 
 export const Dropdown = ({
   open: controlledOpen,
@@ -504,13 +458,12 @@ export const Dropdown = ({
 }: DropdownProps) => {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen)
   const [selectedValue, setSelectedValue] = useState(controlledValue || '')
-  const [activeDescendant, setActiveDescendant] = useState<string>()
-
+  const [activeDescendant, setActiveDescendant] = useState<string>('')
+  const [openedViaKeyboard, setOpenedViaKeyboard] = useState(false)
 
   const uniqueId = useId()
   const triggerId = `dropdown-trigger-${uniqueId}`
   const contentId = `dropdown-content-${uniqueId}`
-
 
   const isControlled = controlledOpen !== undefined
   const open = disabled
@@ -519,10 +472,10 @@ export const Dropdown = ({
       ? controlledOpen
       : uncontrolledOpen
 
-
   const setOpen = useCallback(
-    (value: boolean) => {
+    (value: boolean, viaKeyboard = false) => {
       if (disabled) return
+      setOpenedViaKeyboard(viaKeyboard)
       if (!isControlled) {
         setUncontrolledOpen(value)
       }
@@ -530,7 +483,6 @@ export const Dropdown = ({
     },
     [isControlled, onOpenChange, disabled],
   )
-
 
   const handleValueChange = useCallback(
     (value: string) => {
@@ -540,14 +492,11 @@ export const Dropdown = ({
     [onValueChange],
   )
 
-
-  // Sync controlled value with internal state
   useEffect(() => {
     if (controlledValue !== undefined) {
       setSelectedValue(controlledValue)
     }
   }, [controlledValue])
-
 
   const contextValue = useMemo(
     () => ({
@@ -560,6 +509,7 @@ export const Dropdown = ({
       activeDescendant,
       setActiveDescendant,
       animateItems,
+      openedViaKeyboard,
     }),
     [
       open,
@@ -571,16 +521,15 @@ export const Dropdown = ({
       handleValueChange,
       activeDescendant,
       animateItems,
+      openedViaKeyboard,
     ],
   )
-
 
   return (
     <DropdownErrorBoundary fallback={errorFallback} onError={onError}>
       <DropdownContext.Provider value={contextValue}>
-        <div className="relative inline-block ">
+        <div className="relative inline-block">
           {children}
-          {/* Screen reader live region */}
           <div
             role="status"
             aria-live="polite"
@@ -595,9 +544,7 @@ export const Dropdown = ({
   )
 }
 
-
 Dropdown.displayName = 'Dropdown'
-
 
 export const DropdownTrigger = forwardRef<
   HTMLButtonElement,
@@ -620,7 +567,6 @@ export const DropdownTrigger = forwardRef<
     const { open, setOpen, triggerId, contentId } = useDropdownContext()
     const triggerRef = useRef<HTMLButtonElement>(null)
 
-
     useEffect(() => {
       if (ref) {
         if (typeof ref === 'function') {
@@ -632,52 +578,45 @@ export const DropdownTrigger = forwardRef<
       }
     }, [ref])
 
-
     const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       onMouseDown?.(e)
     }
 
-
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       if (disabled) return
       e.stopPropagation()
-      setOpen(!open)
+      setOpen(!open, false)
       onClick?.(e)
     }
 
-
     const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
       if (disabled) return
-
 
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault()
           if (!open) {
-            setOpen(true)
+            setOpen(true, true)
           }
           break
         case 'ArrowUp':
           e.preventDefault()
           if (!open) {
-            setOpen(true)
+            setOpen(true, true)
           }
           break
         case 'Enter':
         case ' ':
           e.preventDefault()
-          setOpen(!open)
+          setOpen(!open, true)
           break
       }
-
 
       onKeyDown?.(e)
     }
 
-
     const Comp = asChild ? Slot : 'button'
-
 
     return (
       <Comp
@@ -705,11 +644,12 @@ export const DropdownTrigger = forwardRef<
   },
 )
 
-
 DropdownTrigger.displayName = 'DropdownTrigger'
 
-
-export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
+export const DropdownContent = forwardRef<
+  HTMLDivElement,
+  DropdownContentProps
+>(
   (
     {
       className,
@@ -719,18 +659,23 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       sideOffset = 4,
       alignOffset = 0,
       container,
+      preventClose = false,
       ...props
     },
     ref,
   ) => {
-    const { open, setOpen, triggerId, contentId, activeDescendant } =
-      useDropdownContext()
+    const {
+      open,
+      setOpen,
+      triggerId,
+      contentId,
+      activeDescendant,
+      openedViaKeyboard,
+    } = useDropdownContext()
     const contentRef = useRef<HTMLDivElement | null>(null)
     const triggerRef = useRef<HTMLElement | null>(null)
     const dropdownContainer = useThemePortal()
 
-
-    // Combine external ref with internal ref
     useEffect(() => {
       if (ref) {
         if (typeof ref === 'function') {
@@ -741,17 +686,19 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       }
     }, [ref])
 
+    // Ensure side and align are never null by providing defaults
+    const safeSide: DropdownSide = side ?? 'bottom'
+    const safeAlign: DropdownAlign = align ?? 'start'
 
     const position = usePosition(
       triggerRef,
       contentRef,
       open,
-      side ?? 'bottom',
-      align ?? 'start',
+      safeSide,
+      safeAlign,
       sideOffset,
       alignOffset,
     )
-
 
     useEffect(() => {
       if (typeof document === 'undefined') return
@@ -761,33 +708,28 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       }
     }, [triggerId])
 
-
     useClickOutside(
       contentRef as React.RefObject<HTMLElement>,
       triggerRef,
       () => {
-        if (open) setOpen(false)
+        if (open && !preventClose) setOpen(false)
       },
       open,
     )
 
-
-    // Focus management and keyboard handling
     useEffect(() => {
       if (typeof document === 'undefined') return
       if (!open || !contentRef.current) return
 
+      if (openedViaKeyboard) {
+        const focusableElements = contentRef.current.querySelectorAll(
+          '[role="menuitem"]:not([aria-disabled="true"])',
+        )
 
-      // Focus first non-disabled item when opened
-      const focusableElements = contentRef.current.querySelectorAll(
-        '[role="menuitem"]:not([aria-disabled="true"])',
-      )
-
-
-      if (focusableElements.length > 0) {
-        ;(focusableElements[0] as HTMLElement).focus()
+        if (focusableElements.length > 0) {
+          ;(focusableElements[0] as HTMLElement).focus()
+        }
       }
-
 
       const handleEscape = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
@@ -798,29 +740,21 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
         }
       }
 
-
       document.addEventListener('keydown', handleEscape)
       return () => document.removeEventListener('keydown', handleEscape)
-    }, [open, setOpen])
+    }, [open, setOpen, openedViaKeyboard])
 
-
-    // Memoize animation variants
     const animationVariants = useMemo(
-      () => getAnimationVariants(side ?? 'bottom'),
-      [side],
+      () => getAnimationVariants(safeSide),
+      [safeSide],
     )
 
-
-    // Determine the portal container with SSR check
     const portalContainer =
       container ||
       dropdownContainer ||
       (typeof document !== 'undefined' ? document.body : null)
 
-
-    // SSR safety check
     if (!portalContainer) return null
-
 
     const content = (
       <AnimatePresence mode="wait">
@@ -831,17 +765,20 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
             role="menu"
             aria-labelledby={triggerId}
             aria-orientation="vertical"
-            aria-activedescendant={activeDescendant}
+            aria-activedescendant={activeDescendant || undefined}
             data-testid="dropdown-content"
             initial="initial"
             animate="animate"
             exit="exit"
             variants={animationVariants}
             transition={{
-              duration: 0.4,
+              duration: 0.2,
               ease: [0.16, 1, 0.3, 1],
             }}
-            className={cn(dropdownContentVariants({ side, align }), className)}
+            className={cn(
+              dropdownContentVariants({ side: safeSide, align: safeAlign }),
+              className,
+            )}
             style={{
               position: 'fixed',
               top: `${position.top}px`,
@@ -856,7 +793,6 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       </AnimatePresence>
     )
 
-
     return createPortal(
       <Suspense fallback={null}>{content}</Suspense>,
       portalContainer,
@@ -864,20 +800,22 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
   },
 )
 
-
 DropdownContent.displayName = 'DropdownContent'
 
-
 export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
-  ({
-    className,
-    children,
-    disabled,
-    value,
-    onClick,
-    onKeyDown,
-    ...props
-  }, ref) => {
+  (
+    {
+      className,
+      children,
+      disabled,
+      preventClose = false,
+      value,
+      onClick,
+      onKeyDown,
+      ...props
+    },
+    ref,
+  ) => {
     const {
       setOpen,
       selectedValue,
@@ -890,26 +828,6 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
     const uniqueId = useId()
     const itemId = `dropdown-item-${uniqueId}`
     const [isProcessing, setIsProcessing] = useState(false)
-    const [isFocused, setIsFocused] = useState(false)
-
-    // ✅ SHARED SELECTION LOGIC - NO TYPE ISSUES
-    const handleSelect = useCallback(() => {
-      if (disabled || isProcessing) return
-      
-      setIsProcessing(true)
-      
-      if (value !== undefined) {
-        setSelectedValue(value)
-      }
-      
-      // Trigger user's onClick with safe synthetic event
-      onClick?.({} as React.MouseEvent<HTMLDivElement, MouseEvent>)
-      
-      // Always close on selection (standard UX)
-      setOpen(false)
-      
-      setTimeout(() => setIsProcessing(false), 300)
-    }, [disabled, isProcessing, value, setSelectedValue, onClick, setOpen])
 
     useEffect(() => {
       if (ref) {
@@ -921,9 +839,28 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
       }
     }, [ref])
 
+    const handleInteraction = useCallback(() => {
+      if (disabled || isProcessing) return
+
+      setIsProcessing(true)
+
+      if (value !== undefined) {
+        setSelectedValue(value)
+      }
+
+      if (!preventClose) {
+        setOpen(false)
+      }
+
+      setTimeout(() => setIsProcessing(false), 300)
+    }, [disabled, isProcessing, value, setSelectedValue, preventClose, setOpen])
+
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      if (disabled || isProcessing) return
+
       e.stopPropagation()
-      handleSelect()
+      onClick?.(e)
+      handleInteraction()
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -935,7 +872,9 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
       const menuItems = Array.from(
         currentItem
           .closest('[role="menu"]')
-          ?.querySelectorAll('[role="menuitem"]:not([aria-disabled="true"])') || [],
+          ?.querySelectorAll(
+            '[role="menuitem"]:not([aria-disabled="true"])',
+          ) || [],
       )
       const currentIndex = menuItems.indexOf(currentItem)
 
@@ -944,9 +883,9 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
         case ' ':
           e.preventDefault()
           e.stopPropagation()
-          handleSelect()  // ✅ NO MORE `as any`!
+          onKeyDown?.(e)
+          handleInteraction()
           break
-
         case 'ArrowDown':
           e.preventDefault()
           e.stopPropagation()
@@ -954,41 +893,38 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
             const nextIndex = (currentIndex + 1) % menuItems.length
             const nextItem = menuItems[nextIndex] as HTMLElement
             nextItem?.focus()
-            setActiveDescendant?.(nextItem.id)
+            setActiveDescendant(nextItem.id)
           }
           break
-
         case 'ArrowUp':
           e.preventDefault()
           e.stopPropagation()
           if (menuItems.length > 0) {
-            const prevIndex = currentIndex === 0 ? menuItems.length - 1 : currentIndex - 1
+            const prevIndex =
+              currentIndex === 0 ? menuItems.length - 1 : currentIndex - 1
             const prevItem = menuItems[prevIndex] as HTMLElement
             prevItem?.focus()
-            setActiveDescendant?.(prevItem.id)
+            setActiveDescendant(prevItem.id)
           }
           break
-
         case 'Home':
           e.preventDefault()
           e.stopPropagation()
           if (menuItems.length > 0) {
             const firstItem = menuItems[0] as HTMLElement
             firstItem?.focus()
-            setActiveDescendant?.(firstItem.id)
+            setActiveDescendant(firstItem.id)
           }
           break
-
         case 'End':
           e.preventDefault()
           e.stopPropagation()
           if (menuItems.length > 0) {
             const lastItem = menuItems[menuItems.length - 1] as HTMLElement
             lastItem?.focus()
-            setActiveDescendant?.(lastItem.id)
+            setActiveDescendant(lastItem.id)
           }
           break
-
         case 'Tab':
           if (menuItems.length > 0) {
             if (!e.shiftKey) {
@@ -998,7 +934,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
                 e.preventDefault()
                 const nextItem = menuItems[currentIndex + 1] as HTMLElement
                 nextItem?.focus()
-                setActiveDescendant?.(nextItem.id)
+                setActiveDescendant(nextItem.id)
               }
             } else {
               if (currentIndex === 0) {
@@ -1007,23 +943,18 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
                 e.preventDefault()
                 const prevItem = menuItems[currentIndex - 1] as HTMLElement
                 prevItem?.focus()
-                setActiveDescendant?.(prevItem.id)
+                setActiveDescendant(prevItem.id)
               }
             }
           }
           break
+        default:
+          onKeyDown?.(e)
       }
-
-      onKeyDown?.(e)
     }
 
     const handleFocus = () => {
-      setIsFocused(true)
-      setActiveDescendant?.(itemId)
-    }
-
-    const handleBlur = () => {
-      setIsFocused(false)
+      setActiveDescendant(itemId)
     }
 
     return (
@@ -1035,13 +966,11 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
         aria-disabled={disabled}
         data-disabled={disabled ? '' : undefined}
         data-selected={isSelected ? '' : undefined}
-        data-focused={isFocused ? '' : undefined}
         data-testid={`dropdown-item-${value || itemId}`}
         className={cn(dropdownItemVariants(), className)}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
-        onBlur={handleBlur}
         whileHover={disabled || !animateItems ? undefined : { scale: 1.01 }}
         whileTap={disabled || !animateItems ? undefined : { scale: 0.98 }}
         {...props}
@@ -1054,46 +983,41 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
 
 DropdownItem.displayName = 'DropdownItem'
 
-
-
-
 export const DropdownSeparator = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  DropdownSeparatorProps
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
     role="separator"
     aria-orientation="horizontal"
     data-testid="dropdown-separator"
-    className={cn('my-1 h-px bg-(--atom-theme-border)', className)}
-    {...props}
-  />
-))
-
-
-DropdownSeparator.displayName = 'DropdownSeparator'
-
-
-export const DropdownLabel = forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    role="presentation"
-    data-testid="dropdown-label"
     className={cn(
-      'px-3 py-1.5 text-xs font-semibold text-(--atom-text-secondary)',
+      'my-1 h-px bg-(--atom-theme-border-primary)',
       className,
     )}
     {...props}
   />
 ))
 
+DropdownSeparator.displayName = 'DropdownSeparator'
+
+export const DropdownLabel = forwardRef<HTMLDivElement, DropdownLabelProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      role="presentation"
+      data-testid="dropdown-label"
+      className={cn(
+        'px-3 py-1.5 text-xs font-semibold text-(--atom-text-secondary)',
+        className,
+      )}
+      {...props}
+    />
+  ),
+)
 
 DropdownLabel.displayName = 'DropdownLabel'
-
 
 export const DropdownGroup = forwardRef<HTMLDivElement, DropdownGroupProps>(
   ({ className, children, ...props }, ref) => (
@@ -1108,6 +1032,5 @@ export const DropdownGroup = forwardRef<HTMLDivElement, DropdownGroupProps>(
     </div>
   ),
 )
-
 
 DropdownGroup.displayName = 'DropdownGroup'

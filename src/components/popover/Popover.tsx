@@ -409,7 +409,7 @@ function usePosition(
     }
 
     setPosition({ top, left })
-  }, [open, side, align, sideOffset, alignOffset])
+  }, [open, side, align, sideOffset, alignOffset,contentRef,triggerRef])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -435,7 +435,7 @@ function usePosition(
       window.removeEventListener('scroll', calculatePosition, true)
       window.removeEventListener('resize', calculatePosition)
     }
-  }, [calculatePosition, open])
+  }, [calculatePosition, open,contentRef,triggerRef])
 
   return position
 }

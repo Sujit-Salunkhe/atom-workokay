@@ -1,9 +1,9 @@
-// src/components/textarea.tsx
+// src/components/TextArea.tsx
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/cn'
 
-const textareaVariants = cva(
+const TextAreaVariants = cva(
   [
     // allow resizing (change from resize-none)
     'resize',
@@ -62,35 +62,36 @@ const textareaVariants = cva(
   },
 )
 
-export type TextareaVariant = NonNullable<
-  VariantProps<typeof textareaVariants>['variant']
+export type TextAreaVariant = NonNullable<
+  VariantProps<typeof TextAreaVariants>['variant']
 >
-export type TextareaSize = NonNullable<
-  VariantProps<typeof textareaVariants>['size']
+export type TextAreaSize = NonNullable<
+  VariantProps<typeof TextAreaVariants>['size']
 >
 
-export interface TextareaProps
+export interface TextAreaProps
   extends
     React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-    VariantProps<typeof textareaVariants> {
+    VariantProps<typeof TextAreaVariants> {
   placeholder?: string
 }
 
 /**
- * Variant-aware Textarea
+ * Variant-aware TextArea
  */
-export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, variant, size, placeholder, ...props }, ref) => {
-    return (
-      <textarea
-        ref={ref}
-        data-slot="textarea"
-        placeholder={placeholder ?? ' '}
-        className={cn(textareaVariants({ variant, size }), className)}
-        {...props}
-      />
-    )
-  },
-)
+export const TextArea = React.forwardRef<
+  HTMLTextAreaElement,
+  TextAreaProps
+>(({ className, variant, size, placeholder, ...props }, ref) => {
+  return (
+    <textarea
+      ref={ref}
+      data-slot="textarea"
+      placeholder={placeholder ?? ' '}
+      className={cn(TextAreaVariants({ variant, size }), className)}
+      {...props}
+    />
+  )
+})
 
-Textarea.displayName = 'Textarea'
+TextArea.displayName = 'TextArea'

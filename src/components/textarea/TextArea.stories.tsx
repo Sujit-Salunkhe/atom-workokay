@@ -1,17 +1,17 @@
-// src/components/textarea.stories.tsx
+// src/components/TextArea.stories.tsx
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Textarea, type TextareaProps } from "./TextArea"
+import { TextArea, type TextAreaProps } from "./TextArea"
 
-const meta: Meta<typeof Textarea> = {
-  title: "Input/Textarea",
-  component: Textarea,
+const meta: Meta<typeof TextArea> = {
+  title: "Input/TextArea",
+  component: TextArea,
   args: {
     placeholder: "Type something…",
   },
 }
 export default meta
 
-type Story = StoryObj<typeof Textarea>
+type Story = StoryObj<typeof TextArea>
 
 /* Basic stories */
 
@@ -24,25 +24,25 @@ export const Default: Story = {
 export const Outline: Story = {
   args: {
     variant: "outline",
-    placeholder: "Outline textarea",
+    placeholder: "Outline TextArea",
   },
 }
 
 export const Subtle: Story = {
   args: {
     variant: "subtle",
-    placeholder: "Subtle textarea",
+    placeholder: "Subtle TextArea",
   },
 }
 
 
 /* Sizes in one story */
 
-const SizesDemo = (props: TextareaProps) => (
+const SizesDemo = (props: TextAreaProps) => (
   <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-    <Textarea {...props} size="sm" placeholder="Small textarea" />
-    <Textarea {...props} size="md" placeholder="Medium textarea" />
-    <Textarea {...props} size="lg" placeholder="Large textarea" />
+    <TextArea {...props} size="sm" placeholder="Small TextArea" />
+    <TextArea {...props} size="md" placeholder="Medium TextArea" />
+    <TextArea {...props} size="lg" placeholder="Large TextArea" />
   </div>
 )
 

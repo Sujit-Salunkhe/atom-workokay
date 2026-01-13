@@ -175,7 +175,7 @@ export const Switch = React.forwardRef<
         data-slot="switch-thumb"
         className={cn(
           config.size,
-          'block rounded-full bg-[var(--atom-bg)] shadow-lg relative z-10',
+          'block rounded-full bg-(--atom-bg) shadow-lg relative z-10',
         )}
         animate={{
           x: checkedState ? config.translateX : 0,
