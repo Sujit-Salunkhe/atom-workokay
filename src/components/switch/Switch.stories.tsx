@@ -1,5 +1,5 @@
-// src/components/ui/switch.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
+// src/components/switch.stories.tsx
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import { Switch } from './Switch'
 
