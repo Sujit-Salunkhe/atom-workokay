@@ -1,4 +1,4 @@
-// src/components/ui/Tabs.test.tsx
+// src/components/Tabs.test.tsx
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { Tabs, TabsList, TabTrigger, TabContent } from "./Tabs";

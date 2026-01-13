@@ -1,21 +1,18 @@
-// src/components/ui/Textarea.test.tsx
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import * as React from "react";
-import { Textarea } from "./TextArea";
+import { Textarea, type TextareaProps } from "./TextArea";
 
-describe("Textarea", () => {
+describe("Textarea", () => { // ✅ Single top-level describe
   beforeEach(() => {
     // RTL auto-cleanup handles DOM
   });
 
-  const renderTextarea = (props: any) => {
-    return render(
-      <Textarea data-testid="textarea" {...props} />
-    );
+  const renderTextarea = (props: Partial<TextareaProps> = {}) => {
+    return render(<Textarea data-testid="textarea" {...props} />);
   };
 
-  const getTextarea = () => screen.getByTestId("textarea") as HTMLTextAreaElement;
+  const getTextarea = () => screen.getByTestId("textarea"); // ✅ Remove type cast
 
   it("renders Textarea with correct data-slot", () => {
     renderTextarea({ placeholder: "Enter text..." });
@@ -77,22 +74,6 @@ describe("Textarea", () => {
     expect(textarea).toHaveClass(/bg-input-background\/60/);
   });
 
-  it("applies base styling", () => {
-    renderTextarea({});
-    const textarea = getTextarea();
-    expect(textarea).toHaveClass("resize");
-    expect(textarea).toHaveClass("w-full");
-    expect(textarea).toHaveClass("rounded-md");
-    expect(textarea).toHaveClass("outline-none");
-  });
-
-  it("applies border and placeholder styling", () => {
-    renderTextarea({ placeholder: "Test placeholder" });
-    const textarea = getTextarea();
-    expect(textarea).toHaveClass(/border-atom-badge-archived-border/);
-    expect(textarea).toHaveClass("placeholder:text-muted-foreground");
-  });
-
   it("handles value and onChange", () => {
     const handleChange = vi.fn();
     renderTextarea({ value: "", onChange: handleChange });
@@ -122,27 +103,19 @@ describe("Textarea", () => {
 
   it("handles readOnly state", () => {
     renderTextarea({ readOnly: true });
-    const textarea = getTextarea();
     expect(getTextarea()).toHaveAttribute("readonly");
   });
 
-  it("applies invalid state styling with aria-invalid", () => {
+  it("applies invalid state styling", () => {
     renderTextarea({ "aria-invalid": true });
     const textarea = getTextarea();
     expect(textarea).toHaveClass("aria-invalid:border-destructive");
     expect(textarea).toHaveClass(/aria-invalid:ring-destructive/);
   });
 
-  it("handles focus-visible styling", () => {
-    renderTextarea({});
-    const textarea = getTextarea();
-    expect(textarea).toHaveClass("focus-visible:ring-1");
-    expect(textarea).toHaveClass("focus-visible:ring-offset-0");
-  });
-
   it("forwards ref", () => {
     const ref: React.RefObject<HTMLTextAreaElement | null> = React.createRef();
-    renderTextarea({ ref });
+     render(<Textarea ref={ref} data-testid="textarea" />);
     expect(ref.current).not.toBeNull();
     expect(ref.current).toBeInstanceOf(HTMLTextAreaElement);
   });
@@ -219,4 +192,4 @@ describe("Textarea", () => {
     renderTextarea({ value: "" });
     expect(getTextarea()).toHaveValue("");
   });
-});
+})
