@@ -1,4 +1,4 @@
-// src/components/ui/heading.stories.tsx
+// src/components/heading.stories.tsx
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Text } from "./Text"
 
