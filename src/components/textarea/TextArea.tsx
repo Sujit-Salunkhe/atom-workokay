@@ -1,4 +1,4 @@
-// src/components/ui/textarea.tsx
+// src/components/textarea.tsx
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/cn'
