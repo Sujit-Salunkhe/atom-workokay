@@ -1,4 +1,4 @@
-// src/components/Dropdown.stories.tsx
+// src/components/dropdown/Dropdown.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import {
