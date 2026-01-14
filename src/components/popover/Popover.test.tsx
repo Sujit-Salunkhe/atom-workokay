@@ -1,4 +1,4 @@
-// src/components/ui/Popover.test.tsx
+// src/components/popover/Popover.test.tsx
 import React  from 'react'
 import type {ReactNode} from 'react'
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'

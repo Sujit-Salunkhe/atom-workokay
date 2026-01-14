@@ -1,4 +1,4 @@
-// src/components/ui/Popover.tsx
+// src/components/popover/Popover.tsx
 import {
   useState,
   useRef,

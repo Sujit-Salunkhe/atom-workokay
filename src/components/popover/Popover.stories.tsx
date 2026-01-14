@@ -1,4 +1,4 @@
-// src/components/ui/Popover.stories.tsx
+// src/components/popover/Popover.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import {
@@ -57,7 +57,7 @@ export const Default: Story = {
   args: {},
   render: () => (
     <Popover>
-      <PopoverTrigger className="px-4 py-2 bg-[var(--atom-primary)] text-white rounded-md hover:opacity-90">
+      <PopoverTrigger className="px-4 py-2 bg-(--atom-primary) text-white rounded-md hover:opacity-90">
         Open Popover
       </PopoverTrigger>
       <PopoverContent>
@@ -72,7 +72,7 @@ export const Default: Story = {
         </PopoverBody>
         <PopoverFooter>
           <PopoverClose asChild>
-            <button className="px-4 py-2 bg-[var(--atom-primary)] text-white rounded-md text-sm">
+            <button className="px-4 py-2 bg-(--atom-primary) text-white rounded-md text-sm">
               Got it
             </button>
           </PopoverClose>
@@ -86,7 +86,7 @@ export const WithArrow: Story = {
   args: {},
   render: () => (
     <Popover>
-      <PopoverTrigger className="px-4 py-2 bg-[var(--atom-primary)] text-white rounded-md hover:opacity-90">
+      <PopoverTrigger className="px-4 py-2 bg-(--atom-primary) text-white rounded-md hover:opacity-90">
         Open with Arrow
       </PopoverTrigger>
       <PopoverContent showArrow>
@@ -104,7 +104,7 @@ export const SimpleContent: Story = {
   args: {},
   render: () => (
     <Popover>
-      <PopoverTrigger className="px-4 py-2 bg-[var(--atom-theme-bg)] border border-[var(--atom-theme-border)] rounded-md hover:bg-[var(--atom-card-hover)]">
+      <PopoverTrigger className="px-4 py-2 bg-(--atom-theme-bg) border border-(--atom-theme-border) rounded-md hover:bg-(--atom-card-hover)">
         Quick Info
       </PopoverTrigger>
       <PopoverContent showArrow>
@@ -127,7 +127,7 @@ export const Positioning: Story = {
       <div className="flex items-center gap-32">
         {/* Top positions */}
         <Popover>
-          <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+          <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Top Start
           </PopoverTrigger>
           <PopoverContent side="top" align="start" showArrow>
@@ -138,7 +138,7 @@ export const Positioning: Story = {
         </Popover>
 
         <Popover>
-          <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+          <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Top Center
           </PopoverTrigger>
           <PopoverContent side="top" align="center" showArrow>
@@ -149,7 +149,7 @@ export const Positioning: Story = {
         </Popover>
 
         <Popover>
-          <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+          <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Top End
           </PopoverTrigger>
           <PopoverContent side="top" align="end" showArrow>
@@ -163,7 +163,7 @@ export const Positioning: Story = {
       <div className="flex items-center gap-32">
         {/* Bottom positions */}
         <Popover>
-          <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+          <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Bottom Start
           </PopoverTrigger>
           <PopoverContent side="bottom" align="start" showArrow>
@@ -174,7 +174,7 @@ export const Positioning: Story = {
         </Popover>
 
         <Popover>
-          <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+          <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Bottom Center
           </PopoverTrigger>
           <PopoverContent side="bottom" align="center" showArrow>
@@ -185,7 +185,7 @@ export const Positioning: Story = {
         </Popover>
 
         <Popover>
-          <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+          <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Bottom End
           </PopoverTrigger>
           <PopoverContent side="bottom" align="end" showArrow>
@@ -199,7 +199,7 @@ export const Positioning: Story = {
       <div className="flex items-center gap-32">
         {/* Left and Right */}
         <Popover>
-          <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+          <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Left
           </PopoverTrigger>
           <PopoverContent side="left" align="center" showArrow>
@@ -210,7 +210,7 @@ export const Positioning: Story = {
         </Popover>
 
         <Popover>
-          <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+          <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Right
           </PopoverTrigger>
           <PopoverContent side="right" align="center" showArrow>
@@ -236,7 +236,7 @@ export const Sizes: Story = {
   render: () => (
     <div className="flex items-center gap-4">
       <Popover>
-        <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+        <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
           Small
         </PopoverTrigger>
         <PopoverContent size="sm">
@@ -247,7 +247,7 @@ export const Sizes: Story = {
       </Popover>
 
       <Popover>
-        <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+        <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
           Medium
         </PopoverTrigger>
         <PopoverContent size="md">
@@ -258,7 +258,7 @@ export const Sizes: Story = {
       </Popover>
 
       <Popover>
-        <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+        <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
           Large
         </PopoverTrigger>
         <PopoverContent size="lg">
@@ -269,7 +269,7 @@ export const Sizes: Story = {
       </Popover>
 
       <Popover>
-        <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+        <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
           Extra Large
         </PopoverTrigger>
         <PopoverContent size="xl">
@@ -290,7 +290,7 @@ export const Modal: Story = {
   args: {},
   render: () => (
     <Popover modal>
-      <PopoverTrigger className="px-4 py-2 bg-[var(--atom-primary)] text-white rounded-md hover:opacity-90">
+      <PopoverTrigger className="px-4 py-2 bg-(--atom-primary) text-white rounded-md hover:opacity-90">
         Open Modal Popover
       </PopoverTrigger>
       <PopoverContent size="lg">
@@ -306,22 +306,22 @@ export const Modal: Story = {
             <input
               type="text"
               placeholder="Focus trap demonstration"
-              className="w-full px-3 py-2 border border-[var(--atom-theme-border)] rounded-md"
+              className="w-full px-3 py-2 border border-(--atom-theme-border) rounded-md"
             />
             <input
               type="text"
               placeholder="Try tabbing through inputs"
-              className="w-full px-3 py-2 border border-[var(--atom-theme-border)] rounded-md"
+              className="w-full px-3 py-2 border border-(--atom-theme-border) rounded-md"
             />
           </div>
         </PopoverBody>
         <PopoverFooter>
           <PopoverClose asChild>
-            <button className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md text-sm">
+            <button className="px-4 py-2 border border-(--atom-theme-border) rounded-md text-sm">
               Cancel
             </button>
           </PopoverClose>
-          <button className="px-4 py-2 bg-[var(--atom-primary)] text-white rounded-md text-sm">
+          <button className="px-4 py-2 bg-(--atom-primary) text-white rounded-md text-sm">
             Confirm
           </button>
         </PopoverFooter>
@@ -363,7 +363,7 @@ export const Controlled: Story = {
         </div>
 
         <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+          <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Controlled Trigger
           </PopoverTrigger>
           <PopoverContent>
@@ -397,7 +397,7 @@ export const FormExample: Story = {
 
     return (
       <Popover>
-        <PopoverTrigger className="px-4 py-2 bg-[var(--atom-primary)] text-white rounded-md hover:opacity-90">
+        <PopoverTrigger className="px-4 py-2 bg-(--atom-primary) text-white rounded-md hover:opacity-90">
           Edit Profile
         </PopoverTrigger>
         <PopoverContent size="lg">
@@ -415,7 +415,7 @@ export const FormExample: Story = {
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
-                  className="w-full px-3 py-2 border border-[var(--atom-theme-border)] rounded-md"
+                  className="w-full px-3 py-2 border border-(--atom-theme-border) rounded-md"
                   placeholder="Enter your name"
                 />
               </div>
@@ -427,7 +427,7 @@ export const FormExample: Story = {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className="w-full px-3 py-2 border border-[var(--atom-theme-border)] rounded-md"
+                  className="w-full px-3 py-2 border border-(--atom-theme-border) rounded-md"
                   placeholder="Enter your email"
                 />
               </div>
@@ -435,13 +435,13 @@ export const FormExample: Story = {
           </PopoverBody>
           <PopoverFooter>
             <PopoverClose asChild>
-              <button className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md text-sm">
+              <button className="px-4 py-2 border border-(--atom-theme-border) rounded-md text-sm">
                 Cancel
               </button>
             </PopoverClose>
             <button
               onClick={() => console.log('Saved:', formData)}
-              className="px-4 py-2 bg-[var(--atom-primary)] text-white rounded-md text-sm"
+              className="px-4 py-2 bg-(--atom-primary) text-white rounded-md text-sm"
             >
               Save Changes
             </button>
@@ -476,7 +476,7 @@ export const ConfirmationDialog: Story = {
         </PopoverBody>
         <PopoverFooter>
           <PopoverClose asChild>
-            <button className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md text-sm">
+            <button className="px-4 py-2 border border-(--atom-theme-border) rounded-md text-sm">
               Cancel
             </button>
           </PopoverClose>
@@ -496,22 +496,22 @@ export const MenuExample: Story = {
   args: {},
   render: () => (
     <Popover>
-      <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md hover:bg-[var(--atom-card-hover)]">
+      <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md hover:bg-(--atom-card-hover)">
         Options
       </PopoverTrigger>
       <PopoverContent side="bottom" align="end" size="sm">
         <PopoverBody className="p-2">
           <div className="space-y-1">
-            <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[var(--atom-card-hover)] text-sm">
+            <button className="w-full text-left px-3 py-2 rounded-md hover:bg-(--atom-card-hover) text-sm">
               Edit
             </button>
-            <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[var(--atom-card-hover)] text-sm">
+            <button className="w-full text-left px-3 py-2 rounded-md hover:bg-(--atom-card-hover) text-sm">
               Duplicate
             </button>
-            <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[var(--atom-card-hover)] text-sm">
+            <button className="w-full text-left px-3 py-2 rounded-md hover:bg-(--atom-card-hover) text-sm">
               Archive
             </button>
-            <hr className="my-1 border-[var(--atom-theme-border)]" />
+            <hr className="my-1 border-(--atom-theme-border)" />
             <button className="w-full text-left px-3 py-2 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 text-sm text-red-600">
               Delete
             </button>
@@ -528,7 +528,7 @@ export const InfoTooltip: Story = {
     <div className="flex items-center gap-2">
       <span className="text-sm">Account Status</span>
       <Popover>
-        <PopoverTrigger className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-[var(--atom-theme-border)] text-xs hover:bg-[var(--atom-card-hover)]">
+        <PopoverTrigger className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-(--atom-theme-border) text-xs hover:bg-(--atom-card-hover)">
           ?
         </PopoverTrigger>
         <PopoverContent size="sm" showArrow>
@@ -551,43 +551,43 @@ export const RichContent: Story = {
   args: {},
   render: () => (
     <Popover>
-      <PopoverTrigger className="px-4 py-2 bg-[var(--atom-primary)] text-white rounded-md hover:opacity-90">
+      <PopoverTrigger className="px-4 py-2 bg-(--atom-primary) text-white rounded-md hover:opacity-90">
         User Profile
       </PopoverTrigger>
       <PopoverContent size="lg">
         <PopoverBody>
           <div className="flex items-start gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+            <div className="w-16 h-16 bg-linear-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
               JD
             </div>
             <div className="flex-1">
               <h3 className="font-semibold text-lg">John Doe</h3>
-              <p className="text-sm text-[var(--atom-text-secondary)]">john.doe@example.com</p>
+              <p className="text-sm text-(--atom-text-secondary)">john.doe@example.com</p>
               <div className="mt-3 flex gap-2">
-                <button className="px-3 py-1.5 bg-[var(--atom-primary)] text-white rounded-md text-sm">
+                <button className="px-3 py-1.5 bg-(--atom-primary) text-white rounded-md text-sm">
                   View Profile
                 </button>
                 <PopoverClose asChild>
-                  <button className="px-3 py-1.5 border border-[var(--atom-theme-border)] rounded-md text-sm">
+                  <button className="px-3 py-1.5 border border-(--atom-theme-border) rounded-md text-sm">
                     Close
                   </button>
                 </PopoverClose>
               </div>
             </div>
           </div>
-          <div className="mt-4 pt-4 border-t border-[var(--atom-theme-border)]">
+          <div className="mt-4 pt-4 border-t border-(--atom-theme-border)">
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
                 <p className="text-2xl font-bold">1.2K</p>
-                <p className="text-xs text-[var(--atom-text-secondary)]">Followers</p>
+                <p className="text-xs text-(--atom-text-secondary)">Followers</p>
               </div>
               <div>
                 <p className="text-2xl font-bold">856</p>
-                <p className="text-xs text-[var(--atom-text-secondary)]">Following</p>
+                <p className="text-xs text-(--atom-text-secondary)">Following</p>
               </div>
               <div>
                 <p className="text-2xl font-bold">42</p>
-                <p className="text-xs text-[var(--atom-text-secondary)]">Posts</p>
+                <p className="text-xs text-(--atom-text-secondary)">Posts</p>
               </div>
             </div>
           </div>
@@ -605,7 +605,7 @@ export const LongContent: Story = {
   args: {},
   render: () => (
     <Popover>
-      <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+      <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
         Show Long Content
       </PopoverTrigger>
       <PopoverContent size="lg">
@@ -638,7 +638,7 @@ export const LongContent: Story = {
         </PopoverBody>
         <PopoverFooter>
           <PopoverClose asChild>
-            <button className="px-4 py-2 bg-[var(--atom-primary)] text-white rounded-md text-sm">
+            <button className="px-4 py-2 bg-(--atom-primary) text-white rounded-md text-sm">
               I Agree
             </button>
           </PopoverClose>
@@ -652,7 +652,7 @@ export const PreventClose: Story = {
   args: {},
   render: () => (
     <Popover>
-      <PopoverTrigger className="px-4 py-2 border border-[var(--atom-theme-border)] rounded-md">
+      <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
         Persistent Popover
       </PopoverTrigger>
       <PopoverContent preventOutsideClick>
@@ -675,7 +675,7 @@ export const AsChildTrigger: Story = {
   render: () => (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg cursor-pointer hover:opacity-90">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-lg cursor-pointer hover:opacity-90">
           <svg
             width="16"
             height="16"
@@ -710,7 +710,7 @@ export const Playground: Story = {
   },
   render: (args) => (
     <Popover {...args}>
-      <PopoverTrigger className="px-4 py-2 bg-[var(--atom-primary)] text-white rounded-md hover:opacity-90">
+      <PopoverTrigger className="px-4 py-2 bg-(--atom-primary) text-white rounded-md hover:opacity-90">
         Open Popover
       </PopoverTrigger>
       <PopoverContent side="bottom" align="center" showArrow>
@@ -725,7 +725,7 @@ export const Playground: Story = {
         </PopoverBody>
         <PopoverFooter>
           <PopoverClose asChild>
-            <button className="px-4 py-2 bg-[var(--atom-primary)] text-white rounded-md text-sm">
+            <button className="px-4 py-2 bg-(--atom-primary) text-white rounded-md text-sm">
               Close
             </button>
           </PopoverClose>
