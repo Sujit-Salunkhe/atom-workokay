@@ -82,23 +82,7 @@ export const Default: Story = {
   ),
 }
 
-export const WithArrow: Story = {
-  args: {},
-  render: () => (
-    <Popover>
-      <PopoverTrigger className="px-4 py-2 bg-(--atom-primary) text-white rounded-md hover:opacity-90">
-        Open with Arrow
-      </PopoverTrigger>
-      <PopoverContent >
-        <PopoverBody>
-          <PopoverDescription>
-            This popover has an arrow pointing to the trigger element.
-          </PopoverDescription>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
-  ),
-}
+
 
 export const SimpleContent: Story = {
   args: {},
