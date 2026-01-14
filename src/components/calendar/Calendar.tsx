@@ -102,13 +102,13 @@ function Calendar({
           defaultClassNames.day,
         ),
         range_start: cn(
-          'bg-[var(--atom-info-card-jobstatus-secondary-text)]',
+          'bg-[var(--atom-theme-surface-secondary)]',
           defaultClassNames.range_start,
         ),
         range_middle: cn('rounded-none', defaultClassNames.range_middle),
         range_end: cn('bg-accent rounded-r-md', defaultClassNames.range_end),
         today: cn(
-          'bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_50%,transparent)]  rounded-md',
+          'bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_50%,transparent)]  rounded-md',
             defaultClassNames.today
         ),
         outside: cn(
@@ -207,13 +207,12 @@ function CalendarDayButton({
       data-range-middle={modifiers.range_middle}
       className={cn(
   // Selected single state
-  "data-[selected-single=true]:bg-(--atom-info-card-jobstatus-secondary-text) data-[selected-single=true]:text-primary-foreground",
+  "data-[selected-single=true]:bg-(--atom-theme-surface-secondary) data-[selected-single=true]:text-primary-foreground",
   
   // Range states
-  "data-[range-start=true]:bg-(--atom-info-card-jobstatus-secondary-text) data-[range-start=true]:text-primary-foreground data-[range-start=true]:rounded-md",
-  "data-[range-end=true]:bg-(--atom-info-card-jobstatus-secondary-text) data-[range-end=true]:text-primary-foreground data-[range-end=true]:rounded-md",
-  "data-[range-middle=true]:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_90%,transparent)] data-[range-middle=true]:text-accent-foreground data-[range-middle=true]:rounded-none",
-  
+  "data-[range-start=true]:bg-(--atom-theme-surface-secondary) data-[range-start=true]:text-primary-foreground data-[range-start=true]:rounded-md",
+  "data-[range-end=true]:bg-(--atom-theme-surface-secondary) data-[range-end=true]:text-primary-foreground data-[range-end=true]:rounded-md",
+  "data-[range-middle=true]:bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_90%,transparent)] data-[range-middle=true]:text-accent-foreground data-[range-middle=true]:rounded-none",
   // Focus states
   "group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50",
   
@@ -221,7 +220,7 @@ function CalendarDayButton({
   "flex aspect-square h-auto w-full flex-col gap-1 ",
   
   // Hover state
-  "hover:bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_90%,transparent)]",
+  "hover:bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_90%,transparent)]",
   
   // Typography and misc
   "leading-none font-(--atom-font-weight-normal) cursor-pointer [&>span]:text-xs [&>span]:opacity-70",

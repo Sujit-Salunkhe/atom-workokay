@@ -126,6 +126,7 @@ const popoverContentVariants = cva(
         lg: 'w-96',
         xl: 'w-[32rem]',
         full: 'w-screen max-w-md',
+        none:" "
       },
     },
     defaultVariants: {
@@ -824,7 +825,7 @@ export const PopoverBody = forwardRef<HTMLDivElement, PopoverBodyProps>(
     <div
       ref={ref}
       data-testid="popover-body"
-      className={cn('px-4 py-3', className)}
+      className={cn('', className)}
       {...props}
     >
       {children}
