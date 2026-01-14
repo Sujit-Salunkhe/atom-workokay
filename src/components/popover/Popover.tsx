@@ -233,8 +233,6 @@ export interface PopoverContentProps
   alignOffset?: number
   /** Prevent closing when clicking inside content */
   preventClose?: boolean
-  /** Enable arrow pointer */
-  showArrow?: boolean
   /** Prevent closing on outside click */
   preventOutsideClick?: boolean
   children?: React.ReactNode
@@ -587,7 +585,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
       container,
       preventClose = false,
       preventOutsideClick = false,
-      showArrow = false,
+      
       ...props
     },
     ref,
@@ -713,31 +711,31 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
 
     if (!targetContainer) return null
 
-    const getArrowStyles = () => {
-      const baseStyles = 'absolute h-2 w-2 rotate-45 bg-[var(--atom-theme-surface-primary)] border-[var(--atom-theme-border-primary)]'
+    // const getArrowStyles = () => {
+    //   const baseStyles = 'absolute  h-2 w-2 rotate-45 bg-black border-[var(--atom-theme-border-primary)]'
       
-      const positionStyles = {
-        top: 'bottom-[-5px] border-r border-b',
-        bottom: 'top-[-5px] border-l border-t',
-        left: 'right-[-5px] border-t border-r',
-        right: 'left-[-5px] border-b border-l',
-      }
+    //   const positionStyles = {
+    //     top: 'bottom-[-5px] border-r border-b',
+    //     bottom: 'top-[-5px] border-l border-t',
+    //     left: 'right-[-5px] border-t border-r',
+    //     right: 'left-[-5px] border-b border-l',
+    //   }
 
-      return cn(baseStyles, positionStyles[side ?? 'bottom'])
-    }
+    //   return cn(baseStyles, positionStyles[side ?? 'bottom'])
+    // }
 
-    const getArrowPosition = () => {
-      if (align === 'center') {
-        return { left: 'calc(50% - 4px)' }
-      }
-      if (align === 'start') {
-        return { left: '16px' }
-      }
-      if (align === 'end') {
-        return { right: '16px' }
-      }
-      return {}
-    }
+    // const getArrowPosition = () => {
+    //   if (align === 'center') {
+    //     return { left: 'calc(50% - 4px)' }
+    //   }
+    //   if (align === 'start') {
+    //     return { left: '16px' }
+    //   }
+    //   if (align === 'end') {
+    //     return { right: '16px' }
+    //   }
+    //   return {}
+    // }
 
     const content = (
       <AnimatePresence mode="wait">
@@ -784,13 +782,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
               }}
               {...props}
             >
-              {showArrow && (
-                <div
-                  className={getArrowStyles()}
-                  style={getArrowPosition()}
-                  aria-hidden="true"
-                />
-              )}
+            
               {children}
             </motion.div>
           </>
