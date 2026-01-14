@@ -1,4 +1,4 @@
-// src/components/ui/Dropdown.stories.tsx
+// src/components/Dropdown.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import {
@@ -9,7 +9,8 @@ import {
   DropdownSeparator,
   DropdownLabel,
   DropdownGroup,
-} from './DropdownTest'
+} from './Dropdown'
+
 import {
   ChevronDown,
   User,
