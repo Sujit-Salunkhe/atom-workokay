@@ -32,7 +32,6 @@ interface TestPopoverProps {
   alignOffset?: number
   preventClose?: boolean
   preventOutsideClick?: boolean
-  showArrow?: boolean
 }
 
 // ============================================================================

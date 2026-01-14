@@ -89,7 +89,7 @@ export const WithArrow: Story = {
       <PopoverTrigger className="px-4 py-2 bg-(--atom-primary) text-white rounded-md hover:opacity-90">
         Open with Arrow
       </PopoverTrigger>
-      <PopoverContent showArrow>
+      <PopoverContent >
         <PopoverBody>
           <PopoverDescription>
             This popover has an arrow pointing to the trigger element.
@@ -107,7 +107,7 @@ export const SimpleContent: Story = {
       <PopoverTrigger className="px-4 py-2 bg-(--atom-theme-bg) border border-(--atom-theme-border) rounded-md hover:bg-(--atom-card-hover)">
         Quick Info
       </PopoverTrigger>
-      <PopoverContent showArrow>
+      <PopoverContent >
         <PopoverBody>
           <p className="text-sm">This is a simple popover with just body content.</p>
         </PopoverBody>
@@ -130,7 +130,7 @@ export const Positioning: Story = {
           <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Top Start
           </PopoverTrigger>
-          <PopoverContent side="top" align="start" showArrow>
+          <PopoverContent side="top" align="start" >
             <PopoverBody>
               <p className="text-sm">Positioned at top-start</p>
             </PopoverBody>
@@ -141,7 +141,7 @@ export const Positioning: Story = {
           <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Top Center
           </PopoverTrigger>
-          <PopoverContent side="top" align="center" showArrow>
+          <PopoverContent side="top" align="center" >
             <PopoverBody>
               <p className="text-sm">Positioned at top-center</p>
             </PopoverBody>
@@ -152,7 +152,7 @@ export const Positioning: Story = {
           <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Top End
           </PopoverTrigger>
-          <PopoverContent side="top" align="end" showArrow>
+          <PopoverContent side="top" align="end" >
             <PopoverBody>
               <p className="text-sm">Positioned at top-end</p>
             </PopoverBody>
@@ -166,7 +166,7 @@ export const Positioning: Story = {
           <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Bottom Start
           </PopoverTrigger>
-          <PopoverContent side="bottom" align="start" showArrow>
+          <PopoverContent side="bottom" align="start" >
             <PopoverBody>
               <p className="text-sm">Positioned at bottom-start</p>
             </PopoverBody>
@@ -177,7 +177,7 @@ export const Positioning: Story = {
           <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Bottom Center
           </PopoverTrigger>
-          <PopoverContent side="bottom" align="center" showArrow>
+          <PopoverContent side="bottom" align="center" >
             <PopoverBody>
               <p className="text-sm">Positioned at bottom-center</p>
             </PopoverBody>
@@ -188,7 +188,7 @@ export const Positioning: Story = {
           <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Bottom End
           </PopoverTrigger>
-          <PopoverContent side="bottom" align="end" showArrow>
+          <PopoverContent side="bottom" align="end" >
             <PopoverBody>
               <p className="text-sm">Positioned at bottom-end</p>
             </PopoverBody>
@@ -202,7 +202,7 @@ export const Positioning: Story = {
           <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Left
           </PopoverTrigger>
-          <PopoverContent side="left" align="center" showArrow>
+          <PopoverContent side="left" align="center" >
             <PopoverBody>
               <p className="text-sm">Positioned on the left</p>
             </PopoverBody>
@@ -213,7 +213,7 @@ export const Positioning: Story = {
           <PopoverTrigger className="px-4 py-2 border border-(--atom-theme-border) rounded-md">
             Right
           </PopoverTrigger>
-          <PopoverContent side="right" align="center" showArrow>
+          <PopoverContent side="right" align="center" >
             <PopoverBody>
               <p className="text-sm">Positioned on the right</p>
             </PopoverBody>
@@ -531,7 +531,7 @@ export const InfoTooltip: Story = {
         <PopoverTrigger className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-(--atom-theme-border) text-xs hover:bg-(--atom-card-hover)">
           ?
         </PopoverTrigger>
-        <PopoverContent size="sm" showArrow>
+        <PopoverContent size="sm" >
           <PopoverBody>
             <p className="text-sm">
               Your account status shows whether your subscription is active, pending, or expired.
@@ -690,7 +690,7 @@ export const AsChildTrigger: Story = {
           Custom Trigger
         </div>
       </PopoverTrigger>
-      <PopoverContent showArrow>
+      <PopoverContent >
         <PopoverBody>
           <p className="text-sm">This trigger is a custom element using asChild prop.</p>
         </PopoverBody>
@@ -713,7 +713,7 @@ export const Playground: Story = {
       <PopoverTrigger className="px-4 py-2 bg-(--atom-primary) text-white rounded-md hover:opacity-90">
         Open Popover
       </PopoverTrigger>
-      <PopoverContent side="bottom" align="center" showArrow>
+      <PopoverContent side="bottom" align="center" >
         <PopoverHeader>
           <PopoverTitle>Playground</PopoverTitle>
           <PopoverClose />
