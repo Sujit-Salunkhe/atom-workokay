@@ -1,5 +1,5 @@
-// src/components/ui/heading.stories.tsx
-import type { Meta, StoryObj } from "@storybook/react"
+// src/components/heading.stories.tsx
+import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Text } from "./Text"
 
 const meta: Meta<typeof Text> = {

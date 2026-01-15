@@ -1,10 +1,10 @@
 // src/components/stat-card/StatCard.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { StatCard, type StatCardProps } from './StatCard'
 import { CheckCircle2, AlertTriangle, XCircle, Inbox, Archive } from 'lucide-react'
 
 const meta: Meta<StatCardProps> = {
-  title: 'Components/StatCard',
+  title: 'Components/StatCard2',
   component: StatCard,
   tags: ['autodocs'],
   args: {
@@ -40,7 +40,7 @@ type Story = StoryObj<StatCardProps>
 
 export const Playground: Story = {}
 
-export const primary: Story = {
+export const Primary: Story = {
     args:{
         label:'Validated',
         value:5,

@@ -9,21 +9,22 @@ const contentCardVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-background border-[var(--atom-badge-archived-border)] text-foreground',
+          'bg-(--atom-theme-bg) border-(--atom-theme-border) text-(--atom-theme-text-primary)',
 
-        info: 'bg-[color-mix(in_srgb,var(--atom-info)_8%,transparent)] border-[color-mix(in_srgb,var(--atom-info)_25%,transparent)] text-[color-mix(in_srgb,var(--atom-info)_90%,black)]',
+        info: 'bg-[color-mix(in_srgb,var(--atom-info)_8%,transparent)]  border-[color-mix(in_srgb,var(--atom-info)_25%,transparent)] text-[color-mix(in_srgb,var(--atom-info)_90%,black)] border-(--atom-theme-border)',
 
         success:
-          'bg-[color-mix(in_srgb,var(--atom-success)_8%,transparent)] border-[color-mix(in_srgb,var(--atom-success)_25%,transparent)] text-[color-mix(in_srgb,var(--atom-success)_90%,black)]',
+          'bg-[color-mix(in_srgb,var(--atom-success)_8%,transparent)] border-[color-mix(in_srgb,var(--atom-success)_25%,transparent)] text-[color-mix(in_srgb,var(--atom-success)_90%,black)] border-(--atom-theme-border)',
 
         warning:
-          'bg-[color-mix(in_srgb,var(--atom-warning)_8%,transparent)] border-[color-mix(in_srgb,var(--atom-warning)_25%,transparent)] text-[color-mix(in_srgb,var(--atom-warning)_90%,black)]',
+          'bg-[color-mix(in_srgb,var(--atom-warning)_8%,transparent)] border-[color-mix(in_srgb,var(--atom-warning)_25%,transparent)] text-[color-mix(in_srgb,var(--atom-warning)_90%,black)] border-(--atom-theme-border)',
 
         error:
-          'bg-[color-mix(in_srgb,var(--atom-error)_8%,transparent)] border-[color-mix(in_srgb,var(--atom-error)_25%,transparent)] text-[color-mix(in_srgb,var(--atom-error)_90%,black)]',
+          'bg-[color-mix(in_srgb,var(--atom-error)_8%,transparent)] border-[color-mix(in_srgb,var(--atom-error)_25%,transparent)] text-[color-mix(in_srgb,var(--atom-error)_90%,black)] border-(--atom-theme-border)',
 
         neutral:
-          'bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_6%,transparent)] border-[color-mix(in_srgb,var(--atom-badge-archived-border)_75%,transparent)] text-muted-foreground',
+          'bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_6%,transparent)] border-[color-mix(in_srgb,var(--atom-badge-archived-border)_75%,transparent)] text-muted-foreground border-(--atom-theme-border)',
+     
       },
 
       size: {
@@ -79,13 +80,15 @@ export const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
             {icon && (
               <span
                 className={cn(
-                  'flex-shrink-0 mt-0.5',
-                  variant === 'info' && 'text-[var(--atom-info)]',
-                  variant === 'success' && 'text-[var(--atom-success)]',
-                  variant === 'warning' && 'text-[var(--atom-warning)]',
-                  variant === 'error' && 'text-[var(--atom-error)]',
+                  'shrink-0 mt-0.5',
+                  variant === 'info' && 'text-(--atom-info)',
+                  variant === 'success' && 'text-(--atom-success)',
+                  variant === 'warning' && 'text-(--atom-warning)',
+                  variant === 'error' && 'text-(--atom-error)',
                   variant === 'neutral' && 'text-muted-foreground',
-                )}
+                  variant === 'default' && 'text-(--atom-theme-text-primary)',
+                 
+                 )}
                 aria-hidden="true"
               >
                 {icon}

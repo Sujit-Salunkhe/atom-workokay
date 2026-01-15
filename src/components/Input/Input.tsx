@@ -6,7 +6,7 @@ const inputVariants = cva(
   [
     'block w-full rounded-md outline-none leading-none',
     'bg-[var(--atom-input-bg)] text-[var(--atom-input-fg)]',
-    'border border-[var(--atom-badge-archived-border)]',
+    'border border-[var(--atom-theme-border-primary)]',
     'transition-[background-color,border-color,box-shadow,color] duration-150 ease-in-out',
 
     // placeholder / caret / selection
@@ -29,7 +29,7 @@ const inputVariants = cva(
 
     //filled state
     'placeholder:text-muted-foreground ' +
-    '[&:not(:placeholder-shown)]:border-[color-mix(in_srgb,var(--atom-badge-archived-border)_70%,var(--atom-primary))]' +
+    '[&:not(:placeholder-shown)]:border-[color-mix(in_srgb,var(--atom-theme-border-primary)_70%,var(--atom-primary))]' +
     'focus-visible:border-[var(--atom-primary)]',
   ].join(' '),
   {

@@ -3,7 +3,7 @@ import type { Preview } from "@storybook/react";
 import "../src/styles/tailwind.css"; // 👈 MUST exist & be valid
 import "../src/styles/tokens.css"; // 👈 MUST exist & be valid
 import "../src/styles/ripple.css"; // 👈 MUST exist & be valid
-import "../src/styles/infocard.css";//  MUST exist & be valid
+// import "../src/styles/infocard.css";//  MUST exist & be valid
 
 export const globalTypes = {
   theme: {
@@ -14,10 +14,10 @@ export const globalTypes = {
   },
 };
 
-const withTheme = (Story, ctx) => {
+const withTheme = (Story:any, ctx:any) => {
   const theme = ctx.globals.theme ?? "light";
   return (
-    <div className="atom-theme" data-theme={theme} style={{ minHeight: "100vh", padding: 16 }}>
+    <div id="app-root" className="atom-theme" data-theme={theme} style={{ minHeight: "100vh", padding: 16 }} >
       <Story />
     </div>
   );

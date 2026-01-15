@@ -2,23 +2,31 @@
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.lib.json" }
   ],
   "compilerOptions": {
-    "target": "ES2020",
+    "noEmit": true,
+ 
+    "target": "ES2022",
     "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
-    "declaration": true,              // dts plugin reads types; also useful for editors
-    "emitDeclarationOnly": false,
-    "skipLibCheck": true,
+ 
     "moduleResolution": "Bundler",
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "useDefineForClassFields": true,
+ 
     "strict": true,
-    "types": ["node"],
+    "skipLibCheck": true,
+ 
+    "forceConsistentCasingInFileNames": true,
+ 
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "vite.config.ts", ".storybook"],
-  "exclude": ["dist"]
+  "include": ["src"]
 }

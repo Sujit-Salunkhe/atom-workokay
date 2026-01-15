@@ -9,18 +9,18 @@ const progressTrackVariants = cva(
     "w-full overflow-hidden",
 
     // shape + border
-    "border border-[var(--atom-badge-archived-border)] rounded-[var(--atom-radius-1)]",
+    "border border-[var(--atom-theme-border-primary)] rounded-[var(--atom-radius-1)]",
 
     // default background (can be overridden by variants)
-    "bg-[color-mix(in_srgb,var(--atom-info-card-jobstatus-secondary-text)_20%,transparent)]",
+    "bg-[color-mix(in_srgb,var(--atom-theme-surface-secondary)_20%,transparent)]",
   ].join(" "),
   {
     variants: {
       trackVariant: {
-        default: "bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_8%,transparent)]",
+        default: "bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_8%,transparent)]",
         outline: "bg-transparent bg-none",
         subtle:
-          "bg-[color-mix(in_srgb,var(--atom-badge-archived-border)_6%,var(--atom-bg))]",
+          "bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_6%,var(--atom-bg))]",
       },
       size: {
         sm: "h-3",
@@ -41,11 +41,11 @@ const progressTrackVariants = cva(
 )
 
 const progressIndicatorVariants = cva(
-  ["h-full transition-none"].join(" "),
+  ["h-full transition-all duration-300 ease-out  rounded-[var(--atom-radius-1)]"].join(" "),
   {
     variants: {
       indicatorVariant: {
-        default: "bg-[var(--atom-progressbar-bg)]",
+        default: "bg-[var(--atom-theme-surface-secondary)]",
         outline: "bg-[var(--atom-primary)]",
         subtle: "bg-[color-mix(in_srgb,var(--atom-primary)_45%,transparent)]",
       },
@@ -69,50 +69,62 @@ export type ProgressBarSize = NonNullable<
 export interface ProgressBarProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "children">,
     VariantProps<typeof progressTrackVariants> {
-  /** 0..100 */
+  /** Progress value from 0 to 100 */
   value?: number
-  /** If true, omit aria-valuenow (indeterminate) */
+  /** If true, shows animated indeterminate state */
   indeterminate?: boolean
   /** Optional label for screen readers */
   ariaLabel?: string
-  /** If omitted, indicatorVariant will follow trackVariant */
+  /** Visual variant for both track and indicator */  
   variant?: 'default' | 'outline' | 'subtle'
 }
 
-export function ProgressBar({
-  className,
-  variant,
-  size,
-  fullWidth,
-  value = 0,
-  indeterminate = false,
-  ariaLabel = "Progress",
-  ...props
-}: ProgressBarProps) {
-  const clamped = Math.max(0, Math.min(100, value));
+export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
+  (
+    {
+      className,
+      variant = "default",
+      size,
+      fullWidth,
+      value = 0,
+      indeterminate = false,
+      ariaLabel = "Progress",
+      ...props
+    },
+    ref
+  ) => {
+    const clamped = Math.max(0, Math.min(100, value))
 
-  return (
-    <div
-      data-slot="progress-track"
-      role="progressbar"
-      aria-label={ariaLabel}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-valuenow={indeterminate ? undefined : clamped}
-      className={cn(
-        progressTrackVariants({trackVariant:variant, size, fullWidth }),
-        className
-      )}
-      {...props}
-    >
+    return (
       <div
-        data-slot="progress-indicator"
-        className={cn(progressIndicatorVariants({indicatorVariant:variant}))}
-        style={{
-          width: indeterminate ? "40%" : `${clamped}%`,
-          transform: indeterminate ? "translateX(-60%)" : undefined,
-        }}
-      />
-    </div>
-  )
-}
+        ref={ref}
+        data-slot="progress-track"
+        role="progressbar"
+        aria-label={ariaLabel}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={indeterminate ? undefined : clamped}
+        aria-valuetext={indeterminate ? undefined : `${clamped}%`}
+        aria-busy={indeterminate ? true : undefined}
+        className={cn(
+          progressTrackVariants({ trackVariant: variant, size, fullWidth }),
+          className
+        )}
+        {...props}
+      >
+        <div
+          data-slot="progress-indicator"
+          className={cn(
+            progressIndicatorVariants({ indicatorVariant: variant }),
+            indeterminate && "animate-indeterminate"
+          )}
+          style={{
+            width: indeterminate ? "40%" : `${clamped}%`,
+          }}
+        />
+      </div>
+    )
+  }
+)
+
+ProgressBar.displayName = "ProgressBar"

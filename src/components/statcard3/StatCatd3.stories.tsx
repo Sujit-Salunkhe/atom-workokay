@@ -1,12 +1,12 @@
 // src/components/stat-card/StatCardPriority.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import {
   StatCardPriority,
   type StatCardPriorityProps,
 } from './StatCard3'
 
 const meta: Meta<StatCardPriorityProps> = {
-  title: 'Components/StatCardPriority',
+  title: 'Components/StatCard3',
   component: StatCardPriority,
   tags: ['autodocs'],
   args: {
