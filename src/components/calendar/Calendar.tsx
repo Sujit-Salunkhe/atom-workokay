@@ -212,7 +212,7 @@ function CalendarDayButton({
   // Range states
   "data-[range-start=true]:bg-(--atom-theme-surface-secondary) data-[range-start=true]:text-primary-foreground data-[range-start=true]:rounded-md",
   "data-[range-end=true]:bg-(--atom-theme-surface-secondary) data-[range-end=true]:text-primary-foreground data-[range-end=true]:rounded-md",
-  "data-[range-middle=true]:bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_90%,transparent)] data-[range-middle=true]:text-accent-foreground data-[range-middle=true]:rounded-none",
+  "data-[range-middle=true]:bg-[color-mix(in_srgb,var(--atom-theme-border-primary)_90%,transparent)] data-[range-middle=true]:text-accent-foreground data-[range-middle=true]:rounded-none",  
   // Focus states
   "group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50",
   

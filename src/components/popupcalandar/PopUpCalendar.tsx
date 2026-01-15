@@ -1,5 +1,10 @@
 import { Calendar } from '../calendar/Calendar'
-import { Popover, PopoverTrigger, PopoverContent ,PopoverBody } from '../popover/Popover' 
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+} from '../popover/Popover'
 // import { Button } from  '../button/Button'
 
 type Props = {
@@ -7,7 +12,7 @@ type Props = {
   onChange?: (date: Date | undefined) => void
   placeholder?: string
   icon?: boolean
-  captionLayout?: "label" | "dropdown" | "dropdown-months" | "dropdown-years" 
+  captionLayout?: 'label' | 'dropdown' | 'dropdown-months' | 'dropdown-years'
 }
 
 function cn(...classes: Array<string | undefined | false>) {
@@ -19,8 +24,16 @@ export function PopUpCalendar({
   onChange,
   placeholder = 'Select Start date',
   icon,
-  captionLayout = "label"
+  captionLayout = 'label',
 }: Props) {
+
+  // This 
+  const now = new Date()
+  const startMonth = new Date(now)
+  startMonth.setFullYear(now.getFullYear() - 50)
+  const endMonth = new Date(now)
+  endMonth.setFullYear(now.getFullYear() + 50)
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -70,17 +83,25 @@ export function PopUpCalendar({
           </span>
         </button>
       </PopoverTrigger>
-      
-      <PopoverContent className="p-0 w-[none] " side="bottom" sideOffset={4} size="sm">
+
+      <PopoverContent
+        className="p-0 w-[none] "
+        side="bottom"
+        sideOffset={4}
+        size="sm"
+        align="start"
+      >
         <PopoverBody>
-        <Calendar
-          mode="single"
-          selected={value}
-          onSelect={(date) => {
-            onChange?.(date)
-          }}
-          captionLayout={captionLayout}
-        />
+          <Calendar
+            mode="single"
+            selected={value}
+            onSelect={(date) => {
+              onChange?.(date)
+            }}
+            startMonth={startMonth}
+            endMonth={endMonth}
+            captionLayout={captionLayout}
+          />
         </PopoverBody>
       </PopoverContent>
     </Popover>

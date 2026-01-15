@@ -85,11 +85,11 @@ export const Variants: Story = {
     const [dates, setDates] = useState<DateState>({})
     
     return (
-      <div className="grid grid-cols-2 gap-6 w-[600px]">
+      <div className="grid grid-cols-2 gap-6 w-600px">
         {[
           { label: 'Default', icon: false, layout: 'label' as const },
           { label: 'With Icon', icon: true, layout: 'dropdown' as const },
-          { label: 'Dropdown Months', icon: true, layout: 'dropdown-months' as const },
+          { label: 'Dropdown Month', icon: true, layout: 'dropdown-months' as const },
           { label: 'Dropdown Years', icon: false, layout: 'dropdown-years' as const }
         ].map(({ label, icon, layout }, i) => (
           <div key={label} className="space-y-2">
